@@ -2,7 +2,12 @@ import { chromium, devices } from 'playwright';
 const URL = process.argv[2];
 const b = await chromium.launch();
 const h = await (await b.newContext()).newPage(); h.on('dialog', d => d.accept());
-await h.goto(URL); await h.click('#btn-new'); await h.fill('#guests', 'Sarah\nMike\nPriya'); await h.click('#use-sample'); await h.click('#open-lobby');
+await h.goto(URL); await h.click('#btn-new');
+for (const name of ['Sarah', 'Mike', 'Priya']) {
+  await h.fill('#guest-name', name);
+  await h.click('#add-guest');
+}
+await h.click('#use-sample'); await h.click('#open-lobby');
 await h.waitForFunction(() => document.querySelector('#net')?.textContent === 'Live');
 const room = (await h.textContent('#room-code')).trim();
 const pctx = await b.newContext({ ...devices['Pixel 7'] }); const p = await pctx.newPage();

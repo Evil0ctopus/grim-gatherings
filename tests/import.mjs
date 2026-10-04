@@ -3,7 +3,10 @@ import fs from 'fs';
 const URL = process.argv[2];
 const b = await chromium.launch(); const h = await b.newPage(); h.on('dialog', d => d.accept());
 await h.goto(URL); await h.click('#btn-new');
-await h.fill('#guests', 'Sarah\nMike\nPriya');
+for (const name of ['Sarah', 'Mike', 'Priya']) {
+  await h.fill('#guest-name', name);
+  await h.click('#add-guest');
+}
 await h.click('[data-tab="paste"]');
 await h.fill('#json', '{"title": "x", "characters": [{"name":"A"}], }');
 await h.click('#load-json'); console.log('bad JSON ->', (await h.textContent('#errors')).trim().slice(0, 160));

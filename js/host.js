@@ -21,6 +21,7 @@ export function startHost() {
   app().addEventListener('click', onClick);
   app().addEventListener('input', onInput);
   app().addEventListener('change', onChange);
+  app().addEventListener('keydown', onKeydown);
   window.addEventListener('pagehide', () => { try { peer && peer.destroy(); } catch {} });
   setInterval(tick, 4000);
   if (location.hash === '#host' && S) {
@@ -70,21 +71,27 @@ function errBox() {
 function renderSetup() {
   app().className = '';
   const ai = loadAiSettings();
-  const guests = parseGuests(S.guestsText);
+  const guests = getGuests();
   const library = getStoryLibrary();
   app().innerHTML = `
     <span class="candle">🕯️</span>
     <h1>Set the Table</h1>
     <div class="card stack">
-      <label for="guests">Guests — one per line: <i>Name, short description</i></label>
-      <textarea id="guests" data-s="guestsText" rows="8" placeholder="Sarah, loud, loves wine, always late&#10;Mike, quiet, secretly competitive&#10;Priya, theatrical, loves true crime&#10;Tom, jokester">${esc(S.guestsText || '')}</textarea>
-      <p class="small muted" id="guest-count">${guests.length} guest${guests.length === 1 ? '' : 's'}${guests.length && guests.length < 4 ? ' — 4 or more is best' : ''}</p>
+      <h2>Who's playing?</h2>
+      <p class="small muted">Add each player by name. You can assign their characters on the next screen.</p>
+      <div class="row guest-entry">
+        <input id="guest-name" placeholder="Player's name" autocomplete="off">
+        <input id="guest-desc" placeholder="Optional: a fun description" autocomplete="off">
+        <button type="button" data-act="add-guest" id="add-guest">Add player</button>
+      </div>
+      <p class="small muted" id="guest-count">${guests.length} player${guests.length === 1 ? '' : 's'}${guests.length && guests.length < 4 ? ' — 4 or more is best' : ''}</p>
+      <ul class="clean guest-list">${guests.map((g, i) => `<li class="row guest-item"><span><b>${esc(g.name)}</b>${g.desc ? ` <span class="muted">— ${esc(g.desc)}</span>` : ''}</span><button type="button" class="secondary small" data-act="remove-guest" data-index="${i}" aria-label="Remove ${esc(g.name)}">Remove</button></li>`).join('')}</ul>
       <label for="theme">Theme / setting <span class="muted">(used by AI generation; optional)</span></label>
       <input id="theme" data-s="theme" value="${esc(S.theme || '')}" placeholder="e.g. 1920s gothic manor, a séance gone wrong">
     </div>
     <div class="card">
       <h2>Your saved mysteries</h2>
-      <p class="small muted">Saved in this browser on this device. Add the guest list above, then choose a story to prepare it for game night.</p>
+      <p class="small muted">Saved in this browser on this device. Add your players above, then choose a story to prepare it for game night.</p>
       ${library.length ? `<ul class="clean">${library.map(entry => `<li class="row library-item">
         <span><b>${esc(entry.title || entry.story.title || 'Untitled mystery')}</b><span class="small muted"> · ${formatPlayerRange(entry.story)}</span></span>
         <span class="row library-actions"><button class="small" data-act="use-saved" data-id="${esc(entry.id)}">Use story</button><button class="secondary small" data-act="delete-saved" data-id="${esc(entry.id)}" aria-label="Delete ${esc(entry.title || 'saved story')}">Delete</button></span>
@@ -100,19 +107,19 @@ function renderSetup() {
     <div class="card gold stack" ${ui.tab === 'sample' ? '' : 'hidden'}>
       <h2>${esc(SAMPLE_INFO.title)}</h2>
       <p>${esc(SAMPLE_INFO.blurb)}</p>
-      <p class="small muted">Guests are assigned to characters at random — even the murderer. You can review and edit everything on the next screen.</p>
+      <p class="small muted">Players are assigned to characters at random — even the murderer. You can change each assignment on the next screen.</p>
       <button class="block" data-act="use-sample" id="use-sample">Use this mystery →</button>
     </div>
     <div class="card stack" ${ui.tab === 'paste' ? '' : 'hidden'}>
       <h2>Paste a story</h2>
-      <p class="small muted">Paste story JSON (format in the <a href="https://github.com/Evil0ctopus/grim-gatherings#story-json-format" target="_blank" rel="noopener">README</a>). Characters without a "guest" are matched to your guest list in order.</p>
+      <p class="small muted">Paste story JSON (format in the <a href="https://github.com/Evil0ctopus/grim-gatherings#story-json-format" target="_blank" rel="noopener">README</a>). Characters without a "guest" are matched to your player list in order.</p>
       <textarea id="json" rows="10" placeholder='{"title": "...", "characters": [...], ...}'>${esc(ui.pasteText || '')}</textarea>
       <input type="file" id="json-file" accept=".json,application/json,text/plain">
       <button class="block" data-act="load-json" id="load-json">Load story →</button>
     </div>
     <div class="card stack" ${ui.tab === 'ai' ? '' : 'hidden'}>
       <h2>Make a mystery with AI</h2>
-      <p>Start with a theme and guest list. AI will draft the mystery, characters, clues, and ending for you to review and edit.</p>
+      <p>Start with a theme and player list. AI will draft the mystery, characters, clues, and ending for you to review and edit.</p>
       <ol class="small">
         <li>Get a free Gemini API key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>.</li>
         <li>Paste the key below. You only need to do this once on this browser.</li>
@@ -145,6 +152,22 @@ function formatPlayerRange(story) {
   return range.minPlayers === range.maxPlayers ? `${range.maxPlayers} players` : `${range.minPlayers}–${range.maxPlayers} players`;
 }
 
+function getGuests() {
+  return Array.isArray(S.guests) ? S.guests : parseGuests(S.guestsText);
+}
+
+function guestAssignmentHtml(character, characterIndex) {
+  const guests = getGuests();
+  const options = guests.map(guest => `<option value="${esc(guest.name)}" ${guest.name === character.guest ? 'selected' : ''}>${esc(guest.name)}</option>`).join('');
+  const existing = character.guest && !guests.some(guest => guest.name === character.guest)
+    ? `<option value="${esc(character.guest)}" selected>${esc(character.guest)}</option>`
+    : '';
+  return `<div class="player-assignment"><label for="guest-assignment-${characterIndex}">Assign player</label>
+    <select id="guest-assignment-${characterIndex}" data-assign-character="${characterIndex}">
+      <option value="">Unassigned</option>${existing}${options}
+    </select></div>`;
+}
+
 const fieldHtml = (label, path, val, kind = 'text') => {
   const id = 'f-' + path.replace(/\./g, '-');
   if (kind === 'text') return `<label for="${id}">${esc(label)}</label><input id="${id}" data-path="${path}" value="${esc(val)}">`;
@@ -171,9 +194,12 @@ function renderReview() {
     <h2>The Cast (${st.characters.length})</h2>
     <p class="small muted">Works for ${formatPlayerRange(st)}. Mark supporting roles optional to fit different group sizes; keep the killer and essential clues in the required cast.</p>
     ${st.characters.map((c, i) => `
+      <div class="card cast-assignment row">
+        <div><b>${esc(c.name)}</b> <span class="muted">· ${esc(c.role)}${c.id === st.solution.killerId ? ' · KILLER' : ''}</span></div>
+        ${guestAssignmentHtml(c, i)}
+      </div>
       <details class="editchar">
-        <summary>${esc(c.guest || '(no guest)')} → ${esc(c.name)} <span class="muted">· ${esc(c.role)}</span>${c.id === st.solution.killerId ? ' <span class="pill bad">KILLER</span>' : ''}</summary>
-        ${fieldHtml('Guest name', `characters.${i}.guest`, c.guest)}
+        <summary>Edit ${esc(c.name)} <span class="muted">· ${esc(c.role)}</span>${c.id === st.solution.killerId ? ' <span class="pill bad">KILLER</span>' : ''}</summary>
         ${fieldHtml('Guest note (shown to them: how to lean in)', `characters.${i}.guestNote`, c.guestNote)}
         ${fieldHtml('Character name', `characters.${i}.name`, c.name)}
         ${fieldHtml('Role', `characters.${i}.role`, c.role)}
@@ -348,25 +374,55 @@ const actions = {
   resume() { S = load(); history.replaceState(null, '', baseUrl() + '#host'); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
   join() { const c = ($('#join-code').value || '').trim().toUpperCase(); if (c) location.href = baseUrl() + '?room=' + encodeURIComponent(c); },
   home() { history.replaceState(null, '', baseUrl()); renderLanding(); },
+  'add-guest'() {
+    const name = ($('#guest-name').value || '').trim();
+    const desc = ($('#guest-desc').value || '').trim();
+    if (!name) {
+      ui.errors = ['Enter a player name first.'];
+      return renderSetup();
+    }
+    const guests = getGuests();
+    if (guests.some(guest => guest.name.toLowerCase() === name.toLowerCase())) {
+      ui.errors = [`${name} is already on the player list.`];
+      return renderSetup();
+    }
+    guests.push({ name, desc });
+    S.guests = guests;
+    S.guestsText = guests.map(guest => guest.desc ? `${guest.name}, ${guest.desc}` : guest.name).join('\n');
+    ui.errors = [];
+    save();
+    renderSetup();
+    $('#guest-name')?.focus();
+  },
+  'remove-guest'(el) {
+    const guests = getGuests();
+    const index = Number(el.dataset.index);
+    if (!Number.isInteger(index) || index < 0 || index >= guests.length) return;
+    guests.splice(index, 1);
+    S.guests = guests;
+    S.guestsText = guests.map(guest => guest.desc ? `${guest.name}, ${guest.desc}` : guest.name).join('\n');
+    save();
+    renderSetup();
+  },
   tab(el) { ui.tab = el.dataset.tab; ui.errors = []; ui.warnings = []; renderSetup(); },
   'use-sample'() {
-    const guests = parseGuests(S.guestsText);
-    if (guests.length < 3) { ui.errors = ['Add at least 3 guests (one per line) — the built-in mystery needs 3 or more.']; ui.warnings = []; return renderSetup(); }
+    const guests = getGuests();
+    if (guests.length < 3) { ui.errors = ['Add at least 3 players — the built-in mystery needs 3 or more.']; ui.warnings = []; return renderSetup(); }
     acceptStory(buildSampleStory(guests), []);
   },
   'load-json'() {
     ui.pasteText = $('#json').value;
-    acceptStory(ui.pasteText, parseGuests(S.guestsText));
+    acceptStory(ui.pasteText, getGuests());
   },
   'use-saved'(el) {
     const entry = getStoryLibrary().find(item => item.id === el.dataset.id);
     if (!entry) { ui.libraryError = 'That saved story is no longer available.'; return renderSetup(); }
-    const guests = parseGuests(S.guestsText);
+    const guests = getGuests();
     let story;
     try {
       story = adaptStoryForPlayers(entry.story, guests, shuffle(guests));
     } catch (error) {
-      ui.errors = [error.message || 'This mystery cannot be used with this guest list.'];
+      ui.errors = [error.message || 'This mystery cannot be used with this player list.'];
       ui.warnings = [];
       return renderSetup();
     }
@@ -414,16 +470,16 @@ const actions = {
     saveAiSettings(s);
     ui.busy = true; ui.errors = []; renderSetup();
     try {
-      const txt = await generateStory(s, S.theme, parseGuests(S.guestsText));
+      const txt = await generateStory(s, S.theme, getGuests());
       ui.busy = false; ui.pasteText = txt;
-      acceptStory(txt, parseGuests(S.guestsText));
+      acceptStory(txt, getGuests());
     } catch (e) { ui.busy = false; ui.errors = [String(e.message || e)]; renderSetup(); }
   },
   'open-lobby'() {
     const res = normalizeStory(S.story);
     if (!res.story) { ui.errors = res.errors; return renderReview(); }
     const missing = res.story.characters.filter(c => !c.guest).length;
-    if (missing && !confirm(`${missing} character(s) have no guest name. Guests will see the character name instead. Continue?`)) return;
+    if (missing && !confirm(`${missing} character(s) have no player assigned. Guests will see the character name instead. Continue?`)) return;
     ui.errors = []; ui.warnings = [];
     S.story = res.story; S.wasLive = true;
     setPhase('lobby', -1); startPeer();
@@ -475,7 +531,8 @@ function wipe() {
 
 function newGame() {
   const prev = load();
-  S = { room: randomRoom(), phase: 'setup', roundIndex: -1, story: null, claims: {}, votes: {}, libraryId: null, theme: prev?.theme || '', guestsText: prev?.guestsText || '', createdAt: Date.now() };
+  const guests = Array.isArray(prev?.guests) ? prev.guests : parseGuests(prev?.guestsText || '');
+  S = { room: randomRoom(), phase: 'setup', roundIndex: -1, story: null, claims: {}, votes: {}, libraryId: null, theme: prev?.theme || '', guests, guestsText: guests.map(guest => guest.desc ? `${guest.name}, ${guest.desc}` : guest.name).join('\n'), createdAt: Date.now() };
   ui.errors = []; ui.warnings = [];
   save(); render();
 }
@@ -495,6 +552,13 @@ function onClick(e) {
   if (fn) { e.preventDefault(); fn(el); }
 }
 
+function onKeydown(e) {
+  if (e.key === 'Enter' && (e.target.id === 'guest-name' || e.target.id === 'guest-desc')) {
+    e.preventDefault();
+    actions['add-guest']();
+  }
+}
+
 function setPath(obj, path, val) {
   const parts = path.split('.');
   let o = obj;
@@ -506,7 +570,6 @@ function onInput(e) {
   const t = e.target;
   if (t.dataset.s && S) {
     S[t.dataset.s] = t.value; save();
-    if (t.id === 'guests') { const n = parseGuests(t.value).length; const gc = $('#guest-count'); if (gc) gc.textContent = `${n} guest${n === 1 ? '' : 's'}${n && n < 4 ? ' — 4 or more is best' : ''}`; }
   }
   if (t.dataset.path && t.dataset.kind !== 'checkbox' && S?.story) {
     const v = t.dataset.kind === 'lines' ? t.value.split('\n').map(s => s.trim()).filter(Boolean) : t.value;
@@ -516,6 +579,25 @@ function onInput(e) {
 
 function onChange(e) {
   const t = e.target;
+  if (t.dataset.assignCharacter != null && S?.story) {
+    const index = Number(t.dataset.assignCharacter);
+    const character = S.story.characters[index];
+    if (!character) return;
+    const selectedGuest = getGuests().find(guest => guest.name === t.value);
+    if (selectedGuest) {
+      for (const [otherIndex, otherCharacter] of S.story.characters.entries()) {
+        if (otherIndex !== index && otherCharacter.guest === selectedGuest.name) {
+          otherCharacter.guest = '';
+          otherCharacter.guestNote = '';
+        }
+      }
+    }
+    character.guest = selectedGuest?.name || '';
+    character.guestNote = selectedGuest?.desc || '';
+    save();
+    renderReview();
+    return;
+  }
   if (t.dataset.path && t.dataset.kind === 'checkbox' && S?.story) {
     setPath(S.story, t.dataset.path, t.checked);
     save();

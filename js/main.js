@@ -1,4 +1,4 @@
-import { startHost } from './host.js?v=f1ed522';
+import { startHost } from './host.js?v=guest-workflow-v3';
 import { startPlayer } from './player.js?v=f1ed522';
 
 const params = new URLSearchParams(location.search);

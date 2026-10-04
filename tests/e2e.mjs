@@ -26,10 +26,22 @@ try {
   const host = await mkPage('host', false);
   await host.goto(URL, { waitUntil: 'load' });
   await host.click('#btn-new');
-  await host.fill('#guests', GUESTS.join('\n'));
+  for (const guest of GUESTS) {
+    const [name, ...description] = guest.split(',');
+    await host.fill('#guest-name', name.trim());
+    await host.fill('#guest-desc', description.join(',').trim());
+    await host.click('#add-guest');
+  }
+  ok('players can be added one at a time', await host.locator('.guest-item').count() === GUESTS.length);
   await host.click('#use-sample');
   await host.waitForSelector('#open-lobby');
   ok('host built sample story & reached review', true, el());
+  const initialAssignments = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters.map(c => c.guest));
+  const movedPlayer = initialAssignments[1], displacedPlayer = initialAssignments[0];
+  await host.locator('#guest-assignment-0').selectOption(movedPlayer);
+  await host.locator('#guest-assignment-1').selectOption(displacedPlayer);
+  const assigned = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters.map(c => c.guest));
+  ok('host can reassign players from dropdowns without duplicate assignments', assigned[0] === movedPlayer && assigned[1] === displacedPlayer && new Set(assigned.filter(Boolean)).size === assigned.filter(Boolean).length);
   await host.click('#open-lobby');
   await host.waitForFunction(() => document.querySelector('#net')?.textContent === 'Live', null, { timeout: T });
   const room = (await host.textContent('#room-code')).trim();

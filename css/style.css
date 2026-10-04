@@ -91,6 +91,12 @@ code,pre{font-family:ui-monospace,Menlo,monospace;font-size:.85rem}
 .library-item{justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}
 .library-item:last-child{border-bottom:0}
 .library-actions{justify-content:flex-end;flex:0 0 auto}
+.guest-entry > input{min-width:min(220px,100%)}
+.guest-item{justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)}
+.guest-item:last-child{border-bottom:0}
+.cast-assignment{justify-content:space-between}
+.cast-assignment > div{flex:1 1 240px}
+.player-assignment label{margin-top:0}
 input[type=checkbox]{width:auto;accent-color:var(--gold);transform:scale(1.2);margin-right:8px}
 label.check-row{display:flex;align-items:center;gap:8px;margin:12px 0}
 html{background:var(--bg)}

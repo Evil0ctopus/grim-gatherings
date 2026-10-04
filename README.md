@@ -10,23 +10,20 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
-- Save authored mysteries in **My Stories** and reuse them later in the same browser.
 
 ## How to play (for the host)
 
 1. Open the site on the device that will be the narrator screen (laptop/tablet, ideally on the TV). Tap **Create a new game**.
-2. Type the guests, one per line: `Sarah, loud, loves wine, always late`. Pick **Built-in mystery** → **Use this mystery** (or paste a story JSON / generate with AI).
-3. Review the story — every character's text is editable. Each guest is assigned a character at random (even the killer!). Tap **Open the doors**.
-4. A QR code, link and room code appear. Guests scan it, tap their own name, and read their secret packet.
+2. Add each player by name with **Add player**; optionally add a short description. Pick **Built-in mystery** → **Use this mystery** (or paste a story JSON / generate with AI).
+3. Review the story — every character's text is editable. Use the **Assign player** dropdowns to control who plays each character; assignments are unique. Tap **Open the doors**.
+4. A QR code, link and room code appear. Guests scan it, tap their assigned name, and read their secret packet.
 5. When everyone has joined (green dots), tap **Begin Round 1** and read the narration aloud. Each phone gets that round's private clues. Let people mingle ~15 min, then **Next round**.
 6. After the last round, tap **Begin the finale**: phones show a vote. Watch the live tally, then hit **Reveal the killer**.
 7. Keep the host screen open the whole game. Refreshing it is safe (the game is saved on that device); guests reconnect automatically.
 
 Guests who refresh, lock their phone, or lose signal just reopen the same link — they're put straight back on their character and the current round.
 
-**My Stories** is currently stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. On the story review screen, mark supporting characters optional to save a story for a range of player counts. Keep the killer and essential clues in the required cast; references to omitted characters are shown by name. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
-
-**My Stories** is currently stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. A saved mystery currently requires the same number of guests as characters in that story. The built-in mystery adapts its cast to the guest list; support for author-defined optional characters is a future step.
+**My Stories** is stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. On the story review screen, mark supporting characters optional to save a story for a range of player counts. Keep the killer and essential clues in the required cast; references to omitted characters are shown by name. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
 
 ## Story JSON format
 
