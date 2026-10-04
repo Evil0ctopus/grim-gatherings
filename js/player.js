@@ -1,5 +1,5 @@
 // Guest (phone) side. Connects to the host's peer id, claims a character, renders ONLY its own packet.
-import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js';
+import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
 
 export function startPlayer(room) {
   const hostId = PEER_PREFIX + room.toLowerCase();

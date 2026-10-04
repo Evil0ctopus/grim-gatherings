@@ -1,9 +1,9 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
-import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js';
-import { parseGuests, normalizeStory, buildView, tally } from './story.js';
-import { buildSampleStory, SAMPLE_INFO } from './sample.js';
-import { loadAiSettings, saveAiSettings, generateStory } from './ai.js';
-import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js';
+import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
+import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=f1ed522';
+import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=f1ed522';
+import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522';
+import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
 
 const KEY = 'gg-host-v1';
 let S = null; // persisted host state

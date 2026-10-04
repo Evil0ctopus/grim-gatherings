@@ -1,5 +1,5 @@
-import { startHost } from './host.js';
-import { startPlayer } from './player.js';
+import { startHost } from './host.js?v=f1ed522';
+import { startPlayer } from './player.js?v=f1ed522';
 
 const params = new URLSearchParams(location.search);
 const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
