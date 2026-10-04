@@ -99,6 +99,7 @@ export function startPlayer(room) {
     if (!msg || typeof msg !== 'object') return;
     if (msg.t === 'state') {
       view = msg.view;
+      window.__gg = { view };
       if (view.me !== me.charId) { me.charId = view.me; saveMe(); }
       render();
     } else if (msg.t === 'error') toast(msg.msg, 4000);

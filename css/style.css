@@ -88,3 +88,7 @@ hr{border:0;border-top:1px solid var(--line);margin:18px 0}
 .footer{margin-top:30px;text-align:center;font-size:.85rem;color:var(--muted)}
 code,pre{font-family:ui-monospace,Menlo,monospace;font-size:.85rem}
 .editchar input,.editchar textarea{margin-bottom:4px}
+html{background:var(--bg)}
+h1,h2,h3,.reveal-name,.roomcode,button{font-variant-ligatures:none;font-feature-settings:"liga" 0,"dlig" 0,"clig" 0}
+.toast{bottom:auto;top:calc(56px + env(safe-area-inset-top));font-size:1rem;padding:8px 16px}
+.actions{position:sticky;bottom:0;z-index:4;padding:10px 0 calc(10px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(11,8,9,0),rgba(11,8,9,.95) 30%)}

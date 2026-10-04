@@ -210,7 +210,7 @@ function renderLobby() {
     </div>
     <div class="card"><div class="label">Read aloud</div><div class="narration">${paras(st.intro)}</div>
       <p class="muted small">${esc(st.setting)}</p></div>
-    <div class="row"><button class="secondary" data-act="back-review">← Edit story</button><button data-act="start" id="start-game">Begin ${esc(st.rounds[0].title)} →</button></div>
+    <div class="row actions"><button class="secondary" data-act="back-review">← Edit story</button><button data-act="start" id="start-game">Begin ${esc(st.rounds[0].title)} →</button></div>
     ${hostFooter()}`;
 }
 
@@ -233,7 +233,7 @@ function renderRound() {
         <details><summary>Host cheat sheet (spoilers!)</summary>${cheatSheet()}</details>
       </div>
     </div>
-    <div class="row"><button class="secondary" data-act="prev">◀ ${ri === 0 ? 'Back to lobby' : 'Previous round'}</button>
+    <div class="row actions"><button class="secondary" data-act="prev">◀ ${ri === 0 ? 'Back to lobby' : 'Previous round'}</button>
       <button data-act="next" id="next-round">${last ? 'Begin the finale (open voting) →' : `Next: ${esc(st.rounds[ri + 1].title)} →`}</button></div>
     ${hostFooter()}`;
 }
@@ -263,7 +263,7 @@ function renderVote() {
       <div class="card"><h2>Live tally</h2><div id="tally">${tallyHtml()}</div></div>
     </div>
     <div class="card"><h2>The guests</h2><div id="roster">${rosterHtml()}</div></div>
-    <div class="row"><button class="secondary" data-act="prev">◀ Back to last round</button><button class="danger" data-act="reveal" id="reveal-btn">Reveal the killer 🔪</button></div>
+    <div class="row actions"><button class="secondary" data-act="prev">◀ Back to last round</button><button class="danger" data-act="reveal" id="reveal-btn">Reveal the killer 🔪</button></div>
     ${hostFooter()}`;
 }
 
@@ -284,7 +284,7 @@ function renderReveal() {
       <div class="card"><h2>Final votes</h2><div id="tally">${tallyHtml()}</div></div>
     </div>
     <div class="card"><div class="label">What really happened</div>${paras(st.solution.explanation)}</div>
-    <div class="row"><button class="secondary" data-act="prev">◀ Back to voting</button><button data-act="new-confirm">Start a new game</button></div>
+    <div class="row actions"><button class="secondary" data-act="prev">◀ Back to voting</button><button data-act="new-confirm">Start a new game</button></div>
     ${hostFooter()}`;
 }
 
