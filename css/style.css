@@ -59,6 +59,13 @@ ul.secrets li{margin:.35em 0}
 .pill.bad{color:var(--blood2);border-color:#6a1a26}
 .pill.wait{color:var(--gold2);border-color:#6b5223}
 .statusbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;margin:-16px -16px 8px;background:rgba(11,8,9,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);font-size:.9rem}
+.statusbar > span{flex:none;white-space:nowrap}
+.vote-strip{flex:1;min-width:0;display:flex;align-items:center;gap:12px;overflow-x:auto;white-space:nowrap;line-height:1.5;font-size:.75rem;scrollbar-width:none}
+.vote-strip::-webkit-scrollbar{display:none}
+.vote-strip:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
+.vote-strip-label{color:var(--gold2);font-weight:700}
+.vote-chip{color:var(--muted)}
+.game-exit{display:flex;justify-content:flex-end;margin:8px 0}
 .qr{background:#f4ead5;padding:12px;border-radius:12px;display:inline-block;line-height:0}
 .qr svg{width:min(70vw,300px);height:auto}
 .roomcode{font-family:Cinzel,serif;font-size:2.6rem;letter-spacing:.3em;color:var(--gold2);text-shadow:0 0 14px rgba(233,180,76,.4)}

@@ -1,5 +1,6 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
+import { voteSummary } from './voting.js?v=round-votes-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -143,6 +144,7 @@ export function buildView(S, charId) {
     atmosphere: storyTheme(st),
     victim: { name: st.victim?.name || '', description: fill(st.victim?.description || '') },
     phase, roundIndex: ri, roundsTotal: st.rounds.length,
+    voteSummary: voteSummary(S),
     roster: st.characters.map(c => ({ id: c.id, name: c.name, guest: c.guest, role: c.role, publicBlurb: fill(c.publicBlurb), claimed: !!S.claims[c.id] })),
     me: ch ? ch.id : null,
   };
@@ -161,7 +163,7 @@ export function buildView(S, charId) {
   }
   if (phase === 'vote' || phase === 'reveal') {
     v.vote = {
-      open: phase === 'vote', prompt: fill(st.finale.votePrompt),
+      open: phase === 'vote', prompt: fill(st.finale.votePrompt), roundIndex: ri,
       suspects: st.characters.map(c => ({ id: c.id, name: c.name, guest: c.guest })),
       myVote: ch ? S.votes[ch.id] || null : null,
       votesIn: Object.keys(S.votes).length,

@@ -91,6 +91,7 @@ try {
 
   await host.waitForFunction(n => document.querySelector('#conn-count')?.textContent.startsWith(n + '/'), PLAYERS.length, { timeout: T });
   ok('host sees all players connected', true, (await host.textContent('#conn-count')) + ', ' + el());
+  const barHeights = Object.fromEntries(await Promise.all(PLAYERS.map(async g => [g, await players[g].locator('.statusbar').evaluate(el => el.getBoundingClientRect().height)])));
 
   async function expectRound(ri) {
     const title = story.rounds[ri].title;
@@ -123,7 +124,27 @@ try {
   ok('Mike refreshed and rejoined straight into his packet + round 1', (await rp.textContent('#packet-name')).trim() === byGuest['Mike'].name, el());
   ok('refresh did not replay character or chapter effects', await rp.evaluate(() => window.effectLog.length === 0));
 
-  await host.click('#next-round');
+  async function voteBetweenRounds(ri) {
+    await host.click('#next-round');
+    for (const g of PLAYERS) {
+      const p = players[g], me = byGuest[g];
+      await p.waitForSelector('#vote-list', { timeout: T });
+      const target = story.characters.find(c => c.id !== me.id && (ri === 0 || c.id === killer.id)) ||
+        story.characters.find(c => c.id !== me.id);
+      await p.click(`.vote-btn[data-vote="${target.id}"]`);
+      await p.waitForFunction(() => document.querySelector('#my-vote')?.textContent.includes('Your vote is in'), null, { timeout: T });
+    }
+    await host.waitForFunction(n => document.querySelector('#votes-in b')?.textContent === String(n), PLAYERS.length, { timeout: T });
+    for (const g of PLAYERS) {
+      await players[g].waitForFunction(total => window.__gg.view.voteSummary.total === total, PLAYERS.length * (ri + 1), { timeout: T });
+      const height = await players[g].locator('.statusbar').evaluate(el => el.getBoundingClientRect().height);
+      ok(`${g} vote history does not enlarge the room bar`, Math.abs(height - barHeights[g]) < 0.1);
+    }
+    ok(`round ${ri + 1} votes synced to every player`, true);
+    await host.click('#next-round');
+  }
+
+  await voteBetweenRounds(0);
   await expectRound(1);
   ok('round 2 pushed', true, el());
 
@@ -136,7 +157,7 @@ try {
   await host.waitForFunction(n => document.querySelector('#conn-count')?.textContent.startsWith(n + '/'), PLAYERS.length, { timeout: 90000 });
   ok('players auto-reconnected after host refresh', true, el());
 
-  await host.click('#next-round');
+  await voteBetweenRounds(1);
   await expectRound(2);
   ok('round 3 pushed after host refresh', true, el());
 
@@ -154,6 +175,10 @@ try {
   }
   await host.waitForFunction(n => document.querySelector('#votes-in b')?.textContent === String(n), PLAYERS.length, { timeout: T });
   ok('host live tally shows all votes', true, (await host.textContent('#votes-in')).trim());
+  for (const g of PLAYERS) {
+    await players[g].waitForFunction(total => window.__gg.view.voteSummary.total === total, PLAYERS.length * 3, { timeout: T });
+    ok(`${g} retains all three rounds of vote history`, await players[g].evaluate(() => window.__gg.view.voteSummary.rounds.length === 3));
+  }
 
   await host.click('#reveal-btn');
   for (const g of PLAYERS) {
@@ -163,6 +188,22 @@ try {
     ok(`${g} sees reveal`, k === killer.name, k);
   }
   ok('host reveal shows killer', (await host.textContent('#killer-name')).trim() === killer.name, `${killer.name} (${killer.guest}), ${el()}`);
+  const exiting = players[PLAYERS[0]];
+  await exiting.click('#leave-game');
+  await exiting.waitForSelector('#btn-new', { timeout: T });
+  ok('player can leave the completed game and return home', true);
+  const remaining = PLAYERS.slice(1);
+  for (const g of remaining) {
+    ok('leaving preserves completed vote history for ' + g, await players[g].evaluate(() => window.__gg.view.voteSummary.total === 9));
+  }
+  await host.locator('[data-act="end"]').first().click();
+  await host.waitForSelector('#btn-new', { timeout: T });
+  for (const g of remaining) {
+    await players[g].getByRole('button', { name: 'Return home', exact: true }).waitFor({ timeout: T });
+    await players[g].click('#leave-game');
+    await players[g].waitForSelector('#btn-new', { timeout: T });
+  }
+  ok('ending the gathering lets host and remaining players return home', true);
 } catch (e) {
   console.log('ERROR', e.message);
   process.exitCode = 1;

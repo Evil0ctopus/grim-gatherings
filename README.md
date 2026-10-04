@@ -17,11 +17,15 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 2. Add each player by name with **Add player**; optionally add a short description. Choose a story under **Ready-to-play mysteries** (or paste a story JSON / generate with AI).
 3. Review the story — every character's text is editable. Use the **Assign player** dropdowns to control who plays each character; assignments are unique. Tap **Open the doors**.
 4. A QR code, link and room code appear. Guests scan it, tap their assigned name, and read their secret packet.
-5. When everyone has joined (green dots), tap **Begin Round 1** and read the narration aloud. Each phone gets that round's private clues. Let people mingle ~15 min, then **Next round**.
-6. After the last round, tap **Begin the finale**: phones show a vote. Watch the live tally, then hit **Reveal the killer**.
+5. When everyone has joined (green dots), tap **Begin Round 1** and read the narration aloud. Each phone gets that round's private clues. Let people mingle ~15 min, then **Vote after Round 1**. Players can change their accusation until you close that round's voting and advance to the next clues.
+6. Vote after every round. After the last round's vote, watch the live tally, then hit **Reveal the killer**. The compact room-bar strip on host and player screens shows each round's leaders and a running top suspect, followed by every suspect's vote share, change in percentage points, and per-round counts. Scroll the strip sideways (or focus it and use arrow keys) to see everything without enlarging the bar.
 7. Keep the host screen open the whole game. Refreshing it is safe (the game is saved on that device); guests reconnect automatically.
 
 Guests who refresh, lock their phone, or lose signal just reopen the same link — they're put straight back on their character and the current round.
+
+Vote share is the percentage of all ballots cast across the released rounds, not a statistical probability of guilt. Every submitted round ballot has equal weight; changing an accusation replaces that player's ballot for that round. Ties are displayed as ties, and the change compares cumulative share with the previous round's cumulative share. Missing votes are not counted as abstention ballots. The host can close an incomplete vote after a warning. Previous-round navigation retains that round's ballots; reopening its voting permits corrections. History and ballots survive refresh. Only aggregate counts are sent publicly, not who voted for whom. Final win/lose feedback uses the final round's votes, not the cumulative trend.
+
+Players can use **Leave game → Home** at any stage, including the reveal. Connected players release their character before returning home; if disconnected, the host may need to release it manually. Leaving does not end the gathering for others. Hosts have **End game → Home**, with confirmation, to end the gathering for everyone. After the host ends it, players see **Return home**.
 
 **My Stories** is stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. On the story review screen, mark supporting characters optional to save a story for a range of player counts. Keep the killer and essential clues in the required cast; references to omitted characters are shown by name. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
 
@@ -39,7 +43,7 @@ Each has an opening, three narrated clue rounds, private character packets, secr
 
 Add your players and choose **Play this mystery**. The cast automatically fits the listed count; unsupported counts show an error. Review, edit and save a personal version without changing the built-in original. A saved version contains the cast selected for that game; select the original again to use its full player range.
 
-Unit checks: `node --test tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs`.
+Unit checks: `node --test tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
 
 ## Atmosphere and event effects
 

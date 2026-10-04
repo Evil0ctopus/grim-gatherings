@@ -57,6 +57,16 @@ test('host transitions have no dependence on private player packets', () => {
   assert.deepEqual(track({ room: 'ROOM', phase: 'round', roundIndex: 0 }), ['round']);
 });
 
+test('voting after each round announces once for each distinct ballot round', () => {
+  const track = createTransitionTracker();
+  track({ ...state, phase: 'round', roundIndex: 0 });
+  for (let roundIndex = 0; roundIndex < 3; roundIndex++) {
+    track({ ...state, phase: 'round', roundIndex });
+    assert.deepEqual(track({ ...state, phase: 'vote', roundIndex }), ['vote']);
+    assert.deepEqual(track({ ...state, phase: 'vote', roundIndex }), []);
+  }
+});
+
 test('a different room starts quietly and has its own round events', () => {
   const track = createTransitionTracker();
   track(state);

@@ -30,10 +30,10 @@ test('weather and window activity are layered separately from the photograph', (
 });
 
 test('deployment cache tags include the changed scene module and stylesheet', () => {
-  const version = 'story-backdrops-v1';
+  const version = 'round-votes-v1';
   assert.ok(read('../index.html').includes(`css/style.css?v=${version}`));
-  assert.ok(read('../index.html').includes('js/main.js?v=volume-58-v1'));
-  assert.ok(read('../js/main.js').includes('./host.js?v=volume-58-v1'));
+  assert.ok(read('../index.html').includes('js/main.js?v=round-votes-v1'));
+  assert.ok(read('../js/main.js').includes('./host.js?v=round-votes-v1'));
   assert.ok(read('../js/host.js').includes('./manor.js?v=manor-background-v2'));
-  assert.ok(read('../js/main.js').includes('./player.js?v=volume-58-v1'));
+  assert.ok(read('../js/main.js').includes('./player.js?v=round-votes-v1'));
 });

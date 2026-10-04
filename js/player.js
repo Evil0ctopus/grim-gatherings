@@ -1,6 +1,7 @@
 // Guest (phone) side. Connects to the host's peer id, claims a character, renders ONLY its own packet.
 import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
 import { createAtmosphere } from './atmosphere.js?v=volume-58-v1';
+import { voteStripHtml } from './voting.js?v=round-votes-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();
@@ -15,10 +16,36 @@ export function startPlayer(room) {
 
   let peer = null, conn = null, view = null, lastMsg = 0, lastAttempt = 0, status = 'connecting', retryTimer = null, openTimeout = null;
   let lastHtml = '', prevKey = null, ended = false, hiddenAt = 0, everConnected = false;
+  let leaving = false, leaveTimer = null;
   const app = document.getElementById('app');
   app.className = '';
-  app.innerHTML = `<div class="statusbar"><span>Room <b>${esc(room)}</b></span><span id="pstatus" class="pill wait">connecting…</span></div><div id="pbody"></div>`;
+  app.innerHTML = `<div class="statusbar"><span>Room <b>${esc(room)}</b></span><div class="vote-strip" id="vote-strip" tabindex="0" aria-label="Suspect vote history; scroll to see all suspects"></div><span id="pstatus" class="pill wait">connecting…</span></div><div class="game-exit"><button class="secondary small" id="leave-game">Leave game → Home</button></div><div id="pbody"></div>`;
   const body = $('#pbody');
+  function returnHome() {
+    clearTimeout(leaveTimer);
+    ended = true;
+    localStorage.removeItem(KEY);
+    peer?.destroy();
+    location.href = baseUrl();
+  }
+  $('#leave-game').addEventListener('click', () => {
+    if (ended || !me.charId) return returnHome();
+    if (!confirm('Leave this game and return home? Your character will be released for someone else. If disconnected, the host may need to release it manually.')) return;
+    if (!conn?.open) return returnHome();
+    if (leaving) return;
+    leaving = true;
+    $('#leave-game').disabled = true;
+    if (!send({ t: 'unclaim' })) {
+      leaving = false;
+      $('#leave-game').disabled = false;
+      return;
+    }
+    leaveTimer = setTimeout(() => {
+      leaving = false;
+      $('#leave-game').disabled = false;
+      if (confirm('The host did not confirm releasing your character. Return home anyway? The host may need to release it manually.')) returnHome();
+    }, 4000);
+  });
 
   function setStatus(s) {
     status = s;
@@ -102,6 +129,9 @@ export function startPlayer(room) {
     if (!msg || typeof msg !== 'object') return;
     if (msg.t === 'state') {
       view = msg.view;
+      if (leaving && !view.me) return returnHome();
+      const strip = $('#vote-strip'), html = voteStripHtml(view.voteSummary);
+      if (strip.innerHTML !== html) strip.innerHTML = html;
       window.__gg = { view };
       if (view.me !== me.charId) { me.charId = view.me; saveMe(); }
       render();
@@ -109,7 +139,17 @@ export function startPlayer(room) {
     } else if (msg.t === 'atmosphere') {
       atmosphere.cue(msg);
     } else if (msg.t === 'error') toast(msg.msg, 4000);
-    else if (msg.t === 'ended') { ended = true; localStorage.removeItem(KEY); body.innerHTML = `<span class="candle">🕯️</span><h1>The candles are out</h1><p class="center">The host has ended this gathering. Thanks for playing!</p>`; lastHtml = ''; }
+    else if (msg.t === 'ended') {
+      ended = true;
+      clearTimeout(leaveTimer);
+      localStorage.removeItem(KEY);
+      $('#leave-game').disabled = false;
+      $('#leave-game').textContent = 'Return home';
+      $('#vote-strip').innerHTML = '';
+      atmosphere.update({ room, phase: 'connecting', roundIndex: -1 }, null);
+      body.innerHTML = `<span class="candle">🕯️</span><h1>The candles are out</h1><p class="center">The host has ended this gathering. Thanks for playing!</p>`;
+      lastHtml = '';
+    }
   }
 
   // ---------- rendering ----------
@@ -162,8 +202,8 @@ export function startPlayer(room) {
         <h2 id="round-title">${esc(v.currentRound.title)}</h2>${paras(v.currentRound.publicText)}
         <hr><div class="label">🔒 Your secret clues</div><div id="my-clues">${r ? cluesBlock(r) : ''}</div></div>`;
     } else if (v.phase === 'vote') {
-      phaseCard = `<div class="card blood" id="phase-card"><div class="label">The accusation</div><h2>${esc(v.vote.prompt)}</h2>
-        <p>Tap the person you accuse. You can change your mind until the host reveals the truth.</p>
+      phaseCard = `<div class="card blood" id="phase-card"><div class="label">Round ${v.roundIndex + 1} · The accusation</div><h2>${esc(v.vote.prompt)}</h2>
+        <p>Tap the person you accuse. You can change your mind until the host closes this round's voting. Every round counts equally in the running vote share.</p>
         <div id="vote-list">${v.vote.suspects.filter(s => s.id !== v.me).map(s => `<button class="vote-btn ${v.vote.myVote === s.id ? 'on' : ''}" data-vote="${esc(s.id)}">${v.vote.myVote === s.id ? '🔪 ' : ''}${esc(s.name)}${s.guest ? ` <span class="small">(${esc(s.guest)})</span>` : ''}</button>`).join('')}</div>
         <p id="my-vote" class="small ${v.vote.myVote ? '' : 'muted'}">${v.vote.myVote ? 'Your vote is in. ✓' : 'You have not voted yet.'}</p></div>`;
     } else if (v.phase === 'reveal') {
@@ -204,7 +244,8 @@ export function startPlayer(room) {
     if (claim && !claim.disabled) { if (send({ t: 'claim', charId: claim.dataset.claim, token: me.token })) claim.textContent = 'Opening your packet…'; return; }
     const vote = e.target.closest('[data-vote]');
     if (vote) {
-      if (send({ t: 'vote', suspect: vote.dataset.vote })) {
+      if (send({ t: 'vote', suspect: vote.dataset.vote, roundIndex: view.roundIndex })) {
+        lastHtml = '';
         body.querySelectorAll('.vote-btn').forEach(b => b.classList.toggle('on', b === vote));
         const mv = $('#my-vote'); if (mv) mv.textContent = 'Sending your vote…';
       }

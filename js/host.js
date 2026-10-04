@@ -1,6 +1,7 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=atmosphere-v1';
+import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=round-votes-v1';
+import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=round-votes-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=f1ed522';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
@@ -69,6 +70,7 @@ function renderLanding() {
 // ---------- Rendering by phase ----------
 function render() {
   if (!S) return renderLanding();
+  if (S.story && ['round', 'vote', 'reveal'].includes(S.phase)) selectRoundBallots(S, S.roundIndex);
   if (location.hash !== '#host') history.replaceState(null, '', baseUrl() + '#host');
   ({ setup: renderSetup, review: renderReview, lobby: renderLobby, round: renderRound, vote: renderVote, reveal: renderReveal }[S.phase] || renderSetup)();
   atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex, roundTitle: S.story?.rounds[S.roundIndex]?.title }, S.story);
@@ -266,8 +268,10 @@ function statusBar() {
   const n = connectedChars().size;
   const cls = netStatus === 'online' ? 'ok' : netStatus === 'offline' ? 'bad' : 'wait';
   return `<div class="statusbar"><span>Room <b id="room-code-bar">${esc(S.room)}</b></span>
+    <div class="vote-strip" id="vote-strip" tabindex="0" aria-label="Suspect vote history; scroll to see all suspects">${voteStripHtml(voteSummary(S))}</div>
     <span id="net" class="pill ${cls}">${esc(netStatus === 'online' ? 'Live' : netStatus)}</span>
-    <span id="conn-count">${n}/${S.story.characters.length} here</span></div>`;
+    <span id="conn-count">${n}/${S.story.characters.length} here</span></div>
+    <div class="game-exit"><button class="secondary small" data-act="end">End game → Home</button></div>`;
 }
 
 function joinBlock(big = true) {
@@ -309,7 +313,6 @@ function renderLobby() {
 function renderRound() {
   app().className = 'wide';
   const st = S.story, ri = S.roundIndex, r = st.rounds[ri];
-  const last = ri === st.rounds.length - 1;
   app().innerHTML = `${statusBar()}
     <p class="center muted" style="margin-bottom:0">Round ${ri + 1} of ${st.rounds.length}</p>
     <h1 id="round-title">${esc(r.title)}</h1>
@@ -326,7 +329,7 @@ function renderRound() {
       </div>
     </div>
     <div class="row actions"><button class="secondary" data-act="prev">◀ ${ri === 0 ? 'Back to lobby' : 'Previous round'}</button>
-      <button data-act="next" id="next-round">${last ? 'Begin the finale (open voting) →' : `Next: ${esc(st.rounds[ri + 1].title)} →`}</button></div>
+      <button data-act="next" id="next-round">Vote after Round ${ri + 1} →</button></div>
     ${hostFooter()}`;
 }
 
@@ -347,15 +350,16 @@ function tallyHtml() {
 function renderVote() {
   app().className = 'wide';
   const st = S.story;
+  const last = S.roundIndex === st.rounds.length - 1;
   app().innerHTML = `${statusBar()}
-    <h1>The Accusation</h1>
+    <h1>Round ${S.roundIndex + 1} · The Accusation</h1>
     <div class="grid2">
-      <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(st.finale.narration)}</div>
+      <div class="card blood"><div class="label">Read aloud</div><div class="narration">${last ? paras(st.finale.narration) : '<p>Discuss the evidence so far, then vote for your current top suspect. Your next clues may change your mind.</p>'}</div>
         <p class="muted small">Phones now show: “${esc(st.finale.votePrompt)}”</p></div>
       <div class="card"><h2>Live tally</h2><div id="tally">${tallyHtml()}</div></div>
     </div>
     <div class="card"><h2>The guests</h2><div id="roster">${rosterHtml()}</div></div>
-    <div class="row actions"><button class="secondary" data-act="prev">◀ Back to last round</button><button class="danger" data-act="reveal" id="reveal-btn">Reveal the killer 🔪</button></div>
+    <div class="row actions"><button class="secondary" data-act="prev">◀ Back to Round ${S.roundIndex + 1}</button>${last ? '<button class="danger" data-act="reveal" id="reveal-btn">Reveal the killer 🔪</button>' : `<button data-act="next" id="next-round">Close voting · Next: ${esc(st.rounds[S.roundIndex + 1].title)} →</button>`}</div>
     ${hostFooter()}`;
 }
 
@@ -381,10 +385,15 @@ function renderReveal() {
 }
 
 function hostFooter() {
-  return `${hostAtmospherePanel()}<p class="footer">Refreshing this page is safe — the game is saved on this device. <button class="secondary small" data-act="end">End game</button></p>`;
+  return `${hostAtmospherePanel()}<p class="footer">Refreshing this page is safe — the game is saved on this device. <button class="secondary small" data-act="end">End game → Home</button></p>`;
 }
 
 function updateLive() {
+  const strip = $('#vote-strip');
+  if (strip && S?.story) {
+    const html = voteStripHtml(voteSummary(S));
+    if (strip.innerHTML !== html) strip.innerHTML = html;
+  }
   const r = $('#roster'); if (r) r.innerHTML = rosterHtml();
   const t = $('#tally'); if (t) t.innerHTML = tallyHtml();
   const net = $('#net');
@@ -394,6 +403,7 @@ function updateLive() {
 
 // ---------- Actions ----------
 function setPhase(phase, roundIndex = S.roundIndex) {
+  if (['round', 'vote', 'reveal'].includes(phase)) selectRoundBallots(S, roundIndex);
   S.phase = phase; S.roundIndex = roundIndex; save(); render(); broadcast();
 }
 
@@ -481,7 +491,7 @@ const actions = {
     const res = normalizeStory(story);
     ui.errors = res.errors; ui.warnings = res.warnings;
     if (!res.story) return renderSetup();
-    S.story = res.story; S.claims = {}; S.votes = {}; S.libraryId = entry.id;
+    S.story = res.story; S.claims = {}; S.votes = {}; S.roundVotes = {}; S.libraryId = entry.id;
     setPhase('review', -1);
   },
   'save-story'() {
@@ -546,25 +556,31 @@ const actions = {
     if (res.story) { S.story = res.story; save(); toast('Story updated'); }
     renderReview();
   },
-  start() { S.votes = {}; setPhase('round', 0); },
+  start() { S.votes = {}; S.roundVotes = {}; setPhase('round', 0); },
   next() {
-    if (S.roundIndex < S.story.rounds.length - 1) setPhase('round', S.roundIndex + 1);
-    else setPhase('vote', S.roundIndex);
+    if (S.phase === 'round') return setPhase('vote');
+    if (S.phase !== 'vote' || S.roundIndex >= S.story.rounds.length - 1) return;
+    const missing = S.story.characters.filter(c => S.claims[c.id] && !S.votes[c.id]);
+    if (missing.length && !confirm(`${missing.length} joined player(s) have not voted. Close this round's voting anyway?`)) return;
+    setPhase('round', S.roundIndex + 1);
   },
   prev() {
     if (S.phase === 'reveal') return setPhase('vote');
-    if (S.phase === 'vote') return setPhase('round', S.story.rounds.length - 1);
+    if (S.phase === 'vote') return setPhase('round');
     if (S.roundIndex <= 0) return setPhase('lobby', -1);
     setPhase('round', S.roundIndex - 1);
   },
   reveal() {
+    if (S.phase !== 'vote' || S.roundIndex !== S.story.rounds.length - 1) return;
     if (!Object.keys(S.votes).length && !confirm('No votes yet. Reveal anyway?')) return;
     setPhase('reveal');
   },
   release(el) {
     const id = el.dataset.id;
     if (!confirm('Release this character so another phone can claim it?')) return;
-    delete S.claims[id]; delete S.votes[id]; save();
+    delete S.claims[id];
+    if (S.phase === 'vote') delete S.votes[id];
+    save();
     for (const rec of conns.values()) if (rec.charId === id) rec.charId = null;
     broadcast(); updateLive();
   },
@@ -593,7 +609,7 @@ function acceptStory(input, guests) {
   const res = normalizeStory(input, guests);
   ui.errors = res.errors; ui.warnings = res.warnings;
   if (!res.story) return renderSetup();
-  S.story = res.story; S.claims = {}; S.votes = {}; S.libraryId = null;
+  S.story = res.story; S.claims = {}; S.votes = {}; S.roundVotes = {}; S.libraryId = null;
   setPhase('review', -1);
 }
 
@@ -731,20 +747,32 @@ function onMsg(rec, msg) {
       const id = msg.charId, token = String(msg.token || rec.token || '');
       if (!ids.has(id) || !token) return send(rec, { t: 'error', msg: 'That character does not exist.' });
       if (S.claims[id] && S.claims[id] !== token) { send(rec, { t: 'error', msg: 'Someone already claimed that character. If it is really you, ask the host to tap “release”.' }); return sendState(rec); }
-      for (const k of Object.keys(S.claims)) if (S.claims[k] === token && k !== id) { delete S.claims[k]; delete S.votes[k]; }
+      for (const k of Object.keys(S.claims)) if (S.claims[k] === token && k !== id) {
+        delete S.claims[k];
+        if (S.phase === 'vote') delete S.votes[k];
+      }
       S.claims[id] = token; rec.token = token; rec.charId = id; save();
       broadcast(); updateLive();
       break;
     }
     case 'unclaim': {
-      if (rec.charId && S.claims[rec.charId] === rec.token) { delete S.claims[rec.charId]; delete S.votes[rec.charId]; save(); }
+      if (rec.charId && S.claims[rec.charId] === rec.token) {
+        delete S.claims[rec.charId];
+        if (S.phase === 'vote') delete S.votes[rec.charId];
+        save();
+      }
       rec.charId = null; broadcast(); updateLive();
       break;
     }
     case 'vote': {
-      if (S.phase !== 'vote' || !rec.charId || !ids.has(msg.suspect)) return sendState(rec);
+      if (S.phase !== 'vote' || msg.roundIndex !== S.roundIndex || !rec.charId ||
+          S.claims[rec.charId] !== rec.token || !ids.has(msg.suspect) || msg.suspect === rec.charId) {
+        send(rec, { t: 'error', msg: 'Voting is closed for that round, or that accusation is not allowed. Refresh if your screen is out of date.' });
+        return sendState(rec);
+      }
+      selectRoundBallots(S, S.roundIndex);
       S.votes[rec.charId] = msg.suspect; save();
-      sendState(rec); updateLive();
+      broadcast(); updateLive();
       break;
     }
     case 'ping': send(rec, { t: 'pong' }); break;
