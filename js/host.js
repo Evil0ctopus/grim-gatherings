@@ -6,7 +6,7 @@ import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
 import { STARTER_MYSTERIES } from './starters.js?v=starter-mysteries-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=atmosphere-v1';
-import { hauntedManorHtml } from './manor.js?v=haunted-home-v1';
+import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 
 const KEY = 'gg-host-v1';
 let S = null; // persisted host state
@@ -42,9 +42,14 @@ function renderLanding() {
   const saved = load();
   app().innerHTML = `
     ${hauntedManorHtml()}
+    <div class="landing-content">
+    <header class="landing-heading">
     <p class="hero-eyebrow">An invitation to intrigue</p>
     <h1 class="hero-title">Grim Gatherings</h1>
     <p class="tagline">A murder-mystery party, whispered to every guest's phone.</p>
+    <p class="manor-caption">The house is waiting. Someone is already inside.</p>
+    </header>
+    <div class="landing-actions">
     <div class="card gold stack">
       <h2>Host a gathering</h2>
       <p>Set up the story on this device (a laptop or tablet hooked to a TV is ideal). Guests join on their phones.</p>
@@ -57,7 +62,8 @@ function renderLanding() {
       <div class="row"><input id="join-code" placeholder="ROOM CODE" autocapitalize="characters" autocomplete="off" maxlength="8" style="text-transform:uppercase;letter-spacing:.2em;font-size:1.3rem;flex:2">
       <button data-act="join" style="flex:1">Join</button></div>
     </div>
-    <p class="footer">Best on a phone held close to a candle. 🕯️</p>`;
+    <p class="footer">Best on a phone held close to a candle. 🕯️</p>
+    </div></div>`;
 }
 
 // ---------- Rendering by phase ----------

@@ -153,31 +153,50 @@ body[data-effects=off] .atmosphere-layer{display:none}
 @media(max-width:780px){.atmosphere-controls{margin:10px 16px 0}.scene-banner{font-size:.85rem;padding:10px 14px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
-.manor-scene{position:relative;height:clamp(240px,40vw,370px);margin:0 -16px 22px;overflow:hidden;border-radius:16px;border:1px solid #495063;background:#111724;isolation:isolate}
-.manor-landscape{position:absolute;width:100%;height:100%;object-fit:cover;transform-origin:50% 60%;animation:manor-approach 24s ease-in-out infinite alternate}
-.manor-cloud{animation:manor-clouds 38s ease-in-out infinite alternate}
-.cloud-far{animation-duration:52s;animation-direction:alternate-reverse}
-.manor-tree{transform-box:fill-box;transform-origin:center bottom;animation:manor-branches 7s ease-in-out infinite alternate}
-.tree-right{animation-delay:-3s;animation-duration:9s}
-.manor-window{animation:manor-window-glow 12s ease-in-out infinite}
-.window-right{animation-delay:-6s;animation-duration:17s}
-.window-upper{animation-delay:-3s;animation-duration:15s}
-.window-attic{animation-delay:-9s;animation-duration:20s}
-.manor-shadow{opacity:0;animation:manor-passing-shadow 16s ease-in-out infinite}
-.manor-door{transform-box:fill-box;transform-origin:left center;animation:manor-door-ajar 18s ease-in-out infinite}
-.manor-bat{opacity:0;animation:manor-bat-flight 23s linear infinite}
-.manor-mist{position:absolute;inset:45% -30% -15%;pointer-events:none;opacity:.5;background:radial-gradient(ellipse at 20% 60%,#c4cfda55,transparent 45%),radial-gradient(ellipse at 70% 40%,#c4cfda66,transparent 40%);animation:manor-fog 18s ease-in-out infinite alternate}
-.mist-front{inset:65% -40% -20%;opacity:.65;animation-duration:26s;animation-direction:alternate-reverse}
-.manor-scene-shade{position:absolute;inset:0;background:linear-gradient(0deg,#080c14 0%,transparent 35%),radial-gradient(ellipse at center,transparent 45%,#05081088 100%);pointer-events:none}
-.manor-caption{position:absolute;bottom:12px;left:12px;right:12px;text-align:center;color:#e5dcce;font-style:italic;font-size:clamp(.85rem,2vw,1rem);text-shadow:0 2px 5px #000;margin:0}
+body[data-phase=home]{background:#080d13}
+body[data-phase=home] main{max-width:none;padding:0 28px 40px;isolation:isolate}
+body[data-phase=home] .fog,body[data-phase=home] .atmosphere-layer{display:none}
+.manor-scene{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#080d13}
+.manor-camera{position:absolute;inset:-3%;transform-origin:65% 55%;animation:manor-approach 34s ease-in-out infinite alternate;will-change:transform}
+.manor-landscape{display:block;width:100%;height:100%}
+.manor-photograph{filter:saturate(.28) brightness(.68) contrast(1.2)}
+.manor-window{opacity:.5;animation:manor-window-glow 14s ease-in-out infinite}
+.window-left{animation-delay:-8s;animation-duration:21s}
+.window-lower{animation-delay:-5s;animation-duration:18s}
+.manor-shadow{opacity:0;animation:manor-passing-shadow 25s ease-in-out infinite}
+.manor-cloud-shadow{position:absolute;inset:-30%;background:radial-gradient(ellipse at 25% 35%,#01070c88,transparent 48%);animation:manor-clouds 40s ease-in-out infinite alternate}
+.manor-mist{position:absolute;inset:25% -50% -25%;opacity:.65;background:url('../assets/fog.svg') center / 70% 100% repeat-x;animation:manor-fog 38s ease-in-out infinite alternate;will-change:transform}
+.mist-front{inset:55% -60% -40%;opacity:.75;animation-duration:27s;animation-direction:alternate-reverse}
+.manor-rain{position:absolute;inset:-100%;opacity:.12;background-image:repeating-linear-gradient(105deg,transparent 0 89px,#b9c9d033 90px,transparent 91px 177px);background-size:241px 163px;mask-image:repeating-linear-gradient(0deg,transparent 0 18px,#000 19px 30px,transparent 31px 97px);animation:manor-rainfall 1.3s linear infinite}
+.manor-scene-shade{position:absolute;inset:0;background:linear-gradient(90deg,#04070be8 0%,#05080bc9 28%,#05080b45 58%,#03060a15 100%),linear-gradient(0deg,#04070bc9,transparent 48%),radial-gradient(ellipse at 65% 45%,transparent 40%,#02050a66)}
+.landing-content{max-width:1180px;margin:auto;padding-top:clamp(28px,7vh,90px)}
+.landing-heading{max-width:590px;text-shadow:0 2px 12px #000}
+.landing-heading .hero-title{font-size:clamp(2.1rem,4.4vw,3.5rem)}
+.landing-heading .hero-eyebrow,.landing-heading .hero-title,.landing-heading .tagline{text-align:left}
+.landing-heading .tagline{color:#ded6c9;max-width:43ch}
+.manor-caption{color:#b4bec7;font-size:.95rem;font-style:italic;margin:16px 0 26px}
+.landing-actions{max-width:470px}
+body[data-phase=home] .card,body[data-phase=home] .card.gold{background:linear-gradient(135deg,#111820eb,#121318ed);border-color:#63616a;box-shadow:0 12px 36px #0005}
+body[data-phase=home] .card.gold{border-top-color:var(--gold)}
+body[data-phase=home] .atmosphere-controls{max-width:1180px;margin:12px auto 0;background:#0a1017c9}
 body[data-phase=home] .atmosphere-particles{display:none}
-body[data-effects=off] .manor-mist{display:none}
-@keyframes manor-approach{from{transform:scale(1)}to{transform:scale(1.16) translateY(5px)}}
-@keyframes manor-clouds{from{transform:translateX(-45px)}to{transform:translateX(65px)}}
-@keyframes manor-branches{from{transform:rotate(-1.5deg)}to{transform:rotate(1.5deg)}}
-@keyframes manor-window-glow{0%,100%{fill:#a77144}30%{fill:#ddae67}55%{fill:#513d32}75%{fill:#d2a061}}
-@keyframes manor-passing-shadow{0%,25%,65%,100%{opacity:0;transform:translateX(-20px)}35%{opacity:.9;transform:translateX(5px)}52%{opacity:.9;transform:translateX(35px)}60%{opacity:0;transform:translateX(50px)}}
-@keyframes manor-door-ajar{0%,25%,100%{transform:scaleX(1)}50%,75%{transform:scaleX(.7)}}
-@keyframes manor-bat-flight{0%,60%,100%{opacity:0;transform:translate(0,0)}65%{opacity:1;transform:translate(0,0)}85%{opacity:1;transform:translate(190px,-55px)}90%{opacity:0;transform:translate(230px,-60px)}}
-@keyframes manor-fog{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
-@media(max-width:520px){.manor-landscape{width:160%;max-width:none;left:-30%}.manor-scene{height:280px}.manor-caption{bottom:10px;font-size:.8rem}}
+body[data-effects=off] .manor-mist,body[data-effects=off] .manor-rain,body[data-effects=off] .manor-cloud-shadow{display:none}
+body[data-motion=reduced] .manor-rain{display:none}
+@keyframes manor-approach{from{transform:scale(1) translate3d(-1%,0,0)}to{transform:scale(1.12) translate3d(1%,-1%,0)}}
+@keyframes manor-clouds{from{transform:translate3d(-12%,0,0)}to{transform:translate3d(12%,5%,0)}}
+@keyframes manor-window-glow{0%,100%{opacity:.32}28%{opacity:.7}40%{opacity:.5}62%{opacity:.18}78%{opacity:.6}}
+@keyframes manor-passing-shadow{0%,30%,65%,100%{opacity:0;transform:translateX(-30px)}38%{opacity:.8;transform:translateX(0)}53%{opacity:.85;transform:translateX(45px)}61%{opacity:0;transform:translateX(65px)}}
+@keyframes manor-fog{from{transform:translate3d(-8%,3%,0)}to{transform:translate3d(8%,-3%,0)}}
+@keyframes manor-rainfall{from{transform:translate3d(0,-97px,0)}to{transform:translate3d(-26px,0,0)}}
+@media(max-width:780px){
+  body[data-phase=home] main{padding:0 16px 32px}
+  body[data-phase=home] .atmosphere-controls{margin:10px 16px 0}
+  .landing-content{padding-top:28px}
+  .landing-heading{max-width:590px;margin:auto}
+  .landing-heading .hero-eyebrow,.landing-heading .hero-title,.landing-heading .tagline{text-align:center}
+  .landing-heading .tagline{margin-left:auto;margin-right:auto}
+  .manor-caption{text-align:center;margin-bottom:clamp(100px,19vh,180px)}
+  .landing-actions{max-width:470px;margin:auto}
+  .manor-scene-shade{background:linear-gradient(0deg,#03070bc9,transparent 65%),linear-gradient(180deg,#03070bb3,transparent 42%),radial-gradient(ellipse at center,transparent 25%,#02050a66)}
+}
+@media(prefers-reduced-motion:reduce){.manor-rain{display:none}}

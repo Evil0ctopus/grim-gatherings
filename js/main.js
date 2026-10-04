@@ -1,4 +1,4 @@
-import { startHost } from './host.js?v=haunted-home-v1';
+import { startHost } from './host.js?v=manor-background-v2';
 import { startPlayer } from './player.js?v=atmosphere-v1';
 
 const params = new URLSearchParams(location.search);

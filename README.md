@@ -39,11 +39,12 @@ Each has an opening, three narrated clue rounds, private character packets, secr
 
 Add your players and choose **Play this mystery**. The cast automatically fits the listed count; unsupported counts show an error. Review, edit and save a personal version without changing the built-in original. A saved version contains the cast selected for that game; select the original again to use its full player range.
 
-Unit checks: `node --test tests/library.mjs tests/starters.mjs tests/atmosphere.mjs`.
+Unit checks: `node --test tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs`.
 
 ## Atmosphere and event effects
 
-- The landing page features an original illustrated haunted manor: a slow camera approach, drifting ground fog, moving clouds and branches, glowing windows, a passing window silhouette, a creaking door and an occasional bat. It is decorative and silent; reduced motion or disabling visual effects leaves a static scene. No videos or external image services are loaded.
+- The landing page uses a full-viewport photographic haunted-house background, not a framed illustration. A slow camera approach, textured drifting fog, fine rain, cloud shadows, warm window lights and an occasional silhouette bring it to life. Controls remain above the scene; it never intercepts input. It is decorative and silent; reduced motion or disabling visual effects leaves a static photograph. The locally bundled image and fog need no external image service or video download.
+- Background photograph: **Haunted House**, Darren Lewis, [PublicDomainPictures.net](https://www.publicdomainpictures.net/en/view-image.php?image=23624&picture=haunted-house), released under [CC0](https://creativecommons.org/publicdomain/zero/1.0/). Night grading and animated overlays are applied by this app; the scene is fictional atmosphere, not a claim about the pictured property's history.
 
 - Every screen has an **Atmosphere** control: turn visual effects off or explicitly enable optional sound on that device. Sound defaults to off for every page load; no audio files or extra services are needed.
 - In story review, choose **Story atmosphere**: haunted manor, witch-trial candlelight, snowbound farmhouse or Victorian lamplight. The choice survives renaming, saving and exporting the story.
