@@ -43,6 +43,8 @@ Unit checks: `node --test tests/library.mjs tests/starters.mjs tests/atmosphere.
 
 ## Atmosphere and event effects
 
+- The landing page features an original illustrated haunted manor: a slow camera approach, drifting ground fog, moving clouds and branches, glowing windows, a passing window silhouette, a creaking door and an occasional bat. It is decorative and silent; reduced motion or disabling visual effects leaves a static scene. No videos or external image services are loaded.
+
 - Every screen has an **Atmosphere** control: turn visual effects off or explicitly enable optional sound on that device. Sound defaults to off for every page load; no audio files or extra services are needed.
 - In story review, choose **Story atmosphere**: haunted manor, witch-trial candlelight, snowbound farmhouse or Victorian lamplight. The choice survives renaming, saving and exporting the story.
 - New character assignments animate the private invitation; newly released rounds animate clue cards; voting gets an accusation announcement and stamped confirmation; the reveal gets a dramatic name entrance. Content remains readable and playable throughout; effects never unlock additional clues.

@@ -6,6 +6,7 @@ import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
 import { STARTER_MYSTERIES } from './starters.js?v=starter-mysteries-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=atmosphere-v1';
+import { hauntedManorHtml } from './manor.js?v=haunted-home-v1';
 
 const KEY = 'gg-host-v1';
 let S = null; // persisted host state
@@ -40,7 +41,7 @@ function renderLanding() {
   app().className = '';
   const saved = load();
   app().innerHTML = `
-    <span class="candle">🕯️</span>
+    ${hauntedManorHtml()}
     <p class="hero-eyebrow">An invitation to intrigue</p>
     <h1 class="hero-title">Grim Gatherings</h1>
     <p class="tagline">A murder-mystery party, whispered to every guest's phone.</p>
