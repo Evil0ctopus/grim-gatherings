@@ -1,0 +1,15 @@
+import { startHost } from './host.js';
+import { startPlayer } from './player.js';
+
+const params = new URLSearchParams(location.search);
+const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+if (room) startPlayer(room);
+else {
+  startHost();
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.target.id === 'join-code') {
+      const c = e.target.value.trim().toUpperCase();
+      if (c) location.href = location.pathname + '?room=' + encodeURIComponent(c);
+    }
+  });
+}

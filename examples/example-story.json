@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "title": "Death at the Lighthouse",
+  "setting": "Gallows Point Lighthouse, a storm-battered rock off the coast of Maine, 1931. The supply boat won't return until morning.",
+  "intro": "Keeper Elias Morrow invited a handful of guests to watch the lamp being lit for the last time before the lighthouse is decommissioned. The waves are high. The lamp is turning. Something is wrong.",
+  "victim": { "name": "Elias Morrow", "description": "The old lighthouse keeper. Gruff, superstitious, and sitting on a secret about a shipwreck forty years ago." },
+  "rounds": [
+    {
+      "title": "Round 1 — The Lamp Goes Dark",
+      "narration": "At nine o'clock the great lamp sputters and dies. In the blackness you hear a scream from the gallery above — and a heavy thud on the iron stairs. When the lamp flickers back to life, Elias Morrow lies at the bottom of the spiral staircase, neck broken, a brass key clutched in his fist.",
+      "publicText": "The keeper is dead at the foot of the stairs, a brass key in his hand. No boat until dawn. Talk to each other.",
+      "hostNotes": "Give everyone 15 minutes."
+    },
+    {
+      "title": "Round 2 — The Logbook",
+      "narration": "Someone finds the keeper's logbook. The final entry, written tonight, reads: 'One of them knows what happened to the Mary Celeste II. I will tell the coast guard at dawn.'",
+      "publicText": "The logbook names no one — but the keeper meant to talk at dawn. Share your secrets.",
+      "hostNotes": "Then open voting."
+    }
+  ],
+  "characters": [
+    {
+      "id": "nell",
+      "guest": "Sarah",
+      "guestNote": "loud, loves wine, always late",
+      "name": "Nell Harrow",
+      "role": "The Keeper's Niece",
+      "publicBlurb": "Elias's niece and only family. Arrived late on the last boat, smelling of wine.",
+      "backstory": "You came to beg your uncle to sell the lighthouse land. He refused.",
+      "secrets": ["You are deeply in debt.", "You argued with Elias on the gallery an hour before he died."],
+      "motive": "You inherit the land.",
+      "rounds": [
+        { "clues": ["You saw {wick} climbing the stairs just before the lamp died."], "instructions": "Act shocked. Mention the argument only if asked." },
+        { "clues": ["The brass key opens the oil store — and {wick} has the only other copy."], "instructions": "Point the group toward the oil store." }
+      ]
+    },
+    {
+      "id": "wick",
+      "guest": "Mike",
+      "guestNote": "quiet, secretly competitive",
+      "name": "Jonah Wick",
+      "role": "The Assistant Keeper",
+      "publicBlurb": "Elias's taciturn assistant for ten years.",
+      "backstory": "Forty years ago your father wrecked the Mary Celeste II for the insurance money. Elias saw it happen.",
+      "secrets": ["YOU ARE THE KILLER. You may lie.", "You cut the lamp's oil line and pushed Elias down the stairs in the dark."],
+      "motive": "Elias was going to expose your family's crime at dawn.",
+      "rounds": [
+        { "clues": ["There is lamp oil on your sleeve."], "instructions": "Say you were in the oil store the whole time — alone." },
+        { "clues": ["Nell argued with Elias tonight. Use it."], "instructions": "Steer suspicion toward {nell}." }
+      ]
+    },
+    {
+      "id": "doc",
+      "guest": "Priya",
+      "guestNote": "theatrical, loves true crime",
+      "name": "Dr. Ruth Calder",
+      "role": "The Visiting Doctor",
+      "publicBlurb": "A doctor visiting from the mainland to check on the keeper's failing health.",
+      "backstory": "You have been treating Elias for months. He confided in you.",
+      "secrets": ["Elias told you he was afraid of someone on the island."],
+      "motive": "None known — or is there?",
+      "rounds": [
+        { "clues": ["The bruises on Elias's back are hand-shaped. He was pushed."], "instructions": "Announce that this was murder, not an accident." },
+        { "clues": ["Elias once told you: 'Wick's father sank that ship, and the boy knows I saw.'"], "instructions": "Reveal what Elias told you." }
+      ]
+    }
+  ],
+  "finale": {
+    "narration": "The lamp turns. The sea roars. Who pushed Elias Morrow down the stairs?",
+    "votePrompt": "Who killed Elias Morrow?"
+  },
+  "solution": {
+    "killerId": "wick",
+    "explanation": "Jonah Wick cut the oil line to darken the lamp, climbed the stairs (seen by Nell), and pushed Elias, who was about to expose the wreck of the Mary Celeste II. The oil on his sleeve and the doctor's testimony seal it.",
+    "revealNarration": "Jonah Wick stares at the oil on his sleeve. 'He should have taken it to his grave,' he whispers. 'Now he has.'"
+  }
+}
