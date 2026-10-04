@@ -18,6 +18,14 @@ test('initial state and unchanged reconnect snapshots never trigger phase effect
   }
 });
 
+test('the connecting backdrop does not replay a chapter on the first guest snapshot', () => {
+  for (const phase of ['lobby', 'round', 'vote', 'reveal']) {
+    const track = createTransitionTracker();
+    assert.deepEqual(track({ room: '', phase: 'connecting', roundIndex: -1 }), []);
+    assert.deepEqual(track({ ...state, me: 'clerk', phase, roundIndex: 2 }), []);
+  }
+});
+
 test('claiming a character opens only its envelope, not a second lobby transition', () => {
   const track = createTransitionTracker();
   track(state);

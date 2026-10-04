@@ -1,9 +1,10 @@
 // Guest (phone) side. Connects to the host's peer id, claims a character, renders ONLY its own packet.
 import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
-import { createAtmosphere } from './atmosphere.js?v=atmosphere-v1';
+import { createAtmosphere } from './atmosphere.js?v=story-backdrops-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();
+  atmosphere.update({ room: '', phase: 'connecting', roundIndex: -1 }, null);
   const hostId = PEER_PREFIX + room.toLowerCase();
   const KEY = 'gg-player-v1-' + room;
   let me;

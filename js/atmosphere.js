@@ -1,4 +1,5 @@
 import { esc, toast } from './util.js?v=f1ed522';
+import { BACKDROPS, backdropFor, backdropHtml } from './backdrops.js?v=story-backdrops-v1';
 
 export const THEMES = ['manor', 'witch', 'farm', 'victorian'];
 export const CUES = {
@@ -53,7 +54,12 @@ export function createAtmosphere() {
   const layer = document.createElement('div');
   layer.className = 'atmosphere-layer';
   layer.setAttribute('aria-hidden', 'true');
-  layer.innerHTML = '<div class="atmosphere-particles"></div><div class="atmosphere-vignette"></div>';
+  layer.innerHTML = backdropHtml();
+  const photograph = layer.querySelector('.story-photograph');
+  photograph.addEventListener('error', () => {
+    console.warn('Could not load story background', photograph.getAttribute('src'));
+    toast('The background could not load. Your game is still available.');
+  });
   document.body.prepend(layer);
   const banner = document.createElement('div');
   banner.className = 'scene-banner';
@@ -156,6 +162,11 @@ export function createAtmosphere() {
     theme = storyTheme(story);
     document.body.dataset.theme = theme;
     document.body.dataset.phase = state.phase;
+    const scene = backdropFor(state.phase, theme);
+    if (scene && layer.dataset.scene !== scene) {
+      layer.dataset.scene = scene;
+      photograph.src = BACKDROPS[scene];
+    }
     for (const event of track(state)) {
       const messages = {
         character: 'Your sealed character packet has arrived',

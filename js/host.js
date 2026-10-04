@@ -5,7 +5,7 @@ import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=f1ed522';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
 import { STARTER_MYSTERIES } from './starters.js?v=starter-mysteries-v1';
-import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=atmosphere-v1';
+import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=story-backdrops-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 
 const KEY = 'gg-host-v1';
