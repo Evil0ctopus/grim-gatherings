@@ -48,7 +48,7 @@ export function createAtmosphere() {
   let audio = null;
   let sound = true;
   let resuming = false;
-  let volume = 0.5;
+  let volume = 0.58;
   let ambient = null;
   let ambienceEnabled = true;
   let phase = 'connecting';
@@ -80,9 +80,9 @@ export function createAtmosphere() {
     <button type="button" class="secondary small" data-sound aria-pressed="true">Mute sound</button>
     <button type="button" class="secondary small" data-test-sound>Test sound</button>
     <label class="check-row"><input type="checkbox" data-ambience checked>Background ambience (home and preparation only)</label>
-    <label class="small">Sound volume <input type="range" data-volume min="0" max="100" value="${volume * 100}" aria-label="Sound volume"></label>
+    <label class="small">Sound volume <input type="range" data-volume min="0" max="100" value="${Math.round(volume * 100)}" aria-label="Sound volume"></label>
     <p class="small muted" data-audio-status aria-live="polite">Sound is on. Your browser may require a click or tap to start audio.</p>
-    <p class="small muted">Sound starts at 50%. Mute it here at any time. The main host/join page has a recorded thunderstorm, with rain and wind during preparation. Background audio stops when the lobby opens; gameplay uses event sounds only. Test sound plays a chime. Check device volume and browser tab muting.</p>`;
+    <p class="small muted">Sound starts at ${Math.round(volume * 100)}%. Mute it here at any time. The main host/join page has a recorded thunderstorm, with rain and wind during preparation. Background audio stops when the lobby opens; gameplay uses event sounds only. Test sound plays a chime. Check device volume and browser tab muting.</p>`;
   document.getElementById('app').before(controls);
   const applyPreferences = () => {
     document.body.dataset.effects = effects ? 'on' : 'off';
