@@ -1,5 +1,5 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
-import { storyTheme } from './atmosphere.js?v=thunderstorm-v1';
+import { storyTheme } from './atmosphere.js?v=volume-50-v1';
 
 export function parseGuests(text) {
   return String(text || '')

@@ -47,7 +47,7 @@ export function createAtmosphere() {
   catch (error) { console.warn('Could not read atmosphere preference', error); toast('Atmosphere preferences could not be loaded. Use the controls for this visit.'); }
   let audio = null;
   let sound = false;
-  let volume = 0.6;
+  let volume = 0.5;
   let ambient = null;
   let ambienceEnabled = true;
   let phase = 'connecting';
@@ -79,7 +79,7 @@ export function createAtmosphere() {
     <button type="button" class="secondary small" data-sound aria-pressed="false">Enable sound</button>
     <button type="button" class="secondary small" data-test-sound disabled>Test sound</button>
     <label class="check-row"><input type="checkbox" data-ambience checked>Background ambience (home and preparation only)</label>
-    <label class="small">Sound volume <input type="range" data-volume min="0" max="100" value="60" aria-label="Sound volume"></label>
+    <label class="small">Sound volume <input type="range" data-volume min="0" max="100" value="${volume * 100}" aria-label="Sound volume"></label>
     <p class="small muted" data-audio-status aria-live="polite">Sound is off.</p>
     <p class="small muted">Enable sound for a recorded thunderstorm on the main host/join page, with rain and wind during preparation. Background audio stops when the lobby opens; gameplay uses event sounds only. Test sound plays a chime. Check device volume and browser tab muting.</p>`;
   document.getElementById('app').before(controls);
