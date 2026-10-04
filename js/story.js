@@ -67,6 +67,7 @@ export function normalizeStory(input, guests = []) {
       if (rounds.length > s.rounds.length && s.rounds.length) warnings.push(`characters[${i}] (${name || id}) has more round entries than the story has rounds; extras are ignored.`);
       s.characters.push({
         id, name,
+        optional: c.optional === true,
         guest: asStr(c.guest).trim(),
         guestNote: asStr(c.guestNote).trim(),
         role: asStr(c.role).trim(),
@@ -77,6 +78,7 @@ export function normalizeStory(input, guests = []) {
         rounds: s.rounds.map((_, ri) => ({ clues: asLines(rounds[ri]?.clues), instructions: asStr(rounds[ri]?.instructions).trim() })),
       });
     });
+    if (s.characters.filter(c => !c.optional).length < 2) errors.push('At least two characters must remain required so the mystery can be played with a smaller group.');
   }
 
   // Killer
@@ -93,6 +95,7 @@ export function normalizeStory(input, guests = []) {
   if (!killerId) errors.push('"solution.killerId" is missing — set it to the id of the murderer character.');
   else if (s.characters.length && !s.characters.some(c => c.id === killerId)) errors.push(`"solution.killerId" is "${killerId}" but no character has that id. Character ids: ${s.characters.map(c => c.id).join(', ')}.`);
   s.solution = { killerId, explanation: asStr(sol.explanation).trim(), revealNarration: asStr(sol.revealNarration).trim() };
+  if (s.characters.find(c => c.id === killerId)?.optional) errors.push('The killer character cannot be optional.');
   if (!s.solution.explanation) warnings.push('"solution.explanation" is empty — the reveal will be short.');
 
   // Assign guests (in order) to characters without one.

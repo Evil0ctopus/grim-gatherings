@@ -8,7 +8,9 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
 - Includes a complete built-in mystery, **The Last Séance at Ravenmoor** (3 rounds + finale, 3–12+ guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
-- Optional: generate a story with your own OpenAI-compatible API key (stored only in your browser).
+- Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
+- Save authored mysteries in **My Stories** and reuse them later in the same browser.
+- Save authored mysteries in **My Stories** and reuse them later in the same browser.
 
 ## How to play (for the host)
 
@@ -21,6 +23,10 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 7. Keep the host screen open the whole game. Refreshing it is safe (the game is saved on that device); guests reconnect automatically.
 
 Guests who refresh, lock their phone, or lose signal just reopen the same link — they're put straight back on their character and the current round.
+
+**My Stories** is currently stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. On the story review screen, mark supporting characters optional to save a story for a range of player counts. Keep the killer and essential clues in the required cast; references to omitted characters are shown by name. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
+
+**My Stories** is currently stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. A saved mystery currently requires the same number of guests as characters in that story. The built-in mystery adapts its cast to the guest list; support for author-defined optional characters is a future step.
 
 ## Story JSON format
 
@@ -45,6 +51,7 @@ Each character:
 | `id` | string | short unique slug, e.g. `"nell"` (auto-generated if missing) |
 | `guest` | string | the guest's real name. If empty, guests from the setup list are assigned in order |
 | `guestNote` | string | the guest's description; shown to them as "lean into it" |
+| `optional` | boolean | mark supporting characters that can be omitted when fewer guests attend; at least two characters and the killer must remain required |
 | `name`, `role` | string | character name (**required**) and role/title |
 | `publicBlurb` | string | what everyone knows — visible to all players |
 | `backstory`, `motive` | string | private |

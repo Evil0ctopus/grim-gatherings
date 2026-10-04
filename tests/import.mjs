@@ -9,6 +9,6 @@ await h.fill('#json', '{"title": "x", "characters": [{"name":"A"}], }');
 await h.click('#load-json'); console.log('bad JSON ->', (await h.textContent('#errors')).trim().slice(0, 160));
 await h.fill('#json', '{"title": "x", "rounds":[{"title":"r"}], "characters": [{"name":"A"},{"name":"B"}], "solution":{"killerId":"zz"}}');
 await h.click('#load-json'); console.log('bad killer ->', (await h.textContent('#errors')).trim().slice(0, 200));
-await h.fill('#json', fs.readFileSync('new URL('../examples/example-story.json', import.meta.url)', 'utf8'));
+await h.fill('#json', fs.readFileSync(new URL('../examples/example-story.json', import.meta.url), 'utf8'));
 await h.click('#load-json'); await h.waitForSelector('#open-lobby'); console.log('example loaded ->', await h.inputValue('#f-title'));
 await b.close();

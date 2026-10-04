@@ -1,12 +1,13 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
-import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX } from './util.js';
+import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js';
 import { parseGuests, normalizeStory, buildView, tally } from './story.js';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js';
+import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js';
 
 const KEY = 'gg-host-v1';
 let S = null; // persisted host state
-const ui = { tab: 'sample', errors: [], warnings: [], busy: false };
+const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '' };
 let peer = null, netStatus = 'offline', restartTimer = null;
 const conns = new Map(); // DataConnection -> { conn, charId, token, lastSeen }
 const LIVE_PHASES = ['lobby', 'round', 'vote', 'reveal'];
@@ -70,6 +71,7 @@ function renderSetup() {
   app().className = '';
   const ai = loadAiSettings();
   const guests = parseGuests(S.guestsText);
+  const library = getStoryLibrary();
   app().innerHTML = `
     <span class="candle">🕯️</span>
     <h1>Set the Table</h1>
@@ -79,6 +81,15 @@ function renderSetup() {
       <p class="small muted" id="guest-count">${guests.length} guest${guests.length === 1 ? '' : 's'}${guests.length && guests.length < 4 ? ' — 4 or more is best' : ''}</p>
       <label for="theme">Theme / setting <span class="muted">(used by AI generation; optional)</span></label>
       <input id="theme" data-s="theme" value="${esc(S.theme || '')}" placeholder="e.g. 1920s gothic manor, a séance gone wrong">
+    </div>
+    <div class="card">
+      <h2>Your saved mysteries</h2>
+      <p class="small muted">Saved in this browser on this device. Add the guest list above, then choose a story to prepare it for game night.</p>
+      ${library.length ? `<ul class="clean">${library.map(entry => `<li class="row library-item">
+        <span><b>${esc(entry.title || entry.story.title || 'Untitled mystery')}</b><span class="small muted"> · ${formatPlayerRange(entry.story)}</span></span>
+        <span class="row library-actions"><button class="small" data-act="use-saved" data-id="${esc(entry.id)}">Use story</button><button class="secondary small" data-act="delete-saved" data-id="${esc(entry.id)}" aria-label="Delete ${esc(entry.title || 'saved story')}">Delete</button></span>
+      </li>`).join('')}</ul>` : '<p class="muted">No saved stories yet. Create one, then save it from the story review screen.</p>'}
+      ${ui.libraryError ? `<p class="err" role="alert">${esc(ui.libraryError)}</p>` : ''}
     </div>
     <div class="tabs">
       <button class="${ui.tab === 'sample' ? 'on' : ''}" data-act="tab" data-tab="sample">Built-in mystery</button>
@@ -100,19 +111,44 @@ function renderSetup() {
       <button class="block" data-act="load-json" id="load-json">Load story →</button>
     </div>
     <div class="card stack" ${ui.tab === 'ai' ? '' : 'hidden'}>
-      <h2>Generate with AI <span class="small muted">(optional)</span></h2>
-      <p class="small muted">Any OpenAI-compatible chat-completions API. Your key is stored only in this browser and sent only to the URL below.</p>
-      <label for="ai-base">API base URL</label><input id="ai-base" value="${esc(ai.base)}">
-      <label for="ai-model">Model</label><input id="ai-model" value="${esc(ai.model)}">
-      <label for="ai-key">API key</label><input id="ai-key" type="password" value="${esc(ai.key)}" placeholder="sk-..." autocomplete="off">
+      <h2>Make a mystery with AI</h2>
+      <p>Start with a theme and guest list. AI will draft the mystery, characters, clues, and ending for you to review and edit.</p>
+      <ol class="small">
+        <li>Get a free Gemini API key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>.</li>
+        <li>Paste the key below. You only need to do this once on this browser.</li>
+        <li>Choose <b>Generate story</b>, then review and save your mystery.</li>
+      </ol>
+      <p class="small muted">Gemini offers a free API tier with usage limits. Google says free-tier content may be used to improve its products, so avoid entering private or sensitive information. Your key is stored in this browser and sent to the selected AI provider; it is not shared with players.</p>
+      <details>
+        <summary>Advanced AI settings</summary>
+        <label for="ai-base">AI service address</label><input id="ai-base" value="${esc(ai.base)}">
+        <label for="ai-model">AI model</label><input id="ai-model" value="${esc(ai.model)}">
+      </details>
+      <label for="ai-key">Gemini key</label><input id="ai-key" type="password" value="${esc(ai.key)}" placeholder="Paste your Google AI Studio key" autocomplete="off">
       <button class="block" data-act="gen-ai" id="gen-ai" ${ui.busy ? 'disabled' : ''}>${ui.busy ? 'Summoning a story… (up to a minute)' : 'Generate story →'}</button>
     </div>
     <div class="row"><button class="secondary small" data-act="home">← Home</button></div>`;
 }
 
+function getStoryLibrary() {
+  try {
+    ui.libraryError = '';
+    return readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY));
+  } catch (error) {
+    ui.libraryError = error.message || 'Saved stories could not be loaded.';
+    return [];
+  }
+}
+
+function formatPlayerRange(story) {
+  const range = getPlayerRange(story);
+  return range.minPlayers === range.maxPlayers ? `${range.maxPlayers} players` : `${range.minPlayers}–${range.maxPlayers} players`;
+}
+
 const fieldHtml = (label, path, val, kind = 'text') => {
   const id = 'f-' + path.replace(/\./g, '-');
   if (kind === 'text') return `<label for="${id}">${esc(label)}</label><input id="${id}" data-path="${path}" value="${esc(val)}">`;
+  if (kind === 'checkbox') return `<label class="check-row" for="${id}"><input id="${id}" type="checkbox" data-path="${path}" data-kind="checkbox" ${val ? 'checked' : ''}>${esc(label)}</label>`;
   const v = kind === 'lines' ? (val || []).join('\n') : val;
   return `<label for="${id}">${esc(label)}${kind === 'lines' ? ' <span class="muted">(one per line)</span>' : ''}</label><textarea id="${id}" data-path="${path}" ${kind === 'lines' ? 'data-kind="lines"' : ''} rows="${kind === 'big' ? 6 : 3}">${esc(v)}</textarea>`;
 };
@@ -124,7 +160,7 @@ function renderReview() {
     <h1>Review the Story</h1>
     <p class="center muted">Edit anything — changes save automatically. Guests can't see this screen.</p>
     ${errBox()}
-    <div class="row"><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
+    <div class="row"><button class="secondary" data-act="save-story" id="save-story">${S.libraryId ? 'Update saved mystery' : 'Save to My Stories'}</button><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
       ${fieldHtml('Title', 'title', st.title)}
       ${fieldHtml('Setting', 'setting', st.setting, 'area')}
@@ -133,6 +169,7 @@ function renderReview() {
       ${fieldHtml('Victim description', 'victim.description', st.victim.description, 'area')}
     </div>
     <h2>The Cast (${st.characters.length})</h2>
+    <p class="small muted">Works for ${formatPlayerRange(st)}. Mark supporting roles optional to fit different group sizes; keep the killer and essential clues in the required cast.</p>
     ${st.characters.map((c, i) => `
       <details class="editchar">
         <summary>${esc(c.guest || '(no guest)')} → ${esc(c.name)} <span class="muted">· ${esc(c.role)}</span>${c.id === st.solution.killerId ? ' <span class="pill bad">KILLER</span>' : ''}</summary>
@@ -140,6 +177,7 @@ function renderReview() {
         ${fieldHtml('Guest note (shown to them: how to lean in)', `characters.${i}.guestNote`, c.guestNote)}
         ${fieldHtml('Character name', `characters.${i}.name`, c.name)}
         ${fieldHtml('Role', `characters.${i}.role`, c.role)}
+        ${fieldHtml('Optional supporting character (can be omitted for smaller groups)', `characters.${i}.optional`, c.optional, 'checkbox')}
         ${fieldHtml('Public blurb (everyone sees)', `characters.${i}.publicBlurb`, c.publicBlurb, 'area')}
         ${fieldHtml('Backstory (private)', `characters.${i}.backstory`, c.backstory, 'big')}
         ${fieldHtml('Secrets (private)', `characters.${i}.secrets`, c.secrets, 'lines')}
@@ -320,6 +358,57 @@ const actions = {
     ui.pasteText = $('#json').value;
     acceptStory(ui.pasteText, parseGuests(S.guestsText));
   },
+  'use-saved'(el) {
+    const entry = getStoryLibrary().find(item => item.id === el.dataset.id);
+    if (!entry) { ui.libraryError = 'That saved story is no longer available.'; return renderSetup(); }
+    const guests = parseGuests(S.guestsText);
+    let story;
+    try {
+      story = adaptStoryForPlayers(entry.story, guests, shuffle(guests));
+    } catch (error) {
+      ui.errors = [error.message || 'This mystery cannot be used with this guest list.'];
+      ui.warnings = [];
+      return renderSetup();
+    }
+    const res = normalizeStory(story);
+    ui.errors = res.errors; ui.warnings = res.warnings;
+    if (!res.story) return renderSetup();
+    S.story = res.story; S.claims = {}; S.votes = {}; S.libraryId = entry.id;
+    setPhase('review', -1);
+  },
+  'save-story'() {
+    try {
+      const validation = normalizeStory(S.story);
+      if (!validation.story) {
+        ui.errors = validation.errors;
+        ui.warnings = validation.warnings;
+        return renderReview();
+      }
+      const entries = readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY));
+      const saved = upsertStory(entries, validation.story, S.libraryId);
+      localStorage.setItem(STORY_LIBRARY_KEY, JSON.stringify(saved.entries));
+      S.libraryId = saved.record.id;
+      save();
+      ui.libraryError = '';
+      toast('Mystery saved to My Stories');
+      renderReview();
+    } catch (error) {
+      ui.errors = [`Could not save this mystery: ${error.message || error}`];
+      renderReview();
+    }
+  },
+  'delete-saved'(el) {
+    if (!confirm('Delete this saved mystery from My Stories?')) return;
+    try {
+      const entries = readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY));
+      localStorage.setItem(STORY_LIBRARY_KEY, JSON.stringify(entries.filter(entry => entry.id !== el.dataset.id)));
+      ui.libraryError = '';
+      renderSetup();
+    } catch (error) {
+      ui.libraryError = error.message || 'The saved mystery could not be deleted.';
+      renderSetup();
+    }
+  },
   async 'gen-ai'() {
     const s = { base: $('#ai-base').value.trim(), model: $('#ai-model').value.trim(), key: $('#ai-key').value.trim() };
     saveAiSettings(s);
@@ -386,7 +475,7 @@ function wipe() {
 
 function newGame() {
   const prev = load();
-  S = { room: randomRoom(), phase: 'setup', roundIndex: -1, story: null, claims: {}, votes: {}, theme: prev?.theme || '', guestsText: prev?.guestsText || '', createdAt: Date.now() };
+  S = { room: randomRoom(), phase: 'setup', roundIndex: -1, story: null, claims: {}, votes: {}, libraryId: null, theme: prev?.theme || '', guestsText: prev?.guestsText || '', createdAt: Date.now() };
   ui.errors = []; ui.warnings = [];
   save(); render();
 }
@@ -395,7 +484,7 @@ function acceptStory(input, guests) {
   const res = normalizeStory(input, guests);
   ui.errors = res.errors; ui.warnings = res.warnings;
   if (!res.story) return renderSetup();
-  S.story = res.story; S.claims = {}; S.votes = {};
+  S.story = res.story; S.claims = {}; S.votes = {}; S.libraryId = null;
   setPhase('review', -1);
 }
 
@@ -419,7 +508,7 @@ function onInput(e) {
     S[t.dataset.s] = t.value; save();
     if (t.id === 'guests') { const n = parseGuests(t.value).length; const gc = $('#guest-count'); if (gc) gc.textContent = `${n} guest${n === 1 ? '' : 's'}${n && n < 4 ? ' — 4 or more is best' : ''}`; }
   }
-  if (t.dataset.path && S?.story) {
+  if (t.dataset.path && t.dataset.kind !== 'checkbox' && S?.story) {
     const v = t.dataset.kind === 'lines' ? t.value.split('\n').map(s => s.trim()).filter(Boolean) : t.value;
     setPath(S.story, t.dataset.path, v); save();
   }
@@ -427,6 +516,12 @@ function onInput(e) {
 
 function onChange(e) {
   const t = e.target;
+  if (t.dataset.path && t.dataset.kind === 'checkbox' && S?.story) {
+    setPath(S.story, t.dataset.path, t.checked);
+    save();
+    renderReview();
+    return;
+  }
   if (t.id === 'json-file' && t.files?.[0]) {
     const r = new FileReader();
     r.onload = () => { ui.pasteText = String(r.result); $('#json').value = ui.pasteText; };

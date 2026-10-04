@@ -1,8 +1,14 @@
 // Optional AI story generation via any OpenAI-compatible /chat/completions endpoint.
 // The API key is stored only in this browser's localStorage and sent only to the endpoint the host enters.
 const KEY = 'gg-ai-settings';
+export const DEFAULT_AI_SETTINGS = {
+  base: 'https://generativelanguage.googleapis.com/v1beta/openai',
+  model: 'gemini-3.8-flash',
+  key: '',
+};
+
 export function loadAiSettings() {
-  try { return { base: 'https://api.openai.com/v1', model: 'gpt-4o-mini', key: '', ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return { base: 'https://api.openai.com/v1', model: 'gpt-4o-mini', key: '' }; }
+  try { return { ...DEFAULT_AI_SETTINGS, ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return { ...DEFAULT_AI_SETTINGS }; }
 }
 export function saveAiSettings(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
 
@@ -17,7 +23,7 @@ const SCHEMA_DOC = `Return ONLY a JSON object with this exact shape (no markdown
     {"title": string, "narration": string /* host reads aloud, atmospheric, 80-150 words */, "publicText": string /* short summary shown on every phone */, "hostNotes": string}
   ],
   "characters": [                  // exactly one per guest, in the same order as the guest list
-    {"id": string /* short lowercase slug, unique */, "guest": string /* guest's name */, "guestNote": string /* the guest's description */,
+    {"id": string /* short lowercase slug, unique */, "guest": string /* guest's name */, "guestNote": string /* the guest's description */, "optional": boolean /* supporting role that can be omitted when fewer guests attend */,
      "name": string, "role": string, "publicBlurb": string /* what everyone knows */,
      "backstory": string /* private, 60-120 words */, "secrets": [string, ...] /* 2-3 private secrets */, "motive": string,
      "rounds": [ {"clues": [string, ...] /* 1-2 private clues */, "instructions": string /* what to do/say this round */ } ] /* one entry per round */ }
@@ -25,7 +31,7 @@ const SCHEMA_DOC = `Return ONLY a JSON object with this exact shape (no markdown
   "finale": {"narration": string /* host reads before voting */, "votePrompt": string},
   "solution": {"killerId": string /* id of the killer character */, "explanation": string /* how the clues prove it */, "revealNarration": string /* dramatic reveal read aloud */}
 }
-Rules: exactly one killer among the characters. The killer's packet must say clearly they are the killer and that they may lie.
+Rules: exactly one killer among the characters. The killer's packet must say clearly they are the killer and that they may lie. The killer and every character needed to solve the mystery must be required, not optional.
 The mystery must be fair and solvable from the clues spread across characters (several characters each hold one piece; key clues in rounds 2-3).
 Give every other character a secret and a plausible motive (red herrings). In any text you may write {id} to refer to a character (rendered as "Name (Guest)") and {victim} for the victim.
 Tailor characters to each guest's description in a fun, kind way. Tone: creepy, gothic, PG-13, fun for a party.`;
