@@ -8,8 +8,9 @@ import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adapt
 import { STARTER_MYSTERIES } from './starters.js?v=five-rounds-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
+import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=current-stories-v1';
 
-const KEY = 'gg-host-v1';
+const KEY = HOST_SAVE_KEY;
 let S = null; // persisted host state
 const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '' };
 let peer = null, netStatus = 'offline', restartTimer = null;
@@ -23,6 +24,12 @@ const app = () => document.getElementById('app');
 
 function restoreGame() {
   S = load();
+  if (S?.story && isOutdatedStory(S.story)) {
+    localStorage.removeItem(KEY);
+    S = null;
+    toast('Outdated saved game removed. Start a new game with a current mystery.');
+    return;
+  }
   if (S?.story && S.phase !== 'setup') {
     const result = normalizeStory(S.story);
     if (!result.story) {
@@ -186,7 +193,7 @@ function renderSetup() {
 function getStoryLibrary() {
   try {
     ui.libraryError = '';
-    return readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY));
+    return readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY)).filter(entry => !isOutdatedStory(entry.story));
   } catch (error) {
     ui.libraryError = error.message || 'Saved stories could not be loaded.';
     return [];
@@ -445,7 +452,7 @@ const actions = {
     broadcastRaw(message);
   },
   new() { newGame(); },
-  resume() { restoreGame(); history.replaceState(null, '', baseUrl() + '#host'); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
+  resume() { restoreGame(); if (!S) return renderLanding(); history.replaceState(null, '', baseUrl() + '#host'); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
   join() { const c = ($('#join-code').value || '').trim().toUpperCase(); if (c) location.href = baseUrl() + '?room=' + encodeURIComponent(c); },
   home() { history.replaceState(null, '', baseUrl()); renderLanding(); },
   'add-guest'() {
