@@ -1,5 +1,6 @@
 import { esc, toast } from './util.js?v=f1ed522';
 import { BACKDROPS, backdropFor, backdropHtml } from './backdrops.js?v=story-backdrops-v1';
+import { ambientTrack, createAmbientAudio } from './ambient.js?v=ambient-audio-v1';
 
 export const THEMES = ['manor', 'witch', 'farm', 'victorian'];
 export const CUES = {
@@ -47,6 +48,9 @@ export function createAtmosphere() {
   let audio = null;
   let sound = false;
   let volume = 0.6;
+  let ambient = null;
+  let ambienceEnabled = true;
+  let phase = 'connecting';
   let timer = null;
   let dimTimer = null;
   let theme = 'manor';
@@ -74,8 +78,10 @@ export function createAtmosphere() {
     <label class="check-row"><input type="checkbox" data-effects ${effects ? 'checked' : ''}>Visual effects</label>
     <button type="button" class="secondary small" data-sound aria-pressed="false">Enable sound</button>
     <button type="button" class="secondary small" data-test-sound disabled>Test sound</button>
+    <label class="check-row"><input type="checkbox" data-ambience checked>Background ambience (home and preparation only)</label>
     <label class="small">Sound volume <input type="range" data-volume min="0" max="100" value="60" aria-label="Sound volume"></label>
-    <p class="small muted">Sound plays short chimes when clues, votes or reveals arrive, not continuous music. Enable sound, then use Test sound. Check your device volume and that this browser tab is not muted. Reduced-motion preferences are respected.</p>`;
+    <p class="small muted" data-audio-status aria-live="polite">Sound is off.</p>
+    <p class="small muted">Enable sound for recorded rain and wind on home, setup and story review. Background audio stops when the lobby opens; gameplay uses event sounds only. Test sound plays a chime. Check device volume and browser tab muting.</p>`;
   document.getElementById('app').before(controls);
   const applyPreferences = () => {
     document.body.dataset.effects = effects ? 'on' : 'off';
@@ -102,8 +108,13 @@ export function createAtmosphere() {
       if (!audio) {
         if (!window.AudioContext) throw new Error('Audio is not supported by this browser.');
         audio = new AudioContext();
+        ambient = createAmbientAudio(audio, error => {
+          console.warn('Background ambience unavailable', error);
+          toast('The background recording could not play. Event sounds are still available; toggle Background ambience to retry.');
+        });
       }
       if (!sound) {
+        ambient.stop();
         await audio.resume();
         if (audio.state !== 'running') throw new Error(`Audio remained ${audio.state}.`);
       }
@@ -116,6 +127,7 @@ export function createAtmosphere() {
       button.setAttribute('aria-pressed', String(sound));
       controls.querySelector('[data-test-sound]').disabled = !sound;
       if (sound) play('round');
+      syncAmbience();
     } catch (error) {
       console.warn('Atmosphere audio unavailable', error);
       toast('Sound could not start. You can continue playing without it.');
@@ -125,11 +137,25 @@ export function createAtmosphere() {
   });
   controls.querySelector('[data-volume]').addEventListener('input', event => {
     volume = Number(event.target.value) / 100;
+    syncAmbience();
   });
+  controls.querySelector('[data-ambience]').addEventListener('change', event => {
+    ambienceEnabled = event.target.checked;
+    syncAmbience();
+  });
+  document.addEventListener('visibilitychange', syncAmbience);
+  window.addEventListener('pagehide', () => ambient?.stop());
+  function syncAmbience() {
+    ambient?.update({ phase, theme, volume, visible: !document.hidden, enabled: sound && ambienceEnabled });
+    controls.querySelector('[data-audio-status]').textContent = !sound ? 'Sound is off.' :
+      !ambientTrack(phase, theme) ? 'Game pages: event sounds only. Background ambience is stopped.' :
+      ambienceEnabled ? 'Background ambience enabled. Event sounds are also on.' : 'Background ambience off. Event sounds are on.';
+  }
   controls.querySelector('[data-test-sound]').addEventListener('click', async () => {
     try {
       await audio.resume();
       play('sting');
+      syncAmbience();
     } catch (error) {
       console.warn('Sound test could not start', error);
       toast('Sound could not start. Check your browser and device audio settings.');
@@ -186,6 +212,8 @@ export function createAtmosphere() {
 
   function update(state, story) {
     theme = storyTheme(story);
+    phase = state.phase;
+    syncAmbience();
     document.body.dataset.theme = theme;
     document.body.dataset.phase = state.phase;
     const scene = backdropFor(state.phase, theme);
