@@ -37,7 +37,7 @@ function harness() {
 }
 
 test('only home, setup and review are eligible for recorded ambience', () => {
-  assert.equal(ambientTrack('home', 'witch'), 'rain');
+  for (const theme of ['manor', 'witch', 'farm', 'victorian']) assert.equal(ambientTrack('home', theme), 'storm');
   assert.equal(ambientTrack('setup', 'victorian'), 'wind');
   assert.equal(ambientTrack('review', 'victorian'), 'rain');
   assert.equal(ambientTrack('review', 'farm'), 'wind');
@@ -47,7 +47,7 @@ test('only home, setup and review are eligible for recorded ambience', () => {
 });
 
 test('recordings are bundled Ogg files', () => {
-  for (const file of ['rain', 'howling-wind']) {
+  for (const file of ['rain', 'howling-wind', 'thunderstorm']) {
     const data = readFileSync(new URL(`../assets/audio/${file}.ogg`, import.meta.url));
     assert.equal(data.subarray(0, 4).toString(), 'OggS');
     assert.ok(data.length > 100000 && data.length < 2000000);

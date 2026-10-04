@@ -1,6 +1,6 @@
 import { esc, toast } from './util.js?v=f1ed522';
 import { BACKDROPS, backdropFor, backdropHtml } from './backdrops.js?v=story-backdrops-v1';
-import { ambientTrack, createAmbientAudio } from './ambient.js?v=ambient-audio-v1';
+import { ambientTrack, createAmbientAudio } from './ambient.js?v=thunderstorm-v1';
 
 export const THEMES = ['manor', 'witch', 'farm', 'victorian'];
 export const CUES = {
@@ -81,7 +81,7 @@ export function createAtmosphere() {
     <label class="check-row"><input type="checkbox" data-ambience checked>Background ambience (home and preparation only)</label>
     <label class="small">Sound volume <input type="range" data-volume min="0" max="100" value="60" aria-label="Sound volume"></label>
     <p class="small muted" data-audio-status aria-live="polite">Sound is off.</p>
-    <p class="small muted">Enable sound for recorded rain and wind on home, setup and story review. Background audio stops when the lobby opens; gameplay uses event sounds only. Test sound plays a chime. Check device volume and browser tab muting.</p>`;
+    <p class="small muted">Enable sound for a recorded thunderstorm on the main host/join page, with rain and wind during preparation. Background audio stops when the lobby opens; gameplay uses event sounds only. Test sound plays a chime. Check device volume and browser tab muting.</p>`;
   document.getElementById('app').before(controls);
   const applyPreferences = () => {
     document.body.dataset.effects = effects ? 'on' : 'off';

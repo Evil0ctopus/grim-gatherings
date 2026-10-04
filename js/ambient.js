@@ -1,11 +1,13 @@
 const TRACKS = {
+  storm: new URL('../assets/audio/thunderstorm.ogg', import.meta.url).href,
   rain: new URL('../assets/audio/rain.ogg', import.meta.url).href,
   wind: new URL('../assets/audio/howling-wind.ogg', import.meta.url).href,
 };
 
 export function ambientTrack(phase, theme) {
   if (!['home', 'setup', 'review'].includes(phase)) return null;
-  return phase === 'home' || (phase === 'review' && theme === 'victorian') ? 'rain' : 'wind';
+  if (phase === 'home') return 'storm';
+  return phase === 'review' && theme === 'victorian' ? 'rain' : 'wind';
 }
 
 export function createAmbientAudio(context, reportError) {

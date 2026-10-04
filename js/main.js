@@ -1,5 +1,5 @@
-import { startHost } from './host.js?v=ambient-audio-v1';
-import { startPlayer } from './player.js?v=ambient-audio-v1';
+import { startHost } from './host.js?v=thunderstorm-v1';
+import { startPlayer } from './player.js?v=thunderstorm-v1';
 
 const params = new URLSearchParams(location.search);
 const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
