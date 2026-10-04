@@ -1,5 +1,5 @@
-import { startHost } from './host.js?v=guest-workflow-v3';
-import { startPlayer } from './player.js?v=f1ed522';
+import { startHost } from './host.js?v=atmosphere-v1';
+import { startPlayer } from './player.js?v=atmosphere-v1';
 
 const params = new URLSearchParams(location.search);
 const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');

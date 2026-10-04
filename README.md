@@ -6,7 +6,7 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 
 - No server, no accounts, no build step — plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
-- Includes a complete built-in mystery, **The Last Séance at Ravenmoor** (3 rounds + finale, 3–12+ guests). Zero AI setup needed.
+- Includes four ready-to-play mysteries with flexible casts, including **The Last Séance at Ravenmoor** (3 rounds + finale, 3–12+ guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
@@ -14,7 +14,7 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 ## How to play (for the host)
 
 1. Open the site on the device that will be the narrator screen (laptop/tablet, ideally on the TV). Tap **Create a new game**.
-2. Add each player by name with **Add player**; optionally add a short description. Pick **Built-in mystery** → **Use this mystery** (or paste a story JSON / generate with AI).
+2. Add each player by name with **Add player**; optionally add a short description. Choose a story under **Ready-to-play mysteries** (or paste a story JSON / generate with AI).
 3. Review the story — every character's text is editable. Use the **Assign player** dropdowns to control who plays each character; assignments are unique. Tap **Open the doors**.
 4. A QR code, link and room code appear. Guests scan it, tap their assigned name, and read their secret packet.
 5. When everyone has joined (green dots), tap **Begin Round 1** and read the narration aloud. Each phone gets that round's private clues. Let people mingle ~15 min, then **Next round**.
@@ -25,6 +25,31 @@ Guests who refresh, lock their phone, or lose signal just reopen the same link �
 
 **My Stories** is stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. On the story review screen, mark supporting characters optional to save a story for a range of player counts. Keep the killer and essential clues in the required cast; references to omitted characters are shown by name. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
 
+## History-inspired starter mysteries
+
+| Mystery | Players | Atmosphere |
+|---|---|---|
+| **The Ashes of Mercy Hollow** | 4–8 | Salem-style witch-trial panic, forged confessions and village secrets |
+| **Footsteps Above Blackthorn Farm** | 4–9 | An isolated farm, an attic intruder and a suspicious land sale; loosely inspired by Hinterkaifeck |
+| **The Last Will at Briar House** | 4–10 | Victorian New England family tension, missing legal papers and a false alibi; loosely inspired by the Borden case |
+
+These are original fictional mysteries, not reconstructions of real murders or claims about real suspects. Deaths occur off-screen; there is no graphic violence. The witch-trial story treats persecution and false accusations as injustices, not proof of witchcraft.
+
+Each has an opening, three narrated clue rounds, private character packets, secrets, motives, voting and a complete reveal. Four required characters hold the solving evidence. Additional players receive optional supporting roles with their own secrets, clues and red herrings; omitting those roles does not remove the core evidence. Player totals exclude the narrator unless the narrator also plays a character.
+
+Add your players and choose **Play this mystery**. The cast automatically fits the listed count; unsupported counts show an error. Review, edit and save a personal version without changing the built-in original. A saved version contains the cast selected for that game; select the original again to use its full player range.
+
+Unit checks: `node --test tests/library.mjs tests/starters.mjs tests/atmosphere.mjs`.
+
+## Atmosphere and event effects
+
+- Every screen has an **Atmosphere** control: turn visual effects off or explicitly enable optional sound on that device. Sound defaults to off for every page load; no audio files or extra services are needed.
+- In story review, choose **Story atmosphere**: haunted manor, witch-trial candlelight, snowbound farmhouse or Victorian lamplight. The choice survives renaming, saving and exporting the story.
+- New character assignments animate the private invitation; newly released rounds animate clue cards; voting gets an accusation announcement and stamped confirmation; the reveal gets a dramatic name entrance. Content remains readable and playable throughout; effects never unlock additional clues.
+- The host's **Host atmosphere controls** can dim the decorative lighting for eight seconds, play a short suspense chime or send a discussion prompt to connected phones. These cues do not advance the game. A phone plays sounds only if its player has enabled sound.
+- Refreshes and unchanged reconnect snapshots do not replay chapter effects. Already visited rounds do not replay their entrances when the host goes backward.
+- Operating-system **reduced motion** disables decorative motion and transition animations. There are no flashing lightning effects, forced timers or jump scares. Visual effects can also be disabled independently of sound.
+
 ## Story JSON format
 
 A story is one JSON object. Paste it in **Setup → Paste story JSON** (or upload a `.json` file). Export the current story from **Review → Export / edit raw JSON**.
@@ -34,6 +59,7 @@ A story is one JSON object. Paste it in **Setup → Paste story JSON** (or uploa
 | `schemaVersion` | number | `1` |
 | `title` | string | **required** |
 | `setting` | string | where/when |
+| `atmosphere` | string | optional: `manor`, `witch`, `farm` or `victorian`; inferred for built-in titles when absent |
 | `intro` | string | shown to everyone in the lobby, before round 1 (before the murder) |
 | `victim` | object | `{"name", "description"}` — the victim is not played by a guest |
 | `rounds` | array | **required**, ≥1. Each: `title`, `narration` (host reads aloud), `publicText` (shown on every phone), `hostNotes` (host only) |

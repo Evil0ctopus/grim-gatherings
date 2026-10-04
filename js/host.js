@@ -1,14 +1,17 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=f1ed522';
+import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=atmosphere-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=f1ed522';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
+import { STARTER_MYSTERIES } from './starters.js?v=starter-mysteries-v1';
+import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=atmosphere-v1';
 
 const KEY = 'gg-host-v1';
 let S = null; // persisted host state
 const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '' };
 let peer = null, netStatus = 'offline', restartTimer = null;
+let atmosphere = null;
 const conns = new Map(); // DataConnection -> { conn, charId, token, lastSeen }
 const LIVE_PHASES = ['lobby', 'round', 'vote', 'reveal'];
 
@@ -17,6 +20,7 @@ const save = () => { if (S) localStorage.setItem(KEY, JSON.stringify(S)); };
 const app = () => document.getElementById('app');
 
 export function startHost() {
+  atmosphere = createAtmosphere();
   S = load();
   app().addEventListener('click', onClick);
   app().addEventListener('input', onInput);
@@ -32,11 +36,13 @@ export function startHost() {
 
 // ---------- Landing ----------
 function renderLanding() {
+  atmosphere.update({ room: '', phase: 'home', roundIndex: -1 }, null);
   app().className = '';
   const saved = load();
   app().innerHTML = `
     <span class="candle">🕯️</span>
-    <h1>Grim Gatherings</h1>
+    <p class="hero-eyebrow">An invitation to intrigue</p>
+    <h1 class="hero-title">Grim Gatherings</h1>
     <p class="tagline">A murder-mystery party, whispered to every guest's phone.</p>
     <div class="card gold stack">
       <h2>Host a gathering</h2>
@@ -58,6 +64,7 @@ function render() {
   if (!S) return renderLanding();
   if (location.hash !== '#host') history.replaceState(null, '', baseUrl() + '#host');
   ({ setup: renderSetup, review: renderReview, lobby: renderLobby, round: renderRound, vote: renderVote, reveal: renderReveal }[S.phase] || renderSetup)();
+  atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex, roundTitle: S.story?.rounds[S.roundIndex]?.title }, S.story);
   window.scrollTo(0, 0);
 }
 
@@ -99,7 +106,7 @@ function renderSetup() {
       ${ui.libraryError ? `<p class="err" role="alert">${esc(ui.libraryError)}</p>` : ''}
     </div>
     <div class="tabs">
-      <button class="${ui.tab === 'sample' ? 'on' : ''}" data-act="tab" data-tab="sample">Built-in mystery</button>
+      <button class="${ui.tab === 'sample' ? 'on' : ''}" data-act="tab" data-tab="sample">Ready-to-play mysteries</button>
       <button class="${ui.tab === 'paste' ? 'on' : ''}" data-act="tab" data-tab="paste">Paste story JSON</button>
       <button class="${ui.tab === 'ai' ? 'on' : ''}" data-act="tab" data-tab="ai">AI generate</button>
     </div>
@@ -110,6 +117,18 @@ function renderSetup() {
       <p class="small muted">Players are assigned to characters at random — even the murderer. You can change each assignment on the next screen.</p>
       <button class="block" data-act="use-sample" id="use-sample">Use this mystery →</button>
     </div>
+    ${STARTER_MYSTERIES.map(entry => `<div class="card gold stack" ${ui.tab === 'sample' ? '' : 'hidden'}>
+      <h2>${esc(entry.title)}</h2>
+      <p>${esc(entry.blurb)}</p>
+      <p><span class="pill">${formatPlayerRange(entry.story)}</span> <span class="small muted">3 clue rounds + final vote</span></p>
+      <p class="small muted">${esc(entry.inspiration)}</p>
+      <details><summary>Content &amp; hosting notes</summary>
+        <p class="small">${esc(entry.contentNote)}</p>
+        <p class="small muted">The four required characters carry the solving clues. Extra players get supporting roles with their own secrets and motives. The host does not count toward the player total unless also playing a character.</p>
+      </details>
+      <p class="small muted">Choose this story to fit it to your player list, then edit anything and save your own version.</p>
+      <button class="block" data-act="use-starter" data-id="${esc(entry.id)}">Play this mystery →</button>
+    </div>`).join('')}
     <div class="card stack" ${ui.tab === 'paste' ? '' : 'hidden'}>
       <h2>Paste a story</h2>
       <p class="small muted">Paste story JSON (format in the <a href="https://github.com/Evil0ctopus/grim-gatherings#story-json-format" target="_blank" rel="noopener">README</a>). Characters without a "guest" are matched to your player list in order.</p>
@@ -186,6 +205,8 @@ function renderReview() {
     <div class="row"><button class="secondary" data-act="save-story" id="save-story">${S.libraryId ? 'Update saved mystery' : 'Save to My Stories'}</button><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
       ${fieldHtml('Title', 'title', st.title)}
+      <label for="story-atmosphere">Story atmosphere</label>
+      <select id="story-atmosphere" data-path="atmosphere">${[['manor', 'Haunted manor'], ['witch', 'Witch-trial candlelight'], ['farm', 'Snowbound farmhouse'], ['victorian', 'Victorian lamplight']].map(([value, label]) => `<option value="${value}" ${storyTheme(st) === value ? 'selected' : ''}>${label}</option>`).join('')}</select>
       ${fieldHtml('Setting', 'setting', st.setting, 'area')}
       ${fieldHtml('Intro (shown to everyone before round 1)', 'intro', st.intro, 'big')}
       ${fieldHtml('Victim name', 'victim.name', st.victim.name)}
@@ -353,7 +374,7 @@ function renderReveal() {
 }
 
 function hostFooter() {
-  return `<p class="footer">Refreshing this page is safe — the game is saved on this device. <button class="secondary small" data-act="end">End game</button></p>`;
+  return `${hostAtmospherePanel()}<p class="footer">Refreshing this page is safe — the game is saved on this device. <button class="secondary small" data-act="end">End game</button></p>`;
 }
 
 function updateLive() {
@@ -370,6 +391,13 @@ function setPhase(phase, roundIndex = S.roundIndex) {
 }
 
 const actions = {
+  'atmosphere-cue'(el) {
+    const kind = el.dataset.cue;
+    if (!Object.hasOwn(CUES, kind)) return toast('That atmosphere cue is not available.');
+    const message = { t: 'atmosphere', id: crypto.randomUUID(), kind };
+    atmosphere.cue(message);
+    broadcastRaw(message);
+  },
   new() { newGame(); },
   resume() { S = load(); history.replaceState(null, '', baseUrl() + '#host'); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
   join() { const c = ($('#join-code').value || '').trim().toUpperCase(); if (c) location.href = baseUrl() + '?room=' + encodeURIComponent(c); },
@@ -413,6 +441,23 @@ const actions = {
   'load-json'() {
     ui.pasteText = $('#json').value;
     acceptStory(ui.pasteText, getGuests());
+  },
+  'use-starter'(el) {
+    const entry = STARTER_MYSTERIES.find(item => item.id === el.dataset.id);
+    if (!entry) {
+      ui.errors = ['That starter mystery is not available. Reload the page and choose again.'];
+      return renderSetup();
+    }
+    const guests = getGuests();
+    let story;
+    try {
+      story = adaptStoryForPlayers(entry.story, guests, shuffle(guests));
+    } catch (error) {
+      ui.errors = [error.message || 'This mystery cannot be used with this player list.'];
+      ui.warnings = [];
+      return renderSetup();
+    }
+    acceptStory(story, []);
   },
   'use-saved'(el) {
     const entry = getStoryLibrary().find(item => item.id === el.dataset.id);
@@ -610,6 +655,7 @@ function onChange(e) {
     r.readAsText(t.files[0]);
   }
   if (t.id === 'killer') renderReview();
+  if (t.id === 'story-atmosphere') atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex }, S.story);
 }
 
 // ---------- Networking (PeerJS, host = hub) ----------

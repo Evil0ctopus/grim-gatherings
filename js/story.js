@@ -1,4 +1,5 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
+import { storyTheme } from './atmosphere.js?v=atmosphere-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -35,6 +36,7 @@ export function normalizeStory(input, guests = []) {
   const s = {
     schemaVersion: 1,
     title: asStr(obj.title).trim(),
+    atmosphere: storyTheme(obj),
     setting: asStr(obj.setting).trim(),
     intro: asStr(obj.intro).trim(),
     victim: { name: asStr(obj.victim?.name ?? obj.victim).trim(), description: asStr(obj.victim?.description).trim() },
@@ -138,6 +140,7 @@ export function buildView(S, charId) {
   const v = {
     room: S.room,
     title: fill(st.title), setting: fill(st.setting), intro: fill(st.intro),
+    atmosphere: storyTheme(st),
     victim: { name: st.victim?.name || '', description: fill(st.victim?.description || '') },
     phase, roundIndex: ri, roundsTotal: st.rounds.length,
     roster: st.characters.map(c => ({ id: c.id, name: c.name, guest: c.guest, role: c.role, publicBlurb: fill(c.publicBlurb), claimed: !!S.claims[c.id] })),

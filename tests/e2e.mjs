@@ -14,8 +14,16 @@ const el = () => ((Date.now() - t0) / 1000).toFixed(1) + 's';
 const browser = await chromium.launch();
 const logs = [];
 async function mkPage(label, mobile) {
-  const ctx = await browser.newContext(mobile ? { ...devices['iPhone 13'], browserName: undefined } : { viewport: { width: 1280, height: 900 } });
+  const ctx = await browser.newContext(mobile ? { ...devices['iPhone 13'], browserName: undefined, reducedMotion: 'no-preference' } : { viewport: { width: 1280, height: 900 }, reducedMotion: 'no-preference' });
   const page = await ctx.newPage();
+  await page.addInitScript(() => {
+    window.effectLog = [];
+    document.addEventListener('animationstart', event => {
+      if (['envelope-open', 'chapter-enter', 'seal-stamp', 'truth-reveal'].includes(event.animationName)) {
+        window.effectLog.push(event.animationName);
+      }
+    });
+  });
   page.on('dialog', d => d.accept());
   page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') logs.push(`[${label}] ${m.text()}`); });
   page.on('pageerror', e => logs.push(`[${label}] PAGEERROR ${e.message}`));
@@ -62,6 +70,9 @@ try {
     await p.waitForSelector('#packet-name', { timeout: T });
     const name = (await p.textContent('#packet-name')).trim();
     ok(`${g} joined and got own packet`, name === byGuest[g].name, `${name}, ${el()}`);
+    await p.waitForFunction(() => window.effectLog.includes('envelope-open'), null, { timeout: T });
+    ok(`${g} received an animated character invitation`, true);
+    ok(`${g} sound starts disabled`, await p.locator('[data-sound]').getAttribute('aria-pressed') === 'false');
     players[g] = p;
   }
 
@@ -100,12 +111,17 @@ try {
   await host.click('#start-game');
   await expectRound(0);
   ok('round 1 pushed to all phones', true, el());
+  for (const g of PLAYERS) {
+    await players[g].waitForFunction(() => window.effectLog.includes('chapter-enter'), null, { timeout: T });
+    ok(`${g} saw a new-clue entrance`, true);
+  }
 
   // Player refresh / rejoin
   const rp = players['Mike'];
   await rp.reload({ waitUntil: 'load' });
   await rp.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, story.rounds[0].title, { timeout: T });
   ok('Mike refreshed and rejoined straight into his packet + round 1', (await rp.textContent('#packet-name')).trim() === byGuest['Mike'].name, el());
+  ok('refresh did not replay character or chapter effects', await rp.evaluate(() => window.effectLog.length === 0));
 
   await host.click('#next-round');
   await expectRound(1);
@@ -134,6 +150,7 @@ try {
     await players[g].click(`.vote-btn[data-vote="${target}"]`);
     votes[g] = target;
     await players[g].waitForFunction(() => document.querySelector('#my-vote')?.textContent.includes('Your vote is in'), null, { timeout: T });
+    await players[g].waitForFunction(() => window.effectLog.includes('seal-stamp'), null, { timeout: T });
   }
   await host.waitForFunction(n => document.querySelector('#votes-in b')?.textContent === String(n), PLAYERS.length, { timeout: T });
   ok('host live tally shows all votes', true, (await host.textContent('#votes-in')).trim());
@@ -141,6 +158,7 @@ try {
   await host.click('#reveal-btn');
   for (const g of PLAYERS) {
     await players[g].waitForSelector('#reveal-killer', { timeout: T });
+    await players[g].waitForFunction(() => window.effectLog.includes('truth-reveal'), null, { timeout: T });
     const k = (await players[g].textContent('#reveal-killer')).trim();
     ok(`${g} sees reveal`, k === killer.name, k);
   }

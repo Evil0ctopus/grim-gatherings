@@ -1,7 +1,9 @@
 // Guest (phone) side. Connects to the host's peer id, claims a character, renders ONLY its own packet.
 import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
+import { createAtmosphere } from './atmosphere.js?v=atmosphere-v1';
 
 export function startPlayer(room) {
+  const atmosphere = createAtmosphere();
   const hostId = PEER_PREFIX + room.toLowerCase();
   const KEY = 'gg-player-v1-' + room;
   let me;
@@ -102,6 +104,9 @@ export function startPlayer(room) {
       window.__gg = { view };
       if (view.me !== me.charId) { me.charId = view.me; saveMe(); }
       render();
+      atmosphere.update({ room, me: view.me, phase: view.phase, roundIndex: view.roundIndex, roundTitle: view.currentRound?.title, myVote: view.vote?.myVote }, view);
+    } else if (msg.t === 'atmosphere') {
+      atmosphere.cue(msg);
     } else if (msg.t === 'error') toast(msg.msg, 4000);
     else if (msg.t === 'ended') { ended = true; localStorage.removeItem(KEY); body.innerHTML = `<span class="candle">🕯️</span><h1>The candles are out</h1><p class="center">The host has ended this gathering. Thanks for playing!</p>`; lastHtml = ''; }
   }
@@ -118,11 +123,7 @@ export function startPlayer(room) {
     body.querySelectorAll('details[data-k]').forEach(d => { if (open.has(d.dataset.k)) d.open = true; });
     lastHtml = html;
     if (isNewRound) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      const card = $('#phase-card'); if (card) card.classList.add('new');
-      if (view.phase === 'round') { toast('🕯️ New clues have arrived'); try { navigator.vibrate && navigator.vibrate([120, 60, 120]); } catch {} }
-      if (view.phase === 'vote') { toast('Time to vote!'); try { navigator.vibrate && navigator.vibrate(200); } catch {} }
-      if (view.phase === 'reveal') { try { navigator.vibrate && navigator.vibrate([300, 100, 300]); } catch {} }
+      window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }
     if (view && view.me) prevKey = key; else prevKey = null;
   }
@@ -147,7 +148,7 @@ export function startPlayer(room) {
   }
 
   function cluesBlock(r) {
-    return `${r.clues.length ? `<ul class="secrets">${r.clues.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : '<p class="muted">No new clues for you this round.</p>'}
+    return `${r.clues.length ? `<ul class="secrets clue-cards">${r.clues.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : '<p class="muted">No new clues for you this round.</p>'}
       ${r.instructions ? `<div class="label" style="margin-top:12px">What to do</div><p>${esc(r.instructions)}</p>` : ''}`;
   }
 
@@ -178,7 +179,7 @@ export function startPlayer(room) {
     }
     const earlier = p.rounds.filter(r => v.phase !== 'round' || r.index < v.roundIndex);
     return `
-      <div class="card gold"><div class="label">You are</div><h2 id="packet-name" style="font-size:1.8rem;margin:.1em 0">${esc(p.name)}</h2>
+      <div class="card gold character-envelope" id="character-envelope"><div class="wax-seal" aria-hidden="true">GG</div><div class="label">Your private invitation · You are</div><h2 id="packet-name" style="font-size:1.8rem;margin:.1em 0">${esc(p.name)}</h2>
         <p style="margin:0"><i>${esc(p.role)}</i></p>
         ${p.guest ? `<p class="small muted" style="margin-bottom:0">Played by ${esc(p.guest)}${p.guestNote ? ` — lean into it: <i>${esc(p.guestNote)}</i>` : ''}</p>` : ''}</div>
       ${phaseCard}
