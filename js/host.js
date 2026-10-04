@@ -1,11 +1,11 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=round-votes-v1';
+import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=accusation-circle-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
-import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=f1ed522';
-import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522';
-import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
-import { STARTER_MYSTERIES } from './starters.js?v=starter-mysteries-v1';
+import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=accusation-circle-v1';
+import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=accusation-circle-v1';
+import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=accusation-circle-v1';
+import { STARTER_MYSTERIES } from './starters.js?v=accusation-circle-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 
@@ -21,9 +21,27 @@ const load = () => { try { return JSON.parse(localStorage.getItem(KEY)); } catch
 const save = () => { if (S) localStorage.setItem(KEY, JSON.stringify(S)); };
 const app = () => document.getElementById('app');
 
+function restoreGame() {
+  S = load();
+  if (S?.story && S.phase !== 'setup') {
+    const result = normalizeStory(S.story);
+    if (!result.story) {
+      ui.errors = ['This saved game needs its round accusation clues updated before it can resume.', ...result.errors];
+      ui.warnings = result.warnings;
+      S.phase = 'review'; S.roundIndex = -1; S.wasLive = false;
+      save();
+    } else {
+      S.story = result.story;
+      ui.errors = [];
+      ui.warnings = result.warnings;
+      save();
+    }
+  }
+}
+
 export function startHost() {
   atmosphere = createAtmosphere();
-  S = load();
+  restoreGame();
   app().addEventListener('click', onClick);
   app().addEventListener('input', onInput);
   app().addEventListener('change', onChange);
@@ -209,7 +227,7 @@ function renderReview() {
   const st = S.story;
   app().innerHTML = `
     <h1>Review the Story</h1>
-    <p class="center muted">Edit anything — changes save automatically. Guests can't see this screen.</p>
+    <p class="center muted">Edit anything — changes save automatically. Guests can't see this screen. Each round needs one read-aloud clue per character, forming a complete circle with no repeated targets. Private clues are optional.</p>
     ${errBox()}
     <div class="row"><button class="secondary" data-act="save-story" id="save-story">${S.libraryId ? 'Update saved mystery' : 'Save to My Stories'}</button><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
@@ -239,8 +257,10 @@ function renderReview() {
         ${fieldHtml('Secrets (private)', `characters.${i}.secrets`, c.secrets, 'lines')}
         ${fieldHtml('Motive (private)', `characters.${i}.motive`, c.motive, 'area')}
         ${st.rounds.map((r, ri) => `<h3>${esc(r.title)}</h3>
-          ${fieldHtml('Clues', `characters.${i}.rounds.${ri}.clues`, c.rounds[ri]?.clues || [], 'lines')}
-          ${fieldHtml('Instructions', `characters.${i}.rounds.${ri}.instructions`, c.rounds[ri]?.instructions || '', 'area')}`).join('')}
+          <label>Read-aloud accusation target</label>
+          <select aria-label="Accusation target for ${esc(c.name)}, round ${ri + 1}" data-path="characters.${i}.rounds.${ri}.readAloud.accuses"><option value="" ${!c.rounds[ri]?.readAloud?.accuses ? 'selected' : ''}>Choose a character</option>${st.characters.filter(target => target.id !== c.id).map(target => `<option value="${esc(target.id)}" ${c.rounds[ri]?.readAloud?.accuses === target.id ? 'selected' : ''}>${esc(target.name)}</option>`).join('')}</select>
+          ${fieldHtml('Read aloud to everyone (evidence against the target)', `characters.${i}.rounds.${ri}.readAloud.text`, c.rounds[ri]?.readAloud?.text || '', 'area')}
+          ${fieldHtml('Optional private clues (not the read-aloud script)', `characters.${i}.rounds.${ri}.clues`, c.rounds[ri]?.clues || [], 'lines')}`).join('')}
       </details>`).join('')}
     <h2>Rounds</h2>
     ${st.rounds.map((r, ri) => `<details><summary>${esc(r.title)}</summary>
@@ -320,7 +340,11 @@ function renderRound() {
       <div>
         <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(r.narration)}</div></div>
         ${r.hostNotes ? `<p class="muted small">🕯️ ${esc(r.hostNotes)}</p>` : ''}
-        <div class="card"><div class="label">On every phone now</div>${paras(r.publicText)}<p class="small muted">Each guest also got their own private clues and instructions for this round.</p></div>
+        <div class="card"><div class="label">On every phone now</div>${paras(r.publicText)}<p>Go around the room: every player reads their public accusation clue in full, including the killer. Each character receives exactly one accusation. Then discuss private clues if you wish, and vote freely.</p>
+        <div class="label">Read-aloud circle (not voting)</div><ul class="clean">${st.characters.map(c => {
+          const target = st.characters.find(t => t.id === c.rounds[S.roundIndex].readAloud.accuses);
+          return `<li>${esc(c.name)}${c.guest ? ` (${esc(c.guest)})` : ''} → ${esc(target.name)}</li>`;
+        }).join('')}</ul></div>
       </div>
       <div>
         <div class="card"><h2>The guests</h2><div id="roster">${rosterHtml()}</div></div>
@@ -416,7 +440,7 @@ const actions = {
     broadcastRaw(message);
   },
   new() { newGame(); },
-  resume() { S = load(); history.replaceState(null, '', baseUrl() + '#host'); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
+  resume() { restoreGame(); history.replaceState(null, '', baseUrl() + '#host'); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
   join() { const c = ($('#join-code').value || '').trim().toUpperCase(); if (c) location.href = baseUrl() + '?room=' + encodeURIComponent(c); },
   home() { history.replaceState(null, '', baseUrl()); renderLanding(); },
   'add-guest'() {

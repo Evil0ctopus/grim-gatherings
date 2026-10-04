@@ -1,6 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
+import { validateAccusationCircles } from './accusations.js?v=accusation-circle-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -78,8 +79,15 @@ export function normalizeStory(input, guests = []) {
         backstory: asStr(c.backstory).trim(),
         secrets: asLines(c.secrets),
         motive: asStr(c.motive).trim(),
-        rounds: s.rounds.map((_, ri) => ({ clues: asLines(rounds[ri]?.clues), instructions: asStr(rounds[ri]?.instructions).trim() })),
+        rounds: s.rounds.map((_, ri) => ({
+          clues: asLines(rounds[ri]?.clues),
+          readAloud: {
+            accuses: asStr(rounds[ri]?.readAloud?.accuses).trim(),
+            text: asStr(rounds[ri]?.readAloud?.text).trim(),
+          },
+        })),
       });
+      if (rounds.some(r => r?.instructions)) warnings.push(`${name || id}: legacy instruction fields were removed. Put relevant events in the read-aloud evidence or private clues instead.`);
     });
     if (s.characters.filter(c => !c.optional).length < 2) errors.push('At least two characters must remain required so the mystery can be played with a smaller group.');
   }
@@ -111,6 +119,7 @@ export function normalizeStory(input, guests = []) {
     if (free.length) warnings.push(`More guests than characters: ${free.map(g => g.name).join(', ')} have no character.`);
   }
   if (!s.finale.votePrompt) s.finale.votePrompt = `Who killed ${s.victim.name || 'the victim'}?`;
+  if (s.characters.length >= 2) errors.push(...validateAccusationCircles(s));
 
   return { story: errors.length ? null : s, errors, warnings };
 }
@@ -158,7 +167,14 @@ export function buildView(S, charId) {
       name: ch.name, role: ch.role, guest: ch.guest, guestNote: ch.guestNote,
       publicBlurb: fill(ch.publicBlurb), backstory: fill(ch.backstory), secrets: ch.secrets.map(fill), motive: fill(ch.motive),
       isKiller: st.solution.killerId === ch.id,
-      rounds: st.rounds.slice(0, last + 1).map((r, i) => ({ index: i, title: fill(r.title), clues: (ch.rounds[i]?.clues || []).map(fill), instructions: fill(ch.rounds[i]?.instructions || '') })),
+      rounds: st.rounds.slice(0, last + 1).map((r, i) => ({
+        index: i, title: fill(r.title), clues: (ch.rounds[i]?.clues || []).map(fill),
+        readAloud: {
+          accuses: ch.rounds[i]?.readAloud?.accuses || '',
+          targetName: fill(`{${ch.rounds[i]?.readAloud?.accuses || ''}}`),
+          text: fill(ch.rounds[i]?.readAloud?.text || ''),
+        },
+      })),
     };
   }
   if (phase === 'vote' || phase === 'reveal') {

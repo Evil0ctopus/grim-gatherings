@@ -26,12 +26,16 @@ const SCHEMA_DOC = `Return ONLY a JSON object with this exact shape (no markdown
     {"id": string /* short lowercase slug, unique */, "guest": string /* guest's name */, "guestNote": string /* the guest's description */, "optional": boolean /* supporting role that can be omitted when fewer guests attend */,
      "name": string, "role": string, "publicBlurb": string /* what everyone knows */,
      "backstory": string /* private, 60-120 words */, "secrets": [string, ...] /* 2-3 private secrets */, "motive": string,
-     "rounds": [ {"clues": [string, ...] /* 1-2 private clues */, "instructions": string /* what to do/say this round */ } ] /* one entry per round */ }
+     "rounds": [ {"readAloud": {"accuses": string /* another character id */, "text": string /* unique public evidence accusing that target; read aloud verbatim */}, "clues": [string, ...] /* optional private clues, may be empty */ } ] /* one entry per round */ }
   ],
   "finale": {"narration": string /* host reads before voting */, "votePrompt": string},
   "solution": {"killerId": string /* id of the killer character */, "explanation": string /* how the clues prove it */, "revealNarration": string /* dramatic reveal read aloud */}
 }
-Rules: exactly one killer among the characters. The killer's packet must say clearly they are the killer and that they may lie. The killer and every character needed to solve the mystery must be required, not optional.
+Rules: exactly one killer among the characters. The killer's packet must say clearly they are the killer and may lie in discussion, but MUST read their public clue verbatim. The killer and every character needed to solve the mystery must be required, not optional.
+In EVERY round, each character reads exactly one unique accusation clue against exactly one OTHER character. Each character must also receive exactly one accusation: no duplicated targets, self-accusations or missing targets. The directed accusations must form ONE complete circle through the entire cast, not separate cycles. Change the circle between rounds.
+Write concrete evidence against every target, including innocent characters with plausible red herrings. Progress from suspicious circumstances in round 1 to connections in round 2 and decisive evidence or clarifying context in round 3. Keep the solution fair.
+Public accusation text must be self-contained and refer to its target using {id}. Describe evidence objectively, not as a speaker-specific eyewitness claim, so it can be reassigned if optional roles are omitted. Never refer to another suspect as guilty in the same clue.
+Convert plot-critical actions into past events described by evidence or narration rather than mandatory performance tasks. Optional roleplay suggestions may accompany private clues, but never replace the mandatory public clue. Do not output an "instructions" field or reminders about not acting. Scripted accusations are not votes; players may vote for any other suspect.
 The mystery must be fair and solvable from the clues spread across characters (several characters each hold one piece; key clues in rounds 2-3).
 Give every other character a secret and a plausible motive (red herrings). In any text you may write {id} to refer to a character (rendered as "Name (Guest)") and {victim} for the victim.
 Tailor characters to each guest's description in a fun, kind way. Tone: creepy, gothic, PG-13, fun for a party.`;

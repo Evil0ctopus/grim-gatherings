@@ -1,3 +1,5 @@
+import { accusationEvidence, assignAccusationCircles, validateAccusationCircles } from './accusations.js?v=accusation-circle-v1';
+
 export const STORY_LIBRARY_KEY = 'gg-story-library-v1';
 
 export function readStoryLibrary(raw) {
@@ -41,6 +43,13 @@ export function adaptStoryForPlayers(template, guests, assignedGuests = guests) 
   }
 
   const selected = [...required, ...optional.slice(0, guests.length - required.length)];
+  if (selected.length !== characters.length && characters.some(c => c.rounds?.some(r => r.readAloud))) {
+    const errors = validateAccusationCircles(story);
+    if (errors.length) throw new Error(errors.join(' '));
+    const evidence = accusationEvidence(story);
+    story.characters = selected;
+    assignAccusationCircles(story, evidence);
+  }
   const selectedIds = new Set(selected.map(character => character.id));
   const omittedNames = Object.fromEntries(characters.filter(character => !selectedIds.has(character.id)).map(character => [character.id, character.name]));
   story.characters = selected;

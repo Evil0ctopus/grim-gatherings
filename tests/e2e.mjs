@@ -103,6 +103,10 @@ try {
       const firstClue = (me.rounds[ri].clues[0] || '').replace(/\{[a-z0-9_-]+\}/gi, '').slice(0, 30);
       const otherClueLeak = story.characters.filter(c => c.id !== me.id).some(c => c.rounds[ri].clues.some(cl => { const s = cl.replace(/\{[a-z0-9_-]+\}.*/i, ''); return s.length > 25 && raw.includes(s.slice(0, 40)); }));
       ok(`round ${ri + 1}: ${g} got round + own clues`, clues.includes(firstClue.split(/[{]/)[0].trim().slice(0, 25)));
+      const publicClue = await p.locator('#my-clues .read-aloud-clue').textContent();
+      const readAloud = await p.evaluate(() => window.__gg.view.packet.rounds.at(-1).readAloud);
+      ok(`round ${ri + 1}: ${g} sees their unique read-aloud accusation`, readAloud.accuses === me.rounds[ri].readAloud.accuses && publicClue.includes(readAloud.text) && publicClue.includes(readAloud.targetName));
+      ok(`round ${ri + 1}: ${g} has separate optional private clues`, clues.includes('Optional private clues') && !clues.includes('What to do') && !clues.includes('No acting'));
       ok(`round ${ri + 1}: ${g} got no other players' clues`, !otherClueLeak);
       const futureLeak = raw.includes(JSON.stringify(me.rounds[ri + 1]?.clues?.[0] || '###none###').slice(1, 40));
       ok(`round ${ri + 1}: ${g} did not get future-round clues`, !futureLeak);

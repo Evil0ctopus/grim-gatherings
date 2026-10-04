@@ -30,8 +30,8 @@
       "secrets": ["You are deeply in debt.", "You argued with Elias on the gallery an hour before he died."],
       "motive": "You inherit the land.",
       "rounds": [
-        { "clues": ["You saw {wick} climbing the stairs just before the lamp died."], "instructions": "Act shocked. Mention the argument only if asked." },
-        { "clues": ["The brass key opens the oil store — and {wick} has the only other copy."], "instructions": "Point the group toward the oil store." }
+        { "readAloud": { "accuses": "wick", "text": "{wick} climbed the stairs just before the lamp died. Lamp oil stains the assistant keeper's sleeve: why was he near the gallery when he claims he stayed in the oil store?" }, "clues": ["You argued with Elias about selling the land; you fear that makes you look guilty."] },
+        { "readAloud": { "accuses": "doc", "text": "{doc} kept Elias's warning about the shipwreck private. That silence delayed the truth, but his warning concerned a family crime, not medical treatment. What else did the doctor withhold?" }, "clues": ["The brass key opens the oil store; Wick has the only other copy."] }
       ]
     },
     {
@@ -45,8 +45,8 @@
       "secrets": ["YOU ARE THE KILLER. You may lie.", "You cut the lamp's oil line and pushed Elias down the stairs in the dark."],
       "motive": "Elias was going to expose your family's crime at dawn.",
       "rounds": [
-        { "clues": ["There is lamp oil on your sleeve."], "instructions": "Say you were in the oil store the whole time — alone." },
-        { "clues": ["Nell argued with Elias tonight. Use it."], "instructions": "Steer suspicion toward {nell}." }
+        { "readAloud": { "accuses": "doc", "text": "{doc} knew Elias's health and had private visits with him. Elias said he feared someone on the island, yet the doctor kept that warning quiet. Why?" }, "clues": ["There is lamp oil on your sleeve. You may lie in discussion, but read your public clue in full."] },
+        { "readAloud": { "accuses": "nell", "text": "{nell} inherits the land and argued for a sale, but Elias's logbook threatens to expose a shipwreck, not a property dispute. The argument supplies a motive worth questioning, not proof of the push." }, "clues": ["Your claimed oil-store alibi is false."] }
       ]
     },
     {
@@ -56,12 +56,12 @@
       "name": "Dr. Ruth Calder",
       "role": "The Visiting Doctor",
       "publicBlurb": "A doctor visiting from the mainland to check on the keeper's failing health.",
-      "backstory": "You have been treating Elias for months. He confided in you.",
+      "backstory": "You have been treating Elias for months. He confided in you. You feared that exposing his warning would also expose how long you had kept silent.",
       "secrets": ["Elias told you he was afraid of someone on the island."],
-      "motive": "None known — or is there?",
+      "motive": "Protect your reputation from questions about the warning you withheld.",
       "rounds": [
-        { "clues": ["The bruises on Elias's back are hand-shaped. He was pushed."], "instructions": "Announce that this was murder, not an accident." },
-        { "clues": ["Elias once told you: 'Wick's father sank that ship, and the boy knows I saw.'"], "instructions": "Reveal what Elias told you." }
+        { "readAloud": { "accuses": "nell", "text": "{nell} argued with Elias on the gallery an hour before he died. Debts and the inheritance give the niece a reason to want the land, while hand-shaped bruises show someone pushed him." }, "clues": ["The keeper's death was not an accidental fall."] },
+        { "readAloud": { "accuses": "wick", "text": "{wick} has the only other oil-store key. Elias's warning named Wick's father as the man who sank the ship; exposure was due at dawn. The key, oil-stained sleeve and stair sighting connect motive, blackout and opportunity." }, "clues": [] }
       ]
     }
   ],

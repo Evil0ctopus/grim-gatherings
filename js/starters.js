@@ -1,4 +1,6 @@
 // Required roles carry the solving clues; optional roles add motives and corroboration.
+import { preparePublicEvidence } from './public-evidence.js?v=accusation-circle-v1';
+
 const clueRound = (clues, instructions) => ({ clues, instructions });
 
 function character(id, name, role, publicBlurb, backstory, secrets, motive, rounds, optional = false) {
@@ -391,6 +393,10 @@ const inheritanceStory = {
       ], true),
   ],
 };
+
+for (const [story, kind] of [[witchStory, 'witch'], [farmStory, 'farm'], [inheritanceStory, 'victorian']]) {
+  preparePublicEvidence(story, kind);
+}
 
 export const STARTER_MYSTERIES = [
   {

@@ -1,6 +1,6 @@
 # 🕯️ Grim Gatherings
 
-A murder-mystery party web app. The host (narrator) runs the game from one screen; every guest joins on their phone and sees **only their own secret character packet**, with new clues pushed to them each round. Finale: everyone votes whodunit on their phone, the host reveals the killer.
+A murder-mystery party web app. The host (narrator) runs the game from one screen; every guest joins on their phone and sees **only their own character packet**, with a new read-aloud accusation and optional private clues each round. Everyone accuses one other character and receives exactly one accusation in a complete circle. Everyone votes whodunit on their phone; the host reveals the killer.
 
 **Live:** https://evil0ctopus.github.io/grim-gatherings/
 
@@ -17,11 +17,13 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 2. Add each player by name with **Add player**; optionally add a short description. Choose a story under **Ready-to-play mysteries** (or paste a story JSON / generate with AI).
 3. Review the story — every character's text is editable. Use the **Assign player** dropdowns to control who plays each character; assignments are unique. Tap **Open the doors**.
 4. A QR code, link and room code appear. Guests scan it, tap their assigned name, and read their secret packet.
-5. When everyone has joined (green dots), tap **Begin Round 1** and read the narration aloud. Each phone gets that round's private clues. Let people mingle ~15 min, then **Vote after Round 1**. Players can change their accusation until you close that round's voting and advance to the next clues.
+5. When everyone has joined (green dots), tap **Begin Round 1** and read the narration aloud. Go around the room so every player reads their **Read aloud to everyone** evidence in full, including the killer. Each player accuses one other character and each character receives exactly one accusation. The host screen lists the circle. Then discuss for ~15 min, sharing optional private clues as desired, and tap **Vote after Round 1**. Scripted evidence is not a vote: players can vote for any other suspect and change their vote until voting closes.
 6. Vote after every round. After the last round's vote, watch the live tally, then hit **Reveal the killer**. The room bar keeps connection status separate from a compact voting summary. Click or tap that summary (or focus it and press Enter) to open the complete suspect history below the bar: round leaders, each suspect's cumulative vote share, change in percentage points, and per-round counts. Phones show a short **Votes · percentage** label; the expanded history shows the full names. The bar stays the same height.
 7. Keep the host screen open the whole game. Refreshing it is safe (the game is saved on that device); guests reconnect automatically.
 
 Guests who refresh, lock their phone, or lose signal just reopen the same link — they're put straight back on their character and the current round.
+
+The built-in accusation circle changes between rounds and is rebuilt when optional roles are omitted, preserving the evidence against each remaining character. Clues progress from suspicious circumstances to connections and final evidence or explanations of red herrings. Story events are described in evidence and narration; optional roleplay can accompany discussion without being needed to release a clue.
 
 Vote share is the percentage of all ballots cast across the released rounds, not a statistical probability of guilt. Every submitted round ballot has equal weight; changing an accusation replaces that player's ballot for that round. Ties are displayed as ties, and the change compares cumulative share with the previous round's cumulative share. Missing votes are not counted as abstention ballots. The host can close an incomplete vote after a warning. Previous-round navigation retains that round's ballots; reopening its voting permits corrections. History and ballots survive refresh. Only aggregate counts are sent publicly, not who voted for whom. Final win/lose feedback uses the final round's votes, not the cumulative trend.
 
@@ -39,11 +41,11 @@ Players can use **Leave game → Home** at any stage, including the reveal. Conn
 
 These are original fictional mysteries, not reconstructions of real murders or claims about real suspects. Deaths occur off-screen; there is no graphic violence. The witch-trial story treats persecution and false accusations as injustices, not proof of witchcraft.
 
-Each has an opening, three narrated clue rounds, private character packets, secrets, motives, voting and a complete reveal. Four required characters hold the solving evidence. Additional players receive optional supporting roles with their own secrets, clues and red herrings; omitting those roles does not remove the core evidence. Player totals exclude the narrator unless the narrator also plays a character.
+Each has an opening, three narrated clue rounds, character packets with mandatory public accusations and optional private clues, secrets, motives, voting and a complete reveal. Four required characters hold the solving evidence. Additional players receive optional supporting roles with their own secrets, accusations and red herrings; omitting those roles does not remove the core evidence. Player totals exclude the narrator unless the narrator also plays a character.
 
 Add your players and choose **Play this mystery**. The cast automatically fits the listed count; unsupported counts show an error. Review, edit and save a personal version without changing the built-in original. A saved version contains the cast selected for that game; select the original again to use its full player range.
 
-Unit checks: `node --test tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
+Unit checks: `node --test tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
 
 ## Atmosphere and event effects
 
@@ -91,11 +93,17 @@ Each character:
 | `publicBlurb` | string | what everyone knows — visible to all players |
 | `backstory`, `motive` | string | private |
 | `secrets` | string[] | private (a single string is also accepted) |
-| `rounds` | array | one entry per story round, in order: `{"clues": string[], "instructions": string}` — private, unlocked when that round starts |
+| `rounds` | array | one entry per story round, in order: `{"readAloud": {"accuses": "otherId", "text": "Evidence against {otherId}..."}, "clues": []}` — unlocked when that round starts |
 
 Placeholders: in any text, `{someId}` becomes that character's name plus guest, e.g. `{wick}` → "Jonah Wick (Mike)"; `{victim}` becomes the victim's name.
 
-Tips for writing a good one (for humans or AIs): exactly one killer; tell the killer clearly in their secrets that they are the killer and may lie; spread the solving clues across several characters, with the decisive ones in later rounds; give everyone else a secret + motive as red herrings; one character per guest.
+`readAloud` is mandatory for every character in every round. `accuses` must be another character's id. Each target must appear exactly once per round, and the directed accusations must form one complete circle (not separate pairs or groups). Each public text must be unique and contain concrete evidence against its target. `clues` are optional private material and may be empty. The editor, imports, saved stories and AI output are validated before play.
+
+Write read-aloud evidence objectively with `{targetId}`, rather than as a speaker-specific eyewitness claim, so it can move to another speaker when optional roles are omitted. The app preserves each remaining target's evidence and rebuilds the circle for the reduced cast. Put essential solving evidence against required characters.
+
+Older JSON and saved games with only `clues` / `instructions` need authored `readAloud` entries before play; the app does not guess accusations from private information. Legacy instruction fields are discarded with a warning when a valid story is loaded. Move useful actions into narrated events or evidence. An older in-progress game opens in story review on resume, keeping its existing story for editing rather than silently replacing it.
+
+Tips for writing a good one (for humans or AIs): exactly one killer; tell the killer clearly in their secrets that they are the killer and may lie in discussion, but must read their public clue in full; spread the solving evidence across several characters, with the decisive pieces in later rounds; give everyone else a secret + motive as red herrings; one character per guest.
 
 Full example (also in [`examples/example-story.json`](examples/example-story.json)):
 
@@ -132,8 +140,8 @@ Full example (also in [`examples/example-story.json`](examples/example-story.jso
       "secrets": ["You are deeply in debt.", "You argued with Elias on the gallery an hour before he died."],
       "motive": "You inherit the land.",
       "rounds": [
-        { "clues": ["You saw {wick} climbing the stairs just before the lamp died."], "instructions": "Act shocked. Mention the argument only if asked." },
-        { "clues": ["The brass key opens the oil store — and {wick} has the only other copy."], "instructions": "Point the group toward the oil store." }
+        { "readAloud": { "accuses": "wick", "text": "{wick} climbed the stairs just before the lamp died. Lamp oil stains the assistant keeper's sleeve: why was he near the gallery when he claims he stayed in the oil store?" }, "clues": ["You argued with Elias about selling the land; you fear that makes you look guilty."] },
+        { "readAloud": { "accuses": "doc", "text": "{doc} kept Elias's warning about the shipwreck private. That silence delayed the truth, but his warning concerned a family crime, not medical treatment. What else did the doctor withhold?" }, "clues": ["The brass key opens the oil store; Wick has the only other copy."] }
       ]
     },
     {
@@ -147,8 +155,8 @@ Full example (also in [`examples/example-story.json`](examples/example-story.jso
       "secrets": ["YOU ARE THE KILLER. You may lie.", "You cut the lamp's oil line and pushed Elias down the stairs in the dark."],
       "motive": "Elias was going to expose your family's crime at dawn.",
       "rounds": [
-        { "clues": ["There is lamp oil on your sleeve."], "instructions": "Say you were in the oil store the whole time — alone." },
-        { "clues": ["Nell argued with Elias tonight. Use it."], "instructions": "Steer suspicion toward {nell}." }
+        { "readAloud": { "accuses": "doc", "text": "{doc} knew Elias's health and had private visits with him. Elias said he feared someone on the island, yet the doctor kept that warning quiet. Why?" }, "clues": ["There is lamp oil on your sleeve. You may lie in discussion, but read your public clue in full."] },
+        { "readAloud": { "accuses": "nell", "text": "{nell} inherits the land and argued for a sale, but Elias's logbook threatens to expose a shipwreck, not a property dispute. The argument supplies a motive worth questioning, not proof of the push." }, "clues": ["Your claimed oil-store alibi is false."] }
       ]
     },
     {
@@ -158,12 +166,12 @@ Full example (also in [`examples/example-story.json`](examples/example-story.jso
       "name": "Dr. Ruth Calder",
       "role": "The Visiting Doctor",
       "publicBlurb": "A doctor visiting from the mainland to check on the keeper's failing health.",
-      "backstory": "You have been treating Elias for months. He confided in you.",
+      "backstory": "You have been treating Elias for months. He confided in you. You feared that exposing his warning would also expose how long you had kept silent.",
       "secrets": ["Elias told you he was afraid of someone on the island."],
-      "motive": "None known — or is there?",
+      "motive": "Protect your reputation from questions about the warning you withheld.",
       "rounds": [
-        { "clues": ["The bruises on Elias's back are hand-shaped. He was pushed."], "instructions": "Announce that this was murder, not an accident." },
-        { "clues": ["Elias once told you: 'Wick's father sank that ship, and the boy knows I saw.'"], "instructions": "Reveal what Elias told you." }
+        { "readAloud": { "accuses": "nell", "text": "{nell} argued with Elias on the gallery an hour before he died. Debts and the inheritance give the niece a reason to want the land, while hand-shaped bruises show someone pushed him." }, "clues": ["The keeper's death was not an accidental fall."] },
+        { "readAloud": { "accuses": "wick", "text": "{wick} has the only other oil-store key. Elias's warning named Wick's father as the man who sank the ship; exposure was due at dawn. The key, oil-stained sleeve and stair sighting connect motive, blackout and opportunity." }, "clues": [] }
       ]
     }
   ],

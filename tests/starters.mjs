@@ -51,7 +51,8 @@ test('the starter catalog contains three distinct, complete fictional mysteries'
       assert.ok(character.secrets.length >= 2);
       assert.equal(character.rounds.length, 3);
       for (const round of character.rounds) {
-        assert.ok(round.clues.length && round.instructions);
+        assert.ok(round.clues.length && round.readAloud.accuses && round.readAloud.text);
+        assert.equal(round.instructions, undefined);
       }
     }
     const killer = entry.story.characters.find(c => c.id === entry.story.solution.killerId);

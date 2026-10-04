@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { adaptStoryForPlayers, getPlayerRange, makeStoryTemplate, readStoryLibrary, upsertStory } from '../js/library.js';
 import { normalizeStory } from '../js/story.js';
 import { buildSampleStory } from '../js/sample.js';
+import { assignAccusationCircles } from '../js/accusations.js';
 
 const story = {
   title: 'The Old House',
@@ -49,6 +50,8 @@ test('optional characters expand the player range and are omitted when attendanc
     rounds: [{ title: 'The clue', narration: 'Ask {visitor} what they saw.' }],
     solution: { killerId: 'keeper' },
   };
+  for (const c of template.characters) c.rounds = [{ clues: [] }];
+  assignAccusationCircles(template, Object.fromEntries(template.characters.map(c => [c.id, [`{${c.id}} had a key to the house.`]])));
   assert.deepEqual(getPlayerRange(template), { minPlayers: 2, maxPlayers: 4 });
   const threePlayerStory = adaptStoryForPlayers(template, [{ name: 'Sarah' }, { name: 'Mike' }, { name: 'Priya' }]);
   assert.deepEqual(threePlayerStory.characters.map(character => character.id), ['keeper', 'doctor', 'visitor']);

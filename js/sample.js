@@ -2,6 +2,7 @@
 // Characters are included in PRIORITY order: the first four alone contain a complete, solvable chain of clues.
 // Extra characters add corroborating clues and red herrings. Beyond 12 guests, "mourner" characters are added.
 import { shuffle } from './util.js';
+import { preparePublicEvidence } from './public-evidence.js?v=accusation-circle-v1';
 
 const BASE = {
   title: 'The Last Séance at Ravenmoor',
@@ -53,7 +54,7 @@ const CHARS = [
     motive: 'Ambrose found something of Eleanor\'s that pointed to you. This séance was a trap. You had to silence him before "Eleanor" could speak.',
     rounds: [
       { clues: ['Ambrose\'s blue lips and clutched throat are textbook aconite (wolfsbane) poisoning. You recognise it instantly. Others may not.', '{constance} poured everyone\'s brandy from the decanter before the séance.'], instructions: 'You are the killer — you may lie. Declare it a heart attack: "His heart was always weak." Gently steer suspicion toward Constance, who poured the drinks.' },
-      { clues: ['The medium\'s séance is a fraud — you noticed a thin wire under the tablecloth. Use it.', 'There is dark soil on your trouser cuff and the toe of your shoe. Brush it off when no one is looking.'], instructions: 'If anyone says "poison," agree it might be — then point out that Madame Vesper controlled the darkness. Who benefits more than a fraud about to be exposed?' },
+      { clues: ['The medium\'s séance is a fraud — you noticed a thin wire under the tablecloth.', 'There is dark soil on your trouser cuff and the toe of your shoe.'], instructions: 'If anyone says "poison," agree it might be — then point out that Madame Vesper controlled the darkness. Who benefits more than a fraud about to be exposed?' },
       { clues: ['Your gold signet ring — a serpent coiled around a staff, the physician\'s mark — may have been glimpsed in the firelight.', 'Eleanor\'s old tonic bottle has turned up. It bears your handwriting.'], instructions: 'Stay calm. If confronted about the bottle, say you prescribed a harmless tonic and someone must have tampered with it later. Never confess — make them prove it.' },
     ],
   },
@@ -247,6 +248,7 @@ export function buildSampleStory(guests) {
   const story = JSON.parse(JSON.stringify(BASE));
   story.schemaVersion = 1;
   story.characters = chosen;
+  preparePublicEvidence(story, 'manor');
   return story;
 }
 
