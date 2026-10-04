@@ -1,5 +1,5 @@
-import { startHost } from './host.js?v=story-backdrops-v1';
-import { startPlayer } from './player.js?v=story-backdrops-v1';
+import { startHost } from './host.js?v=sound-controls-v2';
+import { startPlayer } from './player.js?v=sound-controls-v2';
 
 const params = new URLSearchParams(location.search);
 const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');

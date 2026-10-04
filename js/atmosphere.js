@@ -46,6 +46,7 @@ export function createAtmosphere() {
   catch (error) { console.warn('Could not read atmosphere preference', error); toast('Atmosphere preferences could not be loaded. Use the controls for this visit.'); }
   let audio = null;
   let sound = false;
+  let volume = 0.6;
   let timer = null;
   let dimTimer = null;
   let theme = 'manor';
@@ -72,7 +73,9 @@ export function createAtmosphere() {
   controls.innerHTML = `<summary>Atmosphere</summary>
     <label class="check-row"><input type="checkbox" data-effects ${effects ? 'checked' : ''}>Visual effects</label>
     <button type="button" class="secondary small" data-sound aria-pressed="false">Enable sound</button>
-    <p class="small muted">Sound is optional and starts only after you enable it. Reduced-motion preferences are respected.</p>`;
+    <button type="button" class="secondary small" data-test-sound disabled>Test sound</button>
+    <label class="small">Sound volume <input type="range" data-volume min="0" max="100" value="60" aria-label="Sound volume"></label>
+    <p class="small muted">Sound plays short chimes when clues, votes or reveals arrive, not continuous music. Enable sound, then use Test sound. Check your device volume and that this browser tab is not muted. Reduced-motion preferences are respected.</p>`;
   document.getElementById('app').before(controls);
   const applyPreferences = () => {
     document.body.dataset.effects = effects ? 'on' : 'off';
@@ -94,12 +97,16 @@ export function createAtmosphere() {
   });
   controls.querySelector('[data-sound]').addEventListener('click', async event => {
     const button = event.currentTarget;
+    button.disabled = true;
     try {
       if (!audio) {
         if (!window.AudioContext) throw new Error('Audio is not supported by this browser.');
         audio = new AudioContext();
       }
-      if (!sound) await audio.resume();
+      if (!sound) {
+        await audio.resume();
+        if (audio.state !== 'running') throw new Error(`Audio remained ${audio.state}.`);
+      }
       sound = !sound;
       if (!sound) {
         for (const oscillator of activeSounds) oscillator.stop();
@@ -107,16 +114,35 @@ export function createAtmosphere() {
       }
       button.textContent = sound ? 'Mute sound' : 'Enable sound';
       button.setAttribute('aria-pressed', String(sound));
+      controls.querySelector('[data-test-sound]').disabled = !sound;
       if (sound) play('round');
     } catch (error) {
       console.warn('Atmosphere audio unavailable', error);
       toast('Sound could not start. You can continue playing without it.');
+    } finally {
+      button.disabled = false;
+    }
+  });
+  controls.querySelector('[data-volume]').addEventListener('input', event => {
+    volume = Number(event.target.value) / 100;
+  });
+  controls.querySelector('[data-test-sound]').addEventListener('click', async () => {
+    try {
+      await audio.resume();
+      play('sting');
+    } catch (error) {
+      console.warn('Sound test could not start', error);
+      toast('Sound could not start. Check your browser and device audio settings.');
     }
   });
 
   function play(kind) {
-    if (!sound || !audio || audio.state !== 'running') return;
-    const base = { manor: 196, witch: 174.6, farm: 146.8, victorian: 220 }[theme];
+    if (!sound || !audio) return;
+    if (audio.state !== 'running') {
+      toast('Audio is paused by the browser. Open Atmosphere and press Test sound to resume it.');
+      return;
+    }
+    const base = { manor: 392, witch: 349.2, farm: 293.6, victorian: 440 }[theme];
     const notes = kind === 'reveal' || kind === 'sting' ? [base, base * 1.189, base * 1.5] : [base, base * 1.5];
     try {
       notes.forEach((frequency, index) => {
@@ -126,7 +152,7 @@ export function createAtmosphere() {
         oscillator.type = 'sine';
         oscillator.frequency.value = frequency;
         gain.gain.setValueAtTime(0, start);
-        gain.gain.linearRampToValueAtTime(0.06 / notes.length, start + 0.02);
+        gain.gain.linearRampToValueAtTime(0.3 * volume / notes.length, start + 0.03);
         gain.gain.exponentialRampToValueAtTime(0.0001, start + 1.1);
         oscillator.connect(gain);
         gain.connect(audio.destination);
