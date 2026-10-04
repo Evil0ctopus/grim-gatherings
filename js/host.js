@@ -1,7 +1,7 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
 import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=round-votes-v1';
-import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=round-votes-v1';
+import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=f1ed522';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=f1ed522';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=f1ed522';
@@ -268,7 +268,7 @@ function statusBar() {
   const n = connectedChars().size;
   const cls = netStatus === 'online' ? 'ok' : netStatus === 'offline' ? 'bad' : 'wait';
   return `<div class="statusbar"><span>Room <b id="room-code-bar">${esc(S.room)}</b></span>
-    <div class="vote-strip" id="vote-strip" tabindex="0" aria-label="Suspect vote history; scroll to see all suspects">${voteStripHtml(voteSummary(S))}</div>
+    <details class="vote-strip" id="vote-strip">${voteStripHtml(voteSummary(S))}</details>
     <span id="net" class="pill ${cls}">${esc(netStatus === 'online' ? 'Live' : netStatus)}</span>
     <span id="conn-count">${n}/${S.story.characters.length} here</span></div>
     <div class="game-exit"><button class="secondary small" data-act="end">End game → Home</button></div>`;

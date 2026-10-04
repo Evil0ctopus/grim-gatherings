@@ -1,5 +1,5 @@
-import { startHost } from './host.js?v=round-votes-v1';
-import { startPlayer } from './player.js?v=round-votes-v1';
+import { startHost } from './host.js?v=vote-panel-v1';
+import { startPlayer } from './player.js?v=vote-panel-v1';
 
 const params = new URLSearchParams(location.search);
 const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');

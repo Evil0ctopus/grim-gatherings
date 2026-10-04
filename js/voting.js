@@ -44,7 +44,6 @@ export function voteSummary(state) {
 
 export function voteStripHtml(summary) {
   const { rounds, suspects, total, leaders } = summary;
-  if (!rounds.length) return '<span class="vote-strip-empty">Suspect votes after each round</span>';
   const top = suspects.filter(s => leaders.includes(s.id));
   const change = top.length === 1 && top[0].change !== null ? ` (${top[0].change >= 0 ? '+' : ''}${Math.round(top[0].change)}pp)` : '';
   const leader = top.length ? `${top.length > 1 ? 'Tied: ' : 'Top: '}${top.map(s => s.name).join(' / ')} ${Math.round(top[0].share)}%${change}` : 'No votes yet';
@@ -54,5 +53,9 @@ export function voteStripHtml(summary) {
     return `<span class="vote-chip">R${r.index + 1}: ${esc(names.join(' / ') || 'No votes')} ${r.total ? Math.round(max / r.total * 100) + '%' : ''}</span>`;
   });
   const shares = suspects.map(s => `<span class="vote-chip">${esc(s.name)} ${Math.round(s.share)}%${s.change === null ? '' : ` (${s.change >= 0 ? '+' : ''}${Math.round(s.change)}pp)`} · ${rounds.map(r => `R${r.index + 1}:${r.counts[s.id]}`).join(' ')}</span>`);
-  return `<span class="vote-strip-label">${esc(leader)}</span>${chips.join('')}${shares.join('')}<span class="vote-chip">${total} ballots · vote share, not guilt probability · pp = percentage points</span>`;
+  const compact = top.length ? `${top.length > 1 ? 'Tie' : 'Votes'} · ${Math.round(top[0].share)}%` : 'Votes';
+  return `<summary title="Open suspect voting history"><span class="vote-strip-label">${esc(leader)}</span><span class="vote-compact">${esc(compact)}</span><span class="vote-expand" aria-hidden="true">▾</span></summary>
+    <div class="vote-history"><strong>Suspect voting history</strong><p>${esc(leader)}</p>
+      ${rounds.length ? chips.join('') + shares.join('') : '<p>Suspect votes open after each round.</p>'}
+      <p class="small muted">${total} ballots · vote share, not guilt probability · pp = percentage points</p></div>`;
 }

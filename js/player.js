@@ -1,7 +1,7 @@
 // Guest (phone) side. Connects to the host's peer id, claims a character, renders ONLY its own packet.
 import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
 import { createAtmosphere } from './atmosphere.js?v=volume-58-v1';
-import { voteStripHtml } from './voting.js?v=round-votes-v1';
+import { voteStripHtml } from './voting.js?v=vote-panel-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();
@@ -19,7 +19,7 @@ export function startPlayer(room) {
   let leaving = false, leaveTimer = null;
   const app = document.getElementById('app');
   app.className = '';
-  app.innerHTML = `<div class="statusbar"><span>Room <b>${esc(room)}</b></span><div class="vote-strip" id="vote-strip" tabindex="0" aria-label="Suspect vote history; scroll to see all suspects"></div><span id="pstatus" class="pill wait">connecting…</span></div><div class="game-exit"><button class="secondary small" id="leave-game">Leave game → Home</button></div><div id="pbody"></div>`;
+  app.innerHTML = `<div class="statusbar"><span>Room <b>${esc(room)}</b></span><details class="vote-strip" id="vote-strip">${voteStripHtml({ rounds: [], suspects: [], total: 0, leaders: [] })}</details><span id="pstatus" class="pill wait">connecting…</span></div><div class="game-exit"><button class="secondary small" id="leave-game">Leave game → Home</button></div><div id="pbody"></div>`;
   const body = $('#pbody');
   function returnHome() {
     clearTimeout(leaveTimer);

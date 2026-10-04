@@ -60,11 +60,18 @@ ul.secrets li{margin:.35em 0}
 .pill.wait{color:var(--gold2);border-color:#6b5223}
 .statusbar{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 12px;margin:-16px -16px 8px;background:rgba(11,8,9,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);font-size:.9rem}
 .statusbar > span{flex:none;white-space:nowrap}
-.vote-strip{flex:1;min-width:0;display:flex;align-items:center;gap:12px;overflow-x:auto;white-space:nowrap;line-height:1.5;font-size:.75rem;scrollbar-width:none}
-.vote-strip::-webkit-scrollbar{display:none}
-.vote-strip:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
+.statusbar .vote-strip{flex:1;min-width:0;margin:0;padding:0;border:0;border-radius:0;background:transparent;line-height:1.5;font-size:.75rem}
+.statusbar .vote-strip > summary{display:flex;align-items:center;justify-content:center;gap:6px;min-width:0;font-family:inherit;font-size:inherit;line-height:1.5;white-space:nowrap}
+.statusbar .vote-strip > summary::before{content:none}
+.vote-strip > summary:focus-visible{outline:1px solid var(--gold);outline-offset:2px}
 .vote-strip-label{color:var(--gold2);font-weight:700}
-.vote-chip{color:var(--muted)}
+.vote-strip > summary .vote-strip-label{overflow:hidden;text-overflow:ellipsis}
+.vote-compact{display:none;color:var(--gold2);font-weight:700}
+.vote-expand{flex:none;color:var(--gold2)}
+.vote-strip[open] .vote-expand{transform:rotate(180deg)}
+.vote-history{position:absolute;top:100%;left:0;right:0;max-height:min(60vh,420px);overflow-y:auto;white-space:normal;overflow-wrap:anywhere;padding:14px 16px;background:#140f11;border:1px solid var(--line);border-radius:0 0 12px 12px;box-shadow:0 12px 25px #000;font-size:.9rem}
+.vote-chip{display:block;color:var(--muted);padding:5px 0;border-bottom:1px solid var(--line)}
+@media(max-width:600px){.vote-strip > summary .vote-strip-label{display:none}.vote-compact{display:inline}}
 .game-exit{display:flex;justify-content:flex-end;margin:8px 0}
 .qr{background:#f4ead5;padding:12px;border-radius:12px;display:inline-block;line-height:0}
 .qr svg{width:min(70vw,300px);height:auto}

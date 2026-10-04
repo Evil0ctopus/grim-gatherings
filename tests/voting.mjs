@@ -75,3 +75,16 @@ test('public history exposes aggregates only and never future clues or solution'
   assert.equal(view.voteSummary.rounds[0].ballots, undefined);
   assert.equal(view.vote.myVote, b.id);
 });
+
+test('vote history has a compact disclosure and complete wrapped details', () => {
+  const s = state();
+  selectRoundBallots(s, 0); s.votes.a = 'b';
+  const html = voteStripHtml(voteSummary(s));
+  assert.match(html, /<summary/);
+  assert.match(html, /class="vote-compact">Votes · 100%/);
+  assert.match(html, /class="vote-history"/);
+  assert.match(html, /Top: Ben 100%/);
+  assert.match(html, /R1: Ben 100%/);
+  assert.match(html, /Alice 0%/);
+  assert.match(voteStripHtml(voteSummary(state())), /Suspect votes open after each round/);
+});
