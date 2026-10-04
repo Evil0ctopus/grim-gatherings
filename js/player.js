@@ -1,6 +1,6 @@
 // Guest (phone) side. Connects to the host's peer id, claims a character, renders ONLY its own packet.
 import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
-import { createAtmosphere } from './atmosphere.js?v=volume-50-v1';
+import { createAtmosphere } from './atmosphere.js?v=default-sound-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();
