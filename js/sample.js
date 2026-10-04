@@ -2,7 +2,7 @@
 // Characters are included in PRIORITY order: the first four alone contain a complete, solvable chain of clues.
 // Extra characters add corroborating clues and red herrings. Beyond 12 guests, "mourner" characters are added.
 import { shuffle } from './util.js';
-import { preparePublicEvidence } from './public-evidence.js?v=accusation-circle-v1';
+import { preparePublicEvidence } from './public-evidence.js?v=five-rounds-v1';
 
 const BASE = {
   title: 'The Last Séance at Ravenmoor',
@@ -201,7 +201,7 @@ const CHARS = [
   },
 ];
 
-// Extra characters for parties larger than 12 (red herrings + atmosphere only).
+// Extra characters for parties larger than 12 also join every round's accusation circle.
 const MOURNERS = [
   { name: 'Mortimer Gale', role: 'The Distant Cousin', publicBlurb: 'A twitchy cousin who arrived uninvited, hoping to be remembered in the will.', motive: 'You hoped Ambrose would leave you something — anything.', secrets: ['You are penniless and have been sleeping in the stables.'],
     rounds: [{ clues: ['You heard Ambrose shout at someone in the study this afternoon: "I know what you did to her!"'], instructions: 'Tell everyone about the shouting — but you didn\'t see who it was.' }, { clues: ['The study desk had a medical journal open to a page on poisons, with "S.A." written in the margin.'], instructions: 'Share what you saw on the desk.' }, { clues: ['You admit you snooped through everyone\'s coats. The doctor\'s bag contained an empty vial with a green residue.'], instructions: 'Confess your snooping and describe the vial.' }] },
@@ -252,4 +252,4 @@ export function buildSampleStory(guests) {
   return story;
 }
 
-export const SAMPLE_INFO = { title: BASE.title, min: 3, ideal: '4–12', blurb: 'A gothic séance goes wrong on the anniversary of a young wife\'s death. 3 rounds + a finale vote. Works for 3–12 guests (more get extra "mourner" characters).' };
+export const SAMPLE_INFO = { title: BASE.title, min: 3, ideal: '4–12', blurb: 'A gothic séance goes wrong on the anniversary of a young wife\'s death. 5 evolving evidence rounds + a reveal. Works for 3–12 guests (more get extra "mourner" characters).' };

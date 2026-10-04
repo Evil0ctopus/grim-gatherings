@@ -1,10 +1,15 @@
 // End-to-end test: host + 3 players in separate browser contexts, full game against a URL.
-// Usage: node tests/e2e.mjs [url]   (default: live GitHub Pages URL)
+// Usage: node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample]
 import { chromium, devices } from 'playwright';
 
 const URL = process.argv[2] || 'https://evil0ctopus.github.io/grim-gatherings/';
+const playerCount = Number(process.argv[3] || 4);
+const mysteryId = process.argv[4] || 'sample';
+if (!Number.isInteger(playerCount) || playerCount < 4) throw new Error('Use at least four players for this integration test.');
 const GUESTS = ['Sarah, loud, loves wine, always late', 'Mike, quiet, secretly competitive', 'Priya, theatrical, loves true crime', 'Tom, jokester'];
+for (let i = 4; i < playerCount; i++) GUESTS.push(`Guest ${i + 1}, enjoys investigating`);
 const PLAYERS = ['Sarah', 'Mike', 'Priya'];
+if (playerCount > 4) PLAYERS.push(`Guest ${playerCount}`);
 const T = 45000;
 const results = [];
 const ok = (name, cond, extra = '') => { results.push({ name, pass: !!cond, extra }); console.log(`${cond ? 'PASS' : 'FAIL'}  ${name}${extra ? ' — ' + extra : ''}`); if (!cond) throw new Error('Assertion failed: ' + name + ' ' + extra); };
@@ -41,9 +46,9 @@ try {
     await host.click('#add-guest');
   }
   ok('players can be added one at a time', await host.locator('.guest-item').count() === GUESTS.length);
-  await host.click('#use-sample');
+  await host.click(mysteryId === 'sample' ? '#use-sample' : `[data-act="use-starter"][data-id="${mysteryId}"]`);
   await host.waitForSelector('#open-lobby');
-  ok('host built sample story & reached review', true, el());
+  ok('host built selected story & reached review', true, el());
   const initialAssignments = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters.map(c => c.guest));
   const movedPlayer = initialAssignments[1], displacedPlayer = initialAssignments[0];
   await host.locator('#guest-assignment-0').selectOption(movedPlayer);
@@ -58,6 +63,10 @@ try {
 
   const S = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')));
   const story = S.story;
+  ok('the selected cast gives every listed guest exactly one character',
+    story.characters.length === playerCount &&
+    new Set(story.characters.map(c => c.guest)).size === playerCount &&
+    story.characters.every(c => GUESTS.some(g => g.split(',')[0] === c.guest)));
   const byGuest = Object.fromEntries(story.characters.map(c => [c.guest, c]));
   const killer = story.characters.find(c => c.id === story.solution.killerId);
 
@@ -72,7 +81,7 @@ try {
     ok(`${g} joined and got own packet`, name === byGuest[g].name, `${name}, ${el()}`);
     await p.waitForFunction(() => window.effectLog.includes('envelope-open'), null, { timeout: T });
     ok(`${g} received an animated character invitation`, true);
-    ok(`${g} sound starts disabled`, await p.locator('[data-sound]').getAttribute('aria-pressed') === 'false');
+    ok(`${g} sound starts enabled with a mute control`, await p.locator('[data-sound]').getAttribute('aria-pressed') === 'true');
     players[g] = p;
   }
 
@@ -100,9 +109,11 @@ try {
       await p.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, title, { timeout: T });
       const clues = await p.textContent('#my-clues');
       const raw = await p.evaluate(() => JSON.stringify(window.__gg.view));
-      const firstClue = (me.rounds[ri].clues[0] || '').replace(/\{[a-z0-9_-]+\}/gi, '').slice(0, 30);
+      ok(`round ${ri + 1}: ${g} has only previously released public evidence`,
+        await p.evaluate(n => window.__gg.view.evidenceHistory.length === n, ri));
+      const privateClues = await p.evaluate(i => window.__gg.view.packet.rounds[i].clues, ri);
       const otherClueLeak = story.characters.filter(c => c.id !== me.id).some(c => c.rounds[ri].clues.some(cl => { const s = cl.replace(/\{[a-z0-9_-]+\}.*/i, ''); return s.length > 25 && raw.includes(s.slice(0, 40)); }));
-      ok(`round ${ri + 1}: ${g} got round + own clues`, clues.includes(firstClue.split(/[{]/)[0].trim().slice(0, 25)));
+      ok(`round ${ri + 1}: ${g} got round + own clues`, privateClues.every(clue => clues.includes(clue)));
       const publicClue = await p.locator('#my-clues .read-aloud-clue').textContent();
       const readAloud = await p.evaluate(() => window.__gg.view.packet.rounds.at(-1).readAloud);
       ok(`round ${ri + 1}: ${g} sees their unique read-aloud accusation`, readAloud.accuses === me.rounds[ri].readAloud.accuses && publicClue.includes(readAloud.text) && publicClue.includes(readAloud.targetName));
@@ -133,6 +144,13 @@ try {
     for (const g of PLAYERS) {
       const p = players[g], me = byGuest[g];
       await p.waitForSelector('#vote-list', { timeout: T });
+      ok(`round ${ri + 1}: ${g} notebook adds the completed round`,
+        await p.locator('#my-case .personal-evidence').count() === ri + 1 &&
+        await p.locator('#evidence-history section').count() === ri + 1);
+      if (ri === 3 && mysteryId === 'sample') {
+        ok(`round 4: ${g} receives the correction to Constance's earlier suspicion`,
+          (await p.locator('#evidence-history').textContent()).includes('same decanter and survived'));
+      }
       const target = story.characters.find(c => c.id !== me.id && (ri === 0 || c.id === killer.id)) ||
         story.characters.find(c => c.id !== me.id);
       await p.click(`.vote-btn[data-vote="${target.id}"]`);
@@ -164,6 +182,14 @@ try {
   await voteBetweenRounds(1);
   await expectRound(2);
   ok('round 3 pushed after host refresh', true, el());
+  for (let ri = 2; ri < story.rounds.length - 1; ri++) {
+    await voteBetweenRounds(ri);
+    await expectRound(ri + 1);
+    for (const g of PLAYERS) {
+      ok(`round ${ri + 2}: ${g} has a growing personal evidence history`,
+        await players[g].locator('#my-case .personal-evidence').count() === ri + 1);
+    }
+  }
 
   await host.click('#next-round'); // -> vote
   for (const g of PLAYERS) await players[g].waitForSelector('#vote-list', { timeout: T });
@@ -180,10 +206,11 @@ try {
   await host.waitForFunction(n => document.querySelector('#votes-in b')?.textContent === String(n), PLAYERS.length, { timeout: T });
   ok('host live tally shows all votes', true, (await host.textContent('#votes-in')).trim());
   for (const g of PLAYERS) {
-    await players[g].waitForFunction(total => window.__gg.view.voteSummary.total === total, PLAYERS.length * 3, { timeout: T });
-    ok(`${g} retains all three rounds of vote history`, await players[g].evaluate(() => window.__gg.view.voteSummary.rounds.length === 3));
+    await players[g].waitForFunction(total => window.__gg.view.voteSummary.total === total, PLAYERS.length * story.rounds.length, { timeout: T });
+    ok(`${g} retains every round of vote history`, await players[g].evaluate(n => window.__gg.view.voteSummary.rounds.length === n, story.rounds.length));
+    ok(`${g} retains every round of public evidence`,
+      await players[g].locator('#my-case .personal-evidence').count() === story.rounds.length);
   }
-
   await host.click('#reveal-btn');
   for (const g of PLAYERS) {
     await players[g].waitForSelector('#reveal-killer', { timeout: T });
@@ -191,6 +218,12 @@ try {
     const k = (await players[g].textContent('#reveal-killer')).trim();
     ok(`${g} sees reveal`, k === killer.name, k);
   }
+  const largestReveal = Math.max(...await Promise.all(PLAYERS.map(g =>
+    players[g].evaluate(() => new TextEncoder().encode(JSON.stringify(window.__gg.view)).length))));
+  if (mysteryId === 'sample') {
+    ok('chunked transport delivers a reveal larger than the JSON channel limit', largestReveal > 16300, `${largestReveal} bytes`);
+  }
+  ok('no growing packet was rejected by the transport', !logs.some(message => message.includes('Message too big')));
   ok('host reveal shows killer', (await host.textContent('#killer-name')).trim() === killer.name, `${killer.name} (${killer.guest}), ${el()}`);
   const exiting = players[PLAYERS[0]];
   await exiting.click('#leave-game');
@@ -198,7 +231,7 @@ try {
   ok('player can leave the completed game and return home', true);
   const remaining = PLAYERS.slice(1);
   for (const g of remaining) {
-    ok('leaving preserves completed vote history for ' + g, await players[g].evaluate(() => window.__gg.view.voteSummary.total === 9));
+    ok('leaving preserves completed vote history for ' + g, await players[g].evaluate(total => window.__gg.view.voteSummary.total === total, PLAYERS.length * story.rounds.length));
   }
   await host.locator('[data-act="end"]').first().click();
   await host.waitForSelector('#btn-new', { timeout: T });

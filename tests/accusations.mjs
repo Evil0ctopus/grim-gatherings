@@ -87,8 +87,8 @@ test('optional cast adaptation reassigns target evidence without losing the core
   for (const entry of STARTER_MYSTERIES) {
     const story = adaptStoryForPlayers(entry.story, guests(4));
     const killer = story.solution.killerId;
-    const original = entry.story.characters.find(c => c.rounds[2].readAloud.accuses === killer).rounds[2].readAloud.text;
-    const adapted = story.characters.find(c => c.rounds[2].readAloud.accuses === killer).rounds[2].readAloud.text;
+    const original = entry.story.characters.find(c => c.rounds[4].readAloud.accuses === killer).rounds[4].readAloud.text;
+    const adapted = story.characters.find(c => c.rounds[4].readAloud.accuses === killer).rounds[4].readAloud.text;
     assert.equal(adapted, original);
     assert.ok(adapted.includes(`{${killer}}`));
     checkCircle(normalizeStory(makeStoryTemplate(story)).story);
@@ -111,8 +111,8 @@ test('packets unlock only the current public clue and keep private clues separat
   assert.ok(!JSON.stringify(packet).includes(story.characters[0].rounds[1].readAloud.text));
   state.phase = 'vote';
   assert.equal(buildView(state, 'nell').packet.rounds.length, 1);
-  state.phase = 'reveal'; state.roundIndex = 1;
-  assert.equal(buildView(state, 'nell').packet.rounds.length, 2);
+  state.phase = 'reveal'; state.roundIndex = 4;
+  assert.equal(buildView(state, 'nell').packet.rounds.length, 5);
 });
 
 test('old instructions never become public evidence or survive normalization', () => {
@@ -138,13 +138,16 @@ test('AI generation requests public accusation circles and optional private role
   assert.match(prompt, /Each character must also receive exactly one accusation/);
   assert.match(prompt, /ONE complete circle/);
   assert.match(prompt, /Optional roleplay suggestions/);
+  assert.match(prompt, /never fewer than 5 or more than 6/);
+  assert.match(prompt, /round 4 corrects earlier suspicions/);
+  assert.match(prompt, /no newly invented culprits/);
   assert.doesNotMatch(prompt, /"instructions":/);
   assert.ok(normalizeStory(content).story);
 });
 
-test('the documented JSON example matches the importable example', () => {
+test('the documentation links to a valid five-round importable example', () => {
   const readme = fs.readFileSync(new URL('../README.md', import.meta.url), 'utf8');
-  const json = readme.match(/```json\r?\n([\s\S]+?)\r?\n```/);
-  assert.ok(json);
-  assert.deepEqual(JSON.parse(json[1]), example);
+  assert.match(readme, /\[.*examples\/example-story.json.*\]\(examples\/example-story.json\)/);
+  assert.equal(example.rounds.length, 5);
+  assert.deepEqual(normalizeStory(example).errors, []);
 });

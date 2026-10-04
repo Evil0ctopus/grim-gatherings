@@ -82,7 +82,7 @@ export function startPlayer(room) {
     if (!peer || !peer.open) return retry(1000, !peer || peer.destroyed);
     lastAttempt = Date.now();
     if (conn) { const old = conn; conn = null; try { old.close(); } catch {} }
-    const c = peer.connect(hostId, { reliable: true, serialization: 'json' });
+    const c = peer.connect(hostId, { reliable: true, serialization: 'binary' });
     conn = c;
     clearTimeout(openTimeout);
     openTimeout = setTimeout(() => { if (conn === c && !c.open) retry(0, true); }, 12000);
@@ -223,11 +223,20 @@ export function startPlayer(room) {
         <details data-k="intro" open><summary>The story so far</summary>${paras(v.intro)}<p class="muted small">${esc(v.setting)}</p></details></div>`;
     }
     const earlier = p.rounds.filter(r => v.phase !== 'round' || r.index < v.roundIndex);
+    const history = v.evidenceHistory || [];
+    const aboutMe = history.map(r => ({ ...r, clue: r.accusations.find(c => c.accuses === v.me) }));
     return `
       <div class="card gold character-envelope" id="character-envelope"><div class="wax-seal" aria-hidden="true">GG</div><div class="label">Your private invitation · You are</div><h2 id="packet-name" style="font-size:1.8rem;margin:.1em 0">${esc(p.name)}</h2>
         <p style="margin:0"><i>${esc(p.role)}</i></p>
         ${p.guest ? `<p class="small muted" style="margin-bottom:0">Played by ${esc(p.guest)}${p.guestNote ? ` — lean into it: <i>${esc(p.guestNote)}</i>` : ''}</p>` : ''}</div>
       ${phaseCard}
+      ${history.length ? `<details data-k="my-case" id="my-case" open><summary>How the evidence against you has changed (${history.length} rounds)</summary>
+        <p class="small muted">Keep the earlier suspicion and its later explanation together. These are the public clues, not a verdict or automatic clearance.</p>
+        ${aboutMe.map(r => `<article class="personal-evidence"><h3>${esc(r.title)}</h3><p class="small muted">Read by ${esc(r.clue.speakerName)}</p>${paras(r.clue.text)}</article>`).join('<hr>')}</details>
+        <details data-k="evidence" id="evidence-history"><summary>The room's evidence notebook (${history.length} rounds)</summary>
+        <p class="small muted">Public clues become available here when each round moves to voting. Other players' private clues stay private.</p>
+        ${history.map(r => `<section><h3>${esc(r.title)}</h3>${paras(r.publicText)}
+          ${r.accusations.map(c => `<details><summary>${esc(c.targetName)} · read by ${esc(c.speakerName)}</summary>${paras(c.text)}</details>`).join('')}</section>`).join('<hr>')}</details>` : ''}
       ${earlier.length ? `<details data-k="earlier" ${v.phase !== 'round' ? 'open' : ''}><summary>Your clues from ${v.phase === 'round' ? 'earlier rounds' : 'every round'} (${earlier.length})</summary>
         ${earlier.map(r => `<h3>${esc(r.title)}</h3>${cluesBlock(r)}`).join('<hr>')}</details>` : ''}
       <div class="card" id="character-sheet">

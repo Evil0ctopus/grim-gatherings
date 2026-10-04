@@ -40,7 +40,7 @@ test('the starter catalog contains three distinct, complete fictional mysteries'
     assert.deepEqual(normalized.errors, []);
     assert.deepEqual(normalized.warnings, []);
     assert.equal(new Set(entry.story.characters.map(c => c.id)).size, entry.story.characters.length);
-    assert.equal(entry.story.rounds.length, 3);
+    assert.equal(entry.story.rounds.length, 5);
     assert.ok(entry.story.intro && entry.story.finale.narration && entry.story.finale.votePrompt);
     assert.ok(entry.story.solution.explanation && entry.story.solution.revealNarration);
     for (const round of entry.story.rounds) {
@@ -49,9 +49,9 @@ test('the starter catalog contains three distinct, complete fictional mysteries'
     for (const character of entry.story.characters) {
       assert.ok(character.name && character.role && character.publicBlurb && character.backstory && character.motive);
       assert.ok(character.secrets.length >= 2);
-      assert.equal(character.rounds.length, 3);
+      assert.equal(character.rounds.length, 5);
       for (const round of character.rounds) {
-        assert.ok(round.clues.length && round.readAloud.accuses && round.readAloud.text);
+        assert.ok(Array.isArray(round.clues) && round.readAloud.accuses && round.readAloud.text);
         assert.equal(round.instructions, undefined);
       }
     }
@@ -79,7 +79,7 @@ for (const entry of STARTER_MYSTERIES) {
       for (const [id, fragment] of coreEvidence[entry.id]) {
         const character = result.story.characters.find(c => c.id === id);
         assert.ok(character && !character.optional);
-        assert.ok(character.rounds[2].clues.some(clue => clue.includes(fragment)));
+        assert.ok(character.rounds[4].clues.some(clue => clue.includes(fragment)));
       }
       const validIds = new Set([...result.story.characters.map(c => c.id), 'victim']);
       for (const match of JSON.stringify(result.story).matchAll(/\{([A-Za-z0-9_-]+)\}/g)) {
@@ -101,7 +101,7 @@ for (const entry of STARTER_MYSTERIES) {
     const state = { room: 'TEST', story, claims: {}, votes: {}, phase: 'lobby', roundIndex: -1 };
     assert.equal(buildView(state, null).packet, undefined);
     for (const character of story.characters) {
-      for (const roundIndex of [-1, 0, 1, 2]) {
+      for (const roundIndex of [-1, 0, 1, 2, 3, 4]) {
         state.phase = roundIndex === -1 ? 'lobby' : 'round';
         state.roundIndex = roundIndex;
         const view = buildView(state, character.id);
@@ -116,7 +116,7 @@ for (const entry of STARTER_MYSTERIES) {
           assert.ok(!raw.includes(other.backstory), `Leaked ${other.name}'s backstory`);
           for (const secret of other.secrets) assert.ok(!raw.includes(secret), `Leaked ${other.name}'s secret`);
         }
-        if (roundIndex < 2) {
+        if (roundIndex < 4) {
           for (const future of character.rounds.slice(roundIndex + 1)) {
             for (const clue of future.clues) assert.ok(!raw.includes(clue), 'Future clue released early');
           }

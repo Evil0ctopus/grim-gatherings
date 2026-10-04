@@ -6,7 +6,7 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 
 - No server, no accounts, no build step — plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
-- Includes four ready-to-play mysteries with flexible casts, including **The Last Séance at Ravenmoor** (3 rounds + finale, 3–12+ guests). Zero AI setup needed.
+- Includes four ready-to-play mysteries with flexible casts, including **The Last Séance at Ravenmoor** (5 evidence rounds + reveal, 3–12+ guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
@@ -23,7 +23,9 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 
 Guests who refresh, lock their phone, or lose signal just reopen the same link — they're put straight back on their character and the current round.
 
-The built-in accusation circle changes between rounds and is rebuilt when optional roles are omitted, preserving the evidence against each remaining character. Clues progress from suspicious circumstances to connections and final evidence or explanations of red herrings. Story events are described in evidence and narration; optional roleplay can accompany discussion without being needed to release a clue.
+Every mystery must have **5 or 6 rounds**; all built-ins have five. The built-in accusation circle changes between rounds and is rebuilt when optional roles are omitted, preserving the evidence against each remaining character. Clues progress from initial circumstances and suspicion, through linked documents and timelines, to round 4 corrections and round 5 conclusions. Later evidence explains earlier behavior rather than inventing convenient alibis. Story events are described in evidence and narration; optional roleplay can accompany discussion without being needed to release a clue.
+
+Player screens grow with the investigation. **How the evidence against you has changed** collects the released public clues about that character; **The room's evidence notebook** keeps every completed round's summary and read-aloud evidence. A round joins both histories when the host opens its voting, after players have read their clues. Current scripts stay with their assigned readers until then. Other players' private clues, backstories and motives never enter the notebook, and future rounds remain locked. Corrections are evidence to assess, not automatic innocent/guilty badges. Refresh and rewind reconstruct the history from the current phase and round. Connections use PeerJS's binary serialization and built-in chunking so the growing notebooks and reveal are not limited by the JSON channel's roughly 16 KB message ceiling.
 
 Vote share is the percentage of all ballots cast across the released rounds, not a statistical probability of guilt. Every submitted round ballot has equal weight; changing an accusation replaces that player's ballot for that round. Ties are displayed as ties, and the change compares cumulative share with the previous round's cumulative share. Missing votes are not counted as abstention ballots. The host can close an incomplete vote after a warning. Previous-round navigation retains that round's ballots; reopening its voting permits corrections. History and ballots survive refresh. Only aggregate counts are sent publicly, not who voted for whom. Final win/lose feedback uses the final round's votes, not the cumulative trend.
 
@@ -41,11 +43,13 @@ Players can use **Leave game → Home** at any stage, including the reveal. Conn
 
 These are original fictional mysteries, not reconstructions of real murders or claims about real suspects. Deaths occur off-screen; there is no graphic violence. The witch-trial story treats persecution and false accusations as injustices, not proof of witchcraft.
 
-Each has an opening, three narrated clue rounds, character packets with mandatory public accusations and optional private clues, secrets, motives, voting and a complete reveal. Four required characters hold the solving evidence. Additional players receive optional supporting roles with their own secrets, accusations and red herrings; omitting those roles does not remove the core evidence. Player totals exclude the narrator unless the narrator also plays a character.
+Each has an opening, five narrated clue rounds, character packets with mandatory public accusations and optional private clues, secrets, motives, voting and a complete reveal. Four required characters hold the solving evidence. Additional players receive full characters with their own backstories, secrets, motives, evidence and suspicion arcs. **Optional refers only to cast selection for smaller parties, never to participation:** every included player reads one unique public clue and receives exactly one accusation in every round, discusses the evidence and votes. The accusation circle is rebuilt to include the entire selected cast; omitting roles does not remove the core solution. Player totals exclude the narrator unless the narrator also plays a character.
 
 Add your players and choose **Play this mystery**. The cast automatically fits the listed count; unsupported counts show an error. Review, edit and save a personal version without changing the built-in original. A saved version contains the cast selected for that game; select the original again to use its full player range.
 
-Unit checks: `node --test tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
+Unit checks: `node --test tests/progression.mjs tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
+
+Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample]`. Mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm` and `briar-house`. For example, `node tests/e2e.mjs http://127.0.0.1:8128/ 10 briar-house` checks the full Briar House cast, including a phone assigned to the final listed guest, through all five rounds, refresh/reconnection and the reveal. Unit tests check every included character at every supported count; browser tests exercise four-player and full-cast games.
 
 ## Atmosphere and event effects
 
@@ -76,7 +80,7 @@ A story is one JSON object. Paste it in **Setup → Paste story JSON** (or uploa
 | `atmosphere` | string | optional: `manor`, `witch`, `farm` or `victorian`; inferred for built-in titles when absent |
 | `intro` | string | shown to everyone in the lobby, before round 1 (before the murder) |
 | `victim` | object | `{"name", "description"}` — the victim is not played by a guest |
-| `rounds` | array | **required**, ≥1. Each: `title`, `narration` (host reads aloud), `publicText` (shown on every phone), `hostNotes` (host only) |
+| `rounds` | array | **required**, 5 or 6 entries. Each: `title`, `narration` (host reads aloud), `publicText` (shown on every phone), `hostNotes` (host only) |
 | `characters` | array | **required**, ≥2, ideally one per guest. See below |
 | `finale` | object | `narration` (host reads before voting), `votePrompt` (shown on phones) |
 | `solution` | object | `killerId` (**required**, must match a character `id`), `explanation`, `revealNarration` |
@@ -101,91 +105,11 @@ Placeholders: in any text, `{someId}` becomes that character's name plus guest, 
 
 Write read-aloud evidence objectively with `{targetId}`, rather than as a speaker-specific eyewitness claim, so it can move to another speaker when optional roles are omitted. The app preserves each remaining target's evidence and rebuilds the circle for the reduced cast. Put essential solving evidence against required characters.
 
-Older JSON and saved games with only `clues` / `instructions` need authored `readAloud` entries before play; the app does not guess accusations from private information. Legacy instruction fields are discarded with a warning when a valid story is loaded. Move useful actions into narrated events or evidence. An older in-progress game opens in story review on resume, keeping its existing story for editing rather than silently replacing it.
+Older JSON and saved games with fewer than five rounds or only `clues` / `instructions` need authored chapters and `readAloud` entries before play; the app does not guess accusations from private information or pad a story with invented events. The review editor can add chapters up to six and remove a sixth chapter. Write the new narration and every character's evidence before opening the lobby. Legacy instruction fields are discarded with a warning when a valid story is loaded. Move useful actions into narrated events or evidence. An older in-progress game opens in story review on resume, keeping its existing story for editing rather than silently replacing it. For the updated built-ins, select a fresh copy from the starter catalog.
 
 Tips for writing a good one (for humans or AIs): exactly one killer; tell the killer clearly in their secrets that they are the killer and may lie in discussion, but must read their public clue in full; spread the solving evidence across several characters, with the decisive pieces in later rounds; give everyone else a secret + motive as red herrings; one character per guest.
 
-Full example (also in [`examples/example-story.json`](examples/example-story.json)):
-
-```json
-{
-  "schemaVersion": 1,
-  "title": "Death at the Lighthouse",
-  "setting": "Gallows Point Lighthouse, a storm-battered rock off the coast of Maine, 1931. The supply boat won't return until morning.",
-  "intro": "Keeper Elias Morrow invited a handful of guests to watch the lamp being lit for the last time before the lighthouse is decommissioned. The waves are high. The lamp is turning. Something is wrong.",
-  "victim": { "name": "Elias Morrow", "description": "The old lighthouse keeper. Gruff, superstitious, and sitting on a secret about a shipwreck forty years ago." },
-  "rounds": [
-    {
-      "title": "Round 1 — The Lamp Goes Dark",
-      "narration": "At nine o'clock the great lamp sputters and dies. In the blackness you hear a scream from the gallery above — and a heavy thud on the iron stairs. When the lamp flickers back to life, Elias Morrow lies at the bottom of the spiral staircase, neck broken, a brass key clutched in his fist.",
-      "publicText": "The keeper is dead at the foot of the stairs, a brass key in his hand. No boat until dawn. Talk to each other.",
-      "hostNotes": "Give everyone 15 minutes."
-    },
-    {
-      "title": "Round 2 — The Logbook",
-      "narration": "Someone finds the keeper's logbook. The final entry, written tonight, reads: 'One of them knows what happened to the Mary Celeste II. I will tell the coast guard at dawn.'",
-      "publicText": "The logbook names no one — but the keeper meant to talk at dawn. Share your secrets.",
-      "hostNotes": "Then open voting."
-    }
-  ],
-  "characters": [
-    {
-      "id": "nell",
-      "guest": "Sarah",
-      "guestNote": "loud, loves wine, always late",
-      "name": "Nell Harrow",
-      "role": "The Keeper's Niece",
-      "publicBlurb": "Elias's niece and only family. Arrived late on the last boat, smelling of wine.",
-      "backstory": "You came to beg your uncle to sell the lighthouse land. He refused.",
-      "secrets": ["You are deeply in debt.", "You argued with Elias on the gallery an hour before he died."],
-      "motive": "You inherit the land.",
-      "rounds": [
-        { "readAloud": { "accuses": "wick", "text": "{wick} climbed the stairs just before the lamp died. Lamp oil stains the assistant keeper's sleeve: why was he near the gallery when he claims he stayed in the oil store?" }, "clues": ["You argued with Elias about selling the land; you fear that makes you look guilty."] },
-        { "readAloud": { "accuses": "doc", "text": "{doc} kept Elias's warning about the shipwreck private. That silence delayed the truth, but his warning concerned a family crime, not medical treatment. What else did the doctor withhold?" }, "clues": ["The brass key opens the oil store; Wick has the only other copy."] }
-      ]
-    },
-    {
-      "id": "wick",
-      "guest": "Mike",
-      "guestNote": "quiet, secretly competitive",
-      "name": "Jonah Wick",
-      "role": "The Assistant Keeper",
-      "publicBlurb": "Elias's taciturn assistant for ten years.",
-      "backstory": "Forty years ago your father wrecked the Mary Celeste II for the insurance money. Elias saw it happen.",
-      "secrets": ["YOU ARE THE KILLER. You may lie.", "You cut the lamp's oil line and pushed Elias down the stairs in the dark."],
-      "motive": "Elias was going to expose your family's crime at dawn.",
-      "rounds": [
-        { "readAloud": { "accuses": "doc", "text": "{doc} knew Elias's health and had private visits with him. Elias said he feared someone on the island, yet the doctor kept that warning quiet. Why?" }, "clues": ["There is lamp oil on your sleeve. You may lie in discussion, but read your public clue in full."] },
-        { "readAloud": { "accuses": "nell", "text": "{nell} inherits the land and argued for a sale, but Elias's logbook threatens to expose a shipwreck, not a property dispute. The argument supplies a motive worth questioning, not proof of the push." }, "clues": ["Your claimed oil-store alibi is false."] }
-      ]
-    },
-    {
-      "id": "doc",
-      "guest": "Priya",
-      "guestNote": "theatrical, loves true crime",
-      "name": "Dr. Ruth Calder",
-      "role": "The Visiting Doctor",
-      "publicBlurb": "A doctor visiting from the mainland to check on the keeper's failing health.",
-      "backstory": "You have been treating Elias for months. He confided in you. You feared that exposing his warning would also expose how long you had kept silent.",
-      "secrets": ["Elias told you he was afraid of someone on the island."],
-      "motive": "Protect your reputation from questions about the warning you withheld.",
-      "rounds": [
-        { "readAloud": { "accuses": "nell", "text": "{nell} argued with Elias on the gallery an hour before he died. Debts and the inheritance give the niece a reason to want the land, while hand-shaped bruises show someone pushed him." }, "clues": ["The keeper's death was not an accidental fall."] },
-        { "readAloud": { "accuses": "wick", "text": "{wick} has the only other oil-store key. Elias's warning named Wick's father as the man who sank the ship; exposure was due at dawn. The key, oil-stained sleeve and stair sighting connect motive, blackout and opportunity." }, "clues": [] }
-      ]
-    }
-  ],
-  "finale": {
-    "narration": "The lamp turns. The sea roars. Who pushed Elias Morrow down the stairs?",
-    "votePrompt": "Who killed Elias Morrow?"
-  },
-  "solution": {
-    "killerId": "wick",
-    "explanation": "Jonah Wick cut the oil line to darken the lamp, climbed the stairs (seen by Nell), and pushed Elias, who was about to expose the wreck of the Mary Celeste II. The oil on his sleeve and the doctor's testimony seal it.",
-    "revealNarration": "Jonah Wick stares at the oil on his sleeve. 'He should have taken it to his grave,' he whispers. 'Now he has.'"
-  }
-}
-```
+Full five-round example: [`examples/example-story.json`](examples/example-story.json), **Death at the Lighthouse**. The land argument implicates the niece early; the logbook later distinguishes that dispute from the shipwreck disclosure. The doctor's silence gains context in round 4, while the key, oil and stair sighting build the final chain. Import this file to inspect the complete narration and each character's five read-aloud clues.
 
 ## Deploy notes
 
@@ -193,7 +117,7 @@ Full example (also in [`examples/example-story.json`](examples/example-story.jso
 - `vendor/` holds pinned copies of PeerJS 1.5.5 and qrcode-generator 1.4.4 (no CDN dependency at game time; Google Fonts is optional styling).
 - Files: `index.html`, `css/style.css`, `js/main.js` (routing), `js/host.js`, `js/player.js`, `js/story.js` (schema/validation/per-player filtering), `js/sample.js` (built-in mystery), `js/ai.js`.
 - Player URL: `…/grim-gatherings/?room=CODE`. Host URL: `…/grim-gatherings/#host` (resumes the saved game on that device).
-- Tests (Playwright, run against the live URL by default): `tests/e2e.mjs` = host + 3 phones, full game (join, per-player filtering, 3 rounds, player refresh, host refresh, vote, reveal); `tests/import.mjs` = JSON import + validation errors; `tests/offline.mjs` = player drops offline mid-game. Run: `npm i playwright && npx playwright install chromium && node tests/e2e.mjs [url]`.
+- Tests (Playwright, run against the live URL by default): `tests/e2e.mjs` = host + 3 phones, full game (join, per-player filtering, all five rounds, growing evidence notebooks, player refresh, host refresh, vote, reveal); `tests/import.mjs` = JSON import + validation errors; `tests/offline.mjs` = player drops offline mid-game. Run: `npm i playwright && npx playwright install chromium && node tests/e2e.mjs [url]`.
 
 ## Known limitations
 

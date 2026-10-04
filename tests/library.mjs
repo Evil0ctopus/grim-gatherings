@@ -47,11 +47,11 @@ test('optional characters expand the player range and are omitted when attendanc
       { id: 'visitor', name: 'The Visitor', optional: true },
       { id: 'neighbor', name: 'The Neighbor', optional: true },
     ],
-    rounds: [{ title: 'The clue', narration: 'Ask {visitor} what they saw.' }],
+    rounds: Array.from({ length: 5 }, (_, i) => ({ title: `Round ${i + 1}`, narration: 'Ask {visitor} what they saw.' })),
     solution: { killerId: 'keeper' },
   };
-  for (const c of template.characters) c.rounds = [{ clues: [] }];
-  assignAccusationCircles(template, Object.fromEntries(template.characters.map(c => [c.id, [`{${c.id}} had a key to the house.`]])));
+  for (const c of template.characters) c.rounds = Array.from({ length: 5 }, () => ({ clues: [] }));
+  assignAccusationCircles(template, Object.fromEntries(template.characters.map(c => [c.id, Array.from({ length: 5 }, (_, i) => `{${c.id}} had a key to the house. Evidence ${i + 1}.`)])));
   assert.deepEqual(getPlayerRange(template), { minPlayers: 2, maxPlayers: 4 });
   const threePlayerStory = adaptStoryForPlayers(template, [{ name: 'Sarah' }, { name: 'Mike' }, { name: 'Priya' }]);
   assert.deepEqual(threePlayerStory.characters.map(character => character.id), ['keeper', 'doctor', 'visitor']);

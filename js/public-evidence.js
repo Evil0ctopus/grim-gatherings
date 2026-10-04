@@ -1,4 +1,5 @@
 import { assignAccusationCircles } from './accusations.js?v=accusation-circle-v1';
+import { expandChapters, CONNECTING_EVIDENCE, KILLER_FOURTH_CLUE } from './progression.js?v=five-rounds-v1';
 
 // Each row follows one suspect from initial suspicion to a connection and final context.
 const ravenmoor = {
@@ -210,6 +211,7 @@ const briar = {
 
 export function preparePublicEvidence(story, kind) {
   const evidence = { ...{ manor: ravenmoor, witch: mercy, farm, victorian: briar }[kind] };
+  expandChapters(story, kind);
   for (const c of story.characters) {
     // Extra Ravenmoor mourners repeat supporting roles, but receive individually named evidence.
     if (c.id.startsWith('mourner')) {
@@ -222,6 +224,15 @@ export function preparePublicEvidence(story, kind) {
       const row = rows[(Number(c.id.slice(7)) - 1) % rows.length];
       evidence[c.id] = row.map((event, ri) => `{${c.id}} ${event}. ${['That gives a reason to question this guest tonight.', 'The concealed history adds to the suspicion as the tonic evidence emerges.', 'Compare this explanation with the ring, bottle and poisoned rim before voting.'][ri]}`);
     }
+    const original = evidence[c.id];
+    const connecting = CONNECTING_EVIDENCE[kind][c.id] || (c.id.startsWith('mourner') ? [
+      `{${c.id}} concealed a reason for being at Ravenmoor. The earlier accusation must be tested against access to the seance table: the old tonic points to an event a year before tonight, not just this guest's secrecy.`,
+      `{${c.id}} has an explanation for the secret described in round 2. It does not erase that secret, but the ring at the glass and the prescribed tonic require their own connected explanation. Suspicion alone cannot supply either.`,
+    ] : null);
+    if (!original || !connecting) throw new Error(`Missing five-round evidence for ${c.name}.`);
+    evidence[c.id] = c.id === story.solution.killerId
+      ? [original[0], original[1], connecting[0], KILLER_FOURTH_CLUE[kind], `${original[2]} ${connecting[1]}`]
+      : [original[0], original[1], connecting[0], original[2], connecting[1]];
     for (const r of c.rounds) delete r.instructions;
   }
   assignAccusationCircles(story, evidence);

@@ -19,7 +19,7 @@ const SCHEMA_DOC = `Return ONLY a JSON object with this exact shape (no markdown
   "setting": string,               // where/when, 1-3 sentences
   "intro": string,                 // public intro shown to everyone before round 1 (before the murder is revealed)
   "victim": {"name": string, "description": string},   // victim is NOT played by a guest
-  "rounds": [                      // exactly 3 rounds
+  "rounds": [                      // 5 rounds by default; never fewer than 5 or more than 6
     {"title": string, "narration": string /* host reads aloud, atmospheric, 80-150 words */, "publicText": string /* short summary shown on every phone */, "hostNotes": string}
   ],
   "characters": [                  // exactly one per guest, in the same order as the guest list
@@ -33,10 +33,12 @@ const SCHEMA_DOC = `Return ONLY a JSON object with this exact shape (no markdown
 }
 Rules: exactly one killer among the characters. The killer's packet must say clearly they are the killer and may lie in discussion, but MUST read their public clue verbatim. The killer and every character needed to solve the mystery must be required, not optional.
 In EVERY round, each character reads exactly one unique accusation clue against exactly one OTHER character. Each character must also receive exactly one accusation: no duplicated targets, self-accusations or missing targets. The directed accusations must form ONE complete circle through the entire cast, not separate cycles. Change the circle between rounds.
-Write concrete evidence against every target, including innocent characters with plausible red herrings. Progress from suspicious circumstances in round 1 to connections in round 2 and decisive evidence or clarifying context in round 3. Keep the solution fair.
+Write concrete evidence against every target, including innocent characters with plausible red herrings. Read-aloud clues are the centerpiece of the story, not repeated generic accusations. Round 1 establishes circumstances, round 2 implicates plausible suspects, round 3 links documents and timelines, round 4 corrects earlier suspicions with credible explanations or exculpatory evidence, and round 5 connects the surviving evidence for the final decision. If using round 6, deepen that chain rather than padding it.
+Plan the complete truth and timeline first. Every new clue and narration must follow that plan: no newly invented culprits, convenient surprise witnesses, unexplained alibis or contradictory facts. An innocent character implicated earlier should have later evidence that explains the same behavior, not a retroactively changed event. The killer's evidence must withstand those corrections. Do not label people automatically cleared; present the facts for players to judge.
+Narration and read-aloud evidence should complement each other. Save decisive connections for the later rounds. Each character's optional private clues develop their individual understanding without disclosing future discoveries early. Public evidence is shared in a growing notebook after each round moves to voting; secrets remain private. Keep the solution fair.
 Public accusation text must be self-contained and refer to its target using {id}. Describe evidence objectively, not as a speaker-specific eyewitness claim, so it can be reassigned if optional roles are omitted. Never refer to another suspect as guilty in the same clue.
 Convert plot-critical actions into past events described by evidence or narration rather than mandatory performance tasks. Optional roleplay suggestions may accompany private clues, but never replace the mandatory public clue. Do not output an "instructions" field or reminders about not acting. Scripted accusations are not votes; players may vote for any other suspect.
-The mystery must be fair and solvable from the clues spread across characters (several characters each hold one piece; key clues in rounds 2-3).
+The mystery must be fair and solvable from public narration and read-aloud clues spread across characters (several characters each hold one piece; decisive connections in rounds 4-5). Optional private clues must not be required to solve it.
 Give every other character a secret and a plausible motive (red herrings). In any text you may write {id} to refer to a character (rendered as "Name (Guest)") and {victim} for the victim.
 Tailor characters to each guest's description in a fun, kind way. Tone: creepy, gothic, PG-13, fun for a party.`;
 

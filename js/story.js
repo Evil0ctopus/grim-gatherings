@@ -50,12 +50,13 @@ export function normalizeStory(input, guests = []) {
   if (!s.title) errors.push('"title" is missing — give the mystery a name.');
   if (!s.victim.name) warnings.push('"victim.name" is missing — players won\'t know who died.');
 
-  if (!Array.isArray(obj.rounds) || obj.rounds.length === 0) errors.push('"rounds" must be a list with at least one round, e.g. [{"title":"Round 1","narration":"...","publicText":"..."}].');
+  if (!Array.isArray(obj.rounds)) errors.push('"rounds" must be a list with 5 or 6 rounds.');
   else obj.rounds.forEach((r, i) => {
     const rr = { title: asStr(r?.title).trim() || `Round ${i + 1}`, narration: asStr(r?.narration).trim(), publicText: asStr(r?.publicText).trim(), hostNotes: asStr(r?.hostNotes).trim() };
     if (!rr.narration && !rr.publicText) warnings.push(`rounds[${i}] has no "narration" or "publicText".`);
     s.rounds.push(rr);
   });
+  if (Array.isArray(obj.rounds) && (obj.rounds.length < 5 || obj.rounds.length > 6)) errors.push('Every mystery must have 5 or 6 rounds. Expand the narration and character evidence together before playing.');
 
   if (!Array.isArray(obj.characters) || obj.characters.length < 2) errors.push('"characters" must be a list with at least 2 characters.');
   else {
@@ -161,6 +162,17 @@ export function buildView(S, charId) {
     const r = st.rounds[ri];
     v.currentRound = { index: ri, title: fill(r.title), publicText: fill(r.publicText) };
   }
+  // Current scripts stay in their owner's packet until the discussion closes for voting.
+  const publicCount = inGame ? Math.max(0, Math.min(st.rounds.length, phase === 'round' ? ri : ri + 1)) : 0;
+  v.evidenceHistory = st.rounds.slice(0, publicCount).map((r, i) => ({
+    index: i, title: fill(r.title), publicText: fill(r.publicText),
+    accusations: st.characters.map(c => ({
+      speakerId: c.id, speakerName: fill(`{${c.id}}`),
+      accuses: c.rounds[i].readAloud.accuses,
+      targetName: fill(`{${c.rounds[i].readAloud.accuses}}`),
+      text: fill(c.rounds[i].readAloud.text),
+    })),
+  }));
   if (ch) {
     const last = inGame ? ri : -1;
     v.packet = {

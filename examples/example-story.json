@@ -12,10 +12,28 @@
       "hostNotes": "Give everyone 15 minutes."
     },
     {
-      "title": "Round 2 — The Logbook",
+      "title": "Round 2 — The Gallery Argument",
+      "narration": "The gallery where Elias fell was also the place where Nell argued with him about selling the land. She has debts; the doctor has private knowledge; the assistant knows the lamp. Each connection sounds worse in the darkness. But bruises shaped like hands make this more than an ordinary fall, and the lamp failed at the moment a push could be hidden.",
+      "publicText": "The argument, private warning and lamp access implicate different people. Establish the method before treating a motive as proof.",
+      "hostNotes": "Read every public clue, discuss, then vote."
+    },
+    {
+      "title": "Round 3 — The Logbook",
       "narration": "Someone finds the keeper's logbook. The final entry, written tonight, reads: 'One of them knows what happened to the Mary Celeste II. I will tell the coast guard at dawn.'",
       "publicText": "The logbook names no one — but the keeper meant to talk at dawn. Share your secrets.",
-      "hostNotes": "Then open voting."
+      "hostNotes": "Compare the threatened shipwreck disclosure with the earlier property argument, then vote."
+    },
+    {
+      "title": "Round 4 — Two Different Secrets",
+      "narration": "Elias's last written threat concerns a shipwreck, not the sale of the land. The niece's argument and the doctor's silence remain uncomfortable, but discomfort is not a single explanation of this death. The doctor kept a warning because admitting it would expose how long she had withheld it. Nell wanted money from a sale, not the buried shipwreck story.\n\nKeep the earlier accusations beside these corrections. Neither is an invented alibi. Ask which explanation also accounts for the lamp's failure, the stained sleeve and the climb just before darkness.",
+      "publicText": "The logbook weakens the property theory. The warning explains the doctor's secrecy; it does not identify a medical cause of death. Test the blackout timeline.",
+      "hostNotes": "Let players revisit their earlier votes using the corrections."
+    },
+    {
+      "title": "Round 5 — The Other Key",
+      "narration": "The brass key in Elias's hand opens the oil store. Wick has the only other copy. The doctor's account of Elias's warning names Wick's father as the man behind the wreck and says the son knew Elias had seen it.\n\nPut that account beside the stair sighting and oil-stained sleeve. The lamp failed, the gallery went dark, and Elias was pushed. A disputed inheritance and an embarrassing silence explain why other guests looked guilty; the same chain must explain the threatened disclosure and the opportunity on the stairs.",
+      "publicText": "The key, warning, oil and stair sighting must fit one account of motive, method and opportunity.",
+      "hostNotes": "Final round: read every clue, vote, then reveal."
     }
   ],
   "characters": [
@@ -31,7 +49,10 @@
       "motive": "You inherit the land.",
       "rounds": [
         { "readAloud": { "accuses": "wick", "text": "{wick} climbed the stairs just before the lamp died. Lamp oil stains the assistant keeper's sleeve: why was he near the gallery when he claims he stayed in the oil store?" }, "clues": ["You argued with Elias about selling the land; you fear that makes you look guilty."] },
-        { "readAloud": { "accuses": "doc", "text": "{doc} kept Elias's warning about the shipwreck private. That silence delayed the truth, but his warning concerned a family crime, not medical treatment. What else did the doctor withhold?" }, "clues": ["The brass key opens the oil store; Wick has the only other copy."] }
+        { "readAloud": { "accuses": "doc", "text": "{doc} knew Elias feared someone on the island but kept the warning private. The doctor visited him repeatedly; that silence could protect a reputation or conceal a more personal interest." }, "clues": ["Your property argument took place an hour before the lamp failed, not at the moment of the push."] },
+        { "readAloud": { "accuses": "wick", "text": "{wick} says he stayed in the oil store alone. That account conflicts with the stair sighting immediately before darkness. The logbook's threatened shipwreck disclosure now makes the timing important, not just the stained sleeve." }, "clues": ["The keeper's brass key is connected to the oil store."] },
+        { "readAloud": { "accuses": "doc", "text": "{doc} kept a warning about a shipwreck, not a medical treatment. Hand-shaped bruises support a push, not a death from the keeper's failing health. The doctor's shame explains withheld information but does not explain the lamp going dark." }, "clues": ["The logbook concerns the shipwreck, not your proposal to sell the land."] },
+        { "readAloud": { "accuses": "wick", "text": "{wick} has the only other oil-store key. Elias's warning named Wick's father as the man who sank the ship; exposure was due at dawn. The key, oil-stained sleeve and stair sighting connect motive, blackout and opportunity." }, "clues": ["The brass key opens the oil store; Wick has the only other copy."] }
       ]
     },
     {
@@ -46,7 +67,10 @@
       "motive": "Elias was going to expose your family's crime at dawn.",
       "rounds": [
         { "readAloud": { "accuses": "doc", "text": "{doc} knew Elias's health and had private visits with him. Elias said he feared someone on the island, yet the doctor kept that warning quiet. Why?" }, "clues": ["There is lamp oil on your sleeve. You may lie in discussion, but read your public clue in full."] },
-        { "readAloud": { "accuses": "nell", "text": "{nell} inherits the land and argued for a sale, but Elias's logbook threatens to expose a shipwreck, not a property dispute. The argument supplies a motive worth questioning, not proof of the push." }, "clues": ["Your claimed oil-store alibi is false."] }
+        { "readAloud": { "accuses": "nell", "text": "{nell} argued with Elias on the gallery and inherits the land. The debts make the quarrel more than a passing disagreement; she wanted him to agree to a sale." }, "clues": ["Your claimed oil-store alibi is false."] },
+        { "readAloud": { "accuses": "doc", "text": "{doc} could have passed on the private warning before tonight. The logbook says disclosure was due at dawn; the delay leaves the doctor's account needing an explanation." }, "clues": ["The logbook threatens to expose your family's shipwreck crime."] },
+        { "readAloud": { "accuses": "nell", "text": "{nell} inherits the land and argued for a sale, but Elias's logbook threatens to expose a shipwreck, not a property dispute. The argument happened an hour before the blackout. Those corrections weaken the earlier accusation without pretending the debts disappeared." }, "clues": ["The niece's argument cannot explain your oil-stained sleeve or the stair sighting."] },
+        { "readAloud": { "accuses": "doc", "text": "{doc} withheld Elias's warning to protect a reputation, then supplied its shipwreck account. The bruises establish the push and the account supplies the threatened disclosure. Medical access alone cannot explain the oil-store key and lamp failure." }, "clues": ["You may challenge interpretations in discussion, but read the public clue in full."] }
       ]
     },
     {
@@ -61,7 +85,10 @@
       "motive": "Protect your reputation from questions about the warning you withheld.",
       "rounds": [
         { "readAloud": { "accuses": "nell", "text": "{nell} argued with Elias on the gallery an hour before he died. Debts and the inheritance give the niece a reason to want the land, while hand-shaped bruises show someone pushed him." }, "clues": ["The keeper's death was not an accidental fall."] },
-        { "readAloud": { "accuses": "wick", "text": "{wick} has the only other oil-store key. Elias's warning named Wick's father as the man who sank the ship; exposure was due at dawn. The key, oil-stained sleeve and stair sighting connect motive, blackout and opportunity." }, "clues": [] }
+        { "readAloud": { "accuses": "wick", "text": "{wick} worked with the lamp and has oil on his sleeve. The failure supplied darkness for a push. An assistant's routine work might explain a stain, but it must also explain the movement on the stairs." }, "clues": ["You withheld Elias's warning because you feared questions about your silence."] },
+        { "readAloud": { "accuses": "nell", "text": "{nell} wanted the land sold, while Elias's final logbook entry concerns an old shipwreck. The written threat tests whether the property quarrel actually explains why he had to die before dawn." }, "clues": ["Elias's written threat confirms that he meant to talk about the shipwreck."] },
+        { "readAloud": { "accuses": "wick", "text": "{wick} claims an oil-store alibi, but was seen climbing just before the blackout. No correction to the niece's property motive or the doctor's silence removes that conflict. The lamp access must fit the sighting." }, "clues": ["The hand-shaped bruises separate this crime from the keeper's illness."] },
+        { "readAloud": { "accuses": "nell", "text": "{nell} had a financial motive, but her earlier argument does not account for the shipwreck warning, the darkened lamp and the assistant's contradictory movements. Her debt is real; it is not a substitute for a connected account of the push." }, "clues": ["Elias told you: 'Wick's father sank that ship, and the boy knows I saw.'"] }
       ]
     }
   ],
