@@ -4,6 +4,42 @@ A murder-mystery party web app. The host reads the current chapter's narration; 
 
 **Live:** https://evil0ctopus.github.io/grim-gatherings/
 
+See [the roadmap](ROADMAP.md) for Stage 1 launch verification and Stage 2
+monetization. Domain registration alone does not mean the custom-domain website
+or public signup is ready.
+
+Local account links and setup notes may be kept in `.local-private/`. That folder
+is ignored by Git and excluded from the static-only website build. It is
+not encrypted, does not belong in public archives, and needs a separate private
+backup. Keep passwords and secret keys in a password manager, not in these notes.
+
+### Static deployments and traffic monitoring
+
+`npm run build:site` creates a disposable `dist/` folder containing only the game
+HTML and `assets/`, `css/`, `js/`, and `vendor/`. It requires Node 24 and no package
+installation. GitHub Pages uploads that output, not the repository root. Never
+upload the entire local checkout to Cloudflare: it contains ignored local files.
+`npm run test:site` checks the packaging exclusions and workflow.
+
+For Cloudflare Pages, use `npm run build:site` as the build command, `dist` as
+the output directory, Node 24, and an approved `production` branch. Do not enable
+automatic production deploys from `main` if GitHub Pages is the testing site.
+These are setup instructions, not confirmation that production is connected.
+
+Production traffic monitoring uses the owner's private Cloudflare Web Analytics
+dashboard. A hostname entry has been created for grimgatherings.com with automatic
+setup; the domain must serve the game through Cloudflare before traffic collection
+can be verified. Keep testing traffic separate and check production hostname
+filters. If automatic injection is unavailable for the final hosting arrangement,
+configure one beacon through Pages or a manual snippet, not multiple overlapping
+installations. No analytics credential belongs in this repository.
+
+Visits and page views are approximate traffic metrics, not unique-person counts
+or completed games. Ad blockers and bots affect results. Do not add story text,
+account details, room codes, or Auth tokens to analytics events. Review the
+[Cloudflare analytics documentation](https://developers.cloudflare.com/web-analytics/)
+and verify actual collection before claiming the counter is live.
+
 - The existing game and private workshop need no server, account or build step: plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages. Shared drafts, submissions and approval use Supabase (the preferred free hosting route) or the optional Node community service.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
 - Includes five ready-to-play mystery families with fixed player-count editions, including **The Last Seance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests) and Melissa's **The Barber of Blackwater Row** (exactly 4 guests). Zero AI setup needed.

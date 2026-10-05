@@ -4,6 +4,8 @@
   "type": "module",
   "engines": { "node": ">=24.13.0" },
   "scripts": {
+    "build:site": "node tools/build-site.mjs",
+    "test:site": "node --test tests/build-site.mjs",
     "test:supabase": "node --test tests/supabase.mjs",
     "test:workshop": "node tests/workshop-e2e.mjs",
     "check:edge": "deno check --allow-import supabase/functions/community/index.ts"
