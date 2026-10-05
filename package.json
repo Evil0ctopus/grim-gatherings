@@ -1,0 +1,16 @@
+{
+  "name": "grim-gatherings",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.13.0" },
+  "scripts": {
+    "test:supabase": "node --test tests/supabase.mjs",
+    "test:workshop": "node tests/workshop-e2e.mjs",
+    "check:edge": "deno check --allow-import supabase/functions/community/index.ts"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "deno": "2.9.6",
+    "playwright": "1.63.0"
+  }
+}

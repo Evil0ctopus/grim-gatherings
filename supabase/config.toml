@@ -1,0 +1,7 @@
+project_id = "grim-gatherings"
+
+[functions.community]
+# Public catalog/auth routes are anonymous. The handler verifies every protected
+# request with Supabase Auth before using server-only database RPCs.
+verify_jwt = false
+entrypoint = "./functions/community/index.ts"

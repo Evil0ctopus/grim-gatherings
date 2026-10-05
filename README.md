@@ -4,7 +4,7 @@ A murder-mystery party web app. The host reads the current chapter's narration; 
 
 **Live:** https://evil0ctopus.github.io/grim-gatherings/
 
-- The existing game and private workshop need no server, account or build step: plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages. Shared drafts, submissions and approval use the optional Node community service.
+- The existing game and private workshop need no server, account or build step: plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages. Shared drafts, submissions and approval use Supabase (the preferred free hosting route) or the optional Node community service.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
 - Includes five ready-to-play mystery families with fixed player-count editions, including **The Last Seance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests) and Melissa's **The Barber of Blackwater Row** (exactly 4 guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
@@ -28,7 +28,57 @@ Choose **Build my mystery / approve stories** on the home screen, or open [the w
 
 Built-in stories remain separate. Approval is server-enforced; an author cannot grant themselves admin access or publish by setting a badge in JSON. Story text is displayed as escaped text, not executable HTML. An imported provenance label alone is not proof of website approval: only the backend's approved catalog establishes that.
 
-### Running the shared-story service
+### Preferred free hosting: Supabase
+
+**Prepared, but not activated automatically:** a real Supabase account/project and verified Auth/email settings are still required. Until a healthy endpoint is connected and published, private workshop creation and editing remain available but online accounts/submissions/approval are not live.
+
+Supabase hosts the PostgreSQL database, email/password authentication and the `community` Edge Function while the game stays on GitHub Pages. Free-plan quotas are not unlimited: currently 500 MB database storage, 50,000 monthly active users and two free active projects. Free projects may pause after a week of inactivity. Review the current [pricing](https://supabase.com/pricing), export important data and retain downloaded story backups. No paid hosting, billing enrollment or account creation is performed by this repository's scripts.
+
+#### Activation checklist for the site owner
+
+1. Sign in at [Supabase](https://supabase.com/dashboard), create a **Free** project, and save the project database password in your password manager. Record its 20-character **project reference** (from the dashboard URL), not an API key. Your Supabase dashboard login is different from your game administrator login.
+2. In **Authentication → URL Configuration**, set both Site URL and an allowed redirect URL to exactly `https://evil0ctopus.github.io/grim-gatherings/workshop.html`. Keep email confirmation enabled. Email login links are consumed by the workshop and removed from the address bar; expired links display an error rather than pretending to log in.
+3. Configure email delivery **before inviting public authors**. Supabase's [built-in SMTP](https://supabase.com/docs/guides/auth/auth-smtp) currently only sends to project-organization/team addresses and allows **two emails per hour**, with no delivery guarantee. Public confirmations and password resets require **custom SMTP**. A provider's free tier may be suitable, but sender/domain verification and provider quotas apply. Enter SMTP credentials only in Supabase's secure Auth settings, never in Git, browser code or chat. Do not disable confirmation to bypass this limit.
+4. From this repository on a computer with Node 24.13+, run:
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File tools\deploy-supabase.ps1 -ProjectRef YOUR_20_CHARACTER_REF
+   ```
+
+   This invokes pinned Supabase CLI 2.119.0, browser sign-in, project linking, database migration, server configuration and Edge Function deployment using the API (no local containers needed). Use secure CLI prompts for credentials. It checks the deployed database/function health and CORS **before** changing `js/community-config.js`. Registration is **closed** by default. Supabase supplies its own server keys to the function; no service key is written into the website.
+5. In **Authentication → Users**, create your own email/password game account using a unique password. Verify its email (or use the dashboard's explicitly confirmed-user creation option for your own owner account). Log in on the workshop once its frontend endpoint is published. In the project's **SQL Editor**, paste `supabase/promote-admin.sql`, replace `REPLACE_WITH_YOUR_EMAIL` with that exact verified account email, and run it. This is the only administrator bootstrap; setting `role` in public signup metadata cannot grant administrator rights. Sign out/in to refresh the workshop display. Never use test accounts/passwords in production.
+6. Review the changed frontend configuration, commit and push it to `main` to deploy GitHub Pages. Once connected, test owner login, an author account, cross-device draft restoration, submission, approval, public story selection and a confirmation/password-reset email before announcing public availability.
+7. After working email delivery is confirmed, open registration:
+
+   ```powershell
+   npx --yes supabase@2.119.0 secrets set --project-ref YOUR_20_CHARACTER_REF GG_REGISTRATION=open
+   ```
+
+   To close signup again, set `GG_REGISTRATION=closed`. Existing users can still log in. Configure Supabase Auth abuse/rate-limit controls; API errors and throttling are shown explicitly. Auth requests are proxied through the function, so shared upstream Auth rate limits may affect busy events.
+
+Only after activation should `COMMUNITY_PROVIDER` be `supabase`, with `COMMUNITY_API` set to `https://YOUR_20_CHARACTER_REF.supabase.co/functions/v1/community`. The deployment helper sets both only after a successful health check. No anon key or service-role key is needed in the browser.
+
+#### Data and authentication boundaries
+
+- Every protected API route verifies the access token with Supabase Auth. Database roles come from trusted `gg_profiles`, never browser metadata.
+- All community tables have RLS enabled. Anonymous/authenticated browser roles cannot directly read/write tables or call RPCs; the server's service role calls narrow transactional RPCs. Saved revisions and submitted versions are immutable, with owner checks, optimistic save conflicts, write throttling and audited moderation.
+- Public catalog responses include only approved playable stories and public author credit. Account emails, passwords, raw drafts and moderation history are not published.
+- Sessions and rotating refresh tokens are stored in the current tab's session storage, not in story data. Temporary outages retain the session; invalid credentials require login. Logging out revokes Auth refresh sessions, but an already issued Supabase access JWT can remain valid until its configured expiry.
+- Keep `verify_jwt = false` for this mixed public/protected function: health, catalog and login must work anonymously. Protected requests are independently verified by the handler; simply decoding client JWT claims is not sufficient.
+
+#### Local verification without a hosted account
+
+```powershell
+npm ci
+npm run check:edge
+npm run test:supabase
+node tests\supabase-e2e.mjs
+npm run test:workshop
+```
+
+The database tests execute the actual PostgreSQL migration using PGlite, including privileges and role enforcement. Hosted-workflow browser tests use the actual Edge handler and PostgreSQL with **simulated Auth transport**, not real Supabase emails or a live project. The Deno check validates the actual Edge import/type graph. Neither these tests nor a successful static Pages deployment prove hosted signup/email delivery until the activation checklist is completed.
+
+### Alternative: running the Node shared-story service
 
 GitHub Pages cannot run a database or login API. The private workshop works there independently; cloud/account buttons report an explicit unavailable-service message until a backend is connected. This repository provides the backend but does not provision a hosting account.
 

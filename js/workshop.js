@@ -3,7 +3,7 @@ import { normalizeStory } from './story.js?v=workshop-v1';
 import { REVIEW_ITEMS, blankStory, createPrompt, checkDraft, editedDraft, isEditableStory } from './workshop-core.js';
 import { listDrafts, saveDraft, draftVersions } from './workshop-storage.js';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js?v=rotating-clues-v1';
-import { communityRequest, sessionToken, storeSession } from './community-api.js';
+import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=supabase-v1';
 import { loadAiSettings, saveAiSettings, generateText } from './ai.js?v=workshop-v1';
 
 const app = document.getElementById('workshop');
@@ -120,12 +120,13 @@ function issuesHtml(checks) {
 }
 
 function accountHtml() {
-  if (!user) return `<div class="card"><h2>Log in to save across devices or submit</h2><p>Private editing on this device needs no account. Use a public pen name; no email or personal information is needed. Sessions expire after 24 hours.</p>
-    <label for="username">Username</label><input id="username" autocomplete="username">
+  if (!user) return `<div class="card"><h2>Log in to save across devices or submit</h2><p>Private editing on this device needs no account. Use a public pen name. ${emailAccounts ? 'Use your email to sign in and confirm your account. Your email stays private; stories show only your author credit. Check your inbox after registering.' : 'No email is needed. Sessions expire after 24 hours.'}</p>
+    <label for="username">${emailAccounts ? 'Email address' : 'Username'}</label><input id="username" type="${emailAccounts ? 'email' : 'text'}" autocomplete="username">
     <label for="password">Password (12 or more characters for a new account)</label><input id="password" type="password" autocomplete="current-password">
     <label for="author-name">Public author credit (for a new account)</label><input id="author-name" autocomplete="nickname">
-    <div class="row">${action('login', 'Log in', false)}${action('register', 'Create account')}</div></div>`;
+    <div class="row">${action('login', 'Log in', false)}${action('register', 'Create account')}${emailAccounts ? action('recover', 'Forgot password?') : ''}</div></div>`;
   return `<div class="card"><p>Logged in as ${esc(user.name)} (${esc(user.role)}).</p>${action('logout', 'Log out')}
+    ${emailAccounts ? `<details ${message.includes('new password') ? 'open' : ''}><summary>Change / reset password</summary><label for="new-password">New password (12 or more characters)</label><input id="new-password" type="password" autocomplete="new-password">${action('change-password', 'Save new password')}</details>` : ''}
     <h2>Account drafts</h2>${accountDrafts.map(d => `<p>${esc(d.title)} - version ${d.revision} <button class="secondary small" data-action="cloud-open" data-id="${esc(d.id)}">Open latest</button><button class="secondary small" data-action="cloud-versions" data-id="${esc(d.id)}">Version history</button></p>`).join('') || '<p>No account backups yet.</p>'}
     <h2>My submissions</h2>${submissions.map(s => `<div class="card"><b>${esc(s.title)}</b> - version ${s.revision}<p>Status: ${esc(s.status.replaceAll('_', ' '))}</p><p>${esc(s.note)}</p></div>`).join('') || '<p>Nothing submitted yet.</p>'}</div>`;
 }
@@ -334,11 +335,23 @@ const actions = {
   account: showAccount,
   async login() {
     const data = await communityRequest('/api/auth/login', { method: 'POST', body: { username: app.querySelector('#username').value, password: app.querySelector('#password').value } });
-    storeSession(data.token); user = data.user; await showAccount();
+    storeSession(data); user = data.user; await showAccount();
   },
   async register() {
     const data = await communityRequest('/api/auth/register', { method: 'POST', body: { username: app.querySelector('#username').value, password: app.querySelector('#password').value, name: app.querySelector('#author-name').value } });
-    storeSession(data.token); user = data.user; await showAccount();
+    if (data.confirmationRequired) {
+      message = 'Check your email to confirm your account, then return here and log in. No public story has been created.';
+      return;
+    }
+    storeSession(data); user = data.user; await showAccount();
+  },
+  async recover() {
+    const data = await communityRequest('/api/auth/recover', { method: 'POST', body: { username: app.querySelector('#username').value } });
+    message = data.message;
+  },
+  async 'change-password'() {
+    const data = await communityRequest('/api/auth/password', { method: 'POST', body: { password: app.querySelector('#new-password').value } });
+    message = data.message;
   },
   async logout() { await communityRequest('/api/auth/logout', { method: 'POST' }); storeSession(''); user = null; accountDrafts = []; submissions = []; },
   async 'cloud-open'(el) {
@@ -457,11 +470,16 @@ try {
 } catch (e) { error = e.message; }
 render();
 try {
-  const token = sessionToken();
-  if (token) {
-    const data = await communityRequest('/api/auth/me', { token });
-    if (sessionToken() === token) {
+  const redirect = acceptEmailRedirect();
+  const version = sessionVersion();
+  if (sessionToken()) {
+    const data = await communityRequest('/api/auth/me');
+    if (sessionVersion() === version) {
       user = data.user;
+      if (redirect && !busy && view === 'home') {
+        message = redirect === 'recovery' ? 'Your password-reset link is verified. Enter a new password below.' : 'Email confirmed. You are logged in.';
+        await showAccount();
+      }
       if (!busy && ['home', 'account'].includes(view)) render();
     }
   }
