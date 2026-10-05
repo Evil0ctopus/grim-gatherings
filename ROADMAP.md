@@ -30,7 +30,8 @@ verified. A checked item means completed with evidence, not merely planned.
 - [x] Deploy the Supabase database and community API.
 - [x] Create a verified owner account with a trusted administrator role.
 - [ ] Verify the owner's actual login and hosted approval screen.
-- [ ] Verify a sending domain and configure custom SMTP.
+- [x] Verify the sending domain in Resend (DKIM and sending DNS records).
+- [ ] Configure custom SMTP and verify saved settings.
 - [ ] Test real signup confirmation and password-reset delivery and redirects.
 - [ ] Keep public signup closed until those tests pass.
 - [ ] Review Auth email limits, sender tracking, and abuse controls.
@@ -136,6 +137,11 @@ mapping bypassed this network's stale router DNS cache; no system DNS settings
 were changed. After the cache expired, the production workshop test passed again
 without any DNS mapping. Another 28 focused story/backend permission tests passed
 locally. Auth redirects also allow the canonical /workshop URL.
+
+Resend has verified grimgatherings.com for sending. The DKIM TXT and DNS-only
+send/rsend CNAME records are published. SMTP fields are prepared, but the owner
+must transfer the private sending-only API key directly into Supabase and save
+before delivery tests can run. Public registration remains closed.
 
 Private account identifiers and dashboard links belong in `.local-private/`,
 not this public roadmap. Update this checklist as each launch gate is verified.
