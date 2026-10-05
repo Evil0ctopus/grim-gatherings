@@ -2,7 +2,9 @@
 
 A murder-mystery party web app. The host reads the current chapter's narration; every guest joins on their phone and reads one event-related clue aloud each round. **All story evidence is spoken to the group: no secret clues, private backstories or hidden motives.** Everyone reads about one other character and receives exactly one read-aloud clue about them, discusses the evidence, and votes. Assignments use complete circles or explicitly authored rotating routes.
 
-**Live:** https://evil0ctopus.github.io/grim-gatherings/
+**Production:** https://grimgatherings.com/ (new DNS may take time to propagate)
+
+**Testing:** https://evil0ctopus.github.io/grim-gatherings/
 
 See [the roadmap](ROADMAP.md) for Stage 1 launch verification and Stage 2
 monetization. Domain registration alone does not mean the custom-domain website
@@ -24,12 +26,24 @@ upload the entire local checkout to Cloudflare: it contains ignored local files.
 For Cloudflare Pages, use `npm run build:site` as the build command, `dist` as
 the output directory, Node 24, and an approved `production` branch. Do not enable
 automatic production deploys from `main` if GitHub Pages is the testing site.
-These are setup instructions, not confirmation that production is connected.
+The `grim-gatherings` Pages project is configured this way, with automatic
+preview-branch builds disabled. The custom domain has been activated; verify
+current DNS/HTTPS status before announcing availability.
+
+To release, first test the committed `main` version on GitHub Pages. Only after
+approval, fast-forward `production` to that exact tested commit and push that
+branch. Never force-push over another release or merge untested changes merely
+to trigger deployment. Check Cloudflare's successful deployment and the live
+assets after every promotion. Updating `main` alone does not update production.
+The two sites still share the existing Supabase backend: use local simulated
+Auth/database tests for destructive backend experiments until a separate test
+project is provisioned.
 
 Production traffic monitoring uses the owner's private Cloudflare Web Analytics
 dashboard. A hostname entry has been created for grimgatherings.com with automatic
-setup; the domain must serve the game through Cloudflare before traffic collection
-can be verified. Keep testing traffic separate and check production hostname
+setup. A browser smoke check on the custom domain verified the analytics script
+is injected; received events/dashboard counts still need confirmation.
+Keep testing traffic separate and check production hostname
 filters. If automatic injection is unavailable for the final hosting arrangement,
 configure one beacon through Pages or a manual snippet, not multiple overlapping
 installations. No analytics credential belongs in this repository.

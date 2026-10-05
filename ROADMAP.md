@@ -10,13 +10,13 @@ verified. A checked item means completed with evidence, not merely planned.
 - [x] Register grimgatherings.com in the owner's account.
 - [x] Maintain local-only account links outside Git and website uploads.
 - [ ] Serve the public game over HTTPS at https://grimgatherings.com.
-- [ ] Keep GitHub Pages as a separate testing site, without redirecting it to the
+- [x] Keep GitHub Pages as a separate testing site, without redirecting it to the
   production domain.
-- [ ] Configure Cloudflare Pages to deploy only an approved `production` branch.
+- [x] Configure Cloudflare Pages to deploy only an approved `production` branch.
   GitHub Pages continues to deploy `main`.
 - [x] Prepare and test a static-only deployment build that excludes local notes,
   backend files, tests, and database scripts.
-- [ ] Verify the production host uses that build, not the repository root.
+- [x] Verify the production host uses that build, not the repository root.
 - [ ] Configure production Auth redirects and backend allowed origins, then
   verify cross-origin login and community access.
 - [ ] Isolate testing from live account/story writes. A separate website pointed
@@ -56,7 +56,7 @@ verified. A checked item means completed with evidence, not merely planned.
 - [ ] Verify the production home page and workshop emit analytics beacons, then
   confirm page views/visits appear in the owner's private dashboard.
 - [ ] Keep testing traffic separate; filter reports to the production hostname.
-- [ ] Provide a short analytics/privacy notice. Do not send account emails,
+- [x] Provide a short analytics/privacy notice. Do not send account emails,
   story contents, room codes, passwords, or Auth tokens as custom analytics data.
 - [ ] Explain that page views are not unique people. Browser blocking and bots
   affect counts; analytics is not an exact visitor census or a game-completion
@@ -109,15 +109,21 @@ verified. A checked item means completed with evidence, not merely planned.
 
 ## Current launch status
 
-As of October 5, 2026: the domain is registered, GitHub Pages is live, and the
-Supabase backend is deployed. Custom-domain hosting, SMTP, public registration,
-real owner login verification, and production traffic monitoring are not yet
-verified. No payment integration or paid content has been launched.
+As of October 5, 2026: Cloudflare Pages has deployed the `production` branch,
+using the static-only build, and grimgatherings.com has been activated. Public
+DNS resolved the domain and a browser smoke check using that DNS answer passed
+valid HTTPS, game UI, workshop/account UI, public catalog, and backend CORS.
+Some local DNS caches still report the name unresolved; ordinary browser access
+must be rechecked after propagation. GitHub Pages remains a separate testing
+site. SMTP, public signup, actual owner login, and received analytics counts are
+still pending. No payment integration or paid content has been launched.
 
 The static deployment build passed five packaging/workflow regression tests;
-all 47 output assets matched source byte-for-byte. Cloudflare's analytics
-dashboard exists but shows no traffic. Cloudflare Pages Git integration is
-waiting for owner authorization of access to only the game repository.
+the initial 47 output assets matched source byte-for-byte. A traffic notice adds
+one static page. Cloudflare's analytics script was detected on the production
+workshop, but dashboard events remain unverified. Backend allowed origins include
+the custom domain and production Pages hostname; Auth site URL and allowed
+redirects include the custom domain. Public signup remains closed.
 
 Private account identifiers and dashboard links belong in `.local-private/`,
 not this public roadmap. Update this checklist as each launch gate is verified.
