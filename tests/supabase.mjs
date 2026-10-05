@@ -212,5 +212,78 @@ test('failed refresh revokes only invalid sessions, not transient outages; legac
   }
   const storage = memoryStorage(); storage.setItem('gg-community-session-v1', 'legacy-token');
   const client = createCommunityClient({ storage, fetchImpl: async (_, options) => { assert.equal(options.headers.Authorization, 'Bearer legacy-token'); return Response.json({ ok: true }); } });
-  assert.equal((await client.request('/api/health')).ok, true);
+  assert.equal((await client.request('/api/auth/me')).ok, true);
+});
+
+test('anonymous catalog and health remain available with an expired or corrupt login', async () => {
+  for (const saved of [JSON.stringify({ token: 'expired', refreshToken: 'revoked', expiresAt: 0 }), '{broken']) {
+    const storage = memoryStorage();
+    storage.setItem('gg-community-session-v1', saved);
+    const client = createCommunityClient({ provider: 'supabase', storage, fetchImpl: async (url, options) => {
+      assert.ok(!url.endsWith('/refresh'), 'public browsing must not depend on refreshing an account');
+      assert.equal(options.headers.Authorization, undefined);
+      return Response.json({ available: true, stories: [] });
+    } });
+    for (const route of ['/api/health', '/api/community', '/api/community/11111111-1111-4111-8111-111111111111']) {
+      assert.ok(await client.request(route));
+    }
+    assert.equal(storage.getItem('gg-community-session-v1'), saved);
+  }
+});
+
+test('a delayed old-token 401 reuses an already refreshed token instead of rotating again', async () => {
+  let releaseDelayed;
+  const delayed = new Promise(resolve => { releaseDelayed = resolve; });
+  let refreshes = 0, oldRequests = 0;
+  const client = createCommunityClient({ provider: 'supabase', storage: memoryStorage(), fetchImpl: async (url, options) => {
+    if (url.endsWith('/refresh')) {
+      refreshes++;
+      return Response.json({ token: 'renewed', refreshToken: 'rotated', expiresAt: Date.now() + 3600000 });
+    }
+    if (options.headers.Authorization === 'Bearer old') {
+      oldRequests++;
+      if (url.endsWith('/submissions')) await delayed;
+      return Response.json({ error: 'Token expired' }, { status: 401 });
+    }
+    assert.equal(options.headers.Authorization, 'Bearer renewed');
+    return Response.json({ ok: true });
+  } });
+  client.saveSession({ token: 'old', refreshToken: 'refresh', expiresAt: Date.now() + 3600000 });
+  const first = client.request('/api/drafts'), second = client.request('/api/submissions');
+  assert.equal((await first).ok, true);
+  releaseDelayed();
+  assert.equal((await second).ok, true);
+  assert.equal(oldRequests, 2);
+  assert.equal(refreshes, 1);
+});
+
+test('changing accounts during refresh cancels the old action rather than sending it as the new account', async () => {
+  let finishRefresh;
+  const reply = new Promise(resolve => { finishRefresh = resolve; });
+  let writes = 0;
+  const client = createCommunityClient({ provider: 'supabase', storage: memoryStorage(), fetchImpl: async url => {
+    if (url.endsWith('/refresh')) return reply;
+    writes++;
+    return Response.json({ ok: true });
+  } });
+  client.saveSession({ token: 'old', refreshToken: 'old-refresh', expiresAt: 0 });
+  const pending = client.request('/api/drafts', { method: 'POST', body: { content: 'old account draft' } });
+  const rejected = assert.rejects(pending, /account changed/i);
+  client.saveSession({ token: 'different-account', refreshToken: 'different-refresh', expiresAt: Date.now() + 3600000 });
+  finishRefresh(Response.json({ token: 'renewed-old', refreshToken: 'rotated-old', expiresAt: Date.now() + 3600000 }));
+  await rejected;
+  assert.equal(writes, 0);
+  assert.equal(client.token(), 'different-account');
+});
+
+test('damaged saved login reports an error once and does not trap subsequent workshop actions', async () => {
+  for (const damaged of ['{broken', '{}', '{"token":4}']) {
+    const storage = memoryStorage();
+    storage.setItem('gg-community-session-v1', damaged);
+    const client = createCommunityClient({ storage, fetchImpl: async () => Response.json({ available: true }) });
+    await assert.rejects(client.request('/api/auth/me'), /damaged and has been cleared/);
+    assert.equal(client.token(), '');
+    assert.equal((await client.request('/api/health')).available, true);
+    assert.equal(storage.getItem('gg-community-session-v1'), null);
+  }
 });

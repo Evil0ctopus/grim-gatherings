@@ -1,9 +1,9 @@
 import { esc, download } from './util.js?v=workshop-v1';
 import { normalizeStory } from './story.js?v=workshop-v1';
 import { REVIEW_ITEMS, blankStory, createPrompt, checkDraft, editedDraft, isEditableStory } from './workshop-core.js';
-import { listDrafts, saveDraft, draftVersions } from './workshop-storage.js';
+import { listDrafts, saveDraft, draftVersions } from './workshop-storage.js?v=reliability-v1';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js?v=rotating-clues-v1';
-import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=supabase-live-v1';
+import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=reliability-v1';
 import { loadAiSettings, saveAiSettings, generateText } from './ai.js?v=workshop-v1';
 
 const app = document.getElementById('workshop');
@@ -169,9 +169,11 @@ function importedDraft(content, story, current) {
 
 function persist(label) {
   draft.localRevision = (draft.localRevision || 0) + 1;
+  const source = draft;
   const snapshot = structuredClone(draft);
   const write = async () => {
-    const saved = await saveDraft(snapshot, label);
+    const saved = await saveDraft({ ...snapshot, storageRevision: source.storageRevision || 0 }, label);
+    source.storageRevision = saved.storageRevision;
     if (draft?.id === saved.id) draft.updatedAt = saved.updatedAt;
   };
   persistence = persistence.then(write, write);
@@ -190,6 +192,14 @@ async function cloudBackup() {
   draft.cloud = { ...result, userId: user.id };
   await persist('Account backup recorded');
   return result;
+}
+
+async function waitForDraftRead() {
+  try { await persistence; }
+  catch (failure) {
+    if (failure.code !== 'DRAFT_CONFLICT') throw failure;
+    message = 'Your conflicting edit is kept in Earlier versions. Open the latest draft to continue, or download a backup of your current text.';
+  }
 }
 
 async function savePlayable(story, id, author) {
@@ -215,7 +225,7 @@ async function showAccount() {
 }
 
 const actions = {
-  async home() { await persistence; drafts = await listDrafts(); view = 'home'; },
+  async home() { await waitForDraftRead(); drafts = await listDrafts(); view = 'home'; },
   create() { step = 0; view = 'create'; },
   previous() { step--; },
   next() {
@@ -228,7 +238,7 @@ const actions = {
     versions = []; view = 'edit';
   },
   async open(el) {
-    await persistence;
+    await waitForDraftRead();
     draft = (await listDrafts()).find(d => d.id === el.dataset.id);
     if (!draft) throw new Error('That draft is unavailable.');
     versions = []; view = 'edit';
@@ -238,12 +248,12 @@ const actions = {
     if (draft.rawJson) checked.errors.unshift('Apply or correct the pasted JSON first.');
     message = checked.errors.length ? `Not ready yet: ${checked.errors.length} checks need attention. Open Current format checks and review the checklist.` : 'Format and creator review checks passed. You can save or submit; these checks are not a guarantee of narrative quality.';
   },
-  async versions() { await persistence; versions = await draftVersions(draft.id); },
+  async versions() { await waitForDraftRead(); versions = await draftVersions(draft.id); },
   async restore(el) {
     const version = versions.find(v => v.id === el.dataset.id);
     if (!version || !confirm('Restore this version? Your current version stays in the history.')) return;
-    const cloud = draft.cloud, localRevision = draft.localRevision;
-    draft = { ...structuredClone(version.draft), cloud, localRevision, review: {}, aiReview: null };
+    const cloud = draft.cloud, localRevision = draft.localRevision, storageRevision = draft.storageRevision;
+    draft = { ...structuredClone(version.draft), cloud, localRevision, storageRevision, review: {}, aiReview: null };
     await persist('Restored earlier version'); versions = await draftVersions(draft.id);
   },
   'download-draft'() { download('mystery-draft-backup.json', JSON.stringify({ workshopDraft: draft }, null, 2)); },
@@ -361,7 +371,7 @@ const actions = {
     const result = normalizeStory(data.content.story);
     if (!result.story && !isEditableStory(data.content.story)) throw new Error(`Account draft needs JSON repair: ${result.errors.join(' ')}. Download it using account version history.`);
     draft = importedDraft(data.content, result.story || data.content.story, {
-      id: local?.id || crypto.randomUUID(), localRevision: local?.localRevision || 0, createdAt: Date.now(), cloud: { id: data.id, revision: data.revision, userId: user.id },
+      id: local?.id || crypto.randomUUID(), localRevision: local?.localRevision || 0, storageRevision: local?.storageRevision || 0, createdAt: Date.now(), cloud: { id: data.id, revision: data.revision, userId: user.id },
     });
     await persist('Opened account version'); versions = []; view = 'edit';
   },

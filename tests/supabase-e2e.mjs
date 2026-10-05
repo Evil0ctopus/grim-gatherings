@@ -32,6 +32,7 @@ const handler = createSupabaseHandler({ url: 'https://project.supabase.co', anon
     if (path.endsWith('/signup')) return Response.json({ user: { id: authorId } });
     if (path.endsWith('/token')) {
       const isRefresh = new URL(url).search.includes('refresh_token');
+      if (isRefresh && body.refresh_token === 'unavailable-refresh') return Response.json({ msg: 'Authentication temporarily unavailable' }, { status: 503 });
       const admin = body.email === 'owner@example.test';
       if (!confirmed && !admin) return Response.json({ msg: 'Email not confirmed' }, { status: 400 });
       if (isRefresh) refreshes++;
@@ -49,8 +50,9 @@ const handler = createSupabaseHandler({ url: 'https://project.supabase.co', anon
 });
 const browser = await chromium.launch();
 const errors = [];
-async function makePage() {
+async function makePage(savedSession) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  if (savedSession) await page.addInitScript(value => sessionStorage.setItem('gg-community-session-v1', value), savedSession);
   page.on('pageerror', e => errors.push(e.message));
   page.on('dialog', d => d.accept());
   await page.route('**/js/community-config.js*', route => route.fulfill({ contentType: 'text/javascript',
@@ -70,6 +72,17 @@ async function click(page, name) {
 }
 try {
   const author = await makePage();
+  const brokenLogin = await makePage('{broken');
+  await brokenLogin.goto(base + '/workshop.html');
+  await brokenLogin.waitForFunction(() => document.querySelector('#workshop-error').textContent.includes('damaged and has been cleared'));
+  for (const action of ['create', 'next', 'next', 'make-draft']) await click(brokenLogin, action);
+  check('a damaged login is reported and cannot disable private story creation', await brokenLogin.locator('#w-story-title').count() === 1);
+  const outage = await makePage(JSON.stringify({ token: 'expired-token', refreshToken: 'unavailable-refresh', expiresAt: 0 }));
+  await outage.goto(base + '/workshop.html');
+  await outage.waitForFunction(() => document.querySelector('#workshop-error').textContent.includes('Authentication temporarily unavailable'));
+  await click(outage, 'community');
+  check('public catalog browsing survives an expired login and an Auth outage', await outage.locator('#workshop-error').innerText() === '' && await outage.evaluate(() => !!sessionStorage.getItem('gg-community-session-v1')));
+  await brokenLogin.close(); await outage.close();
   await author.goto(base + '/workshop.html'); await click(author, 'account');
   check('Supabase configuration presents email accounts, not legacy usernames', await author.locator('label[for="username"]').innerText() === 'Email address');
   await author.fill('#username', 'writer@example.test'); await author.fill('#password', 'test-only-password-123!');

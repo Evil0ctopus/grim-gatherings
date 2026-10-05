@@ -21,8 +21,15 @@ export function createCommunityClient({ endpoint = '', provider = 'node', storag
     const value = storage.getItem(KEY);
     if (!value) return null;
     if (!value.startsWith('{')) return { token: value };
-    try { return JSON.parse(value); }
-    catch { throw new Error('Your login session could not be read. Clear the workshop login session and sign in again.'); }
+    try {
+      const session = JSON.parse(value);
+      if (!session || typeof session.token !== 'string' || !session.token) throw new Error('Invalid session record');
+      return session;
+    } catch {
+      storage.removeItem(KEY);
+      identityVersion++;
+      throw new Error('Your saved login was damaged and has been cleared. Please sign in again; your story drafts are unchanged.');
+    }
   }
   const token = () => stored()?.token || '';
   let identityVersion = 0;
@@ -55,15 +62,16 @@ export function createCommunityClient({ endpoint = '', provider = 'node', storag
   async function refresh() {
     if (!refreshing) {
       const current = stored();
+      const version = identityVersion;
       if (!emailMode || !current?.refreshToken) throw new Error('Please log in again.');
       refreshing = (async () => {
         try {
           const result = await send('/api/auth/refresh', { method: 'POST', body: { refreshToken: current.refreshToken } });
-          if (token() !== current.token) return token();
+          if (identityVersion !== version) throw new Error('Your account changed while this action was waiting. Please try again in the current account.');
           writeSession(result);
           return result.token;
         } catch (error) {
-          if ([400, 401, 403].includes(error.status) && token() === current.token) saveSession('');
+          if ([400, 401, 403].includes(error.status) && identityVersion === version) saveSession('');
           throw error;
         } finally { refreshing = null; }
       })();
@@ -72,19 +80,36 @@ export function createCommunityClient({ endpoint = '', provider = 'node', storag
   }
   async function request(path, options = {}) {
     const isAuthStart = /^\/api\/auth\/(login|register|recover|refresh)$/.test(path);
-    let accessToken = options.token ?? (isAuthStart ? '' : token());
+    const isPublic = (options.method || 'GET') === 'GET' && /^\/api\/(?:health|community(?:\/[^/]+)?)$/.test(path);
+    if (isPublic || isAuthStart) return send(path, { ...options, token: isPublic ? '' : (options.token || '') });
     const current = stored();
+    let accessToken = options.token ?? (current?.token || '');
+    const version = identityVersion;
+    const ownSession = !!accessToken && accessToken === current?.token;
+    const ensureIdentity = () => {
+      if (ownSession && identityVersion !== version) throw new Error('Your account changed while this action was waiting. Please try again in the current account.');
+    };
     if (emailMode && accessToken && accessToken === current?.token && current.refreshToken && current.expiresAt <= Date.now() + 30000) {
       accessToken = await refresh();
     }
-    try { return await send(path, { ...options, token: accessToken }); }
+    ensureIdentity();
+    try {
+      const data = await send(path, { ...options, token: accessToken });
+      ensureIdentity();
+      return data;
+    }
     catch (error) {
-      if (error.status === 401 && accessToken && token() === accessToken) {
-        if (emailMode && stored()?.refreshToken && !isAuthStart) {
-          const renewed = await refresh();
-          try { return await send(path, { ...options, token: renewed }); }
+      if (error.status === 401 && ownSession && identityVersion === version) {
+        if (emailMode && stored()?.refreshToken) {
+          const renewed = token() !== accessToken ? token() : await refresh();
+          ensureIdentity();
+          try {
+            const data = await send(path, { ...options, token: renewed });
+            ensureIdentity();
+            return data;
+          }
           catch (retryError) {
-            if (retryError.status === 401 && token() === renewed) saveSession('');
+            if (retryError.status === 401 && identityVersion === version && token() === renewed) saveSession('');
             throw retryError;
           }
         }

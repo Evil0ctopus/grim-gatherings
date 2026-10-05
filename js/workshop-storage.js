@@ -30,10 +30,26 @@ async function transaction(stores, mode, action) {
 export async function saveDraft(draft, label = 'Edited draft') {
   const snapshot = structuredClone({ ...draft, updatedAt: Date.now() });
   const version = { id: crypto.randomUUID(), draftId: draft.id, createdAt: snapshot.updatedAt, label, draft: snapshot };
+  let conflict = false;
   await transaction(['drafts', 'versions'], 'readwrite', tx => {
-    tx.objectStore('drafts').put(snapshot);
-    tx.objectStore('versions').add(version);
+    const drafts = tx.objectStore('drafts');
+    drafts.get(draft.id).onsuccess = event => {
+      const savedRevision = event.target.result?.storageRevision || 0;
+      if (savedRevision !== (draft.storageRevision || 0)) {
+        conflict = true;
+        version.label = 'Conflicting edit kept for recovery';
+      } else {
+        snapshot.storageRevision = savedRevision + 1;
+        drafts.put(snapshot);
+      }
+      tx.objectStore('versions').add(version);
+    };
   });
+  if (conflict) {
+    const error = new Error('This draft changed in another tab. Your conflicting edit is kept in Earlier versions. Download a backup or reopen the latest draft before editing again.');
+    error.code = 'DRAFT_CONFLICT';
+    throw error;
+  }
   return snapshot;
 }
 
