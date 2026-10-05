@@ -41,8 +41,9 @@ project is provisioned.
 
 Production traffic monitoring uses the owner's private Cloudflare Web Analytics
 dashboard. A hostname entry has been created for grimgatherings.com with automatic
-setup. A browser smoke check on the custom domain verified the analytics script
-is injected; received events/dashboard counts still need confirmation.
+setup. Browser smoke checks verified home/workshop beacons receive HTTP 204,
+and the private dashboard displayed 4 visits and 5 page views during setup
+verification (including our test visits).
 Keep testing traffic separate and check production hostname
 filters. If automatic injection is unavailable for the final hosting arrangement,
 configure one beacon through Pages or a manual snippet, not multiple overlapping

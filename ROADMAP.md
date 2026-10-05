@@ -53,12 +53,12 @@ verified. A checked item means completed with evidence, not merely planned.
 
 - [x] Create free Cloudflare Web Analytics for grimgatherings.com with automatic
   setup and a private owner dashboard.
-- [ ] Verify the production home page and workshop emit analytics beacons, then
+- [x] Verify the production home page and workshop emit analytics beacons, then
   confirm page views/visits appear in the owner's private dashboard.
-- [ ] Keep testing traffic separate; filter reports to the production hostname.
+- [x] Keep testing traffic separate; filter reports to the production hostname.
 - [x] Provide a short analytics/privacy notice. Do not send account emails,
   story contents, room codes, passwords, or Auth tokens as custom analytics data.
-- [ ] Explain that page views are not unique people. Browser blocking and bots
+- [x] Explain that page views are not unique people. Browser blocking and bots
   affect counts; analytics is not an exact visitor census or a game-completion
   tracker.
 - [ ] Document private database/story backups, service limits, account recovery,
@@ -115,13 +115,14 @@ DNS resolved the domain and a browser smoke check using that DNS answer passed
 valid HTTPS, game UI, workshop/account UI, public catalog, and backend CORS.
 Some local DNS caches still report the name unresolved; ordinary browser access
 must be rechecked after propagation. GitHub Pages remains a separate testing
-site. SMTP, public signup, actual owner login, and received analytics counts are
-still pending. No payment integration or paid content has been launched.
+site. SMTP, public signup, and actual owner login are still pending. No payment
+integration or paid content has been launched.
 
 The static deployment build passed five packaging/workflow regression tests;
 the initial 47 output assets matched source byte-for-byte. A traffic notice adds
-one static page. Cloudflare's analytics script was detected on the production
-workshop, but dashboard events remain unverified. Backend allowed origins include
+one static page. Production home/workshop analytics beacons returned HTTP 204;
+the private dashboard showed 4 visits and 5 page views during setup (including
+our verification traffic). Backend allowed origins include
 the custom domain and production Pages hostname; Auth site URL and allowed
 redirects include the custom domain. Public signup remains closed.
 
