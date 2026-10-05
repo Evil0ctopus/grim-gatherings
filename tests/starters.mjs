@@ -8,6 +8,7 @@ const ranges = {
   'mercy-hollow': { minPlayers: 3, maxPlayers: 8 },
   'blackthorn-farm': { minPlayers: 3, maxPlayers: 9 },
   'briar-house': { minPlayers: 3, maxPlayers: 10 },
+  'blackwater-row': { minPlayers: 4, maxPlayers: 4 },
 };
 const coreEvidence = {
   'mercy-hollow': [
@@ -25,13 +26,19 @@ const coreEvidence = {
     ['housekeeper', 'no other person enter'],
     ['secretary', 'carbon copy records transfers'],
   ],
+  'blackwater-row': [
+    ['xander', 'Benjamin Barker'],
+    ['lydia', 'document'],
+    ['marla', 'Mayor'],
+    ['jasper', 'rumors'],
+  ],
 };
 const guestsFor = count => Array.from({ length: count }, (_, i) => ({ name: `Player ${i + 1}`, desc: `Description ${i + 1}` }));
 
-test('the starter catalog contains three distinct, complete fictional mysteries', () => {
-  assert.equal(STARTER_MYSTERIES.length, 3);
-  assert.equal(new Set(STARTER_MYSTERIES.map(entry => entry.id)).size, 3);
-  assert.equal(new Set(STARTER_MYSTERIES.map(entry => entry.title)).size, 3);
+test('the starter catalog contains four distinct, complete fictional mysteries', () => {
+  assert.equal(STARTER_MYSTERIES.length, 4);
+  assert.equal(new Set(STARTER_MYSTERIES.map(entry => entry.id)).size, 4);
+  assert.equal(new Set(STARTER_MYSTERIES.map(entry => entry.title)).size, 4);
   for (const entry of STARTER_MYSTERIES) {
     assert.equal(entry.title, entry.story.title);
     assert.ok(entry.blurb && entry.inspiration && entry.contentNote);

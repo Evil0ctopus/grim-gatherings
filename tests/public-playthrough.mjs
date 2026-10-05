@@ -104,6 +104,7 @@ test('required public chapters establish each solution chain before reveal at sm
     [/Pike.*enter/, /half-burned deed/, /draft.*Pike.s handwriting/, /fragment.*broken clasp/, /missing star.*impressions/],
     [/coat.*side door/, /stair.*Adler.s request/, /Adler signed.*boundary/, /cap.*before supper/, /button.*Adler.s coat/],
     [/Pell leave.*folded/, /removed as trustee/, /bell mechanism.*continues/, /appointment note.*study/, /transfers.*private practice/],
+    [/page.*torn.*delivery log/, /scrap listing Elias, Ronan, Harper and Tobias/, /index entry cites the receipt number/, /route notebook.*surviving index/is, /BENJAMIN BARKER.*false delivery entry/is],
     [/Nell saw Wick climb/, /push.*oil line/, /logbook.*coast guard/, /key.*only other copy/, /Wick.s father.*insurance/],
   ];
   stories.forEach((story, si) => {

@@ -18,7 +18,7 @@ for (const family of families) {
   test(`${family.id}: every count selects its committed script without changing events or clue assignments`, () => {
     const before = JSON.stringify(family.editions);
     const counts = Object.keys(family.editions).map(Number);
-    assert.equal(counts.length, Math.max(...counts) - 2);
+    assert.equal(counts.length, Math.max(...counts) - Math.min(...counts) + 1);
     const narrations = new Set();
     for (const count of counts) {
       const canonical = family.editions[count];
@@ -35,7 +35,9 @@ for (const family of families) {
       for (const character of selected.characters) {
         selected.rounds.forEach((round, ri) => {
           assert.ok(round.narration.includes(`{${character.id}} leads the comparison`), `${character.name} needs an investigation handoff`);
-          assert.ok(character.rounds[ri].readAloud.text.includes(`{${character.id}}`));
+          const clue = character.rounds[ri].readAloud;
+          const reference = family.id === 'blackwater-row' ? clue.accuses : character.id;
+          assert.ok(clue.text.includes(`{${reference}}`));
         });
       }
       const saved = makeStoryTemplate(normalizeStory(selected).story);
@@ -51,7 +53,7 @@ for (const family of families) {
     }
     assert.equal(narrations.size, counts.length, 'Every count needs its own written narration');
     assert.equal(JSON.stringify(family.editions), before);
-    assert.throws(() => selectEdition(family, players(2)), /works for/);
+    assert.throws(() => selectEdition(family, players(Math.min(...counts) - 1)), /works for/);
     assert.throws(() => selectEdition(family, players(Math.max(...counts) + 1)), /works for/);
   });
 }

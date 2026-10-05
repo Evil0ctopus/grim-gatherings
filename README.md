@@ -6,7 +6,7 @@ A murder-mystery party web app. The host reads the narration; every guest joins 
 
 - No server, no accounts, no build step — plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
-- Includes four ready-to-play mystery families with fixed player-count editions, including **The Last Seance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests). Zero AI setup needed.
+- Includes five ready-to-play mystery families with fixed player-count editions, including **The Last Seance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests) and Melissa's **The Barber of Blackwater Row** (exactly 4 guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
@@ -23,7 +23,7 @@ A murder-mystery party web app. The host reads the narration; every guest joins 
 
 Guests who refresh, lock their phone, or lose signal just reopen the same link — they're put straight back on their character and the current round.
 
-Every mystery must have **5 or 6 rounds**; all built-in editions have five. Their accusation circles are written and stored in advance, changing between rounds but never rebuilt during play. Clues progress from initial circumstances and suspicion, through linked documents and timelines, to round 4 corrections and round 5 conclusions. Later evidence explains earlier behavior rather than inventing convenient alibis. Story events are spoken in evidence and narration; no acting is required.
+Every mystery must have **5 or 6 rounds**; all built-in editions have five. Their accusation circles are written and stored in advance and never rebuilt during play. Most change between rounds; Blackwater Row preserves Melissa's fixed circle. Clues progress from initial circumstances and suspicion, through linked documents and timelines, to round 4 corrections and round 5 conclusions. Later evidence explains earlier behavior rather than inventing convenient alibis. Story events are spoken in evidence and narration; no acting is required.
 
 Player screens grow with the investigation. **How the evidence against you has changed** collects released clues about the character. **The room's evidence notebook** retains the **complete spoken narration** and every read-aloud clue at voting. The current narrator text is also available on phones; each current script stays with its reader until voting. Future chapters remain locked. Corrections are evidence to assess, not automatic innocent/guilty badges. Refresh and rewind reconstruct the released history. PeerJS binary chunking supports the larger notebooks.
 
@@ -49,15 +49,25 @@ Add your players and choose **Play this mystery**. The assigned roster count sel
 
 Ravenmoor also has fixed editions for **3–24 players (22 editions)**, preserving its previously supported larger parties rather than removing them. The lighthouse JSON example remains a standalone three-player mystery.
 
+### Melissa's mystery: The Barber of Blackwater Row
+
+Add **exactly four players**, then select **The Barber of Blackwater Row** under **Ready-to-play mysteries**. A separate narrator does not count as a player. The required cast is Xander Hale (woodworker), Marla Quinn (baker's assistant), Jasper Crowe (tavern musician) and Lydia Vance (schoolteacher).
+
+The five rounds investigate the baker, barkeep, senior teacher, lamplighter and Mayor, followed by the final vote and reveal. Each death is described as a slashed throat, without graphic detail. Melissa's clue circle stays **Xander → Marla → Jasper → Lydia → Xander** in every round. All player clues concern other players; detective discoveries are read aloud by the host.
+
+The adaptation adds connective narration, linked records, explanations for earlier suspicions and final documentary proof so the solution follows from spoken evidence. Xander's true identity and the Mayor's connection first appear in **Round 5**, never in introductions or early packets. Leave murderer notification off for a fully unspoiled investigation; turning it on tells the killer their status, but does not reveal the hidden identity or history early. The final reveal includes an optional host-read monologue. Themes include wrongful imprisonment, coercion and revenge.
+
+Review, reassign, save and export it using the existing controls. Saved copies retain the exact four-player edition. This hand-authored script is maintained directly in `js/editions/blackwater-row.js`; the offline authoring command for the other families does not regenerate it.
+
 The browser imports committed scripts from `js/editions/`. `node tools/author-editions.mjs` is an **offline authoring step**, not game-time generation. It uses the curated public story sources and count-specific staging to write standalone edition files. Review narrative changes and run all edition audits before committing regenerated files. The app never imports the historical authoring sources or invokes circle generation for built-in selections. Custom JSON without edition metadata retains the existing optional-cast support; it is not represented as an authored catalog edition.
 
 Old adaptive saves bearing the original built-in titles are retired when the updated site loads, so they do not reappear instead of the fixed editions. Fixed-edition saves and unrelated public custom stories remain available.
 
-Unit checks: `node --test tests/editions.mjs tests/public-playthrough.mjs tests/saved-content.mjs tests/progression.mjs tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
+Unit checks: `node --test tests/blackwater-row.mjs tests/editions.mjs tests/public-playthrough.mjs tests/saved-content.mjs tests/progression.mjs tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
 
-Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample] [discloseKiller=false]`. Mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm`, `briar-house` and `example` (the three-player lighthouse import). For example, `node tests/e2e.mjs http://127.0.0.1:8128/ 10 briar-house false` connects a separate phone for **every** listed player through all five rounds, refresh/reconnection and the reveal. Tests also exercise the live host notification toggle and complete narrated notebooks. Unit audits check both notification settings for every included character at every supported count; browser tests exercise four-player and full named casts.
+Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample] [discloseKiller=false]`. Mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm`, `briar-house`, `blackwater-row` (exactly four players) and `example` (the three-player lighthouse import). For example, `node tests/e2e.mjs http://127.0.0.1:8128/ 10 briar-house false` connects a separate phone for **every** listed player through all five rounds, refresh/reconnection and the reveal. Tests also exercise the live host notification toggle and complete narrated notebooks. Unit audits check both notification settings for every included character at every supported count; browser tests exercise four-player and full named casts.
 
-Full edition browser matrix: `node tests/editions-e2e.mjs [url] [absolute-log-directory] [concurrency=3]`. It plays all 43 committed editions through all five rounds with every character connected. Use concurrency `1` on machines with limited memory; the largest Ravenmoor editions open up to 25 browser contexts per game.
+Full edition browser matrix: `node tests/editions-e2e.mjs [url] [absolute-log-directory] [concurrency=3]`. It plays all 44 committed editions through all five rounds with every character connected. Use concurrency `1` on machines with limited memory; the largest Ravenmoor editions open up to 25 browser contexts per game.
 
 ## Atmosphere and event effects
 

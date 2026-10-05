@@ -68,7 +68,11 @@ test('every guest has a full participating character at every built-in party siz
         assert.equal(incoming.length, 1, `${c.name} must be part of the investigation in round ${ri + 1}`);
         incomingHistory.push(incoming[0].rounds[ri].readAloud.text);
       }
-      assert.ok(new Set(targetHistory).size >= 2, `${c.name} should investigate different guests`);
+      if (story.edition.family === 'blackwater-row') {
+        assert.equal(new Set(targetHistory).size, 1, 'Preserve Melissa\'s fixed clue circle');
+      } else {
+        assert.ok(new Set(targetHistory).size >= 2, `${c.name} should investigate different guests`);
+      }
       assert.equal(new Set(incomingHistory).size, 5, `${c.name} needs evolving suspicion, not repeated filler`);
     }
   }
@@ -94,7 +98,7 @@ test('round 4 explicitly revisits earlier innocent suspicion without changing th
     [stories[0], 'midwife', /concealed a sister/, /protection for a sister/],
     [stories[1], 'heir', /hid the original/, /preserves|truthful inheritance/],
     [stories[2], 'daughter', /hid Cecily's letter/, /still provides/],
-    [stories[3], 'constance', /gambling debts/, /same decanter and survived/],
+    [stories.find(story => story.edition?.family === 'sample'), 'constance', /gambling debts/, /same decanter and survived/],
     [example, 'nell', /inherits the land/, /argument happened an hour before/],
   ];
   for (const [story, id, suspicion, correction] of arcs) {
@@ -112,7 +116,8 @@ test('required public evidence still carries the final chain at every supported 
     for (let n = minPlayers; n <= maxPlayers; n++) {
       const story = adaptStoryForPlayers(entry.story, guests(n));
       assert.equal(evidenceAgainst(story, story.solution.killerId, 4), evidenceAgainst(entry.story.editions[n], story.solution.killerId, 4));
-      assert.match(evidenceAgainst(story, story.solution.killerId, 4), /notebook|ledger|carbon/);
+      const document = entry.id === 'blackwater-row' ? /court file/ : /notebook|ledger|carbon/;
+      assert.match(evidenceAgainst(story, story.solution.killerId, 4), document);
       assert.equal(story.solution.explanation, entry.story.solution.explanation);
     }
   }

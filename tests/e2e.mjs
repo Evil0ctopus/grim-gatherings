@@ -110,6 +110,16 @@ try {
       ok(`${label}: ${g} has no private story fields`, !['backstory','secrets','motive'].some(key => key in packet));
       ok(`${label}: ${g} murderer notification matches host setting`,
         discloseKiller ? packet.isKiller === (me.id === killer.id) : !('isKiller' in packet));
+      if (mysteryId === 'blackwater-row') {
+        const view = await p.evaluate(() => window.__gg.view);
+        if (view.phase === 'lobby' || view.roundIndex < 4) {
+          ok(`${label}: ${g} has no early identity or Mayor spoilers`,
+            !/Benjamin|Barker|Mayor|Aldric|Thorne|imprison|wife/i.test(JSON.stringify(view)));
+        } else {
+          ok(`${label}: ${g} receives the final court document`,
+            view.currentRound.narration.includes('BENJAMIN BARKER'));
+        }
+      }
     }
   }
   await checkFiltering('lobby');
@@ -181,6 +191,10 @@ try {
         await p.locator('#evidence-history section').count() === ri + 1);
       ok(`round ${ri + 1}: ${g} notebook retains the full spoken narration`,
         await p.evaluate(({ri, text}) => window.__gg.view.evidenceHistory[ri].narration === text, {ri, text: fill(story.rounds[ri].narration)}));
+      if (mysteryId === 'blackwater-row' && ri < 4) {
+        ok(`round ${ri + 1}: ${g} voting notebook has no early identity or Mayor spoilers`,
+          !/Benjamin|Barker|Mayor|Aldric|Thorne|imprison|wife/i.test(await p.evaluate(() => JSON.stringify(window.__gg.view))));
+      }
       if (ri === 3 && mysteryId === 'sample') {
         ok(`round 4: ${g} receives the correction to Constance's earlier suspicion`,
           (await p.locator('#evidence-history').textContent()).includes('same decanter and survived'));
