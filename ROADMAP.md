@@ -31,7 +31,7 @@ verified. A checked item means completed with evidence, not merely planned.
 - [x] Create a verified owner account with a trusted administrator role.
 - [ ] Verify the owner's actual login and hosted approval screen.
 - [x] Verify the sending domain in Resend (DKIM and sending DNS records).
-- [ ] Configure custom SMTP and verify saved settings.
+- [x] Configure custom SMTP and verify saved settings.
 - [ ] Test real signup confirmation and password-reset delivery and redirects.
 - [ ] Keep public signup closed until those tests pass.
 - [ ] Review Auth email limits, sender tracking, and abuse controls.
@@ -139,9 +139,10 @@ without any DNS mapping. Another 28 focused story/backend permission tests passe
 locally. Auth redirects also allow the canonical /workshop URL.
 
 Resend has verified grimgatherings.com for sending. The DKIM TXT and DNS-only
-send/rsend CNAME records are published. SMTP fields are prepared, but the owner
-must transfer the private sending-only API key directly into Supabase and save
-before delivery tests can run. Public registration remains closed.
+send/rsend CNAME records are published. Custom SMTP settings persisted after
+reload. A password-reset request from production returned HTTP 200 and appeared
+in Resend's queue; inbox delivery and link completion remain to be checked.
+Public registration remains closed.
 
 Private account identifiers and dashboard links belong in `.local-private/`,
 not this public roadmap. Update this checklist as each launch gate is verified.
