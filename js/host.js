@@ -9,11 +9,12 @@ import { STARTER_MYSTERIES } from './starters.js?v=blackwater-row-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=count-editions-v1';
+import { currentCharacter, releaseCharacter, retireOtherSessions, resumeSession } from './host-sessions.js?v=connection-recovery-v1';
 
 const KEY = HOST_SAVE_KEY;
 let S = null; // persisted host state
 const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '' };
-let peer = null, netStatus = 'offline', restartTimer = null;
+let peer = null, netStatus = 'offline', restartTimer = null, peerAttemptAt = 0, peerBlocked = false, hostPaused = false;
 let atmosphere = null;
 const conns = new Map(); // DataConnection -> { conn, charId, token, lastSeen }
 const LIVE_PHASES = ['lobby', 'round', 'vote', 'reveal'];
@@ -53,7 +54,11 @@ export function startHost() {
   app().addEventListener('input', onInput);
   app().addEventListener('change', onChange);
   app().addEventListener('keydown', onKeydown);
-  window.addEventListener('pagehide', () => { try { peer && peer.destroy(); } catch {} });
+  window.addEventListener('pagehide', () => { hostPaused = true; stopPeer(); });
+  window.addEventListener('pageshow', recoverHost);
+  window.addEventListener('online', () => { if (hosting()) restartPeer(0); });
+  window.addEventListener('offline', () => { if (hosting()) { netStatus = 'offline'; updateLive(); } });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) recoverHost(); });
   setInterval(tick, 4000);
   if (location.hash === '#host' && S) {
     render();
@@ -298,7 +303,13 @@ function statusBar() {
     <details class="vote-strip" id="vote-strip">${voteStripHtml(voteSummary(S))}</details>
     <span id="net" class="pill ${cls}">${esc(netStatus === 'online' ? 'Live' : netStatus)}</span>
     <span id="conn-count">${n}/${S.story.characters.length} here</span></div>
-    <div class="game-exit"><button class="secondary small" data-act="end">End game → Home</button></div>`;
+    <div class="game-exit"><button class="secondary small" data-act="end">End game → Home</button><button class="secondary small" data-act="reconnect-host">Reconnect room</button></div>
+    <div class="card" id="host-connection-help" role="status" aria-live="polite" ${netStatus === 'online' ? 'hidden' : ''}>${esc(hostRecoveryText())}</div>`;
+}
+
+function hostRecoveryText() {
+  if (peerBlocked) return 'The room service cannot start in this browser. For WebRTC unavailable, use an up-to-date Safari or Chrome browser rather than an embedded app browser. Reload or tap Reconnect room to retry.';
+  return 'Keep this host screen open and check your internet connection. The room retries automatically. Tap Reconnect room to reopen the same room without losing characters, clues or votes; guests do not need a new code.';
 }
 
 function joinBlock(big = true) {
@@ -437,6 +448,8 @@ function updateLive() {
   const net = $('#net');
   if (net) { net.className = 'pill ' + (netStatus === 'online' ? 'ok' : netStatus === 'offline' ? 'bad' : 'wait'); net.textContent = netStatus === 'online' ? 'Live' : netStatus; }
   const cc = $('#conn-count'); if (cc && S?.story) cc.textContent = `${connectedChars().size}/${S.story.characters.length} here`;
+  const help = $('#host-connection-help');
+  if (help) { help.hidden = netStatus === 'online'; help.textContent = hostRecoveryText(); }
 }
 
 // ---------- Actions ----------
@@ -636,11 +649,14 @@ const actions = {
   release(el) {
     const id = el.dataset.id;
     if (!confirm('Release this character so another phone can claim it?')) return;
-    delete S.claims[id];
-    if (S.phase === 'vote') delete S.votes[id];
+    releaseCharacter(S, conns, id);
     save();
-    for (const rec of conns.values()) if (rec.charId === id) rec.charId = null;
     broadcast(); updateLive();
+  },
+  'reconnect-host'() {
+    peerBlocked = false;
+    toast('Reopening this room. Guests will reconnect; characters, clues and votes are kept.', 5000);
+    restartPeer(0);
   },
   end() { if (confirm('End this game and go back to the start? (The story is lost unless you exported it.)')) wipe(); },
   'new-confirm'() { if (confirm('Start a brand new game? This one will be cleared.')) wipe(); },
@@ -648,8 +664,7 @@ const actions = {
 
 function wipe() {
   broadcastRaw({ t: 'ended' });
-  try { peer && peer.destroy(); } catch {}
-  peer = null; conns.clear();
+  stopPeer();
   localStorage.removeItem(KEY); S = null;
   history.replaceState(null, '', baseUrl());
   renderLanding();
@@ -749,36 +764,83 @@ function onChange(e) {
 // ---------- Networking (PeerJS, host = hub) ----------
 function connectedChars() {
   const now = Date.now(), s = new Set();
-  for (const rec of conns.values()) if (rec.charId && rec.conn.open && now - rec.lastSeen < 15000) s.add(rec.charId);
+  for (const rec of conns.values()) {
+    const id = currentCharacter(S, rec);
+    if (id && rec.conn.open && now - rec.lastSeen < 15000) s.add(id);
+  }
   return s;
 }
 
+function hosting() {
+  return !!S?.story && (LIVE_PHASES.includes(S.phase) || (S.phase === 'review' && S.wasLive));
+}
+
+function stopPeer() {
+  clearTimeout(restartTimer);
+  restartTimer = null;
+  const old = peer;
+  peer = null;
+  conns.clear();
+  if (old && !old.destroyed) old.destroy();
+}
+
+function recoverHost() {
+  hostPaused = false;
+  if (!hosting() || peerBlocked) return;
+  if (!peer || peer.destroyed) startPeer();
+  else if (peer.disconnected && Date.now() - peerAttemptAt > 15000) restartPeer(0);
+}
+
 function startPeer() {
+  if (!hosting() || peerBlocked || hostPaused) return;
   if (peer && !peer.destroyed) return;
   if (typeof window.Peer !== 'function') { netStatus = 'PeerJS failed to load'; updateLive(); return; }
+  if (navigator.onLine === false) { netStatus = 'offline'; updateLive(); return; }
   netStatus = 'connecting…'; updateLive();
+  peerAttemptAt = Date.now();
   const p = new window.Peer(PEER_PREFIX + S.room.toLowerCase(), { debug: 1 });
   peer = p;
-  p.on('open', () => { if (peer !== p) return; netStatus = 'online'; updateLive(); });
-  p.on('connection', conn => setupConn(conn));
+  p.on('open', () => { if (peer !== p) return; peerAttemptAt = Date.now(); netStatus = 'online'; updateLive(); });
+  p.on('connection', conn => {
+    if (peer !== p || !hosting()) { conn.close(); return; }
+    setupConn(conn);
+  });
+  p.on('close', () => { if (peer === p) restartPeer(1500); });
   p.on('disconnected', () => {
     if (peer !== p || p.destroyed) return;
+    peerAttemptAt = Date.now();
     netStatus = 'reconnecting…'; updateLive();
-    setTimeout(() => { if (peer === p && !p.destroyed && p.disconnected) { try { p.reconnect(); } catch { restartPeer(2000); } } }, 1500);
+    setTimeout(() => {
+      if (peer === p && !p.destroyed && p.disconnected) {
+        try { p.reconnect(); } catch (error) {
+          console.warn('[host] signaling reconnect failed', error);
+          restartPeer(2000);
+        }
+      }
+    }, 1500);
   });
   p.on('error', err => {
     console.warn('[host] peer error', err.type, err.message);
     if (peer !== p) return;
-    if (err.type === 'unavailable-id') { netStatus = 'reclaiming room…'; updateLive(); restartPeer(4000); }
+    if (['browser-incompatible', 'invalid-id', 'invalid-key', 'ssl-unavailable'].includes(err.type)) {
+      peerBlocked = true;
+      stopPeer();
+      netStatus = err.type === 'browser-incompatible' ? 'WebRTC unavailable' : 'connection service unavailable';
+      updateLive();
+      toast(err.type === 'browser-incompatible'
+        ? 'This browser cannot host WebRTC. Use an up-to-date Safari or Chrome browser, not an embedded app browser.'
+        : `The room service could not start (${err.type}). Reload the page to retry.`, 10000);
+    } else if (err.type === 'unavailable-id') { netStatus = 'reclaiming room…'; updateLive(); restartPeer(4000); }
     else if (['network', 'server-error', 'socket-error', 'socket-closed'].includes(err.type)) { netStatus = 'reconnecting…'; updateLive(); restartPeer(3000); }
   });
 }
 function restartPeer(ms) {
   clearTimeout(restartTimer);
+  if (ms === 0 && hosting()) { netStatus = 'reconnecting…'; updateLive(); }
   restartTimer = setTimeout(() => {
-    if (!S || !(LIVE_PHASES.includes(S.phase) || S.phase === 'review')) return;
-    const old = peer; peer = null;
-    try { old && old.destroy(); } catch {}
+    restartTimer = null;
+    if (!hosting()) return;
+    stopPeer();
     startPeer();
   }, ms);
 }
@@ -786,14 +848,36 @@ function restartPeer(ms) {
 function setupConn(conn) {
   const rec = { conn, charId: null, token: null, lastSeen: Date.now() };
   conns.set(conn, rec);
-  conn.on('data', msg => { rec.lastSeen = Date.now(); try { onMsg(rec, msg); } catch (e) { console.error(e); } });
+  conn.on('data', msg => {
+    if (conns.get(conn) !== rec) return;
+    rec.lastSeen = Date.now();
+    try { onMsg(rec, msg); } catch (error) {
+      console.error('[host] could not process player message', error);
+      send(rec, { t: 'error', msg: 'The host could not process that action. Reconnect to check the latest state.' });
+    }
+  });
   const gone = () => { conns.delete(conn); updateLive(); };
   conn.on('close', gone);
   conn.on('error', gone);
 }
 
+function supersedeConnection(connection) {
+  try {
+    if (connection.open) connection.send({ t: 'superseded' });
+  } catch (error) {
+    console.warn('[host] could not notify replaced connection', error);
+  }
+  // Give the notice a chance to reach the old tab before closing its channel.
+  setTimeout(() => connection.close(), 500);
+}
+
 function send(rec, obj) { try { if (rec.conn.open) rec.conn.send(obj); } catch (e) { console.warn('send failed', e); } }
-function sendState(rec) { if (S?.story) send(rec, { t: 'state', view: buildView(S, rec.charId) }); }
+function sendState(rec) {
+  if (S?.story && rec.token) {
+    rec.charId = currentCharacter(S, rec);
+    send(rec, { t: 'state', view: buildView(S, rec.charId) });
+  }
+}
 function broadcast() { for (const rec of conns.values()) sendState(rec); }
 function broadcastRaw(o) { for (const rec of conns.values()) send(rec, o); }
 
@@ -802,9 +886,9 @@ function onMsg(rec, msg) {
   const ids = new Set(S.story.characters.map(c => c.id));
   switch (msg.t) {
     case 'hello': {
-      rec.token = String(msg.token || '');
-      if (msg.charId && S.claims[msg.charId] && S.claims[msg.charId] === rec.token) rec.charId = msg.charId;
-      else { const mine = Object.keys(S.claims).find(k => S.claims[k] === rec.token); rec.charId = mine || null; }
+      const token = typeof msg.token === 'string' ? msg.token : '';
+      if (!token) return send(rec, { t: 'error', msg: 'Your saved player identity is missing. Reload the page to retry.' });
+      resumeSession(S, conns, rec, token, supersedeConnection);
       sendState(rec); updateLive();
       break;
     }
@@ -813,17 +897,16 @@ function onMsg(rec, msg) {
       if (!ids.has(id) || !token) return send(rec, { t: 'error', msg: 'That character does not exist.' });
       if (S.claims[id] && S.claims[id] !== token) { send(rec, { t: 'error', msg: 'Someone already claimed that character. If it is really you, ask the host to tap “release”.' }); return sendState(rec); }
       for (const k of Object.keys(S.claims)) if (S.claims[k] === token && k !== id) {
-        delete S.claims[k];
-        if (S.phase === 'vote') delete S.votes[k];
+        releaseCharacter(S, conns, k);
       }
       S.claims[id] = token; rec.token = token; rec.charId = id; save();
+      retireOtherSessions(conns, rec, supersedeConnection);
       broadcast(); updateLive();
       break;
     }
     case 'unclaim': {
       if (rec.charId && S.claims[rec.charId] === rec.token) {
-        delete S.claims[rec.charId];
-        if (S.phase === 'vote') delete S.votes[rec.charId];
+        releaseCharacter(S, conns, rec.charId);
         save();
       }
       rec.charId = null; broadcast(); updateLive();
@@ -846,6 +929,13 @@ function onMsg(rec, msg) {
 
 function tick() {
   const now = Date.now();
+  if (hosting() && !peerBlocked && !hostPaused && navigator.onLine !== false) {
+    if (!peer || peer.destroyed) startPeer();
+    else if ((!peer.open || peer.disconnected) && now - peerAttemptAt > 15000 && restartTimer === null) {
+      netStatus = 'reconnecting…'; updateLive();
+      restartPeer(0);
+    }
+  }
   for (const [conn, rec] of conns) if (now - rec.lastSeen > 45000) { try { conn.close(); } catch {} conns.delete(conn); }
   updateLive();
 }
