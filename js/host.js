@@ -1,11 +1,11 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=count-editions-v1';
+import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=rotating-clues-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=count-editions-v1';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=public-only-v1';
-import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=count-editions-v1';
-import { STARTER_MYSTERIES } from './starters.js?v=blackwater-row-v1';
+import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
+import { STARTER_MYSTERIES } from './starters.js?v=blackwater-story-v2';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=count-editions-v1';
@@ -240,7 +240,7 @@ function renderReview() {
   app().innerHTML = `
     <h1>Review the Story</h1>
     ${st.edition ? `<p class="center" id="selected-edition"><span class="pill">${st.edition.playerCount}-player edition</span> <span class="small muted">${esc(st.edition.id)} · fixed cast and written clues</span></p>` : ''}
-    <p class="center muted">Edit anything — changes save automatically. Guests can't see this screen. Mysteries need 5 or 6 rounds. Each round needs one event-related read-aloud clue per character in a complete circle. All evidence must be spoken in narration or clues before it is used; there are no secret clues or private backstories.</p>
+    <p class="center muted">Story preparation only — do not read this review screen to players. It contains future chapters and the solution. Open the doors, then read only the panel marked Read aloud for the current chapter. Each round needs one clue about each character, read by someone else. Rotating stories change each reader's target every round. All evidence must be spoken before it is used; there are no private backstories.</p>
     ${errBox()}
     <div class="row"><button class="secondary" data-act="save-story" id="save-story">${S.libraryId ? 'Update saved mystery' : 'Save to My Stories'}</button><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
@@ -358,9 +358,9 @@ function renderRound() {
     <div class="grid2">
       <div>
         <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(makeFill(st)(r.narration))}</div></div>
-        ${r.hostNotes ? `<p class="muted small">🕯️ ${esc(r.hostNotes)}</p>` : ''}
+        ${r.hostNotes ? `<details id="hosting-notes"><summary>Hosting instructions — do not read aloud</summary><p class="muted small">${esc(r.hostNotes)}</p></details>` : ''}
         <div class="card"><div class="label">On every phone now</div>${paras(makeFill(st)(r.publicText))}<p>Read the full narration, then every player reads their clue verbatim. Each character receives exactly one accusation. Discuss only evidence the group has heard and vote freely. At voting, the complete narration and clues join everyone's notebook.</p>
-        <div class="label">Read-aloud circle (not voting)</div><ul class="clean">${st.characters.map(c => {
+        <div class="label">Read-aloud assignments (not voting)</div><ul class="clean">${st.characters.map(c => {
           const target = st.characters.find(t => t.id === c.rounds[S.roundIndex].readAloud.accuses);
           return `<li>${esc(c.name)}${c.guest ? ` (${esc(c.guest)})` : ''} → ${esc(target.name)}</li>`;
         }).join('')}</ul></div>
@@ -371,17 +371,12 @@ function renderRound() {
       <div>
         <div class="card"><h2>The guests</h2><div id="roster">${rosterHtml()}</div></div>
         <details><summary>Join QR (for latecomers)</summary>${joinBlock(true)}</details>
-        <details><summary>Host cheat sheet (spoilers!)</summary>${cheatSheet()}</details>
+        <p class="small muted">Read only the current chapter and player clues. The solution remains for the reveal.</p>
       </div>
     </div>
     <div class="row actions"><button class="secondary" data-act="prev">◀ ${ri === 0 ? 'Back to lobby' : 'Previous round'}</button>
       <button data-act="next" id="next-round">Vote after Round ${ri + 1} →</button></div>
     ${hostFooter()}`;
-}
-
-function cheatSheet() {
-  const st = S.story, k = st.characters.find(c => c.id === st.solution.killerId);
-  return `<p><b>Killer:</b> ${esc(k?.name)} (${esc(k?.guest)})</p>${paras(makeFill(st)(st.solution.explanation))}`;
 }
 
 function tallyHtml() {

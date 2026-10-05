@@ -7,8 +7,8 @@ export function assignAccusationCircles(story, evidence) {
   for (let step = 1; step < cast.length; step++) {
     let a = step, b = cast.length;
     while (b) { const remainder = a % b; a = b; b = remainder; }
-    // Only coprime steps visit the entire cast rather than making smaller cycles.
-    if (a === 1) steps.push(step);
+    // Circles need coprime steps; rotating readers also use reciprocal pairs for coverage.
+    if (story.clueRouting === 'rotating' || a === 1) steps.push(step);
   }
   story.rounds.forEach((_, ri) => {
     const step = steps[ri % steps.length];
@@ -55,12 +55,24 @@ export function validateAccusationCircles(story) {
       }
     }
     if (incoming.size !== ids.size) errors.push(`Round ${ri + 1}: every character must be accused exactly once.`);
-    if (edges.size === ids.size && incoming.size === ids.size) {
+    if (story.clueRouting !== 'rotating' && edges.size === ids.size && incoming.size === ids.size) {
       const visited = new Set();
       let next = story.characters[0].id;
       while (!visited.has(next)) { visited.add(next); next = edges.get(next); }
       if (visited.size !== ids.size) errors.push(`Round ${ri + 1}: accusations must form one complete circle, not separate groups.`);
     }
   });
+  if (story.clueRouting === 'rotating') {
+    for (const character of story.characters) {
+      const targets = character.rounds.map(round => round.readAloud?.accuses);
+      if (targets.some((id, index) => index > 0 && id === targets[index - 1])) {
+        errors.push(`${character.name}: rotating readers must change targets every round.`);
+      }
+      const required = Math.min(story.rounds.length, ids.size - 1);
+      if (new Set(targets.slice(0, required)).size !== required) {
+        errors.push(`${character.name}: rotating readers must cover different other characters before repeating.`);
+      }
+    }
+  }
   return errors;
 }

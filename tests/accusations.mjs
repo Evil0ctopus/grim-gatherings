@@ -14,6 +14,16 @@ const example = JSON.parse(fs.readFileSync(new URL('../examples/example-story.js
 function checkCircle(story) {
   assert.deepEqual(validateAccusationCircles(story), []);
   for (let ri = 0; ri < story.rounds.length; ri++) {
+    if (story.clueRouting === 'rotating') {
+      const targets = story.characters.map(c => {
+        const clue = c.rounds[ri].readAloud;
+        assert.notEqual(clue.accuses, c.id);
+        assert.ok(clue.text.includes(`{${clue.accuses}}`));
+        return clue.accuses;
+      });
+      assert.equal(new Set(targets).size, story.characters.length);
+      continue;
+    }
     const texts = new Set();
     const incoming = new Set();
     const visited = new Set();

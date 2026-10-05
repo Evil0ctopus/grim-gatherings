@@ -10,6 +10,7 @@ import { normalizeStory, buildView } from '../js/story.js';
 const families = [{ id: 'sample', editions: sample }, ...STARTER_MYSTERIES.map(entry => ({ id: entry.id, editions: entry.story.editions }))];
 const players = n => Array.from({ length: n }, (_, i) => ({ name: `Player ${i}`, desc: `Description ${i}` }));
 const script = story => ({
+  ...(story.clueRouting ? { clueRouting: story.clueRouting } : {}),
   edition: story.edition, intro: story.intro, rounds: story.rounds, finale: story.finale, solution: story.solution,
   characters: story.characters.map(({ guest, guestNote, ...character }) => character),
 });

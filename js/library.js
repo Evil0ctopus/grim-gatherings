@@ -1,4 +1,4 @@
-import { accusationEvidence, assignAccusationCircles, validateAccusationCircles } from './accusations.js?v=accusation-circle-v1';
+import { accusationEvidence, assignAccusationCircles, validateAccusationCircles } from './accusations.js?v=rotating-clues-v1';
 import { selectEdition } from './edition-selection.js?v=count-editions-v1';
 
 export const STORY_LIBRARY_KEY = 'gg-story-library-v1';

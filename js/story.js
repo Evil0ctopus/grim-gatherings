@@ -1,7 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
-import { validateAccusationCircles } from './accusations.js?v=accusation-circle-v1';
+import { validateAccusationCircles } from './accusations.js?v=rotating-clues-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -48,6 +48,10 @@ export function normalizeStory(input, guests = []) {
     finale: { narration: asStr(obj.finale?.narration).trim(), votePrompt: asStr(obj.finale?.votePrompt).trim() },
     solution: { killerId: '', explanation: '', revealNarration: '' },
   };
+  if (obj.clueRouting !== undefined) {
+    if (!['circle', 'rotating'].includes(obj.clueRouting)) errors.push('"clueRouting" must be "circle" or "rotating".');
+    else s.clueRouting = obj.clueRouting;
+  }
   if (obj.edition) {
     const edition = obj.edition;
     if (typeof edition.family !== 'string' || typeof edition.id !== 'string' ||

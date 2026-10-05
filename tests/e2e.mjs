@@ -147,6 +147,17 @@ try {
     const title = story.rounds[ri].title;
     ok(`round ${ri + 1}: host narration resolves character names and matches the spoken chapter`,
       await host.locator('.card.blood .narration').innerText() === fill(story.rounds[ri].narration));
+    if (mysteryId === 'blackwater-row') {
+      ok(`round ${ri + 1}: hosting notes are separate and collapsed`,
+        await host.locator('#hosting-notes').getAttribute('open') === null &&
+        (await host.locator('#hosting-notes summary').innerText()).includes('do not read aloud'));
+      ok(`round ${ri + 1}: full solution is absent from the host round screen`,
+        !(await host.locator('#app').textContent()).includes(fill(story.solution.explanation)));
+      if (ri < 4) {
+        ok(`round ${ri + 1}: host read-aloud narration has no future identity or Mayor spoilers`,
+          !/Benjamin|Barker|Mayor|Aldric|Thorne|imprison|wife/i.test(await host.locator('.card.blood .narration').innerText()));
+      }
+    }
     for (const g of PLAYERS) {
       const p = players[g], me = byGuest[g];
       await p.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, title, { timeout: T });
@@ -159,6 +170,14 @@ try {
       const publicClue = await p.locator('#my-clues .read-aloud-clue').textContent();
       const readAloud = await p.evaluate(() => window.__gg.view.packet.rounds.at(-1).readAloud);
       ok(`round ${ri + 1}: ${g} sees their unique read-aloud accusation`, readAloud.accuses === me.rounds[ri].readAloud.accuses && publicClue.includes(readAloud.text) && publicClue.includes(readAloud.targetName));
+      if (mysteryId === 'blackwater-row' && ri > 0) {
+        ok(`round ${ri + 1}: ${g} reads about a different character`,
+          readAloud.accuses !== me.rounds[ri - 1].readAloud.accuses);
+      }
+      if (mysteryId === 'blackwater-row' && ri === 2) {
+        ok(`${g} has read about all three other characters by Round 3`,
+          new Set(me.rounds.slice(0, 3).map(round => round.readAloud.accuses)).size === 3);
+      }
       ok(`round ${ri + 1}: ${g} sees no secret clue UI`, !clues.includes('private clues') && await p.locator('#my-secrets').count() === 0);
       const futureLeak = ri < story.rounds.length - 1 && raw.includes(JSON.stringify(fill(me.rounds[ri + 1].readAloud.text)).slice(1,-1));
       ok(`round ${ri + 1}: ${g} did not get future-round clues`, !futureLeak);

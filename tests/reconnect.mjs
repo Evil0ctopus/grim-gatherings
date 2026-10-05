@@ -95,8 +95,10 @@ try {
   check('paused phone exposes a reconnect status and disables actions', await phone.locator('#pstatus').innerText() === 'reconnecting…');
   await lifecycle(phone, 'pageshow');
   await restored(phone);
+  const clueTarget = before.story.characters.find(c => c.id === 'xander').rounds[2].readAloud.accuses;
+  const clueTargetName = before.story.characters.find(c => c.id === clueTarget).name;
   check('iPhone-style page restoration returns directly to Xander in Round 3',
-    (await phone.locator('#my-clues').innerText()).includes('Marla Quinn'));
+    (await phone.locator('#my-clues').innerText()).includes(clueTargetName));
   check('restoration retains the original player token',
     await phone.evaluate(({ room, token }) => JSON.parse(localStorage.getItem(`gg-player-v1-${room}`)).token === token, { room, token: identity.token }));
 

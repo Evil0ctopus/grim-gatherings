@@ -68,8 +68,9 @@ test('every guest has a full participating character at every built-in party siz
         assert.equal(incoming.length, 1, `${c.name} must be part of the investigation in round ${ri + 1}`);
         incomingHistory.push(incoming[0].rounds[ri].readAloud.text);
       }
-      if (story.edition.family === 'blackwater-row') {
-        assert.equal(new Set(targetHistory).size, 1, 'Preserve Melissa\'s fixed clue circle');
+      if (story.clueRouting === 'rotating') {
+        assert.equal(new Set(targetHistory).size, story.characters.length - 1);
+        targetHistory.slice(1).forEach((target, index) => assert.notEqual(target, targetHistory[index]));
       } else {
         assert.ok(new Set(targetHistory).size >= 2, `${c.name} should investigate different guests`);
       }

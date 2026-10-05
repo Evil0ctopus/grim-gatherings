@@ -1,7 +1,7 @@
 import mercy from './editions/mercy-hollow.js?v=count-editions-v1';
 import farm from './editions/blackthorn-farm.js?v=count-editions-v1';
 import briar from './editions/briar-house.js?v=count-editions-v1';
-import blackwater from './editions/blackwater-row.js?v=blackwater-row-v1';
+import blackwater from './editions/blackwater-row.js?v=blackwater-story-v2';
 
 function catalog(editions) {
   const maximum = Math.max(...Object.keys(editions).map(Number));
@@ -34,7 +34,7 @@ export const STARTER_MYSTERIES = [
     id: 'blackwater-row', title: blackwater[4].title,
     blurb: 'Five deaths, missing records and a blade hidden behind a respectable trade. Investigate Blackwater Row one crime scene at a time.',
     inspiration: 'Melissa\'s five-round, Victorian revenge mystery, adapted for exactly four players.',
-    contentNote: 'Five off-screen deaths with slashed throats, wrongful imprisonment, coercion and revenge. No graphic descriptions. Preserve the final-round discoveries; the same authored clue circle is used throughout.',
+    contentNote: 'Five off-screen deaths with slashed throats, wrongful imprisonment, coercion and revenge. No graphic descriptions. Readers rotate targets every round; each reads about all three other characters by Round 3. Read only the current chapter, then its player accounts.',
     story: catalog(blackwater),
   },
 ];
