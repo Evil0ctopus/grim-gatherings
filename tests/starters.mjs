@@ -5,9 +5,9 @@ import { adaptStoryForPlayers, getPlayerRange, upsertStory } from '../js/library
 import { buildView, normalizeStory } from '../js/story.js';
 
 const ranges = {
-  'mercy-hollow': { minPlayers: 4, maxPlayers: 8 },
-  'blackthorn-farm': { minPlayers: 4, maxPlayers: 9 },
-  'briar-house': { minPlayers: 4, maxPlayers: 10 },
+  'mercy-hollow': { minPlayers: 3, maxPlayers: 8 },
+  'blackthorn-farm': { minPlayers: 3, maxPlayers: 9 },
+  'briar-house': { minPlayers: 3, maxPlayers: 10 },
 };
 const coreEvidence = {
   'mercy-hollow': [
@@ -74,12 +74,19 @@ for (const entry of STARTER_MYSTERIES) {
       assert.equal(result.story.characters.length, count);
       assert.deepEqual(result.story.characters.map(c => c.guest), guests.map(g => g.name).reverse());
       assert.deepEqual(result.story.characters.map(c => c.guestNote), guests.map(g => g.desc).reverse());
-      assert.equal(result.story.characters.filter(c => !c.optional).length, 4);
+      assert.equal(result.story.characters.filter(c => !c.optional).length, count);
+      assert.equal(result.story.edition.playerCount, count);
+      assert.equal(result.story.editions, undefined);
       assert.ok(result.story.characters.some(c => c.id === result.story.solution.killerId && !c.optional));
       for (const [id] of coreEvidence[entry.id]) {
         const character = result.story.characters.find(c => c.id === id);
-        assert.ok(character && !character.optional);
-        assert.ok(character.rounds[4].readAloud.text);
+        if (character) {
+          assert.equal(character.optional, false);
+          assert.ok(character.rounds[4].readAloud.text);
+        } else {
+          assert.equal(count, 3);
+          assert.match(result.story.rounds[0].narration, /not a guest in this edition/);
+        }
       }
       const validIds = new Set([...result.story.characters.map(c => c.id), 'victim']);
       for (const match of JSON.stringify(result.story).matchAll(/\{([A-Za-z0-9_-]+)\}/g)) {
@@ -133,7 +140,8 @@ for (const entry of STARTER_MYSTERIES) {
     assert.equal(saved.record.title, adapted.title);
     assert.equal(saved.record.story.intro, 'Our custom opening.');
     assert.ok(saved.record.story.characters.every(c => c.guest === '' && c.guestNote === ''));
-    assert.deepEqual(getPlayerRange(saved.record.story), ranges[entry.id]);
+    assert.deepEqual(getPlayerRange(saved.record.story), { minPlayers: maxPlayers, maxPlayers });
+    assert.throws(() => adaptStoryForPlayers(saved.record.story, guestsFor(maxPlayers - 1)), /saved edition works for/);
     assert.equal(JSON.stringify(entry.story), before);
   });
 }

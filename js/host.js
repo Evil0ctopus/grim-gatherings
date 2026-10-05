@@ -1,14 +1,14 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=public-only-v1';
+import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=count-editions-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
-import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=public-only-v1';
+import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=count-editions-v1';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=public-only-v1';
-import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=accusation-circle-v1';
-import { STARTER_MYSTERIES } from './starters.js?v=public-only-v1';
+import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=count-editions-v1';
+import { STARTER_MYSTERIES } from './starters.js?v=count-editions-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
-import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=public-only-v1';
+import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=count-editions-v1';
 
 const KEY = HOST_SAVE_KEY;
 let S = null; // persisted host state
@@ -158,7 +158,7 @@ function renderSetup() {
       <p class="small muted">${esc(entry.inspiration)}</p>
       <details><summary>Content &amp; hosting notes</summary>
         <p class="small">${esc(entry.contentNote)}</p>
-        <p class="small muted">Every player gets a full character and an event-related read-aloud clue in all five rounds. Every character receives one accusation each round. All evidence and motives are introduced in spoken narration or clues, never secret packets. The host does not count toward the player total unless also playing a character.</p>
+        <p class="small muted">The assigned player count selects a separately stored edition before play. Every character is required and reads a clue and receives one accusation each round. All evidence is public. Phone disconnections never change the edition. The host does not count unless also playing a character.</p>
       </details>
       <p class="small muted">Choose this story to fit it to your player list, then edit anything and save your own version.</p>
       <button class="block" data-act="use-starter" data-id="${esc(entry.id)}">Play this mystery →</button>
@@ -234,6 +234,7 @@ function renderReview() {
   const st = S.story;
   app().innerHTML = `
     <h1>Review the Story</h1>
+    ${st.edition ? `<p class="center" id="selected-edition"><span class="pill">${st.edition.playerCount}-player edition</span> <span class="small muted">${esc(st.edition.id)} · fixed cast and written clues</span></p>` : ''}
     <p class="center muted">Edit anything — changes save automatically. Guests can't see this screen. Mysteries need 5 or 6 rounds. Each round needs one event-related read-aloud clue per character in a complete circle. All evidence must be spoken in narration or clues before it is used; there are no secret clues or private backstories.</p>
     ${errBox()}
     <div class="row"><button class="secondary" data-act="save-story" id="save-story">${S.libraryId ? 'Update saved mystery' : 'Save to My Stories'}</button><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
@@ -249,7 +250,7 @@ function renderReview() {
       ${fieldHtml('Victim description', 'victim.description', st.victim.description, 'area')}
     </div>
     <h2>The Cast (${st.characters.length})</h2>
-    <p class="small muted">Works for ${formatPlayerRange(st)}. Optional means a character may be omitted for a smaller party, not that their player sits out. Every included character needs a full packet and a read-aloud clue in every round. Keep the killer and essential clues in the required cast.</p>
+    <p class="small muted">Works for ${formatPlayerRange(st)}. ${st.edition ? 'This edition is written for exactly this count. Start from the catalog to choose another count; saving preserves only this edition.' : 'Optional roles can be omitted for a smaller custom party.'} Every included character reads a clue and receives one accusation every round.</p>
     ${st.characters.map((c, i) => `
       <div class="card cast-assignment row">
         <div><b>${esc(c.name)}</b> <span class="muted">· ${esc(c.role)}${c.id === st.solution.killerId ? ' · KILLER' : ''}</span></div>
@@ -260,7 +261,7 @@ function renderReview() {
         ${fieldHtml('Guest note (shown to them: how to lean in)', `characters.${i}.guestNote`, c.guestNote)}
         ${fieldHtml('Character name', `characters.${i}.name`, c.name)}
         ${fieldHtml('Role', `characters.${i}.role`, c.role)}
-        ${fieldHtml('Optional supporting character (can be omitted for smaller groups)', `characters.${i}.optional`, c.optional, 'checkbox')}
+        ${st.edition ? '<p class="small muted">Required character in this fixed edition.</p>' : fieldHtml('Optional supporting character (can be omitted for smaller groups)', `characters.${i}.optional`, c.optional, 'checkbox')}
         ${fieldHtml('Public blurb (everyone sees)', `characters.${i}.publicBlurb`, c.publicBlurb, 'area')}
         ${st.rounds.map((r, ri) => `<h3>${esc(r.title)}</h3>
           <label>Read-aloud accusation target</label>
@@ -330,7 +331,7 @@ function renderLobby() {
         <p class="center small muted">Guests: open the link, tap your name, and meet your character.</p></div>
       <div class="card"><h2>The guests</h2><div id="roster">${rosterHtml()}</div></div>
     </div>
-    <div class="card"><div class="label">Read aloud</div><div class="narration">${paras(st.intro)}</div>
+    <div class="card"><div class="label">Read aloud</div><div class="narration">${paras(makeFill(st)(st.intro))}</div>
       <p class="muted small">${esc(st.setting)}</p></div>
     <div class="row actions"><button class="secondary" data-act="back-review">← Edit story</button><button data-act="start" id="start-game">Begin ${esc(st.rounds[0].title)} →</button></div>
     ${hostFooter()}`;
@@ -345,9 +346,9 @@ function renderRound() {
     <h1 id="round-title">${esc(r.title)}</h1>
     <div class="grid2">
       <div>
-        <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(r.narration)}</div></div>
+        <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(makeFill(st)(r.narration))}</div></div>
         ${r.hostNotes ? `<p class="muted small">🕯️ ${esc(r.hostNotes)}</p>` : ''}
-        <div class="card"><div class="label">On every phone now</div>${paras(r.publicText)}<p>Read the full narration, then every player reads their clue verbatim. Each character receives exactly one accusation. Discuss only evidence the group has heard and vote freely. At voting, the complete narration and clues join everyone's notebook.</p>
+        <div class="card"><div class="label">On every phone now</div>${paras(makeFill(st)(r.publicText))}<p>Read the full narration, then every player reads their clue verbatim. Each character receives exactly one accusation. Discuss only evidence the group has heard and vote freely. At voting, the complete narration and clues join everyone's notebook.</p>
         <div class="label">Read-aloud circle (not voting)</div><ul class="clean">${st.characters.map(c => {
           const target = st.characters.find(t => t.id === c.rounds[S.roundIndex].readAloud.accuses);
           return `<li>${esc(c.name)}${c.guest ? ` (${esc(c.guest)})` : ''} → ${esc(target.name)}</li>`;
@@ -369,7 +370,7 @@ function renderRound() {
 
 function cheatSheet() {
   const st = S.story, k = st.characters.find(c => c.id === st.solution.killerId);
-  return `<p><b>Killer:</b> ${esc(k?.name)} (${esc(k?.guest)})</p>${paras(st.solution.explanation)}`;
+  return `<p><b>Killer:</b> ${esc(k?.name)} (${esc(k?.guest)})</p>${paras(makeFill(st)(st.solution.explanation))}`;
 }
 
 function tallyHtml() {
@@ -388,7 +389,7 @@ function renderVote() {
   app().innerHTML = `${statusBar()}
     <h1>Round ${S.roundIndex + 1} · The Accusation</h1>
     <div class="grid2">
-      <div class="card blood"><div class="label">Read aloud</div><div class="narration">${last ? paras(st.finale.narration) : '<p>Discuss the evidence so far, then vote for your current top suspect. Your next clues may change your mind.</p>'}</div>
+      <div class="card blood"><div class="label">Read aloud</div><div class="narration">${last ? paras(makeFill(st)(st.finale.narration)) : '<p>Discuss the evidence so far, then vote for your current top suspect. Your next clues may change your mind.</p>'}</div>
         <p class="muted small">Phones now show: “${esc(st.finale.votePrompt)}”</p></div>
       <div class="card"><h2>Live tally</h2><div id="tally">${tallyHtml()}</div></div>
     </div>
@@ -410,10 +411,10 @@ function renderReveal() {
     <p class="center" style="font-size:1.3rem">played by <b>${esc(k.guest)}</b></p>
     <p class="center"><span class="pill ${caught ? 'ok' : 'bad'}">${caught ? 'The guests caught the killer!' : 'The killer got away with it…'}</span></p>
     <div class="grid2">
-      <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(st.solution.revealNarration)}</div></div>
+      <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(makeFill(st)(st.solution.revealNarration))}</div></div>
       <div class="card"><h2>Final votes</h2><div id="tally">${tallyHtml()}</div></div>
     </div>
-    <div class="card"><div class="label">What really happened</div>${paras(st.solution.explanation)}</div>
+    <div class="card"><div class="label">What really happened</div>${paras(makeFill(st)(st.solution.explanation))}</div>
     <div class="row actions"><button class="secondary" data-act="prev">◀ Back to voting</button><button data-act="new-confirm">Start a new game</button></div>
     ${hostFooter()}`;
 }
@@ -489,8 +490,13 @@ const actions = {
   tab(el) { ui.tab = el.dataset.tab; ui.errors = []; ui.warnings = []; renderSetup(); },
   'use-sample'() {
     const guests = getGuests();
-    if (guests.length < 3) { ui.errors = ['Add at least 3 players — the built-in mystery needs 3 or more.']; ui.warnings = []; return renderSetup(); }
-    acceptStory(buildSampleStory(guests), []);
+    try {
+      acceptStory(buildSampleStory(guests), []);
+    } catch (error) {
+      ui.errors = [error.message];
+      ui.warnings = [];
+      renderSetup();
+    }
   },
   'load-json'() {
     ui.pasteText = $('#json').value;

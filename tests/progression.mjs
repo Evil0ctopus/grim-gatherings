@@ -109,10 +109,10 @@ test('round 4 explicitly revisits earlier innocent suspicion without changing th
 test('required public evidence still carries the final chain at every supported cast size', () => {
   for (const entry of STARTER_MYSTERIES) {
     const { minPlayers, maxPlayers } = getPlayerRange(entry.story);
-    const expected = evidenceAgainst(entry.story, entry.story.solution.killerId, 4);
     for (let n = minPlayers; n <= maxPlayers; n++) {
       const story = adaptStoryForPlayers(entry.story, guests(n));
-      assert.equal(evidenceAgainst(story, story.solution.killerId, 4), expected);
+      assert.equal(evidenceAgainst(story, story.solution.killerId, 4), evidenceAgainst(entry.story.editions[n], story.solution.killerId, 4));
+      assert.match(evidenceAgainst(story, story.solution.killerId, 4), /notebook|ledger|carbon/);
       assert.equal(story.solution.explanation, entry.story.solution.explanation);
     }
   }

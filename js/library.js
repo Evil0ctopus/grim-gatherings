@@ -1,4 +1,5 @@
 import { accusationEvidence, assignAccusationCircles, validateAccusationCircles } from './accusations.js?v=accusation-circle-v1';
+import { selectEdition } from './edition-selection.js?v=count-editions-v1';
 
 export const STORY_LIBRARY_KEY = 'gg-story-library-v1';
 
@@ -28,12 +29,20 @@ export function makeStoryTemplate(story) {
 }
 
 export function getPlayerRange(story) {
+  if (story.editions) {
+    const counts = Object.keys(story.editions).map(Number);
+    return { minPlayers: Math.min(...counts), maxPlayers: Math.max(...counts) };
+  }
   const optionalCount = (story.characters || []).filter(character => character.optional).length;
   const maxPlayers = (story.characters || []).length;
   return { minPlayers: maxPlayers - optionalCount, maxPlayers };
 }
 
 export function adaptStoryForPlayers(template, guests, assignedGuests = guests) {
+  if (template.editions) return selectEdition(template, guests, assignedGuests);
+  if (template.edition && guests.length !== template.edition.playerCount) {
+    throw new Error(`This saved edition works for ${template.edition.playerCount} players. You listed ${guests.length}. Select the original mystery for a different edition.`);
+  }
   const story = JSON.parse(JSON.stringify(template));
   const characters = story.characters || [];
   const required = characters.filter(character => !character.optional);

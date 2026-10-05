@@ -71,6 +71,19 @@ test('five-round version-1 saves and private-format saves cannot reappear after 
     [STORY_LIBRARY_KEY]: JSON.stringify([{ id: 'v1', story: legacyVersion }, { id: 'private', story: privateFormat }, { id: 'current', story: current }]),
     [HOST_SAVE_KEY]: JSON.stringify({ phase: 'round', story: privateFormat }),
   });
+
+  test('old adaptive built-in saves are retired, while fixed editions and unrelated public custom stories remain', () => {
+    const adaptive = structuredClone(current);
+    delete adaptive.edition;
+    delete adaptive.editions;
+    const custom = { ...structuredClone(adaptive), title: 'Our Custom Public Mystery' };
+    const storage = store({
+      [STORY_LIBRARY_KEY]: JSON.stringify([{ id: 'adaptive', story: adaptive }, { id: 'edition', story: current }, { id: 'custom', story: custom }]),
+      [HOST_SAVE_KEY]: JSON.stringify({ phase: 'round', story: adaptive }),
+    });
+    assert.deepEqual(removeOutdatedSavedContent(storage), { removedStories: 1, removedGame: true });
+    assert.deepEqual(JSON.parse(storage.getItem(STORY_LIBRARY_KEY)).map(entry => entry.id), ['edition', 'custom']);
+  });
   assert.deepEqual(removeOutdatedSavedContent(storage), { removedStories: 2, removedGame: true });
   assert.deepEqual(JSON.parse(storage.getItem(STORY_LIBRARY_KEY)).map(entry => entry.id), ['current']);
   assert.equal(storage.getItem(HOST_SAVE_KEY), null);

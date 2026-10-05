@@ -57,6 +57,7 @@ try {
     await host.click(mysteryId === 'sample' ? '#use-sample' : `[data-act="use-starter"][data-id="${mysteryId}"]`);
   }
   await host.waitForSelector('#open-lobby');
+  if (mysteryId !== 'example') ok('review displays the selected count-specific edition', (await host.textContent('#selected-edition')).includes(`${playerCount}-player edition`));
   await host.locator('[data-path="discloseKiller"]').setChecked(discloseKiller);
   ok('host built selected story & reached review', true, el());
   const initialAssignments = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters.map(c => c.guest));
@@ -73,6 +74,13 @@ try {
 
   const S = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')));
   const story = S.story;
+  const names = Object.fromEntries(story.characters.map(c => [c.id, c.guest ? `${c.name} (${c.guest})` : c.name]));
+  names.victim = story.victim.name;
+  const fill = text => text.replace(/\{([A-Za-z0-9_-]+)\}/g, (m, key) => names[key] || m);
+  if (mysteryId !== 'example') {
+    ok('host selects the exact prewritten edition', story.edition?.playerCount === playerCount && story.edition?.family === mysteryId);
+    ok('all edition characters are required', story.characters.every(c => c.optional === false));
+  }
   ok('the selected cast gives every listed guest exactly one character',
     story.characters.length === playerCount &&
     new Set(story.characters.map(c => c.guest)).size === playerCount &&
@@ -127,6 +135,8 @@ try {
 
   async function expectRound(ri) {
     const title = story.rounds[ri].title;
+    ok(`round ${ri + 1}: host narration resolves character names and matches the spoken chapter`,
+      await host.locator('.card.blood .narration').innerText() === fill(story.rounds[ri].narration));
     for (const g of PLAYERS) {
       const p = players[g], me = byGuest[g];
       await p.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, title, { timeout: T });
@@ -135,12 +145,12 @@ try {
       ok(`round ${ri + 1}: ${g} has only previously released public evidence`,
         await p.evaluate(n => window.__gg.view.evidenceHistory.length === n, ri));
       ok(`round ${ri + 1}: ${g} receives the spoken host narration`,
-        await p.evaluate(text => window.__gg.view.currentRound.narration === text, story.rounds[ri].narration));
+        await p.evaluate(text => window.__gg.view.currentRound.narration === text, fill(story.rounds[ri].narration)));
       const publicClue = await p.locator('#my-clues .read-aloud-clue').textContent();
       const readAloud = await p.evaluate(() => window.__gg.view.packet.rounds.at(-1).readAloud);
       ok(`round ${ri + 1}: ${g} sees their unique read-aloud accusation`, readAloud.accuses === me.rounds[ri].readAloud.accuses && publicClue.includes(readAloud.text) && publicClue.includes(readAloud.targetName));
       ok(`round ${ri + 1}: ${g} sees no secret clue UI`, !clues.includes('private clues') && await p.locator('#my-secrets').count() === 0);
-      const futureLeak = ri < story.rounds.length - 1 && raw.includes(JSON.stringify(me.rounds[ri + 1].readAloud.text).slice(1,-1));
+      const futureLeak = ri < story.rounds.length - 1 && raw.includes(JSON.stringify(fill(me.rounds[ri + 1].readAloud.text)).slice(1,-1));
       ok(`round ${ri + 1}: ${g} did not get future-round clues`, !futureLeak);
     }
     await checkFiltering(`round ${ri + 1}`);
@@ -170,7 +180,7 @@ try {
         await p.locator('#my-case .personal-evidence').count() === ri + 1 &&
         await p.locator('#evidence-history section').count() === ri + 1);
       ok(`round ${ri + 1}: ${g} notebook retains the full spoken narration`,
-        await p.evaluate(({ri, text}) => window.__gg.view.evidenceHistory[ri].narration === text, {ri, text: story.rounds[ri].narration}));
+        await p.evaluate(({ri, text}) => window.__gg.view.evidenceHistory[ri].narration === text, {ri, text: fill(story.rounds[ri].narration)}));
       if (ri === 3 && mysteryId === 'sample') {
         ok(`round 4: ${g} receives the correction to Constance's earlier suspicion`,
           (await p.locator('#evidence-history').textContent()).includes('same decanter and survived'));
@@ -198,6 +208,13 @@ try {
   await host.reload({ waitUntil: 'load' });
   await host.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, story.rounds[1].title, { timeout: T });
   ok('host refresh kept game state (still round 2)', true, el());
+  if (mysteryId !== 'example') {
+    ok('refresh keeps the same locked edition and scripts',
+      await host.evaluate(story => {
+        const current = JSON.parse(localStorage.getItem('gg-host-v1')).story;
+        return current.edition.id === story.edition.id && JSON.stringify(current.characters) === JSON.stringify(story.characters);
+      }, story));
+  }
   await host.waitForFunction(() => document.querySelector('#net')?.textContent === 'Live', null, { timeout: 90000 });
   ok('host re-opened same room id after refresh', true, el());
   await host.waitForFunction(n => document.querySelector('#conn-count')?.textContent.startsWith(n + '/'), PLAYERS.length, { timeout: 90000 });

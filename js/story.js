@@ -48,6 +48,17 @@ export function normalizeStory(input, guests = []) {
     finale: { narration: asStr(obj.finale?.narration).trim(), votePrompt: asStr(obj.finale?.votePrompt).trim() },
     solution: { killerId: '', explanation: '', revealNarration: '' },
   };
+  if (obj.edition) {
+    const edition = obj.edition;
+    if (typeof edition.family !== 'string' || typeof edition.id !== 'string' ||
+        !Number.isInteger(edition.playerCount) || edition.playerCount !== obj.characters?.length ||
+        !Number.isInteger(edition.revision) || edition.revision < 1) {
+      errors.push('The selected edition must have an identity, revision and exact player count matching its cast.');
+    } else {
+      s.edition = { family: edition.family, id: edition.id, playerCount: edition.playerCount, revision: edition.revision };
+      if (obj.characters.some(c => c?.optional)) errors.push('Every character in a fixed player-count edition must be required.');
+    }
+  }
   if (!s.title) errors.push('"title" is missing — give the mystery a name.');
   if (!s.victim.name) warnings.push('"victim.name" is missing — players won\'t know who died.');
 
@@ -154,6 +165,7 @@ export function buildView(S, charId) {
     atmosphere: storyTheme(st),
     victim: { name: st.victim?.name || '', description: fill(st.victim?.description || '') },
     phase, roundIndex: ri, roundsTotal: st.rounds.length,
+    ...(st.edition ? { edition: { ...st.edition } } : {}),
     voteSummary: voteSummary(S),
     roster: st.characters.map(c => ({ id: c.id, name: c.name, guest: c.guest, role: c.role, publicBlurb: fill(c.publicBlurb), claimed: !!S.claims[c.id] })),
     me: ch ? ch.id : null,

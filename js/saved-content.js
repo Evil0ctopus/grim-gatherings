@@ -1,9 +1,14 @@
-import { STORY_LIBRARY_KEY, readStoryLibrary } from './library.js?v=accusation-circle-v1';
+import { STORY_LIBRARY_KEY, readStoryLibrary } from './library.js?v=count-editions-v1';
 
 export const HOST_SAVE_KEY = 'gg-host-v1';
+const builtInTitles = new Set([
+  'The Last Séance at Ravenmoor', 'The Ashes of Mercy Hollow',
+  'Footsteps Above Blackthorn Farm', 'The Last Will at Briar House',
+]);
 
 export function isOutdatedStory(story) {
-  return story?.schemaVersion !== 2 || !Array.isArray(story?.rounds) || story.rounds.length < 5 || story.rounds.length > 6 ||
+  return story?.schemaVersion !== 2 || (builtInTitles.has(story?.title) && !story.edition) ||
+    !Array.isArray(story?.rounds) || story.rounds.length < 5 || story.rounds.length > 6 ||
     !Array.isArray(story.characters) || story.characters.some(character =>
       character.backstory || character.motive || character.secrets?.length ||
       !Array.isArray(character.rounds) || story.rounds.some((_, i) => !character.rounds[i]?.readAloud || character.rounds[i]?.clues?.length));

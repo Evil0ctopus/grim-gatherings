@@ -83,11 +83,11 @@ test('validation rejects missing, self, unknown, duplicate and disjoint accusati
   }
 });
 
-test('optional cast adaptation reassigns target evidence without losing the core public solution', () => {
+test('exact edition selection preserves the authored target evidence without rebuilding the circle', () => {
   for (const entry of STARTER_MYSTERIES) {
     const story = adaptStoryForPlayers(entry.story, guests(4));
     const killer = story.solution.killerId;
-    const original = entry.story.characters.find(c => c.rounds[4].readAloud.accuses === killer).rounds[4].readAloud.text;
+    const original = entry.story.editions[4].characters.find(c => c.rounds[4].readAloud.accuses === killer).rounds[4].readAloud.text;
     const adapted = story.characters.find(c => c.rounds[4].readAloud.accuses === killer).rounds[4].readAloud.text;
     assert.equal(adapted, original);
     assert.ok(adapted.includes(`{${killer}}`));

@@ -6,7 +6,7 @@ A murder-mystery party web app. The host reads the narration; every guest joins 
 
 - No server, no accounts, no build step — plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
-- Includes four ready-to-play mysteries with flexible casts, including **The Last Séance at Ravenmoor** (5 evidence rounds + reveal, 3–12+ guests). Zero AI setup needed.
+- Includes four ready-to-play mystery families with fixed player-count editions, including **The Last Seance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
@@ -23,7 +23,7 @@ A murder-mystery party web app. The host reads the narration; every guest joins 
 
 Guests who refresh, lock their phone, or lose signal just reopen the same link — they're put straight back on their character and the current round.
 
-Every mystery must have **5 or 6 rounds**; all built-ins have five. The built-in accusation circle changes between rounds and is rebuilt when optional roles are omitted, preserving the evidence against each remaining character. Clues progress from initial circumstances and suspicion, through linked documents and timelines, to round 4 corrections and round 5 conclusions. Later evidence explains earlier behavior rather than inventing convenient alibis. Story events are described in evidence and narration; optional roleplay can accompany discussion without being needed to release a clue.
+Every mystery must have **5 or 6 rounds**; all built-in editions have five. Their accusation circles are written and stored in advance, changing between rounds but never rebuilt during play. Clues progress from initial circumstances and suspicion, through linked documents and timelines, to round 4 corrections and round 5 conclusions. Later evidence explains earlier behavior rather than inventing convenient alibis. Story events are spoken in evidence and narration; no acting is required.
 
 Player screens grow with the investigation. **How the evidence against you has changed** collects released clues about the character. **The room's evidence notebook** retains the **complete spoken narration** and every read-aloud clue at voting. The current narrator text is also available on phones; each current script stays with its reader until voting. Future chapters remain locked. Corrections are evidence to assess, not automatic innocent/guilty badges. Refresh and rewind reconstruct the released history. PeerJS binary chunking supports the larger notebooks.
 
@@ -31,25 +31,33 @@ Vote share is the percentage of all ballots cast across the released rounds, not
 
 Players can use **Leave game → Home** at any stage, including the reveal. Connected players release their character before returning home; if disconnected, the host may need to release it manually. Leaving does not end the gathering for others. Hosts have **End game → Home**, with confirmation, to end the gathering for everyone. After the host ends it, players see **Return home**.
 
-**My Stories** is stored in the browser and on the device where it was created; it is not a shared online account or cloud backup. On the story review screen, mark supporting characters optional to save a story for a range of player counts. Keep the killer and essential clues in the required cast; references to omitted characters are shown by name. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
+**My Stories** is stored in this browser, not a shared account. A saved catalog edition retains its exact count and all its required characters. Custom stories without edition metadata may still mark supporting roles optional, with the killer and essential evidence required. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
 
 ## History-inspired starter mysteries
 
 | Mystery | Players | Atmosphere |
 |---|---|---|
-| **The Ashes of Mercy Hollow** | 4–8 | Salem-style witch-trial panic, forged confessions and village secrets |
-| **Footsteps Above Blackthorn Farm** | 4–9 | An isolated farm, an attic intruder and a suspicious land sale; loosely inspired by Hinterkaifeck |
-| **The Last Will at Briar House** | 4–10 | Victorian New England family tension, missing legal papers and a false alibi; loosely inspired by the Borden case |
+| **The Ashes of Mercy Hollow** | 3–8 (6 editions) | Salem-style witch-trial panic, forged confessions and village secrets |
+| **Footsteps Above Blackthorn Farm** | 3–9 (7 editions) | An isolated farm, an attic intruder and a suspicious land sale; loosely inspired by Hinterkaifeck |
+| **The Last Will at Briar House** | 3–10 (8 editions) | Victorian New England family tension, missing legal papers and a false alibi; loosely inspired by the Borden case |
 
 These are original fictional mysteries, not reconstructions of real murders or claims about real suspects. Deaths occur off-screen; there is no graphic violence. The witch-trial story treats persecution and false accusations as injustices, not proof of witchcraft.
 
-Each has five narrated event rounds, public clues, evolving suspicion, voting and a reveal based on evidence already spoken. Documents, objects and witnesses are explicitly introduced before being compared later. Character wrongdoing and motives unfold publicly rather than appearing in private packets. **Optional means omitted for a smaller cast, never sidelined:** every included character reads a unique clue and receives one accusation each round. Essential evidence is retained in the spoken chapters and required roles at every supported cast size. Tone is suspenseful, clear and PG-13 for mixed-age groups (13-50).
+Each has five narrated event rounds, public clues, evolving suspicion, voting and a reveal based on evidence already spoken. **There is one committed, standalone edition for each exact player count**, not a larger story trimmed at runtime. Each edition specifies its entire cast, narration, investigation handoffs and five complete clue circles. Everyone is required and reads a unique clue and receives an accusation each round. The central crime remains the same, while the involvement and evidence presentation are written for that edition. Three-player editions explicitly introduce the recorded accounts of absent witnesses; no absent player or secret packet supplies essential evidence. Tone is suspenseful, clear and PG-13 for mixed-age groups (13-50).
 
-Add your players and choose **Play this mystery**. The cast automatically fits the listed count; unsupported counts show an error. Review, edit and save a personal version without changing the built-in original. A saved version contains the cast selected for that game; select the original again to use its full player range.
+Add your players and choose **Play this mystery**. The assigned roster count selects the exact edition; review shows its identity. Phone connections, refresh and votes never reselect or alter it. Save/export retains only that edition and its exact count. For a different count, start from the original catalog; a saved four-player edition cannot be resized to five. Host edits remain possible without changing the catalog.
 
-Unit checks: `node --test tests/public-playthrough.mjs tests/saved-content.mjs tests/progression.mjs tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
+Ravenmoor also has fixed editions for **3–24 players (22 editions)**, preserving its previously supported larger parties rather than removing them. The lighthouse JSON example remains a standalone three-player mystery.
+
+The browser imports committed scripts from `js/editions/`. `node tools/author-editions.mjs` is an **offline authoring step**, not game-time generation. It uses the curated public story sources and count-specific staging to write standalone edition files. Review narrative changes and run all edition audits before committing regenerated files. The app never imports the historical authoring sources or invokes circle generation for built-in selections. Custom JSON without edition metadata retains the existing optional-cast support; it is not represented as an authored catalog edition.
+
+Old adaptive saves bearing the original built-in titles are retired when the updated site loads, so they do not reappear instead of the fixed editions. Fixed-edition saves and unrelated public custom stories remain available.
+
+Unit checks: `node --test tests/editions.mjs tests/public-playthrough.mjs tests/saved-content.mjs tests/progression.mjs tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
 
 Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample] [discloseKiller=false]`. Mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm`, `briar-house` and `example` (the three-player lighthouse import). For example, `node tests/e2e.mjs http://127.0.0.1:8128/ 10 briar-house false` connects a separate phone for **every** listed player through all five rounds, refresh/reconnection and the reveal. Tests also exercise the live host notification toggle and complete narrated notebooks. Unit audits check both notification settings for every included character at every supported count; browser tests exercise four-player and full named casts.
+
+Full edition browser matrix: `node tests/editions-e2e.mjs [url] [absolute-log-directory] [concurrency=3]`. It plays all 43 committed editions through all five rounds with every character connected. Use concurrency `1` on machines with limited memory; the largest Ravenmoor editions open up to 25 browser contexts per game.
 
 ## Atmosphere and event effects
 
@@ -76,6 +84,7 @@ A story is one JSON object. Paste it in **Setup → Paste story JSON** (or uploa
 |---|---|---|
 | `schemaVersion` | number | `2` (public-only stories) |
 | `discloseKiller` | boolean | optional, default `false`; host's murderer notification toggle |
+| `edition` | object | fixed editions use `{family, id, playerCount, revision}`; exact count must match the cast and all characters are required |
 | `title` | string | **required** |
 | `setting` | string | where/when |
 | `atmosphere` | string | optional: `manor`, `witch`, `farm` or `victorian`; inferred for built-in titles when absent |
@@ -102,7 +111,7 @@ Placeholders: in any text, `{someId}` becomes that character's name plus guest, 
 
 `readAloud` is mandatory. Targets must form one complete circle, with no repeated targets or text. Evidence must describe concrete events, sightings, objects or documents, not generic suspicion. Private `clues`, `backstory`, `secrets` and `motive` content is rejected on import: author that information into the spoken chapters or scripts and remove the private fields. The app never guesses how to merge a private confession into public evidence.
 
-Write read-aloud evidence objectively with `{targetId}`, rather than as a speaker-specific eyewitness claim, so it can move to another speaker when optional roles are omitted. The app preserves each remaining target's evidence and rebuilds the circle for the reduced cast. Put essential solving evidence against required characters.
+Write evidence with `{targetId}` and establish its source aloud. In fixed editions, the assigned reader and clue circle stay exactly as authored. For custom optional-cast imports only, objective evidence can move between readers when the cast is reduced; avoid reader-specific eyewitness claims in those custom stories.
 
 On loading the update, pre-version-2 saves and saves containing private story fields are removed from this browser, with a notice. Version-2 public-only stories, drafts, player preferences and AI settings are retained. Cleanup runs when each device opens the updated site; downloaded files and offline devices cannot be erased remotely. Start a fresh game from the rewritten catalog. Old imports require an authored public rewrite before validation will accept them.
 
