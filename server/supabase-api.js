@@ -208,7 +208,7 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     try {
       requireValue(!origin || origins.includes(origin), 403, 'This website is not allowed to access the community service.');
       if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: responseHeaders });
-      const pathname = new URL(request.url).pathname.replace(/^\/functions\/v1\/community/, '');
+      const pathname = new URL(request.url).pathname.replace(/^\/(?:functions\/v1\/)?community(?=\/|$)/, '');
       const data = await route(request, pathname);
       return new Response(JSON.stringify(data), { headers: responseHeaders });
     } catch (error) {

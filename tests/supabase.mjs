@@ -166,6 +166,9 @@ test('Supabase Edge API verifies Auth, validates exact saved content, blocks aut
     await request('/api/auth/refresh', { method: 'POST', body: { refreshToken: 'refresh-token' } });
     const cors = await handler(new Request('https://project.supabase.co/functions/v1/community/api/health', { method: 'OPTIONS', headers: { Origin: 'https://game.test' } }));
     assert.equal(cors.headers.get('access-control-allow-origin'), 'https://game.test');
+    const hostedHealth = await handler(new Request('https://project.supabase.co/community/api/health'));
+    assert.equal(hostedHealth.status, 200, 'Supabase gateway removes /functions/v1 before invoking the function');
+    assert.equal((await hostedHealth.json()).available, true);
     assert.equal(requests.filter(r => r.url.includes('signup'))[0].url.includes('redirect_to='), true);
   } finally { await db.close(); }
 });
