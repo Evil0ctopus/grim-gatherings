@@ -7,7 +7,7 @@ const builtInTitles = new Set([
 ]);
 
 export function isOutdatedStory(story) {
-  return story?.schemaVersion !== 2 || (builtInTitles.has(story?.title) && !story.edition) ||
+  return story?.schemaVersion !== 2 || (builtInTitles.has(story?.title) && !story.edition && !['user', 'community'].includes(story.provenance?.kind)) ||
     !Array.isArray(story?.rounds) || story.rounds.length < 5 || story.rounds.length > 6 ||
     !Array.isArray(story.characters) || story.characters.some(character =>
       character.backstory || character.motive || character.secrets?.length ||

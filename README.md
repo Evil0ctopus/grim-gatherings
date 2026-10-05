@@ -4,12 +4,65 @@ A murder-mystery party web app. The host reads the current chapter's narration; 
 
 **Live:** https://evil0ctopus.github.io/grim-gatherings/
 
-- No server, no accounts, no build step — plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages.
+- The existing game and private workshop need no server, account or build step: plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages. Shared drafts, submissions and approval use the optional Node community service.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
 - Includes five ready-to-play mystery families with fixed player-count editions, including **The Last Seance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests) and Melissa's **The Barber of Blackwater Row** (exactly 4 guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
+- **Story Workshop:** guided creation, repeatable editing, version history, reusable AI prompts, private playable saves, and an account-backed submission/approval workflow when the community service is connected.
+
+## Story workshop and community publishing
+
+Choose **Build my mystery / approve stories** on the home screen, or open [the workshop](workshop.html).
+
+1. Choose **3-24 players**, five or six rounds, a setting and an idea. Optional characters are entered one per line as `Name | job`. Instructions are simple; story content is intended for teens and adults, not young children.
+2. Open the draft. Its reader assignments are preplanned: every round has unique targets, no self-targets, and every reader changes targets. Readers cover all other characters before repeating when rounds permit; a five-round story cannot cover 23 other characters for each reader.
+3. Write directly, **Copy story prompt** to a preferred AI, or use a configured AI service. A copy-prompt workflow needs no API key. Import the returned complete JSON. Explicit AI calls send the idea/draft to the chosen provider; provider costs, data policies and limits apply. No other workshop action calls AI. A generation makes one initial call and at most two format-repair calls; unrepaired output is retained for manual correction, not declared ready. **Ask my AI to review the story** is a separate optional narrative-review call; it reports specific suggestions without modifying the story, checking the human-review boxes or granting approval.
+4. Edit as many times as needed. Field changes save when focus leaves the field. **Earlier versions** restores a previous snapshot without deleting history. Chapter previews and the solution are collapsed. No fixed revision limit is imposed, but device storage, backend disk space and request-size limits still apply. Download a draft backup for safekeeping; private browsing, browser cleanup or changing origins can lose device-only drafts.
+5. Use **Keep these facts hidden until...** for exact-phrase release checks. These check introductions, public blurbs, early narration/cards/phone summaries and the repeated voting prompt. They cannot detect paraphrased or implied spoilers. **Check my story** verifies game structure, routing, references and release rules. The creator must also review evidence sources/recognition/limits, narrative pacing, already-spoken solution proof and content. Changes reset that review. Human review is necessary; automated checks do not certify narrative quality.
+6. **Save playable story** creates/updates a private game in My Stories with **User-created** and an author credit. It does not publish. A draft edit does not alter the saved playable copy or an active game. To play, go home, create a game, add the matching player count and choose the saved story.
+7. Optionally log in and **Back up to my account** for cross-device drafts and account revision history. Account backups retain incomplete drafts too. Downloads from account history can be imported using the workshop backup format. Concurrent saves use revision checks rather than overwriting another device's work.
+8. **Submit for approval** requires a complete reviewed story and explicit permission to publish an original fictional work with account author credit. It saves and submits an immutable version. Later edits need another submission. The author sees pending, requested changes, rejection and publication feedback in Account.
+9. The site owner logs in with the administrator account, selects **Approve stories**, previews all chapters/cards and the solution, then chooses **Approve and publish**, **Request changes**, **Reject**, or **Unpublish**. Approving a newer version replaces that draft's previously published version; unrelated stories remain. The approved version appears in **Community stories**, with author credit and a **User-created** badge. It can be added to My Stories or selected directly during game setup. No static-site rebuild is needed for approval.
+
+Built-in stories remain separate. Approval is server-enforced; an author cannot grant themselves admin access or publish by setting a badge in JSON. Story text is displayed as escaped text, not executable HTML. An imported provenance label alone is not proof of website approval: only the backend's approved catalog establishes that.
+
+### Running the shared-story service
+
+GitHub Pages cannot run a database or login API. The private workshop works there independently; cloud/account buttons report an explicit unavailable-service message until a backend is connected. This repository provides the backend but does not provision a hosting account.
+
+Requires **Node 24.13+** (built-in SQLite; Node may emit an experimental SQLite warning), no additional runtime packages. For local setup in PowerShell, use a unique admin username and enter a long password without putting it in source code or command history:
+
+```powershell
+$env:GG_ADMIN_USERNAME = 'site-owner'
+$secret = Read-Host 'Initial admin password (12+ characters)' -AsSecureString
+$env:GG_ADMIN_PASSWORD = [System.Net.NetworkCredential]::new('', $secret).Password
+node server\community.mjs
+```
+
+Open `http://127.0.0.1:8132/` for the game or `http://127.0.0.1:8132/workshop.html` for creation/approval. The admin is created once; subsequent starts preserve the stored password and do not promote an existing author. Stop with Ctrl+C, then remove the bootstrap password from the shell with `Remove-Item Env:GG_ADMIN_PASSWORD`. Never use the test credentials from the test suite on a real service.
+
+Production requires a Node host with a **persistent writable disk**, one service instance, HTTPS and backups. Either serve the whole site from this service (simplest, same-origin), or keep GitHub Pages and configure:
+
+- `PORT`, `HOST` (default `127.0.0.1`; hosting platforms may need `0.0.0.0`).
+- `GG_DATABASE_PATH`: absolute database path on persistent storage; default `data/community.sqlite`. The data directory is git-ignored and not publicly served. Keep SQLite, WAL and SHM together; stop the service before copying a backup, or use a SQLite-aware online backup tool.
+- `GG_ADMIN_USERNAME` / `GG_ADMIN_PASSWORD`: initial administrator bootstrap, stored as a salted scrypt hash, not plaintext. Set securely in the hosting service, not a committed file.
+- `GG_ALLOWED_ORIGINS`: comma-separated exact frontend origins, for example `https://evil0ctopus.github.io`. Include the public service origin when using an HTTPS reverse proxy. Do not use `*`.
+- `GG_REGISTRATION=closed` optionally disables new author accounts.
+- Set `COMMUNITY_API` in [js/community-config.js](js/community-config.js) to the backend's HTTPS origin when Pages is the frontend, then redeploy the static site. Never put passwords or API keys there. Leave it empty for same-origin hosting.
+
+Account sessions are random bearer tokens, hashed in the database, kept in the current browser tab's session storage, and expire after 24 hours. Passwords use salted scrypt hashes. Logout revokes the session. Authentication is throttled; account writes are rate-limited. Each request is at most 1 MB and each draft at most 750,000 characters. There is no email/password-reset service; authors should keep their credentials. The site operator can reset an account using `tools\reset-community-password.mjs`: stop the service, set `GG_ACCOUNT_USERNAME`, enter a new password securely into `GG_NEW_PASSWORD`, use the same `GG_DATABASE_PATH`, run the tool, then remove those password environment variables. This revokes that account's sessions. Review hosting costs, backups, abuse handling and applicable publishing/privacy requirements before inviting public submissions.
+
+Validation:
+
+```powershell
+node --test tests\workshop.mjs tests\community.mjs
+node tests\workshop-e2e.mjs
+node tests\workshop-static-e2e.mjs https://evil0ctopus.github.io/grim-gatherings/
+```
+
+The browser suite uses a temporary local service and separate author/admin browsers, exercising editing, history, private saves, submissions, approval, unchanged published snapshots, cross-device drafts, community game selection and unpublishing. It does not send story data to a real AI service.
 
 ## How to play (for the host)
 

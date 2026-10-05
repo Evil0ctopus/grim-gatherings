@@ -1,0 +1,92 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { once } from 'node:events';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { createCommunityServer } from '../server/community.mjs';
+import { readyDraft } from './workshop-fixture.mjs';
+
+test('persistent community lifecycle enforces ownership, moderation and immutable submitted versions', async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), 'grim-community-test-'));
+  let server;
+  async function start() {
+    server = await createCommunityServer({ database: path.join(dir, 'test.sqlite'), adminUsername: 'site-owner', adminPassword: 'test-only-password-123!', origins: ['https://example.test'] });
+    server.listen(0, '127.0.0.1');
+    await once(server, 'listening');
+    return `http://127.0.0.1:${server.address().port}`;
+  }
+  let base = await start();
+  const request = async (url, method = 'GET', body, token, status = 200, headers = {}) => {
+    const response = await fetch(base + url, { method, headers: { ...(body ? { 'Content-Type': 'application/json' } : {}), ...(token ? { Authorization: `Bearer ${token}` } : {}), ...headers }, ...(body ? { body: JSON.stringify(body) } : {}) });
+    assert.equal(response.status, status, `${method} ${url}: ${await response.clone().text()}`);
+    return response.json();
+  };
+  try {
+    assert.equal((await fetch(base + '/')).status, 200);
+    assert.equal((await fetch(base + '/server/community.mjs')).status, 404);
+    assert.equal((await fetch(base + '/data/test.sqlite')).status, 404);
+    assert.deepEqual((await request('/api/community')).stories, []);
+    await request('/api/drafts', 'GET', null, null, 401);
+    await request('/api/health', 'GET', null, null, 403, { Origin: 'https://evil.test' });
+    const cors = await fetch(base + '/api/health', { headers: { Origin: 'https://example.test' } });
+    assert.equal(cors.headers.get('access-control-allow-origin'), 'https://example.test');
+    const author = await request('/api/auth/register', 'POST', { username: 'writer-one', password: 'test-only-password-123!', name: 'Writer One', role: 'admin' });
+    assert.equal(author.user.role, 'author');
+    const other = await request('/api/auth/register', 'POST', { username: 'writer-two', password: 'test-only-password-123!', name: 'Writer Two' });
+    await request('/api/admin/submissions', 'GET', null, author.token, 403);
+    const owner = await request('/api/auth/login', 'POST', { username: 'site-owner', password: 'test-only-password-123!' });
+    const content = readyDraft();
+    await request('/api/drafts', 'POST', { content: { ...content, rawJson: 'x'.repeat(1100000) } }, author.token, 413);
+    const unfinished = structuredClone(content);
+    unfinished.story.rounds[0].narration = '';
+    const incomplete = await request('/api/drafts', 'POST', { content: unfinished }, author.token);
+    assert.equal((await request(`/api/drafts/${incomplete.id}`, 'GET', null, author.token)).content.story.rounds[0].narration, '');
+    await request('/api/submissions', 'POST', { draftId: incomplete.id, revision: 1, consent: true }, author.token, 400);
+    const saved = await request('/api/drafts', 'POST', { content }, author.token);
+    await request(`/api/drafts/${saved.id}`, 'GET', null, other.token, 404);
+    await request(`/api/drafts/${saved.id}`, 'PUT', { content, expectedRevision: 0 }, author.token, 409);
+    await request('/api/submissions', 'POST', { draftId: saved.id, revision: 1 }, author.token, 400);
+    const submission = await request('/api/submissions', 'POST', { draftId: saved.id, revision: 1, consent: true }, author.token);
+    await request('/api/submissions', 'POST', { draftId: saved.id, revision: 1, consent: true }, author.token, 409);
+    assert.deepEqual((await request('/api/community')).stories, []);
+    await request(`/api/community/${submission.id}`, 'GET', null, null, 404);
+    const preview = await request(`/api/admin/submissions/${submission.id}`, 'GET', null, owner.token);
+    assert.equal(preview.submission.content.story.title, content.story.title);
+    await request(`/api/admin/submissions/${submission.id}`, 'POST', { decision: 'approved', reviewed: false, note: '' }, owner.token, 400);
+    await request(`/api/admin/submissions/${submission.id}`, 'POST', { decision: 'approved', reviewed: true, note: 'Reviewed every chapter' }, owner.token);
+    const publicStory = (await request(`/api/community/${submission.id}`)).story;
+    assert.equal(publicStory.provenance.kind, 'community');
+    assert.equal(publicStory.provenance.author, 'Writer One');
+    assert.equal(publicStory.characters.every(c => !c.guest), true);
+    const originalTitle = publicStory.title;
+    content.story.title = 'Changed after publication';
+    const updated = await request(`/api/drafts/${saved.id}`, 'PUT', { content, expectedRevision: 1 }, author.token);
+    assert.equal(updated.revision, 2);
+    assert.equal((await request(`/api/community/${submission.id}`)).story.title, originalTitle);
+    const v1 = await request(`/api/drafts/${saved.id}/versions/1`, 'GET', null, author.token);
+    assert.equal(v1.content.story.title, originalTitle);
+    assert.equal((await request(`/api/drafts/${saved.id}/versions`, 'GET', null, author.token)).versions.length, 2);
+    const s2 = await request('/api/submissions', 'POST', { draftId: saved.id, revision: 2, consent: true }, author.token);
+    await request(`/api/admin/submissions/${s2.id}`, 'POST', { decision: 'changes_requested', note: 'Clarify the first clue' }, owner.token);
+    assert.equal((await request('/api/submissions', 'GET', null, author.token)).submissions[0].note, 'Clarify the first clue');
+    await request(`/api/admin/submissions/${s2.id}`, 'POST', { decision: 'approved', note: '', reviewed: true }, owner.token);
+    assert.equal((await request('/api/community')).stories.length, 1);
+    await request(`/api/community/${submission.id}`, 'GET', null, null, 404);
+    await request(`/api/admin/submissions/${s2.id}`, 'POST', { decision: 'unpublished', note: 'Temporarily removed' }, owner.token);
+    assert.equal((await request('/api/community')).stories.length, 0);
+    content.review = {};
+    const unreviewed = await request(`/api/drafts/${saved.id}`, 'PUT', { content, expectedRevision: 2 }, author.token);
+    await request('/api/submissions', 'POST', { draftId: saved.id, revision: unreviewed.revision, consent: true }, author.token, 400);
+    await request('/api/auth/logout', 'POST', null, author.token);
+    await request('/api/auth/me', 'GET', null, author.token, 401);
+    server.close(); await once(server, 'close');
+    base = await start();
+    const relogin = await request('/api/auth/login', 'POST', { username: 'writer-one', password: 'test-only-password-123!' });
+    assert.equal((await request('/api/drafts', 'GET', null, relogin.token)).drafts.find(d => d.id === saved.id).revision, 3);
+    assert.equal((await request(`/api/drafts/${saved.id}/versions/1`, 'GET', null, relogin.token)).content.story.title, originalTitle);
+  } finally {
+    server.close(); await once(server, 'close');
+    await rm(dir, { recursive: true, force: true });
+  }
+});

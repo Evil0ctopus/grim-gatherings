@@ -1,19 +1,20 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=rotating-clues-v1';
+import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=workshop-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=count-editions-v1';
-import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=public-only-v1';
+import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=workshop-v1';
+import { communityRequest } from './community-api.js';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
 import { STARTER_MYSTERIES } from './starters.js?v=blackwater-story-v2';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
-import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=count-editions-v1';
+import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=workshop-v1';
 import { currentCharacter, releaseCharacter, retireOtherSessions, resumeSession } from './host-sessions.js?v=connection-recovery-v1';
 
 const KEY = HOST_SAVE_KEY;
 let S = null; // persisted host state
-const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '' };
+const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '', community: [], communityError: '' };
 let peer = null, netStatus = 'offline', restartTimer = null, peerAttemptAt = 0, peerBlocked = false, hostPaused = false;
 let atmosphere = null;
 const conns = new Map(); // DataConnection -> { conn, charId, token, lastSeen }
@@ -85,6 +86,7 @@ function renderLanding() {
       <h2>Host a gathering</h2>
       <p>Set up the story on this device (a laptop or tablet hooked to a TV is ideal). Guests join on their phones.</p>
       <button class="block" data-act="new" id="btn-new">Create a new game</button>
+      <a class="btn secondary block" href="workshop.html">Build my mystery / approve stories</a>
       ${saved && saved.room ? `<button class="block secondary" data-act="resume" id="btn-resume">Resume “${esc(saved.story?.title || 'Untitled')}” · room ${esc(saved.room)}</button>` : ''}
     </div>
     <div class="card stack">
@@ -139,10 +141,17 @@ function renderSetup() {
       <h2>Your saved mysteries</h2>
       <p class="small muted">Saved in this browser on this device. Add your players above, then choose a story to prepare it for game night.</p>
       ${library.length ? `<ul class="clean">${library.map(entry => `<li class="row library-item">
-        <span><b>${esc(entry.title || entry.story.title || 'Untitled mystery')}</b><span class="small muted"> · ${formatPlayerRange(entry.story)}</span></span>
+        <span><b>${esc(entry.title || entry.story.title || 'Untitled mystery')}</b><span class="small muted"> · ${formatPlayerRange(entry.story)}</span>${entry.story.provenance ? ` <span class="pill">User-created</span><span class="small muted"> by ${esc(entry.story.provenance.author)}</span>` : ''}</span>
         <span class="row library-actions"><button class="small" data-act="use-saved" data-id="${esc(entry.id)}">Use story</button><button class="secondary small" data-act="delete-saved" data-id="${esc(entry.id)}" aria-label="Delete ${esc(entry.title || 'saved story')}">Delete</button></span>
       </li>`).join('')}</ul>` : '<p class="muted">No saved stories yet. Create one, then save it from the story review screen.</p>'}
       ${ui.libraryError ? `<p class="err" role="alert">${esc(ui.libraryError)}</p>` : ''}
+    </div>
+    <div class="card stack">
+      <h2>Create or discover a story</h2>
+      <a class="btn secondary" href="workshop.html">Story workshop - edit, save or submit</a>
+      <button class="secondary" data-act="load-community" ${ui.busy ? 'disabled' : ''}>Browse approved community stories</button>
+      ${ui.communityError ? `<p class="err" role="alert">${esc(ui.communityError)}</p>` : ''}
+      ${ui.community.map(entry => `<div><h3>${esc(entry.title)}</h3><span class="pill">User-created</span><p class="small">By ${esc(entry.author)} · approved version ${entry.revision}</p><button data-act="use-community" data-id="${esc(entry.id)}">Play this mystery</button></div>`).join('')}
     </div>
     <div class="tabs">
       <button class="${ui.tab === 'sample' ? 'on' : ''}" data-act="tab" data-tab="sample">Ready-to-play mysteries</button>
@@ -454,6 +463,18 @@ function setPhase(phase, roundIndex = S.roundIndex) {
 }
 
 const actions = {
+  async 'load-community'() {
+    ui.busy = true; ui.communityError = ''; renderSetup();
+    try { ui.community = (await communityRequest('/api/community')).stories; }
+    catch (error) { ui.communityError = error.message; }
+    finally { ui.busy = false; renderSetup(); }
+  },
+  async 'use-community'(el) {
+    try {
+      const { story } = await communityRequest(`/api/community/${encodeURIComponent(el.dataset.id)}`);
+      acceptStory(adaptStoryForPlayers(story, getGuests(), shuffle(getGuests())), []);
+    } catch (error) { ui.errors = [error.message]; renderSetup(); }
+  },
   'atmosphere-cue'(el) {
     const kind = el.dataset.cue;
     if (!Object.hasOwn(CUES, kind)) return toast('That atmosphere cue is not available.');

@@ -52,6 +52,16 @@ export function normalizeStory(input, guests = []) {
     if (!['circle', 'rotating'].includes(obj.clueRouting)) errors.push('"clueRouting" must be "circle" or "rotating".');
     else s.clueRouting = obj.clueRouting;
   }
+  if (obj.provenance) {
+    const p = obj.provenance;
+    if (!['user', 'community'].includes(p.kind) || typeof p.author !== 'string' || p.author.length > 80 ||
+        !Number.isInteger(p.revision) || p.revision < 1) {
+      errors.push('User-created stories need a valid author credit and positive revision.');
+    } else {
+      s.provenance = { kind: p.kind, author: p.author, revision: p.revision };
+      if (typeof p.submissionId === 'string') s.provenance.submissionId = p.submissionId;
+    }
+  }
   if (obj.edition) {
     const edition = obj.edition;
     if (typeof edition.family !== 'string' || typeof edition.id !== 'string' ||

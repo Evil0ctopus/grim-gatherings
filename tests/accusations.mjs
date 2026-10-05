@@ -136,7 +136,7 @@ test('old instructions never become public evidence or survive normalization', (
   assert.equal(normalizeStory(story).story, null);
 });
 
-test('AI generation requests public-only event evidence and accusation circles', async t => {
+test('AI generation requests public-only event evidence and rotating target coverage', async t => {
   let request;
   t.mock.method(globalThis, 'fetch', async (_, options) => {
     request = JSON.parse(options.body);
@@ -146,7 +146,10 @@ test('AI generation requests public-only event evidence and accusation circles',
   const prompt = request.messages[0].content;
   assert.match(prompt, /"readAloud": \{"accuses"/);
   assert.match(prompt, /Each character must also receive exactly one accusation/);
-  assert.match(prompt, /ONE complete circle/);
+  assert.match(prompt, /"clueRouting": "rotating"/);
+  assert.match(prompt, /rotating targets, allowing reciprocal pairs/);
+  assert.match(prompt, /ownership was recognized/);
+  assert.match(prompt, /repeated finale.votePrompt must be neutral/);
   assert.match(prompt, /NO secret clues/);
   assert.match(prompt, /event-related/);
   assert.match(prompt, /ages 13-50/);

@@ -54,8 +54,8 @@ export function qrSvg(text) {
   qr.make();
   return qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true });
 }
-export function download(filename, text) {
-  const blob = new Blob([text], { type: 'application/json' });
+export function download(filename, text, type = 'application/json') {
+  const blob = new Blob([text], { type });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = filename;

@@ -1,5 +1,5 @@
 import { startPlayer } from './player.js?v=connection-recovery-v1';
-import { removeOutdatedSavedContent } from './saved-content.js?v=count-editions-v1';
+import { removeOutdatedSavedContent } from './saved-content.js?v=workshop-v1';
 import { toast } from './util.js?v=f1ed522';
 
 let cleanupNotice = '';
@@ -16,7 +16,7 @@ const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/
 if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=blackwater-story-v2');
+    const { startHost } = await import('./host.js?v=workshop-v1');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);
