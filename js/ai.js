@@ -14,7 +14,8 @@ export function saveAiSettings(s) { localStorage.setItem(KEY, JSON.stringify(s))
 
 const SCHEMA_DOC = `Return ONLY a JSON object with this exact shape (no markdown):
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "discloseKiller": false,          // host can toggle identity notification; no killer spoilers in character text
   "title": string,
   "setting": string,               // where/when, 1-3 sentences
   "intro": string,                 // public intro shown to everyone before round 1 (before the murder is revealed)
@@ -24,23 +25,22 @@ const SCHEMA_DOC = `Return ONLY a JSON object with this exact shape (no markdown
   ],
   "characters": [                  // exactly one per guest, in the same order as the guest list
     {"id": string /* short lowercase slug, unique */, "guest": string /* guest's name */, "guestNote": string /* the guest's description */, "optional": boolean /* supporting role that can be omitted when fewer guests attend */,
-     "name": string, "role": string, "publicBlurb": string /* what everyone knows */,
-     "backstory": string /* private, 60-120 words */, "secrets": [string, ...] /* 2-3 private secrets */, "motive": string,
-     "rounds": [ {"readAloud": {"accuses": string /* another character id */, "text": string /* unique public evidence accusing that target; read aloud verbatim */}, "clues": [string, ...] /* optional private clues, may be empty */ } ] /* one entry per round */ }
+     "name": string, "role": string, "publicBlurb": string /* public role introduction, no hidden evidence or solution spoilers */,
+     "rounds": [ {"readAloud": {"accuses": string /* another character id */, "text": string /* unique event evidence about that target; read aloud verbatim */} } ] /* one entry per round */ }
   ],
   "finale": {"narration": string /* host reads before voting */, "votePrompt": string},
   "solution": {"killerId": string /* id of the killer character */, "explanation": string /* how the clues prove it */, "revealNarration": string /* dramatic reveal read aloud */}
 }
-Rules: exactly one killer among the characters. The killer's packet must say clearly they are the killer and may lie in discussion, but MUST read their public clue verbatim. The killer and every character needed to solve the mystery must be required, not optional.
+Rules: exactly one killer among the characters. The app controls whether the murderer is notified, using the host toggle; NEVER identify the murderer in character text. The killer and every character needed to solve the mystery must be required, not optional. Do not output backstory, secrets, motive, clues or instructions fields.
 In EVERY round, each character reads exactly one unique accusation clue against exactly one OTHER character. Each character must also receive exactly one accusation: no duplicated targets, self-accusations or missing targets. The directed accusations must form ONE complete circle through the entire cast, not separate cycles. Change the circle between rounds.
 Write concrete evidence against every target, including innocent characters with plausible red herrings. Read-aloud clues are the centerpiece of the story, not repeated generic accusations. Round 1 establishes circumstances, round 2 implicates plausible suspects, round 3 links documents and timelines, round 4 corrects earlier suspicions with credible explanations or exculpatory evidence, and round 5 connects the surviving evidence for the final decision. If using round 6, deepen that chain rather than padding it.
 Plan the complete truth and timeline first. Every new clue and narration must follow that plan: no newly invented culprits, convenient surprise witnesses, unexplained alibis or contradictory facts. An innocent character implicated earlier should have later evidence that explains the same behavior, not a retroactively changed event. The killer's evidence must withstand those corrections. Do not label people automatically cleared; present the facts for players to judge.
-Narration and read-aloud evidence should complement each other. Save decisive connections for the later rounds. Each character's optional private clues develop their individual understanding without disclosing future discoveries early. Public evidence is shared in a growing notebook after each round moves to voting; secrets remain private. Keep the solution fair.
+Narration and read-aloud evidence are the ONLY sources of story information. There are NO secret clues or private character histories. Introduce each document, witness, object, motive and timeline fact aloud before referring back to it. New evidence can be discovered during a later chapter, but explicitly narrate its discovery and provenance before using it. Public narration and clues are shared in a growing notebook at voting.
 Public accusation text must be self-contained and refer to its target using {id}. Describe evidence objectively, not as a speaker-specific eyewitness claim, so it can be reassigned if optional roles are omitted. Never refer to another suspect as guilty in the same clue.
-Convert plot-critical actions into past events described by evidence or narration rather than mandatory performance tasks. Optional roleplay suggestions may accompany private clues, but never replace the mandatory public clue. Do not output an "instructions" field or reminders about not acting. Scripted accusations are not votes; players may vote for any other suspect.
-The mystery must be fair and solvable from public narration and read-aloud clues spread across characters (several characters each hold one piece; decisive connections in rounds 4-5). Optional private clues must not be required to solve it.
-Give every other character a secret and a plausible motive (red herrings). In any text you may write {id} to refer to a character (rendered as "Name (Guest)") and {victim} for the victim.
-Tailor characters to each guest's description in a fun, kind way. Tone: creepy, gothic, PG-13, fun for a party.`;
+Make clues concrete and event-related: observations at the body, last sightings, disrupted objects, an examined document, an exposed contradiction. Every player contributes a distinct part of the investigation, including supporting roles. Describe evidence objectively so it remains coherent when assigned to a different reader. No mandatory acting or player confession. Scripted accusations are not votes.
+The reveal must connect previously spoken evidence, not introduce the missing proof, a surprise confession or a new motive. Ensure the four-player core and maximum cast are both solvable. Reveal embarrassing conduct and plausible motives through public events, not private packets.
+In any text you may write {id} to refer to a character (rendered as "Name (Guest)") and {victim} for the victim.
+Tailor characters kindly. Tone: engaging for ages 13-50, suspenseful and easy to follow, PG-13, no graphic violence. Use clear language and explain legal or medical terms.`;
 
 export async function generateStory({ base, model, key }, theme, guests) {
   if (!key) throw new Error('Paste an API key first.');

@@ -3,9 +3,10 @@ import { STORY_LIBRARY_KEY, readStoryLibrary } from './library.js?v=accusation-c
 export const HOST_SAVE_KEY = 'gg-host-v1';
 
 export function isOutdatedStory(story) {
-  return !Array.isArray(story?.rounds) || story.rounds.length < 5 || story.rounds.length > 6 ||
+  return story?.schemaVersion !== 2 || !Array.isArray(story?.rounds) || story.rounds.length < 5 || story.rounds.length > 6 ||
     !Array.isArray(story.characters) || story.characters.some(character =>
-      !Array.isArray(character.rounds) || story.rounds.some((_, i) => !character.rounds[i]?.readAloud));
+      character.backstory || character.motive || character.secrets?.length ||
+      !Array.isArray(character.rounds) || story.rounds.some((_, i) => !character.rounds[i]?.readAloud || character.rounds[i]?.clues?.length));
 }
 
 export function removeOutdatedSavedContent(storage) {

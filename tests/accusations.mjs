@@ -95,7 +95,7 @@ test('optional cast adaptation reassigns target evidence without losing the core
   }
 });
 
-test('packets unlock only the current public clue and keep private clues separate', () => {
+test('packets unlock only public clues without private evidence fields', () => {
   const story = normalizeStory(example).story;
   const state = { story, phase: 'lobby', roundIndex: -1, claims: {}, votes: {} };
   assert.equal(buildView(state, null).packet, undefined);
@@ -106,7 +106,7 @@ test('packets unlock only the current public clue and keep private clues separat
   assert.equal(packet.rounds[0].readAloud.accuses, 'wick');
   assert.equal(packet.rounds[0].readAloud.targetName, 'Jonah Wick (Mike)');
   assert.ok(!packet.rounds[0].readAloud.text.includes('{wick}'));
-  assert.deepEqual(packet.rounds[0].clues, example.characters[0].rounds[0].clues);
+  assert.equal(packet.rounds[0].clues, undefined);
   assert.equal(packet.rounds[0].instructions, undefined);
   assert.ok(!JSON.stringify(packet).includes(story.characters[0].rounds[1].readAloud.text));
   state.phase = 'vote';
@@ -126,7 +126,7 @@ test('old instructions never become public evidence or survive normalization', (
   assert.equal(normalizeStory(story).story, null);
 });
 
-test('AI generation requests public accusation circles and optional private roleplay, not instruction fields', async t => {
+test('AI generation requests public-only event evidence and accusation circles', async t => {
   let request;
   t.mock.method(globalThis, 'fetch', async (_, options) => {
     request = JSON.parse(options.body);
@@ -137,7 +137,9 @@ test('AI generation requests public accusation circles and optional private role
   assert.match(prompt, /"readAloud": \{"accuses"/);
   assert.match(prompt, /Each character must also receive exactly one accusation/);
   assert.match(prompt, /ONE complete circle/);
-  assert.match(prompt, /Optional roleplay suggestions/);
+  assert.match(prompt, /NO secret clues/);
+  assert.match(prompt, /event-related/);
+  assert.match(prompt, /ages 13-50/);
   assert.match(prompt, /never fewer than 5 or more than 6/);
   assert.match(prompt, /round 4 corrects earlier suspicions/);
   assert.match(prompt, /no newly invented culprits/);

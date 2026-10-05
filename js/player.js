@@ -181,7 +181,7 @@ export function startPlayer(room) {
 
   function pickerHtml() {
     return `<span class="candle">🕯️</span><h1>${esc(view.title)}</h1>
-      <div class="card"><div class="label">Who are you?</div><p>Tap <b>your own name</b> to receive your secret character packet. Don't peek at anyone else's!</p></div>
+      <div class="card"><div class="label">Who are you?</div><p>Tap <b>your own name</b> to meet your character and receive the clue you will read aloud each round.</p></div>
       <div id="picker">${view.roster.map(c => `<button class="pick ${c.claimed ? 'taken' : ''}" data-claim="${esc(c.id)}" ${c.claimed ? 'disabled' : ''}>
         <span class="g">${esc(c.guest || c.name)}${c.claimed ? ' <span class="small muted">· taken</span>' : ''}</span>
         <span class="c">${c.guest ? `as ${esc(c.name)} — ${esc(c.role)}` : esc(c.role)}</span></button>`).join('')}</div>
@@ -192,9 +192,7 @@ export function startPlayer(room) {
     return `<div class="card gold read-aloud-clue"><div class="label">Read aloud to everyone</div>
       <h3>Evidence against ${esc(r.readAloud.targetName)}</h3>
       ${paras(r.readAloud.text)}
-      <p class="small muted">Read this clue in full on your turn, even if you are the killer. This is evidence to discuss, not your vote.</p></div>
-      <div class="label">🔒 Optional private clues — not your read-aloud script</div>
-      ${r.clues.length ? `<ul class="secrets clue-cards">${r.clues.map(c => `<li>${esc(c)}</li>`).join('')}</ul>` : '<p class="muted">No extra private clues this round.</p>'}`;
+      <p class="small muted">Read this clue in full on your turn. This is evidence to discuss, not your vote.</p></div>`;
   }
 
   function packetHtml() {
@@ -204,6 +202,7 @@ export function startPlayer(room) {
       const r = p.rounds[v.roundIndex];
       phaseCard = `<div class="card blood" id="phase-card"><div class="label">Round ${v.roundIndex + 1} of ${v.roundsTotal}</div>
         <h2 id="round-title">${esc(v.currentRound.title)}</h2>${paras(v.currentRound.publicText)}
+        <details data-k="narration"><summary>The host's narration</summary>${paras(v.currentRound.narration)}</details>
         <hr><div id="my-clues">${r ? cluesBlock(r) : ''}</div></div>`;
     } else if (v.phase === 'vote') {
       phaseCard = `<div class="card blood" id="phase-card"><div class="label">Round ${v.roundIndex + 1} · The accusation</div><h2>${esc(v.vote.prompt)}</h2>
@@ -219,14 +218,14 @@ export function startPlayer(room) {
         ${paras(rv.revealNarration)}<hr><div class="label">What really happened</div>${paras(rv.explanation)}</div>`;
     } else {
       phaseCard = `<div class="card" id="phase-card"><div class="label">Before the game begins</div>
-        <p>Read your character below and keep your secrets close. Each round you will read one clue accusing another character aloud. Everyone gets a turn and everyone receives one accusation. Private clues are separate.</p>
+        <p>Meet your character below. All story evidence comes from the host's narration and clues read to the room. Everyone gets a turn and everyone receives one accusation each round. Use the released evidence to discuss and vote.</p>
         <details data-k="intro" open><summary>The story so far</summary>${paras(v.intro)}<p class="muted small">${esc(v.setting)}</p></details></div>`;
     }
     const earlier = p.rounds.filter(r => v.phase !== 'round' || r.index < v.roundIndex);
     const history = v.evidenceHistory || [];
     const aboutMe = history.map(r => ({ ...r, clue: r.accusations.find(c => c.accuses === v.me) }));
     return `
-      <div class="card gold character-envelope" id="character-envelope"><div class="wax-seal" aria-hidden="true">GG</div><div class="label">Your private invitation · You are</div><h2 id="packet-name" style="font-size:1.8rem;margin:.1em 0">${esc(p.name)}</h2>
+      <div class="card gold character-envelope" id="character-envelope"><div class="wax-seal" aria-hidden="true">GG</div><div class="label">Your character · You are</div><h2 id="packet-name" style="font-size:1.8rem;margin:.1em 0">${esc(p.name)}</h2>
         <p style="margin:0"><i>${esc(p.role)}</i></p>
         ${p.guest ? `<p class="small muted" style="margin-bottom:0">Played by ${esc(p.guest)}${p.guestNote ? ` — lean into it: <i>${esc(p.guestNote)}</i>` : ''}</p>` : ''}</div>
       ${phaseCard}
@@ -234,17 +233,14 @@ export function startPlayer(room) {
         <p class="small muted">Keep the earlier suspicion and its later explanation together. These are the public clues, not a verdict or automatic clearance.</p>
         ${aboutMe.map(r => `<article class="personal-evidence"><h3>${esc(r.title)}</h3><p class="small muted">Read by ${esc(r.clue.speakerName)}</p>${paras(r.clue.text)}</article>`).join('<hr>')}</details>
         <details data-k="evidence" id="evidence-history"><summary>The room's evidence notebook (${history.length} rounds)</summary>
-        <p class="small muted">Public clues become available here when each round moves to voting. Other players' private clues stay private.</p>
-        ${history.map(r => `<section><h3>${esc(r.title)}</h3>${paras(r.publicText)}
+        <p class="small muted">The complete spoken narration and read-aloud clues become available here when each round moves to voting.</p>
+        ${history.map(r => `<section><h3>${esc(r.title)}</h3>${paras(r.narration)}
           ${r.accusations.map(c => `<details><summary>${esc(c.targetName)} · read by ${esc(c.speakerName)}</summary>${paras(c.text)}</details>`).join('')}</section>`).join('<hr>')}</details>` : ''}
       ${earlier.length ? `<details data-k="earlier" ${v.phase !== 'round' ? 'open' : ''}><summary>Your clues from ${v.phase === 'round' ? 'earlier rounds' : 'every round'} (${earlier.length})</summary>
         ${earlier.map(r => `<h3>${esc(r.title)}</h3>${cluesBlock(r)}`).join('<hr>')}</details>` : ''}
       <div class="card" id="character-sheet">
-        ${p.isKiller ? '<p class="center"><span class="pill bad" style="font-size:1rem">🔪 YOU ARE THE MURDERER — keep it secret. You may lie in discussion, but read your public clue exactly as written.</span></p>' : ''}
+        ${p.isKiller && v.phase !== 'reveal' ? '<p class="center"><span class="pill bad" id="killer-notification" style="font-size:1rem">🔪 YOU ARE THE MURDERER. The host enabled this notification. Read your clue exactly and defend your interpretation without inventing new events.</span></p>' : ''}
         <div class="label">What everyone knows about you</div>${paras(p.publicBlurb)}
-        <div class="label" style="margin-top:14px">🔒 Your backstory</div>${paras(p.backstory)}
-        <div class="label" style="margin-top:14px">🔒 Your secrets</div><ul class="secrets" id="my-secrets">${p.secrets.map(s => `<li>${esc(s)}</li>`).join('')}</ul>
-        <div class="label" style="margin-top:14px">🔒 Your motive</div>${paras(p.motive)}
       </div>
       <details data-k="cast"><summary>Who's who (public)</summary>
         ${v.victim.name ? `<p><b>The victim:</b> ${esc(v.victim.name)}${v.victim.description ? ` — ${esc(v.victim.description)}` : ''}</p>` : ''}

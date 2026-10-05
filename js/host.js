@@ -1,14 +1,14 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=five-rounds-v1';
+import { parseGuests, normalizeStory, buildView, tally } from './story.js?v=public-only-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
-import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=five-rounds-v1';
-import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=five-rounds-v1';
+import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=public-only-v1';
+import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=public-only-v1';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=accusation-circle-v1';
-import { STARTER_MYSTERIES } from './starters.js?v=five-rounds-v1';
+import { STARTER_MYSTERIES } from './starters.js?v=public-only-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
-import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=current-stories-v1';
+import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=public-only-v1';
 
 const KEY = HOST_SAVE_KEY;
 let S = null; // persisted host state
@@ -158,7 +158,7 @@ function renderSetup() {
       <p class="small muted">${esc(entry.inspiration)}</p>
       <details><summary>Content &amp; hosting notes</summary>
         <p class="small">${esc(entry.contentNote)}</p>
-        <p class="small muted">The cast fits your player count. Every player gets a full character, secrets, motives and a unique read-aloud clue in all five rounds, and every character receives an accusation each round. Four required characters preserve the core solution in smaller groups; added characters bring their own evidence and complications, not spectator roles. The host does not count toward the player total unless also playing a character.</p>
+        <p class="small muted">Every player gets a full character and an event-related read-aloud clue in all five rounds. Every character receives one accusation each round. All evidence and motives are introduced in spoken narration or clues, never secret packets. The host does not count toward the player total unless also playing a character.</p>
       </details>
       <p class="small muted">Choose this story to fit it to your player list, then edit anything and save your own version.</p>
       <button class="block" data-act="use-starter" data-id="${esc(entry.id)}">Play this mystery →</button>
@@ -234,10 +234,12 @@ function renderReview() {
   const st = S.story;
   app().innerHTML = `
     <h1>Review the Story</h1>
-    <p class="center muted">Edit anything — changes save automatically. Guests can't see this screen. Mysteries need 5 or 6 rounds. Each round needs one read-aloud clue per character, forming a complete circle with no repeated targets. Develop suspicion, then test it with later evidence; private clues are optional.</p>
+    <p class="center muted">Edit anything — changes save automatically. Guests can't see this screen. Mysteries need 5 or 6 rounds. Each round needs one event-related read-aloud clue per character in a complete circle. All evidence must be spoken in narration or clues before it is used; there are no secret clues or private backstories.</p>
     ${errBox()}
     <div class="row"><button class="secondary" data-act="save-story" id="save-story">${S.libraryId ? 'Update saved mystery' : 'Save to My Stories'}</button><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
+      ${fieldHtml('Tell the murderer they are the murderer (off: everyone investigates without advance knowledge)', 'discloseKiller', st.discloseKiller, 'checkbox')}
+      <p class="small muted">Off by default. This changes only the selected player's identity notification, not the clues or solution. Either mode is solvable from public evidence. Applies to this game and saved copies.</p>
       ${fieldHtml('Title', 'title', st.title)}
       <label for="story-atmosphere">Story atmosphere</label>
       <select id="story-atmosphere" data-path="atmosphere">${[['manor', 'Haunted manor'], ['witch', 'Witch-trial candlelight'], ['farm', 'Snowbound farmhouse'], ['victorian', 'Victorian lamplight']].map(([value, label]) => `<option value="${value}" ${storyTheme(st) === value ? 'selected' : ''}>${label}</option>`).join('')}</select>
@@ -260,14 +262,10 @@ function renderReview() {
         ${fieldHtml('Role', `characters.${i}.role`, c.role)}
         ${fieldHtml('Optional supporting character (can be omitted for smaller groups)', `characters.${i}.optional`, c.optional, 'checkbox')}
         ${fieldHtml('Public blurb (everyone sees)', `characters.${i}.publicBlurb`, c.publicBlurb, 'area')}
-        ${fieldHtml('Backstory (private)', `characters.${i}.backstory`, c.backstory, 'big')}
-        ${fieldHtml('Secrets (private)', `characters.${i}.secrets`, c.secrets, 'lines')}
-        ${fieldHtml('Motive (private)', `characters.${i}.motive`, c.motive, 'area')}
         ${st.rounds.map((r, ri) => `<h3>${esc(r.title)}</h3>
           <label>Read-aloud accusation target</label>
           <select aria-label="Accusation target for ${esc(c.name)}, round ${ri + 1}" data-path="characters.${i}.rounds.${ri}.readAloud.accuses"><option value="" ${!c.rounds[ri]?.readAloud?.accuses ? 'selected' : ''}>Choose a character</option>${st.characters.filter(target => target.id !== c.id).map(target => `<option value="${esc(target.id)}" ${c.rounds[ri]?.readAloud?.accuses === target.id ? 'selected' : ''}>${esc(target.name)}</option>`).join('')}</select>
-          ${fieldHtml('Read aloud to everyone (evidence against the target)', `characters.${i}.rounds.${ri}.readAloud.text`, c.rounds[ri]?.readAloud?.text || '', 'area')}
-          ${fieldHtml('Optional private clues (not the read-aloud script)', `characters.${i}.rounds.${ri}.clues`, c.rounds[ri]?.clues || [], 'lines')}`).join('')}
+          ${fieldHtml('Read aloud to everyone (event evidence about the target)', `characters.${i}.rounds.${ri}.readAloud.text`, c.rounds[ri]?.readAloud?.text || '', 'area')}`).join('')}
       </details>`).join('')}
     <h2>Rounds</h2>
     <div class="row"><button class="secondary small" data-act="add-story-round" ${st.rounds.length >= 6 ? 'disabled' : ''}>Add a chapter (${st.rounds.length}/6)</button>${st.rounds.length > 5 ? '<button class="secondary small" data-act="remove-story-round">Remove final chapter</button>' : ''}</div>
@@ -329,7 +327,7 @@ function renderLobby() {
     <h1>${esc(st.title)}</h1>
     <div class="grid2">
       <div class="card gold"><h2 class="center">Scan to join</h2>${joinBlock()}
-        <p class="center small muted">Guests: open the link, tap your name, and read your secret character packet.</p></div>
+        <p class="center small muted">Guests: open the link, tap your name, and meet your character.</p></div>
       <div class="card"><h2>The guests</h2><div id="roster">${rosterHtml()}</div></div>
     </div>
     <div class="card"><div class="label">Read aloud</div><div class="narration">${paras(st.intro)}</div>
@@ -349,13 +347,13 @@ function renderRound() {
       <div>
         <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(r.narration)}</div></div>
         ${r.hostNotes ? `<p class="muted small">🕯️ ${esc(r.hostNotes)}</p>` : ''}
-        <div class="card"><div class="label">On every phone now</div>${paras(r.publicText)}<p>Go around the room: every player reads their public accusation clue in full, including the killer. Each character receives exactly one accusation. Compare it with earlier evidence, then discuss private clues if you wish and vote freely. At voting, this round's public evidence joins everyone's notebook and personal accusation history.</p>
+        <div class="card"><div class="label">On every phone now</div>${paras(r.publicText)}<p>Read the full narration, then every player reads their clue verbatim. Each character receives exactly one accusation. Discuss only evidence the group has heard and vote freely. At voting, the complete narration and clues join everyone's notebook.</p>
         <div class="label">Read-aloud circle (not voting)</div><ul class="clean">${st.characters.map(c => {
           const target = st.characters.find(t => t.id === c.rounds[S.roundIndex].readAloud.accuses);
           return `<li>${esc(c.name)}${c.guest ? ` (${esc(c.guest)})` : ''} → ${esc(target.name)}</li>`;
         }).join('')}</ul></div>
         ${evidenceHistory.length ? `<details id="host-evidence-history"><summary>Earlier public evidence (${evidenceHistory.length} rounds)</summary>
-          ${evidenceHistory.map(chapter => `<h3>${esc(chapter.title)}</h3>${paras(chapter.publicText)}
+          ${evidenceHistory.map(chapter => `<h3>${esc(chapter.title)}</h3>${paras(chapter.narration)}
             ${chapter.accusations.map(clue => `<details><summary>${esc(clue.targetName)} · read by ${esc(clue.speakerName)}</summary>${paras(clue.text)}</details>`).join('')}`).join('<hr>')}</details>` : ''}
       </div>
       <div>
@@ -421,7 +419,10 @@ function renderReveal() {
 }
 
 function hostFooter() {
-  return `${hostAtmospherePanel()}<p class="footer">Refreshing this page is safe — the game is saved on this device. <button class="secondary small" data-act="end">End game → Home</button></p>`;
+  return `<details id="host-game-settings"><summary>Host game settings</summary>
+    <label class="check-row"><input type="checkbox" data-disclose-killer ${S.story.discloseKiller ? 'checked' : ''}>Tell the murderer they are the murderer</label>
+    <p class="small muted">Off: no advance identity notification. On: only the murderer is told. Once seen, the identity cannot be forgotten even if this is turned off later. Public evidence is unchanged.</p></details>
+    ${hostAtmospherePanel()}<p class="footer">Refreshing this page is safe — the game is saved on this device. <button class="secondary small" data-act="end">End game → Home</button></p>`;
 }
 
 function updateLive() {
@@ -595,7 +596,7 @@ const actions = {
   'add-story-round'() {
     if (S.story.rounds.length >= 6) return;
     S.story.rounds.push({ title: `Round ${S.story.rounds.length + 1}`, narration: '', publicText: '', hostNotes: '' });
-    for (const c of S.story.characters) c.rounds.push({ clues: [], readAloud: { accuses: '', text: '' } });
+    for (const c of S.story.characters) c.rounds.push({ readAloud: { accuses: '', text: '' } });
     save();
     renderReview();
     toast('Chapter added. Write its narration and every character\'s read-aloud evidence before playing.');
@@ -698,6 +699,13 @@ function onInput(e) {
 
 function onChange(e) {
   const t = e.target;
+  if (t.hasAttribute('data-disclose-killer') && S?.story) {
+    S.story.discloseKiller = t.checked;
+    save();
+    broadcast();
+    toast(t.checked ? 'Murderer notification enabled.' : 'Murderer notification disabled. Anyone already told still knows.');
+    return;
+  }
   if (t.dataset.assignCharacter != null && S?.story) {
     const index = Number(t.dataset.assignCharacter);
     const character = S.story.characters[index];

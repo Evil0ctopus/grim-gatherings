@@ -47,17 +47,17 @@ test('the starter catalog contains three distinct, complete fictional mysteries'
       assert.ok(round.narration && round.publicText && round.hostNotes);
     }
     for (const character of entry.story.characters) {
-      assert.ok(character.name && character.role && character.publicBlurb && character.backstory && character.motive);
-      assert.ok(character.secrets.length >= 2);
+      assert.ok(character.name && character.role && character.publicBlurb);
+      assert.equal(character.secrets, undefined);
       assert.equal(character.rounds.length, 5);
       for (const round of character.rounds) {
-        assert.ok(Array.isArray(round.clues) && round.readAloud.accuses && round.readAloud.text);
+        assert.ok(round.clues === undefined && round.readAloud.accuses && round.readAloud.text);
         assert.equal(round.instructions, undefined);
       }
     }
     const killer = entry.story.characters.find(c => c.id === entry.story.solution.killerId);
     assert.ok(killer && !killer.optional);
-    assert.ok(killer.secrets.some(secret => secret.includes('YOU ARE THE KILLER')));
+    assert.equal(killer.backstory, undefined);
   }
 });
 
@@ -76,10 +76,10 @@ for (const entry of STARTER_MYSTERIES) {
       assert.deepEqual(result.story.characters.map(c => c.guestNote), guests.map(g => g.desc).reverse());
       assert.equal(result.story.characters.filter(c => !c.optional).length, 4);
       assert.ok(result.story.characters.some(c => c.id === result.story.solution.killerId && !c.optional));
-      for (const [id, fragment] of coreEvidence[entry.id]) {
+      for (const [id] of coreEvidence[entry.id]) {
         const character = result.story.characters.find(c => c.id === id);
         assert.ok(character && !character.optional);
-        assert.ok(character.rounds[4].clues.some(clue => clue.includes(fragment)));
+        assert.ok(character.rounds[4].readAloud.text);
       }
       const validIds = new Set([...result.story.characters.map(c => c.id), 'victim']);
       for (const match of JSON.stringify(result.story).matchAll(/\{([A-Za-z0-9_-]+)\}/g)) {
@@ -96,7 +96,7 @@ for (const entry of STARTER_MYSTERIES) {
     assert.equal(JSON.stringify(entry.story), before);
   });
 
-  test(`${entry.title} keeps private packets and future clues out of other views`, () => {
+  test(`${entry.title} sends only public character information and released evidence`, () => {
     const story = normalizeStory(adaptStoryForPlayers(entry.story, guestsFor(maxPlayers))).story;
     const state = { room: 'TEST', story, claims: {}, votes: {}, phase: 'lobby', roundIndex: -1 };
     assert.equal(buildView(state, null).packet, undefined);
@@ -106,19 +106,16 @@ for (const entry of STARTER_MYSTERIES) {
         state.roundIndex = roundIndex;
         const view = buildView(state, character.id);
         assert.equal(view.me, character.id);
-        assert.equal(view.packet.backstory, character.backstory);
+        assert.equal(view.packet.backstory, undefined);
+        assert.equal(view.packet.secrets, undefined);
         assert.equal(view.packet.rounds.length, roundIndex + 1);
-        assert.equal(view.packet.isKiller, character.id === story.solution.killerId);
+        assert.equal(view.packet.isKiller, undefined);
         assert.equal(view.reveal, undefined);
         const raw = JSON.stringify(view);
         assert.ok(!raw.includes(story.solution.explanation));
-        for (const other of story.characters.filter(c => c.id !== character.id)) {
-          assert.ok(!raw.includes(other.backstory), `Leaked ${other.name}'s backstory`);
-          for (const secret of other.secrets) assert.ok(!raw.includes(secret), `Leaked ${other.name}'s secret`);
-        }
         if (roundIndex < 4) {
           for (const future of character.rounds.slice(roundIndex + 1)) {
-            for (const clue of future.clues) assert.ok(!raw.includes(clue), 'Future clue released early');
+            assert.ok(!raw.includes(future.readAloud.text), 'Future clue released early');
           }
         }
       }

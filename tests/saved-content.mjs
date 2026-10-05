@@ -62,3 +62,16 @@ test('unreadable storage reports an error without erasing data', () => {
     for (const [key, raw] of Object.entries(entries)) assert.equal(storage.getItem(key), raw);
   }
 });
+
+test('five-round version-1 saves and private-format saves cannot reappear after the public-only update', () => {
+  const legacyVersion = { ...structuredClone(current), schemaVersion: 1 };
+  const privateFormat = structuredClone(current);
+  privateFormat.characters[0].rounds[0].clues = ['OLD PRIVATE INFORMATION'];
+  const storage = store({
+    [STORY_LIBRARY_KEY]: JSON.stringify([{ id: 'v1', story: legacyVersion }, { id: 'private', story: privateFormat }, { id: 'current', story: current }]),
+    [HOST_SAVE_KEY]: JSON.stringify({ phase: 'round', story: privateFormat }),
+  });
+  assert.deepEqual(removeOutdatedSavedContent(storage), { removedStories: 2, removedGame: true });
+  assert.deepEqual(JSON.parse(storage.getItem(STORY_LIBRARY_KEY)).map(entry => entry.id), ['current']);
+  assert.equal(storage.getItem(HOST_SAVE_KEY), null);
+});

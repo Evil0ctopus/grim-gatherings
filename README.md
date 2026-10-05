@@ -1,6 +1,6 @@
 # 🕯️ Grim Gatherings
 
-A murder-mystery party web app. The host (narrator) runs the game from one screen; every guest joins on their phone and sees **only their own character packet**, with a new read-aloud accusation and optional private clues each round. Everyone accuses one other character and receives exactly one accusation in a complete circle. Everyone votes whodunit on their phone; the host reveals the killer.
+A murder-mystery party web app. The host reads the narration; every guest joins on their phone and reads one event-related clue aloud each round. **All story evidence is spoken to the group: no secret clues, private backstories or hidden motives.** Everyone accuses one other character and receives exactly one accusation in a complete circle, discusses the evidence, and votes.
 
 **Live:** https://evil0ctopus.github.io/grim-gatherings/
 
@@ -15,9 +15,9 @@ A murder-mystery party web app. The host (narrator) runs the game from one scree
 
 1. Open the site on the device that will be the narrator screen (laptop/tablet, ideally on the TV). Tap **Create a new game**.
 2. Add each player by name with **Add player**; optionally add a short description. Choose a story under **Ready-to-play mysteries** (or paste a story JSON / generate with AI).
-3. Review the story — every character's text is editable. Use the **Assign player** dropdowns to control who plays each character; assignments are unique. Tap **Open the doors**.
-4. A QR code, link and room code appear. Guests scan it, tap their assigned name, and read their secret packet.
-5. When everyone has joined (green dots), tap **Begin Round 1** and read the narration aloud. Go around the room so every player reads their **Read aloud to everyone** evidence in full, including the killer. Each player accuses one other character and each character receives exactly one accusation. The host screen lists the circle. Then discuss for ~15 min, sharing optional private clues as desired, and tap **Vote after Round 1**. Scripted evidence is not a vote: players can vote for any other suspect and change their vote until voting closes.
+3. Review the story and assign players. Choose **Tell the murderer they are the murderer**: off by default, so everyone investigates without advance knowledge. On notifies only that character. This setting persists with the game and saved story, affects only the notification, and never changes the solution or public clues. Tap **Open the doors**.
+4. Guests scan the QR code, tap their assigned name, and meet their character.
+5. When everyone has joined, begin Round 1 and read the **complete narration** aloud. Every player then reads their **Read aloud to everyone** clue verbatim, including a notified murderer. Each character receives exactly one accusation. Discuss the spoken evidence, then vote. Players may question interpretations but must not invent new story facts. Scripted clues are not votes.
 6. Vote after every round. After the last round's vote, watch the live tally, then hit **Reveal the killer**. The room bar keeps connection status separate from a compact voting summary. Click or tap that summary (or focus it and press Enter) to open the complete suspect history below the bar: round leaders, each suspect's cumulative vote share, change in percentage points, and per-round counts. Phones show a short **Votes · percentage** label; the expanded history shows the full names. The bar stays the same height.
 7. Keep the host screen open the whole game. Refreshing it is safe (the game is saved on that device); guests reconnect automatically.
 
@@ -25,7 +25,7 @@ Guests who refresh, lock their phone, or lose signal just reopen the same link �
 
 Every mystery must have **5 or 6 rounds**; all built-ins have five. The built-in accusation circle changes between rounds and is rebuilt when optional roles are omitted, preserving the evidence against each remaining character. Clues progress from initial circumstances and suspicion, through linked documents and timelines, to round 4 corrections and round 5 conclusions. Later evidence explains earlier behavior rather than inventing convenient alibis. Story events are described in evidence and narration; optional roleplay can accompany discussion without being needed to release a clue.
 
-Player screens grow with the investigation. **How the evidence against you has changed** collects the released public clues about that character; **The room's evidence notebook** keeps every completed round's summary and read-aloud evidence. A round joins both histories when the host opens its voting, after players have read their clues. Current scripts stay with their assigned readers until then. Other players' private clues, backstories and motives never enter the notebook, and future rounds remain locked. Corrections are evidence to assess, not automatic innocent/guilty badges. Refresh and rewind reconstruct the history from the current phase and round. Connections use PeerJS's binary serialization and built-in chunking so the growing notebooks and reveal are not limited by the JSON channel's roughly 16 KB message ceiling.
+Player screens grow with the investigation. **How the evidence against you has changed** collects released clues about the character. **The room's evidence notebook** retains the **complete spoken narration** and every read-aloud clue at voting. The current narrator text is also available on phones; each current script stays with its reader until voting. Future chapters remain locked. Corrections are evidence to assess, not automatic innocent/guilty badges. Refresh and rewind reconstruct the released history. PeerJS binary chunking supports the larger notebooks.
 
 Vote share is the percentage of all ballots cast across the released rounds, not a statistical probability of guilt. Every submitted round ballot has equal weight; changing an accusation replaces that player's ballot for that round. Ties are displayed as ties, and the change compares cumulative share with the previous round's cumulative share. Missing votes are not counted as abstention ballots. The host can close an incomplete vote after a warning. Previous-round navigation retains that round's ballots; reopening its voting permits corrections. History and ballots survive refresh. Only aggregate counts are sent publicly, not who voted for whom. Final win/lose feedback uses the final round's votes, not the cumulative trend.
 
@@ -43,13 +43,13 @@ Players can use **Leave game → Home** at any stage, including the reveal. Conn
 
 These are original fictional mysteries, not reconstructions of real murders or claims about real suspects. Deaths occur off-screen; there is no graphic violence. The witch-trial story treats persecution and false accusations as injustices, not proof of witchcraft.
 
-Each has an opening, five narrated clue rounds, character packets with mandatory public accusations and optional private clues, secrets, motives, voting and a complete reveal. Four required characters hold the solving evidence. Additional players receive full characters with their own backstories, secrets, motives, evidence and suspicion arcs. **Optional refers only to cast selection for smaller parties, never to participation:** every included player reads one unique public clue and receives exactly one accusation in every round, discusses the evidence and votes. The accusation circle is rebuilt to include the entire selected cast; omitting roles does not remove the core solution. Player totals exclude the narrator unless the narrator also plays a character.
+Each has five narrated event rounds, public clues, evolving suspicion, voting and a reveal based on evidence already spoken. Documents, objects and witnesses are explicitly introduced before being compared later. Character wrongdoing and motives unfold publicly rather than appearing in private packets. **Optional means omitted for a smaller cast, never sidelined:** every included character reads a unique clue and receives one accusation each round. Essential evidence is retained in the spoken chapters and required roles at every supported cast size. Tone is suspenseful, clear and PG-13 for mixed-age groups (13-50).
 
 Add your players and choose **Play this mystery**. The cast automatically fits the listed count; unsupported counts show an error. Review, edit and save a personal version without changing the built-in original. A saved version contains the cast selected for that game; select the original again to use its full player range.
 
-Unit checks: `node --test tests/saved-content.mjs tests/progression.mjs tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
+Unit checks: `node --test tests/public-playthrough.mjs tests/saved-content.mjs tests/progression.mjs tests/accusations.mjs tests/library.mjs tests/starters.mjs tests/atmosphere.mjs tests/manor.mjs tests/backdrops.mjs tests/ambient.mjs tests/voting.mjs`.
 
-Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample]`. Mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm` and `briar-house`. For example, `node tests/e2e.mjs http://127.0.0.1:8128/ 10 briar-house` checks the full Briar House cast, including a phone assigned to the final listed guest, through all five rounds, refresh/reconnection and the reveal. Unit tests check every included character at every supported count; browser tests exercise four-player and full-cast games.
+Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample] [discloseKiller=false]`. Mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm`, `briar-house` and `example` (the three-player lighthouse import). For example, `node tests/e2e.mjs http://127.0.0.1:8128/ 10 briar-house false` connects a separate phone for **every** listed player through all five rounds, refresh/reconnection and the reveal. Tests also exercise the live host notification toggle and complete narrated notebooks. Unit audits check both notification settings for every included character at every supported count; browser tests exercise four-player and full named casts.
 
 ## Atmosphere and event effects
 
@@ -74,7 +74,8 @@ A story is one JSON object. Paste it in **Setup → Paste story JSON** (or uploa
 
 | Field | Type | Notes |
 |---|---|---|
-| `schemaVersion` | number | `1` |
+| `schemaVersion` | number | `2` (public-only stories) |
+| `discloseKiller` | boolean | optional, default `false`; host's murderer notification toggle |
 | `title` | string | **required** |
 | `setting` | string | where/when |
 | `atmosphere` | string | optional: `manor`, `witch`, `farm` or `victorian`; inferred for built-in titles when absent |
@@ -95,19 +96,17 @@ Each character:
 | `optional` | boolean | mark supporting characters that can be omitted when fewer guests attend; at least two characters and the killer must remain required |
 | `name`, `role` | string | character name (**required**) and role/title |
 | `publicBlurb` | string | what everyone knows — visible to all players |
-| `backstory`, `motive` | string | private |
-| `secrets` | string[] | private (a single string is also accepted) |
-| `rounds` | array | one entry per story round, in order: `{"readAloud": {"accuses": "otherId", "text": "Evidence against {otherId}..."}, "clues": []}` — unlocked when that round starts |
+| `rounds` | array | one entry per story round: `{"readAloud": {"accuses": "otherId", "text": "Observed event about {otherId}..."}}` — unlocked when the round starts |
 
 Placeholders: in any text, `{someId}` becomes that character's name plus guest, e.g. `{wick}` → "Jonah Wick (Mike)"; `{victim}` becomes the victim's name.
 
-`readAloud` is mandatory for every character in every round. `accuses` must be another character's id. Each target must appear exactly once per round, and the directed accusations must form one complete circle (not separate pairs or groups). Each public text must be unique and contain concrete evidence against its target. `clues` are optional private material and may be empty. The editor, imports, saved stories and AI output are validated before play.
+`readAloud` is mandatory. Targets must form one complete circle, with no repeated targets or text. Evidence must describe concrete events, sightings, objects or documents, not generic suspicion. Private `clues`, `backstory`, `secrets` and `motive` content is rejected on import: author that information into the spoken chapters or scripts and remove the private fields. The app never guesses how to merge a private confession into public evidence.
 
 Write read-aloud evidence objectively with `{targetId}`, rather than as a speaker-specific eyewitness claim, so it can move to another speaker when optional roles are omitted. The app preserves each remaining target's evidence and rebuilds the circle for the reduced cast. Put essential solving evidence against required characters.
 
-On opening the app, saved stories and games using the old round format (outside five to six rounds, or missing per-character `readAloud` entries) are removed from this browser's storage, with a notification. Current-format stories, drafts, games, player preferences and AI settings are preserved. Outdated stories are also excluded from the saved-story list. Cleanup runs on each device when it next loads the updated site; it cannot delete downloaded JSON files or storage on devices that have not reopened the app. Old JSON imports are rejected by story validation. The app does not guess accusations from private information or pad a story with invented events. For the updated built-ins, start a new game from the starter catalog.
+On loading the update, pre-version-2 saves and saves containing private story fields are removed from this browser, with a notice. Version-2 public-only stories, drafts, player preferences and AI settings are retained. Cleanup runs when each device opens the updated site; downloaded files and offline devices cannot be erased remotely. Start a fresh game from the rewritten catalog. Old imports require an authored public rewrite before validation will accept them.
 
-Tips for writing a good one (for humans or AIs): exactly one killer; tell the killer clearly in their secrets that they are the killer and may lie in discussion, but must read their public clue in full; spread the solving evidence across several characters, with the decisive pieces in later rounds; give everyone else a secret + motive as red herrings; one character per guest.
+Authoring tips: plan the full timeline first; give each new fact a spoken source and discovery; distinguish witness claims from established findings; revisit early suspicions without inventing alibis; make the final reveal interpret already released evidence. Never put a confession in character text: the app alone supplies the optional murderer notification. Everyone reads their script exactly, with one character per guest.
 
 Full five-round example: [`examples/example-story.json`](examples/example-story.json), **Death at the Lighthouse**. The land argument implicates the niece early; the logbook later distinguishes that dispute from the shipwreck disclosure. The doctor's silence gains context in round 4, while the key, oil and stair sighting build the final chain. Import this file to inspect the complete narration and each character's five read-aloud clues.
 
@@ -124,6 +123,6 @@ Full five-round example: [`examples/example-story.json`](examples/example-story.
 - **Needs internet on all devices** and depends on the free PeerJS public broker (`0.peerjs.com`) to connect peers. If it's down, nobody can join (there's no fallback server). PeerJS's free TURN relay is used for tricky networks (e.g. phones on cellular), but some very strict networks may still block WebRTC.
 - The **host device is the hub**: if the host screen closes or sleeps, players see "reconnecting" until it is back. Keep it awake and plugged in. Its state is saved in that browser's localStorage, so a refresh is safe — but switching to a different host device mid-game is not supported (export the story JSON if you want to reuse it).
 - Each phone is remembered by a random token in its localStorage. If a guest switches phones or uses private browsing, the host taps **release** next to their name so they can claim it again.
-- Per-player filtering happens on the host before sending, so phones never receive other players' secrets — but this is a party game, not a security product (anyone with the room code can claim an unclaimed character).
+- The host filters unreleased evidence and the solution before sending to phones. There is no private story evidence. This remains a party game, not a security product (anyone with the room code can claim an unclaimed character).
 - AI generation calls the API straight from the browser; some providers block browser (CORS) requests. Story quality depends on the model; review before starting.
 - Character names in the built-in mystery are gendered; anyone can play anyone, or edit names on the Review screen.

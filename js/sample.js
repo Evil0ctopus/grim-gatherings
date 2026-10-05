@@ -2,7 +2,7 @@
 // Characters are included in PRIORITY order: the first four alone contain a complete, solvable chain of clues.
 // Extra characters add corroborating clues and red herrings. Beyond 12 guests, "mourner" characters are added.
 import { shuffle } from './util.js';
-import { preparePublicEvidence } from './public-evidence.js?v=five-rounds-v1';
+import { preparePublicEvidence } from './public-evidence.js?v=public-only-v1';
 
 const BASE = {
   title: 'The Last Séance at Ravenmoor',

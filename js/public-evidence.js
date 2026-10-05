@@ -1,5 +1,6 @@
 import { assignAccusationCircles } from './accusations.js?v=accusation-circle-v1';
 import { expandChapters, CONNECTING_EVIDENCE, KILLER_FOURTH_CLUE } from './progression.js?v=five-rounds-v1';
+import { usePublicChapters } from './public-chapters.js?v=public-only-v1';
 
 // Each row follows one suspect from initial suspicion to a connection and final context.
 const ravenmoor = {
@@ -236,4 +237,5 @@ export function preparePublicEvidence(story, kind) {
     for (const r of c.rounds) delete r.instructions;
   }
   assignAccusationCircles(story, evidence);
+  usePublicChapters(story, kind);
 }

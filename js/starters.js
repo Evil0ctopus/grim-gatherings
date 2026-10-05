@@ -1,5 +1,5 @@
 // Required roles carry the solving clues; optional roles add motives and corroboration.
-import { preparePublicEvidence } from './public-evidence.js?v=five-rounds-v1';
+import { preparePublicEvidence } from './public-evidence.js?v=public-only-v1';
 
 const clueRound = (clues, instructions) => ({ clues, instructions });
 

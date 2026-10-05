@@ -36,7 +36,8 @@ export function normalizeStory(input, guests = []) {
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return { story: null, errors: ['The story must be a JSON object ({ ... }).'], warnings };
 
   const s = {
-    schemaVersion: 1,
+    schemaVersion: 2,
+    discloseKiller: obj.discloseKiller === true,
     title: asStr(obj.title).trim(),
     atmosphere: storyTheme(obj),
     setting: asStr(obj.setting).trim(),
@@ -53,7 +54,7 @@ export function normalizeStory(input, guests = []) {
   if (!Array.isArray(obj.rounds)) errors.push('"rounds" must be a list with 5 or 6 rounds.');
   else obj.rounds.forEach((r, i) => {
     const rr = { title: asStr(r?.title).trim() || `Round ${i + 1}`, narration: asStr(r?.narration).trim(), publicText: asStr(r?.publicText).trim(), hostNotes: asStr(r?.hostNotes).trim() };
-    if (!rr.narration && !rr.publicText) warnings.push(`rounds[${i}] has no "narration" or "publicText".`);
+    if (!rr.narration) errors.push(`rounds[${i}] needs spoken host narration. Put all story discoveries in narration or read-aloud clues.`);
     s.rounds.push(rr);
   });
   if (Array.isArray(obj.rounds) && (obj.rounds.length < 5 || obj.rounds.length > 6)) errors.push('Every mystery must have 5 or 6 rounds. Expand the narration and character evidence together before playing.');
@@ -77,18 +78,17 @@ export function normalizeStory(input, guests = []) {
         guestNote: asStr(c.guestNote).trim(),
         role: asStr(c.role).trim(),
         publicBlurb: asStr(c.publicBlurb).trim(),
-        backstory: asStr(c.backstory).trim(),
-        secrets: asLines(c.secrets),
-        motive: asStr(c.motive).trim(),
         rounds: s.rounds.map((_, ri) => ({
-          clues: asLines(rounds[ri]?.clues),
           readAloud: {
             accuses: asStr(rounds[ri]?.readAloud?.accuses).trim(),
             text: asStr(rounds[ri]?.readAloud?.text).trim(),
           },
         })),
       });
-      if (rounds.some(r => r?.instructions)) warnings.push(`${name || id}: legacy instruction fields were removed. Put relevant events in the read-aloud evidence or private clues instead.`);
+      if (asStr(c.backstory).trim() || asLines(c.secrets).length || asStr(c.motive).trim() || rounds.some(r => asLines(r?.clues).length)) {
+        errors.push(`${name || id}: private story information is no longer supported. Rewrite it into the host narration or read-aloud evidence, then remove backstory, secrets, motive and clues.`);
+      }
+      if (rounds.some(r => r?.instructions)) warnings.push(`${name || id}: legacy instruction fields were removed. Put relevant events in spoken host narration or read-aloud evidence instead.`);
     });
     if (s.characters.filter(c => !c.optional).length < 2) errors.push('At least two characters must remain required so the mystery can be played with a smaller group.');
   }
@@ -140,7 +140,7 @@ export function tally(S) {
   return t;
 }
 
-/** Build the data ONE player is allowed to see. Never includes other characters' secrets. */
+/** Release only public material through the current chapter and optional killer notification. */
 export function buildView(S, charId) {
   const st = S.story;
   const fill = makeFill(st);
@@ -160,12 +160,12 @@ export function buildView(S, charId) {
   };
   if (inGame && ri >= 0 && ri < st.rounds.length) {
     const r = st.rounds[ri];
-    v.currentRound = { index: ri, title: fill(r.title), publicText: fill(r.publicText) };
+    v.currentRound = { index: ri, title: fill(r.title), publicText: fill(r.publicText), narration: fill(r.narration) };
   }
   // Current scripts stay in their owner's packet until the discussion closes for voting.
   const publicCount = inGame ? Math.max(0, Math.min(st.rounds.length, phase === 'round' ? ri : ri + 1)) : 0;
   v.evidenceHistory = st.rounds.slice(0, publicCount).map((r, i) => ({
-    index: i, title: fill(r.title), publicText: fill(r.publicText),
+    index: i, title: fill(r.title), publicText: fill(r.publicText), narration: fill(r.narration),
     accusations: st.characters.map(c => ({
       speakerId: c.id, speakerName: fill(`{${c.id}}`),
       accuses: c.rounds[i].readAloud.accuses,
@@ -177,10 +177,10 @@ export function buildView(S, charId) {
     const last = inGame ? ri : -1;
     v.packet = {
       name: ch.name, role: ch.role, guest: ch.guest, guestNote: ch.guestNote,
-      publicBlurb: fill(ch.publicBlurb), backstory: fill(ch.backstory), secrets: ch.secrets.map(fill), motive: fill(ch.motive),
-      isKiller: st.solution.killerId === ch.id,
+      publicBlurb: fill(ch.publicBlurb),
+      ...(st.discloseKiller || phase === 'reveal' ? { isKiller: st.solution.killerId === ch.id } : {}),
       rounds: st.rounds.slice(0, last + 1).map((r, i) => ({
-        index: i, title: fill(r.title), clues: (ch.rounds[i]?.clues || []).map(fill),
+        index: i, title: fill(r.title),
         readAloud: {
           accuses: ch.rounds[i]?.readAloud?.accuses || '',
           targetName: fill(`{${ch.rounds[i]?.readAloud?.accuses || ''}}`),

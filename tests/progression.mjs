@@ -46,8 +46,11 @@ test('every guest has a full participating character at every built-in party siz
     assert.deepEqual(story.characters.map(c => c.guest).sort(), players.map(g => g.name).sort());
     const state = { story, claims: {}, votes: {}, phase: 'round', roundIndex: 0 };
     for (const c of story.characters) {
-      assert.ok(c.role && c.backstory && c.motive && c.secrets.length, `${c.name} needs a full role`);
-      assert.ok(c.rounds.some(r => r.clues.length), `${c.name} needs private information as well as public evidence`);
+      assert.ok(c.role && c.publicBlurb, `${c.name} needs a full public role`);
+      assert.equal(c.backstory, undefined);
+      assert.equal(c.secrets, undefined);
+      assert.equal(c.motive, undefined);
+      assert.ok(c.rounds.every(r => r.clues === undefined));
       const targetHistory = [];
       const incomingHistory = [];
       for (let ri = 0; ri < 5; ri++) {

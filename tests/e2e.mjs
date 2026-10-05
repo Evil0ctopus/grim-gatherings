@@ -1,15 +1,16 @@
-// End-to-end test: host + 3 players in separate browser contexts, full game against a URL.
-// Usage: node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample]
+// End-to-end test: host and every selected player in separate browser contexts.
+// Usage: node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample] [discloseKiller=false]
 import { chromium, devices } from 'playwright';
+import fs from 'node:fs';
 
 const URL = process.argv[2] || 'https://evil0ctopus.github.io/grim-gatherings/';
 const playerCount = Number(process.argv[3] || 4);
 const mysteryId = process.argv[4] || 'sample';
-if (!Number.isInteger(playerCount) || playerCount < 4) throw new Error('Use at least four players for this integration test.');
-const GUESTS = ['Sarah, loud, loves wine, always late', 'Mike, quiet, secretly competitive', 'Priya, theatrical, loves true crime', 'Tom, jokester'];
+let discloseKiller = process.argv[5] === 'true';
+if (!Number.isInteger(playerCount) || playerCount < 3) throw new Error('Use at least three players for this integration test.');
+const GUESTS = ['Sarah, loud, loves wine, always late', 'Mike, quiet, secretly competitive', 'Priya, theatrical, loves true crime', 'Tom, jokester'].slice(0, playerCount);
 for (let i = 4; i < playerCount; i++) GUESTS.push(`Guest ${i + 1}, enjoys investigating`);
-const PLAYERS = ['Sarah', 'Mike', 'Priya'];
-if (playerCount > 4) PLAYERS.push(`Guest ${playerCount}`);
+const PLAYERS = GUESTS.map(g => g.split(',')[0]);
 const T = 45000;
 const results = [];
 const ok = (name, cond, extra = '') => { results.push({ name, pass: !!cond, extra }); console.log(`${cond ? 'PASS' : 'FAIL'}  ${name}${extra ? ' — ' + extra : ''}`); if (!cond) throw new Error('Assertion failed: ' + name + ' ' + extra); };
@@ -46,8 +47,17 @@ try {
     await host.click('#add-guest');
   }
   ok('players can be added one at a time', await host.locator('.guest-item').count() === GUESTS.length);
-  await host.click(mysteryId === 'sample' ? '#use-sample' : `[data-act="use-starter"][data-id="${mysteryId}"]`);
+  if (mysteryId === 'example') {
+    await host.locator('[data-act="tab"][data-tab="paste"]').click();
+    const example = JSON.parse(fs.readFileSync(new globalThis.URL('../examples/example-story.json', import.meta.url)));
+    example.characters.forEach(c => { c.guest = ''; c.guestNote = ''; });
+    await host.fill('#json', JSON.stringify(example));
+    await host.click('#load-json');
+  } else {
+    await host.click(mysteryId === 'sample' ? '#use-sample' : `[data-act="use-starter"][data-id="${mysteryId}"]`);
+  }
   await host.waitForSelector('#open-lobby');
+  await host.locator('[data-path="discloseKiller"]').setChecked(discloseKiller);
   ok('host built selected story & reached review', true, el());
   const initialAssignments = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters.map(c => c.guest));
   const movedPlayer = initialAssignments[1], displacedPlayer = initialAssignments[0];
@@ -88,15 +98,28 @@ try {
   async function checkFiltering(label) {
     for (const g of PLAYERS) {
       const p = players[g], me = byGuest[g];
-      const raw = await p.evaluate(() => JSON.stringify(window.__gg?.view || {}));
-      const text = await p.evaluate(() => document.body.innerText);
-      const others = story.characters.filter(c => c.id !== me.id);
-      const leaks = others.filter(c => raw.includes(c.backstory.slice(0, 50)) || c.secrets.some(s => raw.includes(s.slice(0, 40))) || raw.includes(c.motive.slice(0, 40)));
-      ok(`${label}: ${g} sees own secrets`, text.includes(me.secrets[0].slice(0, 40)));
-      ok(`${label}: ${g} received NO other players' secrets/backstory/motive`, leaks.length === 0, leaks.map(c => c.name).join(', '));
+      const packet = await p.evaluate(() => window.__gg.view.packet);
+      ok(`${label}: ${g} has no private story fields`, !['backstory','secrets','motive'].some(key => key in packet));
+      ok(`${label}: ${g} murderer notification matches host setting`,
+        discloseKiller ? packet.isKiller === (me.id === killer.id) : !('isKiller' in packet));
     }
   }
   await checkFiltering('lobby');
+  await host.locator('#host-game-settings > summary').click();
+  const initialDisclosure = discloseKiller;
+  for (const enabled of [!initialDisclosure, initialDisclosure]) {
+    await host.locator('[data-disclose-killer]').setChecked(enabled);
+    discloseKiller = enabled;
+    for (const g of PLAYERS) {
+      await players[g].waitForFunction(({ enabled, killer }) =>
+        enabled ? window.__gg.view.packet.isKiller === killer : !('isKiller' in window.__gg.view.packet),
+      { enabled, killer: byGuest[g].id === killer.id }, { timeout: T });
+      ok(`${g} live murderer notification is shown only to the murderer`,
+        await players[g].locator('#killer-notification').count() === Number(enabled && byGuest[g].id === killer.id));
+    }
+    ok('live disclosure setting is persistently saved',
+      await host.evaluate(enabled => JSON.parse(localStorage.getItem('gg-host-v1')).story.discloseKiller === enabled, enabled));
+  }
 
   await host.waitForFunction(n => document.querySelector('#conn-count')?.textContent.startsWith(n + '/'), PLAYERS.length, { timeout: T });
   ok('host sees all players connected', true, (await host.textContent('#conn-count')) + ', ' + el());
@@ -111,17 +134,16 @@ try {
       const raw = await p.evaluate(() => JSON.stringify(window.__gg.view));
       ok(`round ${ri + 1}: ${g} has only previously released public evidence`,
         await p.evaluate(n => window.__gg.view.evidenceHistory.length === n, ri));
-      const privateClues = await p.evaluate(i => window.__gg.view.packet.rounds[i].clues, ri);
-      const otherClueLeak = story.characters.filter(c => c.id !== me.id).some(c => c.rounds[ri].clues.some(cl => { const s = cl.replace(/\{[a-z0-9_-]+\}.*/i, ''); return s.length > 25 && raw.includes(s.slice(0, 40)); }));
-      ok(`round ${ri + 1}: ${g} got round + own clues`, privateClues.every(clue => clues.includes(clue)));
+      ok(`round ${ri + 1}: ${g} receives the spoken host narration`,
+        await p.evaluate(text => window.__gg.view.currentRound.narration === text, story.rounds[ri].narration));
       const publicClue = await p.locator('#my-clues .read-aloud-clue').textContent();
       const readAloud = await p.evaluate(() => window.__gg.view.packet.rounds.at(-1).readAloud);
       ok(`round ${ri + 1}: ${g} sees their unique read-aloud accusation`, readAloud.accuses === me.rounds[ri].readAloud.accuses && publicClue.includes(readAloud.text) && publicClue.includes(readAloud.targetName));
-      ok(`round ${ri + 1}: ${g} has separate optional private clues`, clues.includes('Optional private clues') && !clues.includes('What to do') && !clues.includes('No acting'));
-      ok(`round ${ri + 1}: ${g} got no other players' clues`, !otherClueLeak);
-      const futureLeak = raw.includes(JSON.stringify(me.rounds[ri + 1]?.clues?.[0] || '###none###').slice(1, 40));
+      ok(`round ${ri + 1}: ${g} sees no secret clue UI`, !clues.includes('private clues') && await p.locator('#my-secrets').count() === 0);
+      const futureLeak = ri < story.rounds.length - 1 && raw.includes(JSON.stringify(me.rounds[ri + 1].readAloud.text).slice(1,-1));
       ok(`round ${ri + 1}: ${g} did not get future-round clues`, !futureLeak);
     }
+    await checkFiltering(`round ${ri + 1}`);
   }
 
   await host.click('#start-game');
@@ -147,6 +169,8 @@ try {
       ok(`round ${ri + 1}: ${g} notebook adds the completed round`,
         await p.locator('#my-case .personal-evidence').count() === ri + 1 &&
         await p.locator('#evidence-history section').count() === ri + 1);
+      ok(`round ${ri + 1}: ${g} notebook retains the full spoken narration`,
+        await p.evaluate(({ri, text}) => window.__gg.view.evidenceHistory[ri].narration === text, {ri, text: story.rounds[ri].narration}));
       if (ri === 3 && mysteryId === 'sample') {
         ok(`round 4: ${g} receives the correction to Constance's earlier suspicion`,
           (await p.locator('#evidence-history').textContent()).includes('same decanter and survived'));
@@ -217,6 +241,8 @@ try {
     await players[g].waitForFunction(() => window.effectLog.includes('truth-reveal'), null, { timeout: T });
     const k = (await players[g].textContent('#reveal-killer')).trim();
     ok(`${g} sees reveal`, k === killer.name, k);
+    ok(`${g} reveal identifies murderer regardless of notification setting`,
+      await players[g].evaluate(id => window.__gg.view.packet.isKiller === (window.__gg.view.me === id), killer.id));
   }
   const largestReveal = Math.max(...await Promise.all(PLAYERS.map(g =>
     players[g].evaluate(() => new TextEncoder().encode(JSON.stringify(window.__gg.view)).length))));

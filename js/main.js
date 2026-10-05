@@ -1,6 +1,6 @@
-import { startHost } from './host.js?v=current-stories-v1';
-import { startPlayer } from './player.js?v=five-rounds-v1';
-import { removeOutdatedSavedContent } from './saved-content.js?v=current-stories-v1';
+import { startHost } from './host.js?v=public-only-v1';
+import { startPlayer } from './player.js?v=public-only-v1';
+import { removeOutdatedSavedContent } from './saved-content.js?v=public-only-v1';
 import { toast } from './util.js?v=f1ed522';
 
 let cleanupNotice = '';
