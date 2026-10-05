@@ -29,7 +29,7 @@ verified. A checked item means completed with evidence, not merely planned.
 
 - [x] Deploy the Supabase database and community API.
 - [x] Create a verified owner account with a trusted administrator role.
-- [ ] Verify the owner's actual login and hosted approval screen.
+- [x] Verify the owner's actual login and hosted approval screen.
 - [x] Verify the sending domain in Resend (DKIM and sending DNS records).
 - [x] Configure custom SMTP and verify saved settings.
 - [ ] Test real signup confirmation and password-reset delivery and redirects.
@@ -117,7 +117,7 @@ valid HTTPS, game UI, workshop/account UI, public catalog, and backend CORS.
 The local router's stale negative DNS cache expired; ordinary shared-browser,
 Node fetch, curl HTTPS, and a fresh workshop browser test now pass without
 DNS overrides. GitHub Pages remains a separate testing
-site. SMTP, public signup, and actual owner login are still pending. No payment
+site. Public signup and complete email-flow testing are still pending. No payment
 integration or paid content has been launched.
 
 The static deployment build passed five packaging/workflow regression tests;
@@ -141,8 +141,14 @@ locally. Auth redirects also allow the canonical /workshop URL.
 Resend has verified grimgatherings.com for sending. The DKIM TXT and DNS-only
 send/rsend CNAME records are published. Custom SMTP settings persisted after
 reload. A password-reset request from production returned HTTP 200 and appeared
-in Resend's queue; inbox delivery and link completion remain to be checked.
+in Resend's queue, then reported Delivered. The owner confirmed inbox arrival;
+reset-link completion remains to be checked.
 Public registration remains closed.
+
+The owner signed in on the production domain. The Story approval screen shows
+Account: Site owner and an empty submission queue; refreshing the protected
+admin submissions request returned HTTP 200. Publishing an actual submission
+remains a separate end-to-end launch check.
 
 Private account identifiers and dashboard links belong in `.local-private/`,
 not this public roadmap. Update this checklist as each launch gate is verified.
