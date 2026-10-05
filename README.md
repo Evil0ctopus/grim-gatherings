@@ -27,8 +27,8 @@ For Cloudflare Pages, use `npm run build:site` as the build command, `dist` as
 the output directory, Node 24, and an approved `production` branch. Do not enable
 automatic production deploys from `main` if GitHub Pages is the testing site.
 The `grim-gatherings` Pages project is configured this way, with automatic
-preview-branch builds disabled. The custom domain has been activated; verify
-current DNS/HTTPS status before announcing availability.
+preview-branch builds disabled. The custom domain is active with SSL enabled;
+ordinary browser, DNS, and HTTPS access were verified on October 5, 2026.
 
 To release, first test the committed `main` version on GitHub Pages. Only after
 approval, fast-forward `production` to that exact tested commit and push that

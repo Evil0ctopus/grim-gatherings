@@ -9,7 +9,7 @@ verified. A checked item means completed with evidence, not merely planned.
 
 - [x] Register grimgatherings.com in the owner's account.
 - [x] Maintain local-only account links outside Git and website uploads.
-- [ ] Serve the public game over HTTPS at https://grimgatherings.com.
+- [x] Serve the public game over HTTPS at https://grimgatherings.com.
 - [x] Keep GitHub Pages as a separate testing site, without redirecting it to the
   production domain.
 - [x] Configure Cloudflare Pages to deploy only an approved `production` branch.
@@ -45,7 +45,7 @@ verified. A checked item means completed with evidence, not merely planned.
   phones, including an iPhone, through every round and reveal.
 - [ ] Verify exit/rejoin, host restoration, release/reclaim, wrong room codes,
   poor connectivity, and starting a fresh game after a disconnect.
-- [ ] Confirm rotating clue targets, evidence provenance, and round-by-round
+- [x] Confirm rotating clue targets, evidence provenance, and round-by-round
   narration do not reveal the solution early.
 - [ ] Confirm a failed network request is visible and does not erase drafts.
 
@@ -113,8 +113,9 @@ As of October 5, 2026: Cloudflare Pages has deployed the `production` branch,
 using the static-only build, and grimgatherings.com has been activated. Public
 DNS resolved the domain and a browser smoke check using that DNS answer passed
 valid HTTPS, game UI, workshop/account UI, public catalog, and backend CORS.
-Some local DNS caches still report the name unresolved; ordinary browser access
-must be rechecked after propagation. GitHub Pages remains a separate testing
+The local router's stale negative DNS cache expired; ordinary shared-browser,
+Node fetch, curl HTTPS, and a fresh workshop browser test now pass without
+DNS overrides. GitHub Pages remains a separate testing
 site. SMTP, public signup, and actual owner login are still pending. No payment
 integration or paid content has been launched.
 
@@ -125,6 +126,16 @@ the private dashboard showed 4 visits and 5 page views during setup (including
 our verification traffic). Backend allowed origins include
 the custom domain and production Pages hostname; Auth site URL and allowed
 redirects include the custom domain. Public signup remains closed.
+
+Production browser verification on October 5 also passed 357/357 gameplay
+checks for the four-player Barber of Blackwater Row through all five rounds and
+the reveal, 26/26 reconnect/recovery checks, and private workshop creation,
+import, saving, reopening, and playable-story selection. These checks used
+Chromium mobile emulation, not physical phones. A temporary browser-only DNS
+mapping bypassed this network's stale router DNS cache; no system DNS settings
+were changed. After the cache expired, the production workshop test passed again
+without any DNS mapping. Another 28 focused story/backend permission tests passed
+locally. Auth redirects also allow the canonical /workshop URL.
 
 Private account identifiers and dashboard links belong in `.local-private/`,
 not this public roadmap. Update this checklist as each launch gate is verified.
