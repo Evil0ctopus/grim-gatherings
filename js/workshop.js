@@ -3,11 +3,11 @@ import { normalizeStory } from './story.js?v=workshop-v1';
 import { REVIEW_ITEMS, blankStory, createPrompt, checkDraft, editedDraft, isEditableStory } from './workshop-core.js';
 import { listDrafts, saveDraft, draftVersions } from './workshop-storage.js';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js?v=rotating-clues-v1';
-import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=supabase-v1';
+import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=supabase-live-v1';
 import { loadAiSettings, saveAiSettings, generateText } from './ai.js?v=workshop-v1';
 
 const app = document.getElementById('workshop');
-let draft = null, user = null, view = 'home', step = 0, busy = false;
+let draft = null, user = null, view = new URLSearchParams(location.search).get('account') === '1' ? 'account' : 'home', step = 0, busy = false;
 let message = '', error = '', drafts = [], accountDrafts = [], submissions = [], community = [], versions = [];
 let serviceNotice = '';
 let adminEntry = null, adminQueue = [], adminHistory = [];
@@ -476,8 +476,10 @@ try {
     const data = await communityRequest('/api/auth/me');
     if (sessionVersion() === version) {
       user = data.user;
-      if (redirect && !busy && view === 'home') {
+      if (redirect && !busy && ['home', 'account'].includes(view)) {
         message = redirect === 'recovery' ? 'Your password-reset link is verified. Enter a new password below.' : 'Email confirmed. You are logged in.';
+        await showAccount();
+      } else if (!busy && view === 'account') {
         await showAccount();
       }
       if (!busy && ['home', 'account'].includes(view)) render();

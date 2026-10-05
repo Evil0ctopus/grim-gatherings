@@ -4,7 +4,7 @@ import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=count-editions-v1';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=workshop-v1';
-import { communityRequest } from './community-api.js?v=supabase-v1';
+import { communityRequest } from './community-api.js?v=supabase-live-v1';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
 import { STARTER_MYSTERIES } from './starters.js?v=blackwater-story-v2';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
@@ -87,6 +87,7 @@ function renderLanding() {
       <p>Set up the story on this device (a laptop or tablet hooked to a TV is ideal). Guests join on their phones.</p>
       <button class="block" data-act="new" id="btn-new">Create a new game</button>
       <a class="btn secondary block" href="workshop.html">Build my mystery / approve stories</a>
+      <a class="btn secondary block" href="workshop.html?account=1">Admin login / story approvals</a>
       ${saved && saved.room ? `<button class="block secondary" data-act="resume" id="btn-resume">Resume “${esc(saved.story?.title || 'Untitled')}” · room ${esc(saved.room)}</button>` : ''}
     </div>
     <div class="card stack">

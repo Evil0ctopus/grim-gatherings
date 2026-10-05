@@ -15,6 +15,9 @@ async function page(context) {
   const p = await context.newPage();
   p.on('pageerror', error => errors.push(error.message));
   p.on('dialog', dialog => dialog.accept());
+  await p.route('**/js/community-config.js*', route => route.fulfill({
+    contentType: 'text/javascript', body: "export const COMMUNITY_API = ''; export const COMMUNITY_PROVIDER = 'node';",
+  }));
   return p;
 }
 async function click(p, action) {

@@ -1,4 +1,4 @@
-import { COMMUNITY_API, COMMUNITY_PROVIDER } from './community-config.js';
+import { COMMUNITY_API, COMMUNITY_PROVIDER } from './community-config.js?v=supabase-live-v1';
 
 const KEY = 'gg-community-session-v1';
 export const emailAccounts = COMMUNITY_PROVIDER === 'supabase';

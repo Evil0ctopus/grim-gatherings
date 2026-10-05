@@ -16,6 +16,8 @@ A murder-mystery party web app. The host reads the current chapter's narration; 
 
 Choose **Build my mystery / approve stories** on the home screen, or open [the workshop](workshop.html).
 
+The home screen also has **Admin login / story approvals**, opening [the account screen](workshop.html?account=1) directly. Log in using your game administrator email/password (not your database password), then choose **Approve stories**. The link itself grants no permissions; only the trusted administrator role unlocks moderation.
+
 1. Choose **3-24 players**, five or six rounds, a setting and an idea. Optional characters are entered one per line as `Name | job`. Instructions are simple; story content is intended for teens and adults, not young children.
 2. Open the draft. Its reader assignments are preplanned: every round has unique targets, no self-targets, and every reader changes targets. Readers cover all other characters before repeating when rounds permit; a five-round story cannot cover 23 other characters for each reader.
 3. Write directly, **Copy story prompt** to a preferred AI, or use a configured AI service. A copy-prompt workflow needs no API key. Import the returned complete JSON. Explicit AI calls send the idea/draft to the chosen provider; provider costs, data policies and limits apply. No other workshop action calls AI. A generation makes one initial call and at most two format-repair calls; unrepaired output is retained for manual correction, not declared ready. **Ask my AI to review the story** is a separate optional narrative-review call; it reports specific suggestions without modifying the story, checking the human-review boxes or granting approval.
@@ -30,7 +32,7 @@ Built-in stories remain separate. Approval is server-enforced; an author cannot 
 
 ### Preferred free hosting: Supabase
 
-**Prepared, but not activated automatically:** a real Supabase account/project and verified Auth/email settings are still required. Until a healthy endpoint is connected and published, private workshop creation and editing remain available but online accounts/submissions/approval are not live.
+The website is connected to the deployed free Supabase community service. Registration remains closed until the owner account and public email delivery are ready. Existing accounts can log in; private editing still needs no account. The steps below document provisioning a new installation, not rerunning the initial migration against the already-provisioned production database.
 
 Supabase hosts the PostgreSQL database, email/password authentication and the `community` Edge Function while the game stays on GitHub Pages. Free-plan quotas are not unlimited: currently 500 MB database storage, 50,000 monthly active users and two free active projects. Free projects may pause after a week of inactivity. Review the current [pricing](https://supabase.com/pricing), export important data and retain downloaded story backups. No paid hosting, billing enrollment or account creation is performed by this repository's scripts.
 

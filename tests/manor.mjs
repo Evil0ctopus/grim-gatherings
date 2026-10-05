@@ -32,8 +32,8 @@ test('weather and window activity are layered separately from the photograph', (
 test('deployment cache tags include the changed scene module and stylesheet', () => {
   const version = 'vote-panel-v1';
   assert.ok(read('../index.html').includes(`css/style.css?v=${version}`));
-  assert.ok(read('../index.html').includes('js/main.js?v=supabase-v1'));
-  assert.ok(read('../js/main.js').includes('./host.js?v=supabase-v1'));
+  assert.ok(read('../index.html').includes('js/main.js?v=supabase-live-v1'));
+  assert.ok(read('../js/main.js').includes('./host.js?v=supabase-live-v1'));
   assert.ok(read('../js/host.js').includes('./manor.js?v=manor-background-v2'));
   assert.ok(read('../js/main.js').includes('./player.js?v=connection-recovery-v1'));
 });
