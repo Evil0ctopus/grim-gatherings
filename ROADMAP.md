@@ -32,10 +32,11 @@ verified. A checked item means completed with evidence, not merely planned.
 - [x] Verify the owner's actual login and hosted approval screen.
 - [x] Verify the sending domain in Resend (DKIM and sending DNS records).
 - [x] Configure custom SMTP and verify saved settings.
-- [ ] Test real signup confirmation and password-reset delivery and redirects.
+- [x] Test real signup confirmation and confirmed-account login.
+- [ ] Test real password-reset delivery, redirects, and password replacement.
 - [ ] Keep public signup closed until those tests pass.
 - [ ] Review Auth email limits, sender tracking, and abuse controls.
-- [ ] Test a real author's save, backup, submission, requested changes,
+- [x] Test a real author's save, backup, submission, requested changes,
   resubmission, owner approval, catalog visibility, and unpublishing.
 - [x] Confirm unauthorized users cannot approve stories in automated API/SQL
   tests, including forged role metadata. Production profiles currently contain
@@ -149,8 +150,17 @@ Public registration remains closed.
 
 The owner signed in on the production domain. The Story approval screen shows
 Account: Site owner and an empty submission queue; refreshing the protected
-admin submissions request returned HTTP 200. Publishing an actual submission
-remains a separate end-to-end launch check.
+admin submissions request returned HTTP 200.
+
+A regular test author confirmed the real signup email and successfully logged
+in on production with the author role. Its approval controls were absent and
+the protected admin submissions endpoint returned HTTP 403. Real account backup
+and reload, submission, owner-requested changes, revision-2 resubmission,
+approval, catalog visibility, and unpublishing passed. The temporary published
+test was removed from the public catalog. A recovery email was requested;
+mailbox-link completion and replacement-password verification remain pending.
+The website API's closed-registration setting does not globally disable
+Supabase Auth signup.
 
 Private account identifiers and dashboard links belong in `.local-private/`,
 not this public roadmap. Update this checklist as each launch gate is verified.
