@@ -273,6 +273,23 @@ An explicit decision to defer provider resolution and physical-phone checks
 until after launch was requested, but no answer was available; neither check
 has been silently waived and live charging remains disabled.
 
+The owner explicitly requested completing the provider check rather than
+deferring it. A fresh API read confirmed dispute_channel INTERNAL and
+UNDER_REVIEW / CHARGEBACK; do not assume this is an external-card chargeback.
+The documented sandbox require-evidence operation also returned HTTP 400 /
+ACTION_NOT_ALLOWED_IN_CURRENT_DISPUTE_STATE, debug ID `f5652836d4373`
+(October 6, approximately 23:43:54 UTC). No adjudicate or require-evidence
+action was advertised. Further identical retries are not a useful next step.
+
+PayPal's official [Technical Support](https://www.paypal.com/us/cshelp/technical)
+route offers case filing through PayPal Assistant and requires a real
+merchant login. That login page was opened with the approved business email;
+password and verification were left to the owner. No support case has yet
+been submitted. Ask PayPal to enable the supported sandbox resolution flow
+or explain the required state/permissions for case `PP-R-DHR-10190436`,
+referencing the error above. Do not file a real payment dispute or send app
+secrets, passwords, authentication tokens or private application code.
+
 The owner reports four human game playtests
 and continuing corrections; physical-device testing specifically of the new
 premium rooms has not been established. Automated Chromium/WebKit multi-seat
