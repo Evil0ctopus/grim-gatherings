@@ -226,6 +226,16 @@ Guests who refresh, lock their phone, or lose signal just reopen the same link â
 - Player screens include **Reconnect to room**. Use it if automatic recovery is taking too long; it keeps the same room and player token. Last received clues remain readable while disconnected, with a warning, and voting/character changes are disabled until reconnection.
 - Hosts have **Reconnect room**. This reopens the **same room code**, preserving the round, character claims and ballots. It temporarily interrupts phone connections; guests reconnect automatically. Do not start a new game just to repair a connection.
 - iPhone-style page restoration, returning to a browser tab, and offline/online changes trigger recovery. Keep the host device awake and its game page open. A sleeping or closed host cannot serve new connections until it returns.
+- Creating or resuming a game adds a browser-history entry. Safari Back returns
+  to the home screen without deleting the saved room; Forward or Resume restores
+  it. Returning home closes the host connection until the room is resumed.
+  Back/Forward, reload-after-Back, and page restoration are covered in Chromium
+  and mobile WebKit by `npm run test:navigation`.
+- The production address is `https://grimgatherings.com`. Cloudflare has a
+  proxied `www` DNS alias and an active canonical 301 redirect for both HTTP
+  and HTTPS `www.grimgatherings.com`, preserving paths and query strings.
+  This is a Cloudflare zone rule, not a static-site or Supabase setting.
+  A device with an earlier negative DNS cache may need time to refresh.
 - Use **one active game tab per phone**. If another tab reconnects using the same saved identity, it takes over; the previous tab displays a notice and stops automatic retries so they do not fight over the character. Tap **Reconnect to room** in the tab you want to use.
 - If the host **releases** a character, the old phone returns to the name picker; the same phone or a replacement can select it again, even mid-round. Releasing or switching characters does **not** erase any character's submitted ballots. The next holder can change that character's current-round vote while voting is open.
 - For persistent failures, confirm the **room code** and that the host shows **Live**, then try Wi-Fi or mobile data. Unsupported browsers display a specific WebRTC error rather than retrying indefinitely; use an up-to-date Safari or Chrome browser instead of an embedded app browser. A broker outage or network that blocks WebRTC cannot be repaired by resetting characters.

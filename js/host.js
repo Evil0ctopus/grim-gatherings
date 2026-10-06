@@ -56,7 +56,12 @@ export function startHost() {
   app().addEventListener('change', onChange);
   app().addEventListener('keydown', onKeydown);
   window.addEventListener('pagehide', () => { hostPaused = true; stopPeer(); });
-  window.addEventListener('pageshow', recoverHost);
+  window.addEventListener('pageshow', event => {
+    if (event.persisted) syncHostNavigation();
+    recoverHost();
+  });
+  window.addEventListener('popstate', syncHostNavigation);
+  window.addEventListener('hashchange', syncHostNavigation);
   window.addEventListener('online', () => { if (hosting()) restartPeer(0); });
   window.addEventListener('offline', () => { if (hosting()) { netStatus = 'offline'; updateLive(); } });
   document.addEventListener('visibilitychange', () => { if (!document.hidden) recoverHost(); });
@@ -69,6 +74,7 @@ export function startHost() {
 
 // ---------- Landing ----------
 function renderLanding() {
+  stopPeer();
   atmosphere.update({ room: '', phase: 'home', roundIndex: -1 }, null);
   app().className = '';
   const saved = load();
@@ -104,7 +110,7 @@ function renderLanding() {
 function render() {
   if (!S) return renderLanding();
   if (S.story && ['round', 'vote', 'reveal'].includes(S.phase)) selectRoundBallots(S, S.roundIndex);
-  if (location.hash !== '#host') history.replaceState(null, '', baseUrl() + '#host');
+  if (location.hash !== '#host') history.pushState(null, '', baseUrl() + '#host');
   ({ setup: renderSetup, review: renderReview, lobby: renderLobby, round: renderRound, vote: renderVote, reveal: renderReveal }[S.phase] || renderSetup)();
   atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex, roundTitle: S.story?.rounds[S.roundIndex]?.title }, S.story);
   window.scrollTo(0, 0);
@@ -484,9 +490,9 @@ const actions = {
     broadcastRaw(message);
   },
   new() { newGame(); },
-  resume() { restoreGame(); if (!S) return renderLanding(); history.replaceState(null, '', baseUrl() + '#host'); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
+  resume() { restoreGame(); if (!S) return renderLanding(); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
   join() { const c = ($('#join-code').value || '').trim().toUpperCase(); if (c) location.href = baseUrl() + '?room=' + encodeURIComponent(c); },
-  home() { history.replaceState(null, '', baseUrl()); renderLanding(); },
+  home() { if (location.hash) history.pushState(null, '', baseUrl()); renderLanding(); },
   'add-guest'() {
     const name = ($('#guest-name').value || '').trim();
     const desc = ($('#guest-desc').value || '').trim();
@@ -688,6 +694,7 @@ function wipe() {
 }
 
 function newGame() {
+  stopPeer();
   const prev = load();
   const guests = Array.isArray(prev?.guests) ? prev.guests : parseGuests(prev?.guestsText || '');
   S = { room: randomRoom(), phase: 'setup', roundIndex: -1, story: null, claims: {}, votes: {}, libraryId: null, theme: prev?.theme || '', guests, guestsText: guests.map(guest => guest.desc ? `${guest.name}, ${guest.desc}` : guest.name).join('\n'), createdAt: Date.now() };
@@ -789,7 +796,14 @@ function connectedChars() {
 }
 
 function hosting() {
-  return !!S?.story && (LIVE_PHASES.includes(S.phase) || (S.phase === 'review' && S.wasLive));
+  return location.hash === '#host' && !!S?.story && (LIVE_PHASES.includes(S.phase) || (S.phase === 'review' && S.wasLive));
+}
+
+function syncHostNavigation() {
+  if (location.hash !== '#host') return renderLanding();
+  restoreGame();
+  render();
+  recoverHost();
 }
 
 function stopPeer() {

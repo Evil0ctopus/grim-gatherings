@@ -45,6 +45,10 @@ verified. A checked item means completed with evidence, not merely planned.
 ### Gameplay and recovery
 
 - [x] Pass automated gameplay, reconnect, session, and multi-tab draft regressions.
+- [x] Fix host Back/Forward history and reload-after-Back in mobile WebKit and
+  Chromium; preserve saved setup/rooms and suspend hidden host connections.
+- [x] Configure missing www DNS and canonical HTTP/HTTPS redirects with path
+  and query preservation. Physical-iPhone follow-up remains a separate check.
 - [ ] Play an approved community story from the production domain with real
   phones, including an iPhone, through every round and reveal.
 - [ ] Verify exit/rejoin, host restoration, release/reclaim, wrong room codes,
