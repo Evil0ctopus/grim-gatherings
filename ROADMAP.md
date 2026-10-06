@@ -157,8 +157,11 @@ in on production with the author role. Its approval controls were absent and
 the protected admin submissions endpoint returned HTTP 403. Real account backup
 and reload, submission, owner-requested changes, revision-2 resubmission,
 approval, catalog visibility, and unpublishing passed. The temporary published
-test was removed from the public catalog. A recovery email was requested;
-mailbox-link completion and replacement-password verification remain pending.
+test was removed from the public catalog. The user reported completing the
+recovery link in Edge, and the old temporary password was then rejected by the
+live login endpoint. The temporary browser credential was removed. A fresh
+login with the user's replacement password remains to be verified before
+opening website registration.
 The website API's closed-registration setting does not globally disable
 Supabase Auth signup.
 
