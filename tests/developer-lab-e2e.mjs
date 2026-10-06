@@ -54,6 +54,12 @@ try {
       !(await page.locator('#workshop').innerText()).includes('Secret allies:'));
     for (let i = 0; i < count; i++) {
       await click(page, 'lab-reveal');
+      if (i === 0) {
+        await click(page, 'account'); await click(page, 'developer');
+        check(`${gameId}/${count}: returning to playroom conceals previous card`,
+          await page.locator('[data-action="lab-next-card"]').count() === 0);
+        await click(page, 'lab-reveal');
+      }
       await click(page, 'lab-next-card');
     }
     let steps = 0;

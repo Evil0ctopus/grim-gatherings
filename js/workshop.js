@@ -5,7 +5,7 @@ import { listDrafts, saveDraft, draftVersions } from './workshop-storage.js?v=re
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js?v=rotating-clues-v1';
 import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=reliability-v1';
 import { loadAiSettings, saveAiSettings, generateText } from './ai.js?v=workshop-v1';
-import { openDeveloperLab, developerLabHtml, developerLabAction, clearDeveloperLab } from './developer-lab.js?v=developer-v1';
+import { openDeveloperLab, developerLabHtml, developerLabAction, clearDeveloperLab } from './developer-lab.js?v=developer-v2';
 
 const app = document.getElementById('workshop');
 let draft = null, user = null, view = new URLSearchParams(location.search).get('account') === '1' ? 'account' : 'home', step = 0, busy = false;

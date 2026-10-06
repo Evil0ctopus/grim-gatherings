@@ -8,6 +8,7 @@ export function clearDeveloperLab() {
 }
 export async function openDeveloperLab() {
   games = (await communityRequest('/api/admin/developer')).games;
+  revealed = false;
 }
 function game() { return games.find(g => g.id === snapshot?.state.gameId); }
 function privateCard(player, notesOnly = false) {
