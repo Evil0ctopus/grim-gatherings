@@ -302,8 +302,10 @@ The official `https://www.paypal.com/mts` redirect was also checked. Its
 portal says it was retired August 31, 2026 and directs PayPal/Payflow users
 to the same Technical Help Center. Do not claim the retired portal offers
 another working ticket form or that the assistant's handoff text is proof
-of a filed technical case. Provider assistance is still needed to complete
-the actual resolution test; real checkout remains closed.
+of a filed technical case. The owner later explicitly authorized skipping
+the unresolved PayPal sandbox dispute-resolution check and proceeding with
+launch. The resolution check is waived by the owner, not passed; the synthetic
+case remains under review. No real-world dispute or chargeback test was done.
 
 The owner reports four human game playtests
 and continuing corrections; physical-device testing specifically of the new
@@ -311,6 +313,32 @@ premium rooms has not been established. Automated Chromium/WebKit multi-seat
 tests and the deployed synthetic room check are separate evidence, not a
 claim of physical-phone testing. Do not substitute locally simulated events
 for provider acceptance.
+
+### Live checkout activation: October 6, 2026
+
+At the owner's direction to proceed and skip the unresolved sandbox
+resolution check, the two live checkout gates were enabled:
+`GG_PAYPAL_LIVE_APPROVED=true` and `GG_PAYPAL_ENABLED=true`. The already
+staged matching live client, secret, merchant and webhook were retained;
+sandbox credentials were not used for live checkout. Supabase confirmed the
+replacement and cleared its secret-entry form.
+
+After activation, the production public catalog returned HTTP 200 and
+reported `environment=live`, `checkoutEnabled=true`, USD 9.99, the bundle
+title and payment-support email `grimgatherings2026@gmail.com`. A fresh
+production shop-page load showed both PayPal and credit/debit checkout buttons
+for $9.99, the immediate-access/terms checkbox, and no sandbox-mode notice.
+No checkout button was clicked: no live PayPal order, customer sale or
+real-money test charge was created. Live purchase history was empty at
+activation. Refunds and chargebacks will still revoke access through the
+verified webhook path.
+
+This is live checkout, not full provider-dispute certification. The owner
+waived only the unresolved sandbox dispute-resolution check. The four
+previously reported human playtests are acknowledged; a physical-device test
+of the new premium phone-room flow remains unverified. Continue monitoring
+actual live webhook delivery, refunds and disputes. The story-polish phase
+requested after payments go live can now proceed.
 
 ## Recovery, refunds and disputes
 
