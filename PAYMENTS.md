@@ -262,6 +262,17 @@ checkoutEnabled false. Sandbox ownership did not become live ownership.
 Any later sandbox resolution event must be inspected or retried only with
 matching sandbox credentials/webhook, never resent into live configuration.
 
+A later retry used the case's advertised provide-supporting-info action with
+explicit synthetic integration-test notes; PayPal returned HTTP 200. A fresh
+case read still showed UNDER_REVIEW / CHARGEBACK, with only self and
+provide_supporting_info actions, not adjudicate. Repeating requests is not
+evidence of resolution. The 18 targeted payment and premium-room regression
+tests passed again, including simulated seller/buyer resolutions and room
+restoration. These do not replace the outstanding actual-provider check.
+An explicit decision to defer provider resolution and physical-phone checks
+until after launch was requested, but no answer was available; neither check
+has been silently waived and live charging remains disabled.
+
 The owner reports four human game playtests
 and continuing corrections; physical-device testing specifically of the new
 premium rooms has not been established. Automated Chromium/WebKit multi-seat
