@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { premiumFixture } from './premium-fixture.mjs';
+import { premiumFixture, premiumIds } from './premium-fixture.mjs';
 const seatToken = () => crypto.randomUUID().replaceAll('-', '') + crypto.randomUUID().replaceAll('-', '');
 
 async function setup(t) {
@@ -103,4 +103,55 @@ test('room expiry, sandbox isolation, caps and direct database privileges', asyn
   const rights = await f.db.query("select has_table_privilege('anon','public.gg_premium_rooms','SELECT') as readable, has_function_privilege('authenticated','public.gg_room_access(text,text)','EXECUTE') as executable");
   assert.equal(rights.rows[0].readable, false); assert.equal(rights.rows[0].executable, false);
   assert.equal((await f.db.query("select public.gg_room_list($1,'sandbox') as rooms", ['11111111-1111-4111-8111-111111111111'])).rows[0].rooms.length, 0);
+});
+
+test('payment webhooks suspend active phone rooms, restore seller-won disputes, and never undo refunds', async t => {
+  const f = await setup(t), code = (await f.create()).body.code;
+  const tokens = Array.from({ length: 3 }, seatToken);
+  for (let i = 0; i < tokens.length; i++) assert.equal((await f.guest({
+    code, command: 'join', token: tokens[i], name: `Guest ${i}`,
+  })).status, 200);
+  const lobby = (await f.host(code, 'view')).body;
+  assert.equal((await f.host(code, 'start', lobby.revision)).status, 200);
+  const privateView = (await f.guest({ code, command: 'view', token: tokens[0] })).body;
+  const action = { code, command: 'night', token: tokens[0], round: 1,
+    target: privateView.private.targets[0].id };
+  const capture = f.orders.get(f.order.orderId).purchase_units[0].payments.captures[0];
+  const disputeId = 'PP-D-ROOMTEST0001';
+  const dispute = { dispute_id: disputeId, status: 'OPEN',
+    disputed_transactions: [{ seller_transaction_id: capture.id }] };
+  f.disputes.set(disputeId, dispute);
+
+  f.signatures(false);
+  assert.equal((await f.webhook(disputeId, 'CUSTOMER.DISPUTE.CREATED', 'ROOMINVALID')).status, 403);
+  assert.equal((await f.guest({ code, command: 'view', token: tokens[0] })).status, 200);
+  f.signatures(true);
+  assert.equal((await f.webhook(disputeId, 'CUSTOMER.DISPUTE.CREATED', 'ROOMDISPUTE')).status, 200);
+  assert.equal((await f.host(code, 'view')).status, 403);
+  assert.equal((await f.guest({ code, command: 'view', token: tokens[0] })).status, 403);
+  assert.equal((await f.guest(action)).status, 403);
+  assert.equal((await f.guest({ code, command: 'join', token: seatToken(), name: 'Late guest' })).status, 403);
+  assert.equal((await f.webhook(f.order.orderId, 'PAYMENT.CAPTURE.COMPLETED', 'ROOMLATECAPTURE')).status, 200);
+  assert.equal((await f.guest({ code, command: 'view', token: tokens[0] })).status, 403);
+
+  dispute.status = 'RESOLVED';
+  dispute.dispute_outcome = { outcome_code: 'RESOLVED_SELLER_FAVOUR' };
+  assert.equal((await f.webhook(disputeId, 'CUSTOMER.DISPUTE.RESOLVED', 'ROOMSELLERWON')).status, 200);
+  const restored = (await f.guest({ code, command: 'view', token: tokens[0] })).body;
+  assert.equal(restored.phase, privateView.phase);
+  assert.equal(restored.private.role, privateView.private.role);
+  assert.equal(restored.submitted, false);
+  assert.equal((await f.guest(action)).status, 200);
+
+  // Simulate a provider-dashboard refund, not the site's owner refund route.
+  capture.status = 'REFUNDED';
+  assert.equal((await f.webhook(f.order.orderId, 'PAYMENT.CAPTURE.REFUNDED', 'ROOMDASHBOARDREFUND')).status, 200);
+  assert.equal((await f.webhook(f.order.orderId, 'PAYMENT.CAPTURE.REFUNDED', 'ROOMDASHBOARDREFUND')).status, 200);
+  assert.equal((await f.host(code, 'view')).status, 403);
+  assert.equal((await f.guest({ code, command: 'view', token: tokens[1] })).status, 403);
+  assert.equal((await f.request('/api/purchases')).body.owned, false);
+  assert.equal((await f.webhook(f.order.orderId, 'CHECKOUT.ORDER.APPROVED', 'ROOMLATEAPPROVAL')).status, 200);
+  assert.equal((await f.guest({ code, command: 'view', token: tokens[1] })).status, 403);
+  const stored = await f.db.query('select status from public.gg_purchases where user_id=$1', [premiumIds.buyer]);
+  assert.equal(stored.rows[0].status, 'refunded');
 });

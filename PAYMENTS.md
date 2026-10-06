@@ -179,6 +179,30 @@ checkout or treat sandbox ownership as a live entitlement. The requested
 free-story polish remains deferred until payments are activated, as requested
 by the owner.
 
+### Follow-up launch checks: October 6, 2026
+
+After premium phone-room deployment, a focused integration test verified that
+payment webhook handling also protects an already-running room:
+
+- An invalid dispute signature leaves the room accessible.
+- A verified open dispute blocks host views, guest views, joining and actions.
+- A late capture event cannot reopen that disputed room.
+- A verified seller-favour resolution restores the same roles and progress.
+- A simulated provider-dashboard refund blocks room access; duplicate refund
+  and late approval events do not undo the refund.
+
+These checks ran against real local PostgreSQL with **simulated PayPal HTTP**,
+not actual provider dispute/refund delivery. The production health/catalog
+checks passed and checkout remained closed in live mode.
+
+The PayPal developer session had expired when actual dashboard testing was
+resumed. Both the developer-app refresh and the normal Business-to-developer
+handoff requested a new login. The owner must sign in directly to continue
+provider-dashboard refund and delivery-log checks. Do not substitute simulator
+events for provider acceptance or open real checkout while this is pending.
+Physical-phone/group testing and applicable-tax/seller-disclosure confirmation
+also remain outstanding; neither has been confirmed by the owner.
+
 ## Recovery, refunds and disputes
 
 Purchase UUIDs generate stable create/capture/refund request IDs. A pending
