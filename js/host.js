@@ -86,8 +86,8 @@ function renderLanding() {
       <h2>Host a gathering</h2>
       <p>Set up the story on this device (a laptop or tablet hooked to a TV is ideal). Guests join on their phones.</p>
       <button class="block" data-act="new" id="btn-new">Create a new game</button>
-      <a class="btn secondary block" href="workshop.html">Build my mystery / approve stories</a>
-      <a class="btn secondary block" href="workshop.html?account=1">Admin login / story approvals</a>
+      <a class="btn secondary block" href="workshop.html">Build a mystery</a>
+      <a class="btn secondary block" href="workshop.html?account=1">My account</a>
       ${saved && saved.room ? `<button class="block secondary" data-act="resume" id="btn-resume">Resume “${esc(saved.story?.title || 'Untitled')}” · room ${esc(saved.room)}</button>` : ''}
     </div>
     <div class="card stack">

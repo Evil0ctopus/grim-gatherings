@@ -37,7 +37,9 @@ verified. A checked item means completed with evidence, not merely planned.
 - [ ] Review Auth email limits, sender tracking, and abuse controls.
 - [ ] Test a real author's save, backup, submission, requested changes,
   resubmission, owner approval, catalog visibility, and unpublishing.
-- [ ] Confirm unauthorized users cannot approve stories.
+- [x] Confirm unauthorized users cannot approve stories in automated API/SQL
+  tests, including forged role metadata. Production profiles currently contain
+  only the verified site owner as administrator.
 
 ### Gameplay and recovery
 

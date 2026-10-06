@@ -109,9 +109,9 @@ try {
   check('expired session refreshes without losing account drafts', refreshes === 1 && await author.locator('[data-action="cloud-open"]').count() === 1);
   await db.query("insert into public.gg_profiles(id,email,name,role) values($1,'owner@example.test','Owner','admin')", [adminId]);
   const admin = await makePage(); await admin.goto(base);
-  await admin.getByRole('link', { name: 'Admin login / story approvals', exact: true }).click();
+  await admin.getByRole('link', { name: 'My account', exact: true }).click();
   await admin.waitForSelector('#username');
-  check('homepage admin link opens the website login directly', admin.url().endsWith('workshop.html?account=1'));
+  check('neutral account link opens the website login directly', admin.url().endsWith('workshop.html?account=1'));
   await admin.fill('#username', 'owner@example.test'); await admin.fill('#password', 'test-only-password-123!');
   await click(admin, 'login'); await click(admin, 'admin'); await click(admin, 'admin-preview');
   await admin.check('#admin-reviewed'); await click(admin, 'approve');

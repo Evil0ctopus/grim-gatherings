@@ -13,7 +13,9 @@ async function click(action) {
 }
 try {
   await page.goto(base);
-  await page.getByRole('link', { name: 'Build my mystery / approve stories' }).click();
+  assert.equal(await page.getByRole('link', { name: 'My account', exact: true }).count(), 1);
+  assert.equal(await page.getByRole('link', { name: /admin|approv/i }).count(), 0);
+  await page.getByRole('link', { name: 'Build a mystery', exact: true }).click();
   await click('create'); await click('next'); await click('next'); await click('make-draft');
   await page.locator('summary').filter({ hasText: 'AI help or import' }).click();
   const draft = readyDraft();

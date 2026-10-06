@@ -65,9 +65,9 @@ and verify actual collection before claiming the counter is live.
 
 ## Story workshop and community publishing
 
-Choose **Build my mystery / approve stories** on the home screen, or open [the workshop](workshop.html).
+Choose **Build a mystery** on the home screen, or open [the workshop](workshop.html).
 
-The home screen also has **Admin login / story approvals**, opening [the account screen](workshop.html?account=1) directly. Log in using your game administrator email/password (not your database password), then choose **Approve stories**. The link itself grants no permissions; only the trusted administrator role unlocks moderation.
+The home screen has **My account**, opening [the account screen](workshop.html?account=1) directly. Accounts are optional; guests can join and play without registering. Current account storage supports creator draft backups, revision history, and submissions, not gameplay history or purchased-content entitlements. For moderation, log in using your game administrator email/password (not your database password), then choose **Approve stories**. Only the trusted administrator role unlocks moderation; public signup does not grant it. Hiding administrator wording on the landing page is presentation, not access control.
 
 1. Choose **3-24 players**, five or six rounds, a setting and an idea. Optional characters are entered one per line as `Name | job`. Instructions are simple; story content is intended for teens and adults, not young children.
 2. Open the draft. Its reader assignments are preplanned: every round has unique targets, no self-targets, and every reader changes targets. Readers cover all other characters before repeating when rounds permit; a five-round story cannot cover 23 other characters for each reader.
