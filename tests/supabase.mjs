@@ -149,6 +149,10 @@ test('Supabase Edge API verifies Auth, validates exact saved content, blocks aut
     const login = await request('/api/auth/login', { method: 'POST', body: { username: 'creator@example.test', password: 'test-password-12345' } });
     assert.equal(login.user.role, 'author', 'User metadata cannot grant admin');
     await request('/api/admin/submissions', { token: 'author-token', status: 403 });
+    for (const method of ['GET', 'POST']) {
+      await request('/api/admin/developer', { method, status: 401, ...(method === 'POST' ? { body: { command: { type: 'create' } } } : {}) });
+      await request('/api/admin/developer', { method, token: 'author-token', status: 403, ...(method === 'POST' ? { body: { role: 'admin', command: { type: 'create' } } } : {}) });
+    }
     const content = readyDraft();
     const saved = await request('/api/drafts', { method: 'POST', token: 'author-token', body: { content } });
     content.review = {};
@@ -157,6 +161,13 @@ test('Supabase Edge API verifies Auth, validates exact saved content, blocks aut
     const submitted = await request('/api/submissions', { method: 'POST', token: 'author-token', body: { draftId: saved.id, revision: 1, consent: true } });
     await call(db, 'gg_profile', { p_user: ids.admin, p_email: 'owner@example.test', p_name: 'Owner' });
     await db.query("update public.gg_profiles set role='admin' where id=$1", [ids.admin]);
+    assert.equal((await request('/api/admin/developer', { token: 'admin-token' })).games.length, 2);
+    const prototype = await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
+      body: { gameId: 'lanternfall', names: ['One', 'Two', 'Three'], command: { type: 'create' } } });
+    const command = { type: 'night', playerId: prototype.turn.id, target: prototype.targets[0].id };
+    assert.equal(Object.keys((await request('/api/admin/developer', { method: 'POST', token: 'admin-token', body: { ...prototype, command } })).state.actions).length, 1);
+    prototype.state.round = 4;
+    await request('/api/admin/developer', { method: 'POST', token: 'admin-token', body: { ...prototype, command }, status: 400 });
     await request(`/api/admin/submissions/${submitted.id}`, { method: 'POST', token: 'admin-token', body: { decision: 'approved', note: '', reviewed: true } });
     assert.equal((await request('/api/community')).stories.length, 1);
     assert.equal((await request(`/api/community/${submitted.id}`)).story.characters.every(c => !c.guest), true);

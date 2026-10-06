@@ -6,6 +6,7 @@ import { readFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkDraft } from '../js/workshop-core.js';
+import { createDeveloperLab } from './developer-lab.js';
 
 const scrypt = promisify(scryptCallback);
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -63,6 +64,7 @@ export async function createCommunityServer({
 } = {}) {
   if (database !== ':memory:') await mkdir(path.dirname(database), { recursive: true });
   const db = new DatabaseSync(database);
+  const developerLab = createDeveloperLab(randomBytes(32).toString('hex'));
   db.exec(`
     PRAGMA foreign_keys=ON;
     PRAGMA journal_mode=WAL;
@@ -233,6 +235,8 @@ export async function createCommunityServer({
     }
     if (pathname.startsWith('/api/admin/')) {
       requireValue(user.role === 'admin', 403, 'Only the site administrator can review submissions.');
+      if (pathname === '/api/admin/developer' && req.method === 'GET') return developerLab.catalog();
+      if (pathname === '/api/admin/developer' && req.method === 'POST') return developerLab.act(await readBody(req), user.id);
       if (pathname === '/api/admin/submissions' && req.method === 'GET') {
         return { submissions: db.prepare('SELECT id,title,author,revision,status,note,created,updated FROM submissions ORDER BY created DESC LIMIT 500').all() };
       }

@@ -1,4 +1,5 @@
 import { checkDraft, isEditableStory } from '../js/workshop-core.js';
+import { createDeveloperLab } from './developer-lab.js';
 
 class ApiError extends Error {
   constructor(status, message) { super(message); this.status = status; }
@@ -35,6 +36,7 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
   const project = new URL(url);
   requireValue(project.protocol === 'https:' || ['localhost', '127.0.0.1'].includes(project.hostname), 500, 'Supabase must use HTTPS.');
   const headers = { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' };
+  const developerLab = createDeveloperLab(serviceKey);
   async function upstream(path, { method = 'GET', body, token, admin = false } = {}) {
     const response = await fetchImpl(project.origin + path, {
       method, headers: { 'Content-Type': 'application/json', apikey: admin ? serviceKey : anonKey,
@@ -177,6 +179,10 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     }
     if (pathname.startsWith('/api/admin/')) {
       requireValue(user.role === 'admin', 403, 'Only the site administrator can review submissions.');
+      if (pathname === '/api/admin/developer' && req.method === 'GET') return developerLab.catalog();
+      if (pathname === '/api/admin/developer' && req.method === 'POST') {
+        return developerLab.act(await bodyFor(req), user.id);
+      }
       if (pathname === '/api/admin/submissions' && req.method === 'GET') return rpc('gg_read_submissions', { p_user: user.id, p_admin: true });
       const id = /^\/api\/admin\/submissions\/([^/]+)$/.exec(pathname)?.[1];
       if (id) {

@@ -69,6 +69,42 @@ Choose **Build a mystery** on the home screen, or open [the workshop](workshop.h
 
 The home screen has **My account**, opening [the account screen](workshop.html?account=1) directly. Accounts are optional; guests can join and play without registering. Current account storage supports creator draft backups, revision history, and submissions, not gameplay history or purchased-content entitlements. For moderation, log in using your game administrator email/password (not your database password), then choose **Approve stories**. Only the trusted administrator role unlocks moderation; public signup does not grant it. Hiding administrator wording on the landing page is presentation, not access control.
 
+### Owner developer playroom
+
+After signing into the workshop with the trusted administrator account, choose
+**Developer playroom**. Two original future paid-package prototypes are available
+only there, not in the game selector or community catalog:
+
+- **The Lanternfall Covenant**: occult hidden factions, three boundary lanterns,
+  rotating wards, anonymous visitor observations, and secret council ballots.
+- **The Black Ledger Society**: underworld hidden factions, counterfeit debts,
+  escrow shields, credit restoration, and influence-weighted secret ballots.
+
+Both support **3-10 players**, randomized private roles, simultaneous night
+resolution, dawn discussion, detention, and complete win/reveal states. A
+four-night objective limit replaces automatic parity wins, including at three
+players. Read the full rules in the playroom before testing.
+
+This version is **pass-and-play on one trusted owner device**, or solo testing
+by controlling all seats. It does not create phone rooms or remote multiplayer
+sessions. Cards are concealed between handoffs; nobody needs the owner password.
+The owner account/device is trusted and can inspect all test data. Refreshing,
+closing the page, or logging out discards the in-memory test. Do not enter real
+financial or personal information.
+
+The backend checks the database admin role for every catalog and action request.
+Rules, roles and game resolution stay in server modules, excluded from the static
+website build. Snapshots are signed and bound to the administrator account;
+tampering is rejected. They may be replayed by their owner for sandbox testing,
+so this is not a durable competitive/anti-cheat or entitlement system. Server
+source is still visible in this project's GitHub repository; authenticated play
+access does not make repository source confidential.
+
+No checkout or paid access is enabled. Playtest balance and accessibility before
+release; future premium access needs server-side purchase verification and player
+entitlements. Run `npm run test:developer` and `npm run test:developer-browser`
+for engine and complete 3-10 player browser coverage.
+
 1. Choose **3-24 players**, five or six rounds, a setting and an idea. Optional characters are entered one per line as `Name | job`. Instructions are simple; story content is intended for teens and adults, not young children.
 2. Open the draft. Its reader assignments are preplanned: every round has unique targets, no self-targets, and every reader changes targets. Readers cover all other characters before repeating when rounds permit; a five-round story cannot cover 23 other characters for each reader.
 3. Write directly, **Copy story prompt** to a preferred AI, or use a configured AI service. A copy-prompt workflow needs no API key. Import the returned complete JSON. Explicit AI calls send the idea/draft to the chosen provider; provider costs, data policies and limits apply. No other workshop action calls AI. A generation makes one initial call and at most two format-repair calls; unrepaired output is retained for manual correction, not declared ready. **Ask my AI to review the story** is a separate optional narrative-review call; it reports specific suggestions without modifying the story, checking the human-review boxes or granting approval.

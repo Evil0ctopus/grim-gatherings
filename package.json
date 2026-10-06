@@ -8,6 +8,8 @@
     "test:site": "node --test tests/build-site.mjs",
     "test:supabase": "node --test tests/supabase.mjs",
     "test:workshop": "node tests/workshop-e2e.mjs",
+    "test:developer": "node --test tests/developer-games.mjs",
+    "test:developer-browser": "node tests/developer-lab-e2e.mjs",
     "check:edge": "deno check --allow-import supabase/functions/community/index.ts"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ import { listDrafts, saveDraft, draftVersions } from './workshop-storage.js?v=re
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js?v=rotating-clues-v1';
 import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=reliability-v1';
 import { loadAiSettings, saveAiSettings, generateText } from './ai.js?v=workshop-v1';
+import { openDeveloperLab, developerLabHtml, developerLabAction, clearDeveloperLab } from './developer-lab.js?v=developer-v1';
 
 const app = document.getElementById('workshop');
 let draft = null, user = null, view = new URLSearchParams(location.search).get('account') === '1' ? 'account' : 'home', step = 0, busy = false;
@@ -19,18 +20,18 @@ const input = (label, field, value, big = false) => `<label for="w-${field.repla
   : `<input id="w-${field.replaceAll('.', '-')}" data-field="${field}" value="${esc(value || '')}">`}`;
 
 function render() {
-  const headings = { home: 'Build my mystery', create: 'Make your mystery', edit: 'Your story workshop', account: 'Your account', community: 'Community stories', admin: 'Story approval' };
+  const headings = { home: 'Build my mystery', create: 'Make your mystery', edit: 'Your story workshop', account: 'Your account', community: 'Community stories', admin: 'Story approval', developer: 'Developer playroom' };
   app.innerHTML = `<h1>${headings[view]}</h1><nav class="row" aria-label="Workshop navigation">
     <a class="btn secondary" href="index.html">Game home</a>
     ${action('home', 'My drafts')}${action('community', 'Community stories')}${action('account', user ? `Account: ${esc(user.name)}` : 'Log in')}
-    ${user?.role === 'admin' ? action('admin', 'Approve stories') : ''}
+    ${user?.role === 'admin' ? action('admin', 'Approve stories') + action('developer', 'Developer playroom') : ''}
     </nav>
     <p class="small muted">Manual editing has no fixed limit. Drafts and versions stay on this device unless you back them up to your account. AI calls may have costs or provider limits.</p>
     <p id="service-notice" class="card small" role="status" ${serviceNotice ? '' : 'hidden'}>${esc(serviceNotice)}</p>
     <div id="workshop-error" class="${error ? 'err' : ''}" role="alert">${esc(error)}</div>
     <p id="workshop-message" role="status">${esc(message)}</p>
     ${busy ? '<p role="status">Working... Please keep this page open.</p>' : ''}
-    ${({ home: homeHtml, create: createHtml, edit: editHtml, account: accountHtml, community: communityHtml, admin: adminHtml }[view])()}`;
+    ${({ home: homeHtml, create: createHtml, edit: editHtml, account: accountHtml, community: communityHtml, admin: adminHtml, developer: developerLabHtml }[view])()}`;
   if (busy) app.querySelectorAll('button, input, textarea, select').forEach(el => { el.disabled = true; });
 }
 
@@ -343,6 +344,7 @@ const actions = {
     message = 'Submitted this version for approval. It is not public yet. Check Account for feedback; you may keep editing.';
   },
   account: showAccount,
+  async developer() { await openDeveloperLab(); view = 'developer'; },
   async login() {
     const data = await communityRequest('/api/auth/login', { method: 'POST', body: { username: app.querySelector('#username').value, password: app.querySelector('#password').value } });
     storeSession(data); user = data.user; await showAccount();
@@ -363,7 +365,7 @@ const actions = {
     const data = await communityRequest('/api/auth/password', { method: 'POST', body: { password: app.querySelector('#new-password').value } });
     message = data.message;
   },
-  async logout() { await communityRequest('/api/auth/logout', { method: 'POST' }); storeSession(''); user = null; accountDrafts = []; submissions = []; },
+  async logout() { await communityRequest('/api/auth/logout', { method: 'POST' }); storeSession(''); clearDeveloperLab(); user = null; accountDrafts = []; submissions = []; },
   async 'cloud-open'(el) {
     const data = await communityRequest(`/api/drafts/${el.dataset.id}`);
     const local = (await listDrafts()).find(d => d.cloud?.id === data.id && d.cloud.userId === user.id);
@@ -453,7 +455,8 @@ app.addEventListener('change', async event => {
 app.addEventListener('click', async event => {
   const el = event.target.closest('[data-action]');
   if (!el || busy) return;
-  const handler = actions[el.dataset.action];
+  const handler = el.dataset.action.startsWith('lab-')
+    ? () => developerLabAction(el.dataset.action.slice(4), app) : actions[el.dataset.action];
   if (!handler) return;
   error = ''; message = ''; busy = true;
   // Keep the current fields until the handler captures their values.
@@ -470,7 +473,10 @@ app.addEventListener('click', async event => {
     }
   } catch (e) {
     error = e.message;
-    if (!sessionToken()) user = null;
+    if (!sessionToken()) { user = null; clearDeveloperLab(); if (view === 'developer') view = 'account'; }
+    else if (e.status === 403 && (view === 'developer' || el.dataset.action === 'developer')) {
+      clearDeveloperLab(); user = null; view = 'account';
+    }
   } finally { busy = false; }
   render();
 });

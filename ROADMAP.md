@@ -82,6 +82,12 @@ verified. A checked item means completed with evidence, not merely planned.
 
 ### Next: one-time premium content
 
+- [x] Build two original 3-10 player social-deduction candidates in an
+  administrator-only developer playroom: The Lanternfall Covenant and The
+  Black Ledger Society. Complete pass-and-play rounds and finales; no public
+  selector/catalog entries or paid access. Remote phone-room play, purchase
+  entitlements, and human balance playtesting remain future work.
+
 - Offer premium mysteries and themed bundles alongside complete free mysteries.
 - One host purchases access; guests join that host's game without paying.
 - Starting price experiments: $5-$10 per story and $15-$25 per bundle.
