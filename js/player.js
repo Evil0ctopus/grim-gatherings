@@ -2,7 +2,7 @@
 import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
 import { createAtmosphere } from './atmosphere.js?v=volume-58-v1';
 import { voteStripHtml } from './voting.js?v=vote-panel-v1';
-import { createPlayerConnection } from './player-connection.js?v=connection-recovery-v1';
+import { createPlayerConnection } from './player-connection.js?v=visitor-review-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();

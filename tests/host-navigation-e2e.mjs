@@ -16,6 +16,7 @@ try {
     try {
       const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
       const page = await context.newPage();
+      page.on('dialog', dialog => dialog.accept());
       const errors = [];
       page.on('pageerror', e => errors.push({ message: e.message, stack: e.stack }));
       await page.addInitScript(() => {

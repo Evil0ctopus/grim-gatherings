@@ -49,6 +49,14 @@ verified. A checked item means completed with evidence, not merely planned.
   Chromium; preserve saved setup/rooms and suspend hidden host connections.
 - [x] Configure missing www DNS and canonical HTTP/HTTPS redirects with path
   and query preservation. Physical-iPhone follow-up remains a separate check.
+- [x] Verify reported dead finale and End/Home controls with a real production
+  four-guest match: both worked, including End/Home confirmation.
+- [x] Protect saved rooms and mystery replacements with confirmation; cancel
+  preserves progress. Add visible host-availability guidance and supported
+  screen wake-lock lifecycle handling, not a promise of background hosting.
+- [x] Provide About, three-step play/hosting guidance, public support contact,
+  privacy and terms links; normalize starter descriptions. Check 320-1280px
+  layouts, accessibility description uniqueness and browser exceptions.
 - [ ] Play an approved community story from the production domain with real
   phones, including an iPhone, through every round and reveal.
 - [ ] Verify exit/rejoin, host restoration, release/reclaim, wrong room codes,

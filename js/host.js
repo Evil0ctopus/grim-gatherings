@@ -2,21 +2,23 @@
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
 import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=workshop-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
-import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=count-editions-v1';
+import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=visitor-review-v1';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=workshop-v1';
 import { communityRequest } from './community-api.js?v=reliability-v1';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
-import { STARTER_MYSTERIES } from './starters.js?v=blackwater-story-v2';
+import { STARTER_MYSTERIES } from './starters.js?v=visitor-review-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=workshop-v1';
 import { currentCharacter, releaseCharacter, retireOtherSessions, resumeSession } from './host-sessions.js?v=connection-recovery-v1';
+import { createHostWakeLock } from './host-wake-lock.js?v=visitor-review-v1';
 
 const KEY = HOST_SAVE_KEY;
 let S = null; // persisted host state
 const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '', community: [], communityError: '' };
 let peer = null, netStatus = 'offline', restartTimer = null, peerAttemptAt = 0, peerBlocked = false, hostPaused = false;
 let atmosphere = null;
+let wakeLock = null, wakeStatus = 'inactive';
 const conns = new Map(); // DataConnection -> { conn, charId, token, lastSeen }
 const LIVE_PHASES = ['lobby', 'round', 'vote', 'reveal'];
 
@@ -50,12 +52,17 @@ function restoreGame() {
 
 export function startHost() {
   atmosphere = createAtmosphere();
+  wakeLock = createHostWakeLock({ onStatus(status) {
+    wakeStatus = status;
+    const help = $('#host-awake-help');
+    if (help) help.textContent = hostAwakeText();
+  } });
   restoreGame();
   app().addEventListener('click', onClick);
   app().addEventListener('input', onInput);
   app().addEventListener('change', onChange);
   app().addEventListener('keydown', onKeydown);
-  window.addEventListener('pagehide', () => { hostPaused = true; stopPeer(); });
+  window.addEventListener('pagehide', () => { hostPaused = true; wakeLock.setActive(false); stopPeer(); });
   window.addEventListener('pageshow', event => {
     if (event.persisted) syncHostNavigation();
     recoverHost();
@@ -64,7 +71,10 @@ export function startHost() {
   window.addEventListener('hashchange', syncHostNavigation);
   window.addEventListener('online', () => { if (hosting()) restartPeer(0); });
   window.addEventListener('offline', () => { if (hosting()) { netStatus = 'offline'; updateLive(); } });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) recoverHost(); });
+  document.addEventListener('visibilitychange', () => {
+    wakeLock.setActive(hosting() && !hostPaused);
+    if (!document.hidden) recoverHost();
+  });
   setInterval(tick, 4000);
   if (location.hash === '#host' && S) {
     render();
@@ -75,6 +85,7 @@ export function startHost() {
 // ---------- Landing ----------
 function renderLanding() {
   stopPeer();
+  wakeLock.setActive(false);
   atmosphere.update({ room: '', phase: 'home', roundIndex: -1 }, null);
   app().className = '';
   const saved = load();
@@ -102,7 +113,19 @@ function renderLanding() {
       <div class="row"><input id="join-code" placeholder="ROOM CODE" autocapitalize="characters" autocomplete="off" maxlength="8" style="text-transform:uppercase;letter-spacing:.2em;font-size:1.3rem;flex:2">
       <button data-act="join" style="flex:1">Join</button></div>
     </div>
-    <p class="footer">Best on a phone held close to a candle. 🕯️</p>
+    <section class="card" aria-labelledby="about-game">
+      <h2 id="about-game">About Grim Gatherings</h2>
+      <p>A story-led mystery night for friends. One host narrates; guests read clues about other characters, discuss the evidence and vote after each round before the final reveal. No acting experience or player account required.</p>
+      <h3>How a game night flows</h3>
+      <ol>
+        <li><b>Prepare:</b> add your players, choose a mystery that fits the group and review the character assignments.</li>
+        <li><b>Gather:</b> open the lobby, let guests scan the QR code on their phones, then read each chapter and its clues aloud.</li>
+        <li><b>Investigate:</b> discuss and vote each round. After the final vote, reveal the killer and read what really happened.</li>
+      </ol>
+      <p class="small muted">Keep the host game screen open, connected and awake. A sleeping or closed host cannot run the room; saved games and guest characters reconnect when the host returns.</p>
+      <a href="how-to-play.html">Read the hosting &amp; joining guide</a>
+    </section>
+    <p class="footer">Best with candlelight atmosphere, safely away from your devices. 🕯️</p>
     </div></div>`;
 }
 
@@ -113,6 +136,7 @@ function render() {
   if (location.hash !== '#host') history.pushState(null, '', baseUrl() + '#host');
   ({ setup: renderSetup, review: renderReview, lobby: renderLobby, round: renderRound, vote: renderVote, reveal: renderReveal }[S.phase] || renderSetup)();
   atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex, roundTitle: S.story?.rounds[S.roundIndex]?.title }, S.story);
+  wakeLock.setActive(hosting() && !hostPaused);
   window.scrollTo(0, 0);
 }
 
@@ -320,12 +344,21 @@ function statusBar() {
     <span id="net" class="pill ${cls}">${esc(netStatus === 'online' ? 'Live' : netStatus)}</span>
     <span id="conn-count">${n}/${S.story.characters.length} here</span></div>
     <div class="game-exit"><button class="secondary small" data-act="end">End game → Home</button><button class="secondary small" data-act="reconnect-host">Reconnect room</button></div>
+    <p class="small muted" id="host-awake-help" role="status">${esc(hostAwakeText())}</p>
     <div class="card" id="host-connection-help" role="status" aria-live="polite" ${netStatus === 'online' ? 'hidden' : ''}>${esc(hostRecoveryText())}</div>`;
 }
 
 function hostRecoveryText() {
   if (peerBlocked) return 'The room service cannot start in this browser. For WebRTC unavailable, use an up-to-date Safari or Chrome browser rather than an embedded app browser. Reload or tap Reconnect room to retry.';
   return 'Keep this host screen open and check your internet connection. The room retries automatically. Tap Reconnect room to reopen the same room without losing characters, clues or votes; guests do not need a new code.';
+}
+
+function hostAwakeText() {
+  const status = wakeStatus === 'active'
+    ? 'Screen sleep prevention is active.'
+    : wakeStatus === 'requesting' ? 'Requesting screen sleep prevention.'
+    : 'Automatic screen sleep prevention is not active; keep this device awake manually.';
+  return `${status} Keep this host game screen open and connected. Closing the lid, locking the device or leaving this page pauses the room. Guests reconnect when you return.`;
 }
 
 function joinBlock(big = true) {
@@ -567,11 +600,7 @@ const actions = {
       ui.warnings = [];
       return renderSetup();
     }
-    const res = normalizeStory(story);
-    ui.errors = res.errors; ui.warnings = res.warnings;
-    if (!res.story) return renderSetup();
-    S.story = res.story; S.claims = {}; S.votes = {}; S.roundVotes = {}; S.libraryId = entry.id;
-    setPhase('review', -1);
+    acceptStory(story, [], entry.id);
   },
   'save-story'() {
     try {
@@ -678,10 +707,11 @@ const actions = {
   },
   'reconnect-host'() {
     peerBlocked = false;
+    wakeLock.setActive(hosting());
     toast('Reopening this room. Guests will reconnect; characters, clues and votes are kept.', 5000);
     restartPeer(0);
   },
-  end() { if (confirm('End this game and go back to the start? (The story is lost unless you exported it.)')) wipe(); },
+  end() { if (confirm('End this game and return home? This room and its progress will be cleared. Mysteries saved in My Stories or the workshop are kept.')) wipe(); },
   'new-confirm'() { if (confirm('Start a brand new game? This one will be cleared.')) wipe(); },
 };
 
@@ -694,19 +724,22 @@ function wipe() {
 }
 
 function newGame() {
-  stopPeer();
   const prev = load();
+  if (prev?.room && !confirm('Create a new game? This replaces your saved room and its progress. Choose Cancel, then Resume to continue it. Mysteries saved in My Stories or the workshop are kept.')) return;
+  stopPeer();
   const guests = Array.isArray(prev?.guests) ? prev.guests : parseGuests(prev?.guestsText || '');
   S = { room: randomRoom(), phase: 'setup', roundIndex: -1, story: null, claims: {}, votes: {}, libraryId: null, theme: prev?.theme || '', guests, guestsText: guests.map(guest => guest.desc ? `${guest.name}, ${guest.desc}` : guest.name).join('\n'), createdAt: Date.now() };
   ui.errors = []; ui.warnings = [];
   save(); render();
 }
 
-function acceptStory(input, guests) {
+function acceptStory(input, guests, libraryId = null) {
   const res = normalizeStory(input, guests);
   ui.errors = res.errors; ui.warnings = res.warnings;
   if (!res.story) return renderSetup();
-  S.story = res.story; S.claims = {}; S.votes = {}; S.roundVotes = {}; S.libraryId = null;
+  if (S.story && !confirm('Replace the current mystery and reset its progress? Choose Cancel to keep it. Saved copies in My Stories or the workshop are kept.')) return;
+  if (S.wasLive) { broadcastRaw({ t: 'ended' }); stopPeer(); }
+  S.story = res.story; S.claims = {}; S.votes = {}; S.roundVotes = {}; S.libraryId = libraryId; S.wasLive = false;
   setPhase('review', -1);
 }
 
@@ -817,6 +850,7 @@ function stopPeer() {
 
 function recoverHost() {
   hostPaused = false;
+  wakeLock.setActive(hosting());
   if (!hosting() || peerBlocked) return;
   if (!peer || peer.destroyed) startPeer();
   else if (peer.disconnected && Date.now() - peerAttemptAt > 15000) restartPeer(0);

@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkDraft } from '../js/workshop-core.js';
 import { createDeveloperLab } from './developer-lab.js';
+import { SITE_FILES } from '../tools/build-site.mjs';
 
 const scrypt = promisify(scryptCallback);
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -297,7 +298,7 @@ export async function createCommunityServer({
       const file = path.resolve(root, `.${decoded}`);
       const relative = path.relative(root, file);
       requireValue(!relative.startsWith('..') && !path.isAbsolute(relative), 404, 'File not found.');
-      const allowed = ['', 'index.html', 'workshop.html', '.nojekyll'];
+      const allowed = ['', ...SITE_FILES];
       requireValue(allowed.includes(relative) || /^(?:js|css|assets|vendor)[\\/]/.test(relative), 404, 'File not found.');
       const target = decoded === '/' ? path.join(root, 'index.html') : file;
       const data = await readFile(target);

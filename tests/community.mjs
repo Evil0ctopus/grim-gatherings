@@ -24,6 +24,9 @@ test('persistent community lifecycle enforces ownership, moderation and immutabl
   };
   try {
     assert.equal((await fetch(base + '/')).status, 200);
+    for (const page of ['how-to-play.html', 'privacy.html', 'terms.html']) {
+      assert.equal((await fetch(base + '/' + page)).status, 200);
+    }
     assert.equal((await fetch(base + '/server/community.mjs')).status, 404);
     assert.equal((await fetch(base + '/data/test.sqlite')).status, 404);
     assert.deepEqual((await request('/api/community')).stories, []);

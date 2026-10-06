@@ -33,7 +33,7 @@ export const STARTER_MYSTERIES = [
   {
     id: 'blackwater-row', title: blackwater[4].title,
     blurb: 'Five deaths, missing records and a blade hidden behind a respectable trade. Investigate Blackwater Row one crime scene at a time.',
-    inspiration: 'Melissa\'s five-round, Victorian revenge mystery, adapted for exactly four players.',
+    inspiration: 'A five-round, Victorian revenge mystery, written for exactly four players.',
     contentNote: 'Five off-screen deaths with slashed throats, wrongful imprisonment, coercion and revenge. No graphic descriptions. Readers rotate targets every round; each reads about all three other characters by Round 3. Read only the current chapter, then its player accounts.',
     story: catalog(blackwater),
   },

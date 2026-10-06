@@ -2,28 +2,43 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Traffic monitoring - Grim Gatherings</title>
-<link rel="stylesheet" href="css/style.css?v=vote-panel-v1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy - Grim Gatherings</title>
+<link rel="stylesheet" href="css/style.css?v=visitor-review-v1">
 </head>
 <body>
-<main style="max-width: 48rem; margin: 2rem auto; padding: 1rem">
-<h1>Traffic monitoring</h1>
-<p>Grim Gatherings uses Cloudflare Web Analytics on its production domain to
-understand visits, page views, referring sites, device/browser categories, and
-page performance. Reports are available privately to the website owner; there
-is no public visitor counter.</p>
-<p>Cloudflare describes Web Analytics as cookie-free and says it does not track
-individual visitors. Visits and page views are not a count of unique people.
-Browser blocking, repeat visits, and bot detection can affect the totals.</p>
-<p>We do not add account emails, story contents, room codes, passwords, or login
-tokens to custom analytics events. This website does not use analytics to
-measure story completion or individual player behavior.</p>
-<p>This notice describes traffic monitoring only. Accounts and story submissions
-use the separate Supabase community service; optional AI features send the
-requested prompt to your selected provider when you choose to use them.</p>
+<main>
+<h1>Privacy</h1>
+<p class="small muted">Updated October 5, 2026. This notice describes the current website, optional accounts and story workshop.</p>
+<section class="card">
+<h2>Playing &amp; browser storage</h2>
+<p>You can play without an account. Host game progress, player names, character assignments, votes, guest reconnection tokens and locally saved mysteries are stored in your browser. They remain until removed by the app or you clear the relevant browser data. Use a trusted device; anyone with access to its saved host game can inspect the story and solution.</p>
+<p>The host sends game state to connected guests over PeerJS/WebRTC. Guests receive their own character packet and the public evidence and votes. PeerJS signaling helps browsers find each other; network providers and peers may receive connection metadata, including IP addresses. This is not an anonymous communication service. Do not put sensitive personal information into player names or stories.</p>
+<p>Local game progress is not uploaded as an account gameplay history. Ending a game clears the active host save but does not delete saved mystery copies or other devices' browser data.</p>
+</section>
+<section class="card">
+<h2>Optional accounts &amp; submissions</h2>
+<p>Supabase provides email/password authentication and the community database. It processes account email, authentication credentials and sessions; signup and recovery emails use Resend. Login tokens are saved in this browser to maintain and refresh your session. Signing out removes this browser's current login session. Passwords are handled by the authentication service, not included in game packets.</p>
+<p>Account-backed draft saves, revision history, submissions and moderation records are stored by the community service. Administrators can review submitted stories and moderation records. Approved stories and their author credit appear in the public catalog; private drafts are not public catalog entries. Do not submit material you do not want an administrator to review.</p>
+<p>Signing out does not delete your account or cloud records. Local story deletion is not a request to delete an account or moderation history. For access, correction or deletion questions, use the <a href="how-to-play.html#contact">contact route</a> to ask for a private conversation without posting account information publicly. There is no self-service account-deletion screen yet.</p>
+</section>
+<section class="card">
+<h2>Optional AI &amp; external services</h2>
+<p>Only when you request AI generation, your prompt and selected story/player details are sent to the AI provider you configure. Its own privacy and retention policies apply. Provider API keys and AI settings are saved in this browser; do not use them on a shared device. Avoid private or sensitive information, especially with free-tier providers that may use content to improve their products.</p>
+<p>Cloudflare and GitHub Pages host the website. Google Fonts supplies fonts, and external links take you to services with their own policies. Those services receive ordinary network request information.</p>
+</section>
+<section class="card">
+<h2>Traffic monitoring</h2>
+<p>Grim Gatherings uses Cloudflare Web Analytics on its production domain to understand visits, page views, referring sites, device/browser categories and page performance. Reports are private to the website owner; there is no public visitor counter.</p>
+<p>Cloudflare describes Web Analytics as cookie-free and says it does not track individual visitors. Visits and page views are not a count of unique people. Blocking, repeat visits and bot detection affect totals.</p>
+<p>We do not add account emails, story contents, room codes, passwords or login tokens to custom analytics events. We do not use analytics to measure individual player behavior or story completion.</p>
 <p><a href="https://developers.cloudflare.com/web-analytics/">Read about Cloudflare Web Analytics</a></p>
-<p><a href="index.html">Back to the game</a></p>
+</section>
+<p><a class="btn secondary" href="index.html">Back to the game</a></p>
 </main>
+<footer class="site-footer">
+<nav aria-label="Site information"><a href="how-to-play.html">About &amp; how to play</a> <a href="how-to-play.html#contact">Contact</a> <a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></nav>
+<p class="small muted">Grim Gatherings · Fictional mysteries, shared discoveries.</p>
+</footer>
 </body>
 </html>

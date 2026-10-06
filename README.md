@@ -57,11 +57,39 @@ and verify actual collection before claiming the counter is live.
 
 - The existing game and private workshop need no server, account or build step: plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages. Shared drafts, submissions and approval use Supabase (the preferred free hosting route) or the optional Node community service.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
-- Includes five ready-to-play mystery families with fixed player-count editions, including **The Last Seance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests) and Melissa's **The Barber of Blackwater Row** (exactly 4 guests). Zero AI setup needed.
+- Includes five ready-to-play mystery families with fixed player-count editions, including **The Last Séance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests) and **The Barber of Blackwater Row** (exactly 4 guests). Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
 - **Story Workshop:** guided creation, repeatable editing, version history, reusable AI prompts, private playable saves, and an account-backed submission/approval workflow when the community service is connected.
+
+### Visitor guidance and host availability
+
+The home screen and [how-to-play guide](how-to-play.html) explain preparation,
+joining, round voting and the final reveal. Home/workshop footers link to the
+guide, public GitHub support tracker, [privacy notice](privacy.html) and
+[terms](terms.html). The support tracker is public: never post credentials,
+account details or live room links there. No unverified support mailbox is used.
+
+Creating a new room or loading a replacement mystery confirms before discarding
+the current saved session; cancelling retains it. End game also confirms before
+clearing live progress, while saved mystery copies remain. Reveal confirms only
+when there are no final-round votes. Both reveal and End/Home were verified in a
+real four-guest production match, not inferred from button labels.
+
+The host browser is still the room hub. It requests a Screen Wake Lock while
+hosting and reacquires it when returning to the visible game; the UI reports
+unsupported/denied/released locks honestly. This is not a background server and
+cannot prevent laptop lid closure, device locking, power loss or browser
+suspension. Guests retain their character and last clues and retry when the host
+returns. Always-on rooms would require a different hosting architecture.
+
+`npm run test:visitor` checks wake-lock lifecycle/races, mobile widths from
+320 to 1280 pixels in Chromium/WebKit, information pages, accessible description
+uniqueness, save confirmation cancellation/acceptance, no-vote reveal and
+End/Home. These browser fixtures stub transport and wake-lock APIs; use
+`node tests/reconnect.mjs <url> chromium` and the full gameplay suite for real
+PeerJS recovery. Physical-device tests remain separate.
 
 ## Story workshop and community publishing
 

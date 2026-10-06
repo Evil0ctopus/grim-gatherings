@@ -137,7 +137,7 @@ export function createPlayerConnection({
       }
       if (ready && conn?.open && ['network', 'server-error', 'socket-error', 'socket-closed'].includes(error.type)) return;
       fail(error.type === 'peer-unavailable'
-        ? 'The room is not reachable yet. Check the code and ask the host to keep the game screen open.'
+        ? 'Waiting for the host to open this room. Check the code and ask the host to open the lobby and keep the game screen awake. We will retry automatically.'
         : 'Could not reach the host. Retrying; if this continues, try another network.',
       3000, error.type === 'peer-unavailable');
     });

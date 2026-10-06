@@ -20,6 +20,9 @@ a{color:var(--gold2)}
 .center{text-align:center}
 .muted{color:var(--muted)}
 .small{font-size:.85rem}
+.site-footer{position:relative;z-index:1;padding:20px 16px 32px;text-align:center;border-top:1px solid var(--line)}
+.site-footer nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px}
+.site-footer a{display:inline-flex;align-items:center;min-height:44px}
 .candle{display:block;text-align:center;font-size:2.6rem;animation:flicker 3s infinite;filter:drop-shadow(0 0 14px rgba(255,190,90,.7))}
 @keyframes flicker{0%,100%{opacity:1;transform:scale(1)}45%{opacity:.85;transform:scale(.97) rotate(-1deg)}50%{opacity:1}70%{opacity:.9;transform:scale(1.02) rotate(1deg)}}
 .tagline{text-align:center;color:var(--muted);font-style:italic;margin-top:-.3em}
