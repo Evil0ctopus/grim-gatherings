@@ -1,6 +1,7 @@
 import { checkDraft, isEditableStory } from '../js/workshop-core.js';
 import { createDeveloperLab } from './developer-lab.js';
 import { createPremiumPayments } from './premium-payments.js';
+import { createPremiumRooms } from './premium-rooms.js';
 
 class ApiError extends Error {
   constructor(status, message) { super(message); this.status = status; }
@@ -63,6 +64,7 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
   }
   const rpc = (name, body) => upstream(`/rest/v1/rpc/${name}`, { method: 'POST', body, admin: true });
   const payments = createPremiumPayments({ rpc, config: paypal, siteUrl, fetchImpl });
+  const premiumRooms = createPremiumRooms({ rpc, environment: payments.environment });
   const premiumGames = createDeveloperLab(serviceKey, { namespace: `premium-${payments.environment}`, resume: true });
   async function profile(authUser) {
     requireValue(authUser?.id && authUser?.email, 401, 'Please log in again.');
@@ -137,6 +139,7 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     if (pathname === '/api/community' && req.method === 'GET') return rpc('gg_catalog', { p_id: null });
     if (pathname === '/api/shop' && req.method === 'GET') return payments.catalog(null, req.headers.get('origin'));
     if (pathname === '/api/paypal/webhook' && req.method === 'POST') return payments.webhook(req, await bodyFor(req));
+    if (pathname === '/api/premium/rooms/guest' && req.method === 'POST') return premiumRooms.guest(await bodyFor(req));
     const publicId = /^\/api\/community\/([^/]+)$/.exec(pathname)?.[1];
     if (publicId && req.method === 'GET') return rpc('gg_catalog', { p_id: uuid(publicId) });
     const token = /^Bearer (.+)$/.exec(req.headers.get('authorization') || '')?.[1];
@@ -147,6 +150,14 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     if (pathname === '/api/purchases' && req.method === 'GET') return payments.catalog(user, req.headers.get('origin'));
     if (pathname === '/api/purchases/orders' && req.method === 'POST') return payments.create(user, await bodyFor(req), req.headers.get('origin'));
     if (pathname === '/api/purchases/capture' && req.method === 'POST') return payments.capture(user, await bodyFor(req));
+    if (pathname === '/api/premium/rooms' || pathname === '/api/premium/rooms/host') {
+      const library = await rpc('gg_purchases', { p_user: user.id, p_environment: payments.environment });
+      requireValue(library.owned && (payments.environment !== 'sandbox' || user.role === 'admin'), 403, 'Active bundle ownership is required to host. Guests join free with the room code.');
+      requireValue(payments.environment !== 'live' || req.headers.get('origin') === new URL(siteUrl).origin, 403, 'Host paid rooms on the production website.');
+      if (pathname.endsWith('/host') && req.method === 'POST') return premiumRooms.host(user, await bodyFor(req));
+      if (pathname === '/api/premium/rooms' && req.method === 'GET') return premiumRooms.list(user);
+      if (pathname === '/api/premium/rooms' && req.method === 'POST') return premiumRooms.create(user, await bodyFor(req));
+    }
     if (pathname === '/api/premium/games') {
       const library = await rpc('gg_purchases', { p_user: user.id, p_environment: payments.environment });
       requireValue(library.owned, 403, 'Buy the two-game bundle with this account before playing. Purchase access never grants administrator privileges.');

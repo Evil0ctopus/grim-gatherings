@@ -1,6 +1,6 @@
 # 🕯️ Grim Gatherings
 
-A murder-mystery party web app. In the free narrated mysteries, the host reads the current chapter's narration; every guest joins on their phone and reads one event-related clue aloud each round. **All free-mystery evidence is spoken to the group: no secret clues, private backstories or hidden motives.** Everyone reads about one other character and receives exactly one read-aloud clue about them, discusses the evidence, and votes. Assignments use complete circles or explicitly authored rotating routes. Separate premium social-deduction games use private roles and pass-and-play on one trusted device.
+A murder-mystery party web app. In the free narrated mysteries, the host reads the current chapter's narration; every guest joins on their phone and reads one event-related clue aloud each round. **All free-mystery evidence is spoken to the group: no secret clues, private backstories or hidden motives.** Everyone reads about one other character and receives exactly one read-aloud clue about them, discusses the evidence, and votes. Assignments use complete circles or explicitly authored rotating routes. Separate premium social-deduction games use private roles delivered to each player's phone through a room code; one host buys and guests join free.
 
 **Production:** https://grimgatherings.com/ (new DNS may take time to propagate)
 
@@ -95,7 +95,7 @@ PeerJS recovery. Physical-device tests remain separate.
 
 Choose **Build a mystery** on the home screen, or open [the workshop](workshop.html).
 
-The home screen has **My account**, opening [the account screen](workshop.html?account=1) directly. Accounts are optional for free mysteries; guests can join and play without registering. Account storage supports creator draft backups, revision history, submissions and verified premium purchases, not cloud match history. For moderation, log in using your game administrator email/password (not your database password), then choose **Approve stories**. Only the trusted administrator role unlocks moderation; public signup and purchases do not grant it. Hiding administrator wording on the landing page is presentation, not access control.
+The home screen has **My account**, opening [the account screen](workshop.html?account=1) directly. Accounts are optional for free mysteries; guests can join and play without registering. Account storage supports creator draft backups, revision history, submissions and verified premium purchases. Premium phone rooms have temporary server-side match state, not a permanent match archive. For moderation, log in using your game administrator email/password (not your database password), then choose **Approve stories**. Only the trusted administrator role unlocks moderation; public signup and purchases do not grant it. Hiding administrator wording on the landing page is presentation, not access control.
 
 ### Owner developer playroom
 
@@ -137,11 +137,18 @@ important; automation does not certify it.
 
 [Premium games](shop.html) offers **Shadow Societies: Two-Game Bundle**:
 The Lanternfall Covenant and The Black Ledger Society, **$9.99 USD once for both**.
-One host buys; guests play free. These are 3-10-player pass-and-play games on
-one trusted device, not separate-phone rooms or the free five-chapter format.
+One host buys; guests play free. These are 3-10-player social-deduction games,
+not the free five-chapter format. Choose **Host a room** in the shop, select a
+game/player count, and share the eight-character code or guest link. Guests use
+[premium room joining](premium-room.html) without accounts or purchases. The
+host verifies lobby names and deals roles; each phone receives only its own
+role, private reports and eligible actions. The host opens ballots after
+discussion, and the server resolves all committed actions together.
 Purchases belong to the signed-in game account across devices, not the PayPal
-email. Signed match snapshots save only in that browser and conceal cards when
-reopening. The owner's developer playroom remains independently admin-only.
+email. Rooms last 24 hours with up to three active rooms per host. Reconnect
+using the same browser's private seat token. Refunds/disputes stop hosted-room
+access. Optional pass-and-play retains browser-only signed match saves.
+The owner's developer playroom remains independently admin-only.
 
 PayPal-hosted checkout supports PayPal and eligible credit/debit-card guest
 checkout. No card fields or merchant secrets are served in the website.

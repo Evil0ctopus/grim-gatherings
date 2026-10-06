@@ -103,11 +103,14 @@ verified. A checked item means completed with evidence, not merely planned.
   purchase recovery, private database entitlements and owner refunds.
 - [x] Test simulated buy/return/recovery, account isolation and no admin
   elevation, 3/10-player paid matches, private refresh, refunds and disputes.
-- [ ] Configure the actual merchant app/webhook and monitored private support.
+- [x] Configure the actual merchant app/webhook and monitored private support,
+  staging live credentials with both charging gates closed.
 - [ ] Verify real PayPal sandbox checkout/card eligibility, webhook delivery
   and refunds before explicitly approving live charges.
 - [ ] Review merchant disclosures/taxes/consumer law and human balance/fun.
-  Remote phone-room play remains future work, not part of the purchase.
+- [x] Implement premium room-code play: one purchasing host, free accountless
+  guests, private phone views, durable 24-hour rooms and atomic secret choices.
+- [ ] Verify premium phone rooms on physical devices before live sales.
 
 - Offer premium mysteries and themed bundles alongside complete free mysteries.
 - One host purchases access; guests join that host's game without paying.

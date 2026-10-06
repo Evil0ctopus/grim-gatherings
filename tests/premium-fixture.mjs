@@ -8,7 +8,7 @@ export const premiumIds = { buyer: '11111111-1111-4111-8111-111111111111',
 export async function premiumFixture({ origin = 'https://game.test', enabled = true, environment = 'live', liveApproved = true, supportEmail = 'support@game.test' } = {}) {
   const db = new PGlite();
   await db.exec('create role anon; create role authenticated; create role service_role;');
-  for (const file of ['20261005120000_community.sql', '20261006050000_premium.sql']) {
+  for (const file of ['20261005120000_community.sql', '20261006050000_premium.sql', '20261006230000_premium_rooms.sql']) {
     await db.exec(await readFile(new URL(`../supabase/migrations/${file}`, import.meta.url), 'utf8'));
   }
   for (const [name, id] of Object.entries(premiumIds)) await db.query(

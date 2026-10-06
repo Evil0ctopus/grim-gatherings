@@ -5,9 +5,12 @@
 Shadow Societies: Two-Game Bundle (`shadow-societies-v1`) includes **The
 Lanternfall Covenant** and **The Black Ledger Society** for **$9.99 USD once**.
 Both are original 3-10-player social-deduction games with up to four
-night/council rounds and a final reveal. One buyer hosts by passing one trusted
-device; guests need neither accounts nor purchases. There are no remote phone
-rooms, downloadable kits, subscriptions or cloud match saves.
+night/council rounds and a final reveal. One buyer hosts a room; guests join
+free on their own phones without accounts. Premium rooms use eight-character
+codes and server-side state, expire after 24 hours, and check the host's active
+purchase on every read/update. Private seat tokens stay on guest devices;
+only hashes are stored in the database. Optional single-device pass-and-play
+remains available. There are no downloadable kits or subscriptions.
 
 The price is the owner's approved lower introductory price, not a claim to be
 the cheapest product in the market. On October 6, 2026, the official
@@ -23,8 +26,10 @@ the price. Do not advertise invented competitor USD prices or revenue.
 
 1. Apply only `supabase/migrations/20261006050000_premium.sql` once to the
    existing community database. Do not rerun the initial community migration.
-   New installations need that initial migration first. Verify browser roles
-   have no purchase table/RPC access.
+   New installations need that initial migration first. Apply
+   `supabase/migrations/20261006230000_premium_rooms.sql` once after the premium
+   migration for phone rooms. Verify browser roles have no purchase or room
+   table/RPC access. Only the Edge handler returns filtered player views.
 2. Deploy the `community` function with the repository Edge wrapper and its
    server-only environment configuration. This project currently uses a
    dashboard wrapper importing a commit-pinned GitHub handler: update its
@@ -128,9 +133,51 @@ false and use test buyer funds. Do **not** run a real charge as a substitute.
 
 Local automated tests use real PostgreSQL but **fake PayPal/Auth HTTP**. They
 cover the server and UI, not payment-provider credentials, eligibility or
-delivery. Only after the checks above pass should matching live credentials,
-webhook ID and explicit liveApproved be set. Leave enabled false until the
-owner is ready to accept charges.
+delivery. Matching live credentials and webhook ID can be staged with both
+charging gates false to verify authentication without accepting payments.
+Only after the checks above pass should explicit liveApproved be set. Leave
+enabled false until the owner is ready to accept charges.
+
+### Provider verification status: October 6, 2026
+
+The owner completed PayPal Business onboarding, confirmed the business email
+and created the live Grim Gatherings REST app. Sandbox and live webhooks were
+registered separately with the eight events listed above. The approved public
+payment-support mailbox is `grimgatherings2026@gmail.com`.
+
+Actual sandbox checks completed using PayPal test funds:
+
+- Hosted PayPal checkout charged exactly USD 9.99, returned to the canonical
+  shop and unlocked both games on the purchasing Grim Gatherings account.
+- Rechecking the completed purchase preserved its paid state and access.
+- A second approval with navigation back to the site deliberately blocked
+  unlocked the account through the signed approved-order webhook. This was
+  verified on the plain shop without a return token or client capture action.
+- Cancellation before approval left the third order created with no access.
+  That same order was subsequently used for the guest-card check.
+- Guest-card checkout completed with an official PayPal-generated US sandbox
+  Visa and account creation switched off. The return opened in a tab without
+  the game login; payment recovery in the original signed-in tab confirmed the
+  payment and unlocked both games. This does not establish universal guest-card
+  eligibility or independently prove webhook capture for the card purchase.
+- All three completed test purchases received full refunds from owner
+  management, with refunded history and inactive access confirmed.
+- Deliberately invalid webhook signatures were rejected with HTTP 403.
+
+The backend now has matching **live** app/merchant/webhook configuration staged,
+with `GG_PAYPAL_ENABLED=false` and `GG_PAYPAL_LIVE_APPROVED=false`. The public
+catalog reports live mode and closed checkout. An invalid-signature live
+webhook probe returned HTTP 403, exercising actual live OAuth and PayPal
+signature verification without creating an order or making a real charge.
+This is not a successful live checkout or a guarantee of merchant eligibility.
+
+Remaining launch checks include a provider-dashboard refund, provider
+dispute/reversal delivery, physical-device checkout and human gameplay testing,
+and owner confirmation of applicable taxes and seller disclosures. No real
+customer sale or real-money test charge has been performed. Do not open
+checkout or treat sandbox ownership as a live entitlement. The requested
+free-story polish remains deferred until payments are activated, as requested
+by the owner.
 
 ## Recovery, refunds and disputes
 

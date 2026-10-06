@@ -45,17 +45,17 @@ function bundleHtml(bundle) {
     <h3>The Lanternfall Covenant</h3><p>Protect a fog-bound village's boundary lanterns while hidden Hollow sabotage the covenant. Secret roles, nightly wards and investigations, discussion and majority ballots.</p>
     <h3>The Black Ledger Society</h3><p>Expose counterfeiters at a midnight auction. Secret roles, debt attacks, escrow shields, private receipt reports and influence-weighted ballots.</p>
     <ul><li>Each game supports 3-10 players and up to four night/council rounds, followed by a final reveal.</li>
-    <li><b>Pass-and-play on one trusted device.</b> Hand it to each player for private cards, actions and ballots. No separate-phone rooms or remote joining for these two games.</li>
-    <li>Purchases stay with your account across devices. A match is saved only in this browser; reveal screens hide when reopening it. Use a trusted device and do not share your password.</li>
+    <li><b>One host buys; everyone joins free on their own phone.</b> The host creates an eight-character room code. Guests receive only their own private roles, actions and ballots; no guest account is required.</li>
+    <li>Purchases stay with your account across devices. Phone rooms persist for 24 hours; reconnect on the same browser to keep your seat. Optional pass-and-play saves only in this browser. Do not share your password.</li>
     <li>Mature fictional threats, deception and detention. These are social-deduction games, not the free five-chapter narrated mysteries. The free game catalog remains free.</li></ul>
     ${catalog.environment === 'sandbox' ? '<p class="err"><b>TEST MODE:</b> sandbox funds only; these purchases never unlock live purchases.</p>' : ''}
     ${catalog.checkoutNotice ? `<p class="card" role="status">${esc(catalog.checkoutNotice)}</p>` : ''}
-    ${catalog.owned ? `<p class="pill ok">Owned by this account</p><button data-shop="play">Play my purchased games</button><button class="secondary" data-shop="discard">Discard saved match</button>` : `
-      <label class="check-row"><input type="checkbox" id="purchase-consent">I want immediate digital access to both pass-and-play games and accept the <a href="terms.html#purchases">purchase and refund terms</a>.</label>
+    ${catalog.owned ? `<p class="pill ok">Owned by this account</p><button data-shop="play">Host a room - play my purchased games</button><button class="secondary" data-shop="play-pass">Optional pass-and-play</button><button class="secondary" data-shop="discard">Discard saved pass-and-play match</button>` : `
+      <label class="check-row"><input type="checkbox" id="purchase-consent">I want immediate digital access to both games and accept the <a href="terms.html#purchases">purchase and refund terms</a>.</label>
       <div class="row"><button data-shop="buy-paypal" ${!user || !catalog.checkoutEnabled ? 'disabled' : ''}>Buy both with PayPal - $${esc(bundle.amount)}</button>
       <button data-shop="buy-card" ${!user || !catalog.checkoutEnabled ? 'disabled' : ''}>Buy both with credit/debit card - $${esc(bundle.amount)}</button></div>`}
     <p class="small muted">Checkout is hosted by PayPal. Card details are never entered on Grim Gatherings. Guest-card availability depends on PayPal eligibility and merchant settings; if unavailable, PayPal may offer account checkout instead. No PayPal.Me transfer can automatically unlock this bundle.</p>
-    <p class="small">One host buys; guests play free on that device. This purchase gives game access only, never administrator or developer permissions.</p></section>`;
+    <p class="small">One host buys; guests play free. <a href="premium-room.html">Join a premium room</a> with your host’s code. This purchase gives game access only, never administrator or developer permissions.</p></section>`;
 }
 function purchasesHtml() {
   return `<section class="card"><h2>My purchases &amp; payment recovery</h2>${catalog.orders.length ? catalog.orders.map(order => `<div class="card">
@@ -98,7 +98,8 @@ const actions = {
     room?.clear(); room = null;
     await refresh();
   },
-  async play() {
+  play() { location.assign('premium-room.html?host=1'); },
+  async 'play-pass'() {
     room = createGameRoom({ endpoint: '/api/premium/games',
       storageKey: `gg-premium-${catalog.environment}-${user.id}`,
       noticeHtml: '<div class="card"><b>Purchased pass-and-play games</b><p>One trusted device, 3-10 players. Everyone looks away during private turns. No remote phone room. Your match saves in this browser; your purchase stays in your account.</p></div>',

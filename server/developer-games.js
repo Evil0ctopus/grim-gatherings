@@ -152,7 +152,7 @@ function council(state) {
     state.ballots = {};
   }
 }
-export function stepDeveloperGame(original, command) {
+export function stepDeveloperGame(original, command, { simultaneous = false } = {}) {
   const state = structuredClone(original);
   definition(state.gameId);
   requireGame(command && typeof command === 'object', 'Choose a game action.');
@@ -161,8 +161,11 @@ export function stepDeveloperGame(original, command) {
     state.phase = 'vote';
     return state;
   }
-  const player = nextDeveloperPlayer(state);
-  requireGame(player && command.playerId === player.id, 'Pass the device to the next eligible player.');
+  const choices = state.phase === 'night' ? state.actions : state.ballots;
+  const player = simultaneous ? activePlayers(state).find(p => p.id === command.playerId &&
+    !Object.hasOwn(choices, p.id)) : nextDeveloperPlayer(state);
+  requireGame(player && command.playerId === player.id, simultaneous
+    ? 'That player has already acted or is not eligible.' : 'Pass the device to the next eligible player.');
   requireGame(command.type === state.phase, 'That action does not match the current phase.');
   const targets = developerTargets(state, player);
   const abstain = state.phase === 'vote' && command.target === null;

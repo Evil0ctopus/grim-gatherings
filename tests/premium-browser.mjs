@@ -57,7 +57,7 @@ try {
     (await anonymous.locator('#shop').innerText()).includes('The Black Ledger Society') &&
     (await anonymous.locator('#shop').innerText()).includes('The Lanternfall Covenant'));
   check('anonymous visitor must log in to buy', await anonymous.locator('[data-shop="buy-card"]').isDisabled());
-  check('single-device scope is disclosed before buying', (await anonymous.locator('#shop').innerText()).includes('No separate-phone rooms'));
+  check('one host buys and phone-room scope is disclosed before buying', (await anonymous.locator('#shop').innerText()).includes('everyone joins free on their own phone'));
   await anonymous.fill('#shop-email', 'buyer@example.test'); await anonymous.fill('#shop-password', 'test-only-password');
   await click(anonymous, '[data-shop="login"]');
   check('buyer login leaves card and PayPal options available', await anonymous.locator('[data-shop="buy-card"]').isEnabled() && await anonymous.locator('[data-shop="buy-paypal"]').isEnabled());
@@ -71,11 +71,11 @@ try {
   check('card option requests hosted guest checkout and fixed price', creation.body.payment_source.paypal.experience_context.landing_page === 'GUEST_CHECKOUT' &&
     creation.body.purchase_units[0].amount.value === '9.99');
   await anonymous.getByRole('link', { name: 'Return to merchant' }).click();
-  await anonymous.getByRole('button', { name: 'Play my purchased games' }).waitFor();
+  await anonymous.locator('[data-shop="play"]').waitFor();
   check('return automatically verifies payment and adds both games to the signed-in account', (await anonymous.locator('#shop-message').innerText()).includes('Payment confirmed'));
   check('purchase history provides a receipt and recovery button', await anonymous.locator('[data-shop="check-order"]').count() === 1);
   check('purchase never exposes administrator controls', await anonymous.locator('[data-shop="payments-admin"]').count() === 0);
-  await click(anonymous, '[data-shop="play"]');
+  await click(anonymous, '[data-shop="play-pass"]');
   check('purchased game selector includes both games', await anonymous.locator('#lab-game option').count() === 2);
   await anonymous.fill('#lab-names', 'One');
   await click(anonymous, '[data-action="lab-create"]');
@@ -93,7 +93,7 @@ try {
     await click(anonymous, '[data-action="lab-reveal"]');
     const roundBeforeReload = snapshot.state.round;
     await anonymous.reload(); await loaded(anonymous);
-    await click(anonymous, '[data-shop="play"]');
+    await click(anonymous, '[data-shop="play-pass"]');
     check(`${gameId}/${count}: refresh retains saved match but conceals private turn`, snapshot.state.round === roundBeforeReload &&
       await anonymous.locator('[data-action="lab-reveal"]').count() === 1 && await anonymous.locator('#lab-target').count() === 0);
     let steps = 0;

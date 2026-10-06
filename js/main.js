@@ -13,10 +13,11 @@ try {
 
 const params = new URLSearchParams(location.search);
 const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
-if (room) startPlayer(room);
+if (/^[A-Z2-9]{8}$/.test(room)) location.replace(new URL(`premium-room.html?room=${encodeURIComponent(room)}`, location.href));
+else if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=premium-v1');
+    const { startHost } = await import('./host.js?v=phone-rooms-v1');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);
