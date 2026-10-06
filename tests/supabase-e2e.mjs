@@ -74,12 +74,12 @@ try {
   const author = await makePage();
   const brokenLogin = await makePage('{broken');
   await brokenLogin.goto(base + '/workshop.html');
-  await brokenLogin.waitForFunction(() => document.querySelector('#workshop-error').textContent.includes('damaged and has been cleared'));
+  await brokenLogin.waitForFunction(() => document.querySelector('#workshop-error')?.textContent.includes('damaged and has been cleared'));
   for (const action of ['create', 'next', 'next', 'make-draft']) await click(brokenLogin, action);
   check('a damaged login is reported and cannot disable private story creation', await brokenLogin.locator('#w-story-title').count() === 1);
   const outage = await makePage(JSON.stringify({ token: 'expired-token', refreshToken: 'unavailable-refresh', expiresAt: 0 }));
   await outage.goto(base + '/workshop.html');
-  await outage.waitForFunction(() => document.querySelector('#workshop-error').textContent.includes('Authentication temporarily unavailable'));
+  await outage.waitForFunction(() => document.querySelector('#workshop-error')?.textContent.includes('Authentication temporarily unavailable'));
   await click(outage, 'community');
   check('public catalog browsing survives an expired login and an Auth outage', await outage.locator('#workshop-error').innerText() === '' && await outage.evaluate(() => !!sessionStorage.getItem('gg-community-session-v1')));
   await brokenLogin.close(); await outage.close();

@@ -96,14 +96,24 @@ verified. A checked item means completed with evidence, not merely planned.
 
 - [x] Build two original 3-10 player social-deduction candidates in an
   administrator-only developer playroom: The Lanternfall Covenant and The
-  Black Ledger Society. Complete pass-and-play rounds and finales; no public
-  selector/catalog entries or paid access. Remote phone-room play, purchase
-  entitlements, and human balance playtesting remain future work.
+  Black Ledger Society. Complete pass-and-play rounds and finales; no free
+  selector/catalog entries. Owner testing remains independent of purchases.
+- [x] Build the approved $9.99 USD one-time two-game bundle shop and account
+  library, PayPal-hosted/card-eligible checkout, verified captures/webhooks,
+  purchase recovery, private database entitlements and owner refunds.
+- [x] Test simulated buy/return/recovery, account isolation and no admin
+  elevation, 3/10-player paid matches, private refresh, refunds and disputes.
+- [ ] Configure the actual merchant app/webhook and monitored private support.
+- [ ] Verify real PayPal sandbox checkout/card eligibility, webhook delivery
+  and refunds before explicitly approving live charges.
+- [ ] Review merchant disclosures/taxes/consumer law and human balance/fun.
+  Remote phone-room play remains future work, not part of the purchase.
 
 - Offer premium mysteries and themed bundles alongside complete free mysteries.
 - One host purchases access; guests join that host's game without paying.
-- Starting price experiments: $5-$10 per story and $15-$25 per bundle.
-  These are hypotheses, not promises of revenue or final prices.
+- Current approved price: $9.99 USD once for both social-deduction games.
+  See [payment operations](PAYMENTS.md) for source-backed price context,
+  exact format, merchant gates and remaining activation checks.
 - Show theme, content guidance, player counts, included editions, and replay
   terms before checkout.
 - Store purchases and access rights in the backend, not a browser flag.
@@ -138,8 +148,10 @@ valid HTTPS, game UI, workshop/account UI, public catalog, and backend CORS.
 The local router's stale negative DNS cache expired; ordinary shared-browser,
 Node fetch, curl HTTPS, and a fresh workshop browser test now pass without
 DNS overrides. GitHub Pages remains a separate testing
-site. Public signup and complete email-flow testing are still pending. No payment
-integration or paid content has been launched.
+site. Public signup and complete email-flow testing were still pending at that
+initial deployment. The completed account checks below supersede that status.
+The premium implementation now exists behind merchant activation gates; no
+real payments are accepted until actual sandbox and merchant checks pass.
 
 The static deployment build passed five packaging/workflow regression tests;
 the initial 47 output assets matched source byte-for-byte. A traffic notice adds

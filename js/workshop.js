@@ -3,9 +3,9 @@ import { normalizeStory } from './story.js?v=workshop-v1';
 import { REVIEW_ITEMS, blankStory, createPrompt, checkDraft, editedDraft, isEditableStory } from './workshop-core.js';
 import { listDrafts, saveDraft, draftVersions } from './workshop-storage.js?v=reliability-v1';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory } from './library.js?v=rotating-clues-v1';
-import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=reliability-v1';
+import { communityRequest, sessionToken, sessionVersion, storeSession, emailAccounts, acceptEmailRedirect } from './community-api.js?v=premium-v1';
 import { loadAiSettings, saveAiSettings, generateText } from './ai.js?v=workshop-v1';
-import { openDeveloperLab, developerLabHtml, developerLabAction, clearDeveloperLab } from './developer-lab.js?v=developer-v2';
+import { openDeveloperLab, developerLabHtml, developerLabAction, clearDeveloperLab } from './developer-lab.js?v=premium-v1';
 
 const app = document.getElementById('workshop');
 let draft = null, user = null, view = new URLSearchParams(location.search).get('account') === '1' ? 'account' : 'home', step = 0, busy = false;
@@ -23,6 +23,7 @@ function render() {
   const headings = { home: 'Build my mystery', create: 'Make your mystery', edit: 'Your story workshop', account: 'Your account', community: 'Community stories', admin: 'Story approval', developer: 'Developer playroom' };
   app.innerHTML = `<h1>${headings[view]}</h1><nav class="row" aria-label="Workshop navigation">
     <a class="btn secondary" href="index.html">Game home</a>
+    <a class="btn secondary" href="shop.html">Premium games &amp; my purchases</a>
     ${action('home', 'My drafts')}${action('community', 'Community stories')}${action('account', user ? `Account: ${esc(user.name)}` : 'Log in')}
     ${user?.role === 'admin' ? action('admin', 'Approve stories') + action('developer', 'Developer playroom') : ''}
     </nav>
@@ -127,6 +128,7 @@ function accountHtml() {
     <label for="author-name">Public author credit (for a new account)</label><input id="author-name" autocomplete="nickname">
     <div class="row">${action('login', 'Log in', false)}${action('register', 'Create account')}${emailAccounts ? action('recover', 'Forgot password?') : ''}</div></div>`;
   return `<div class="card"><p>Logged in as ${esc(user.name)} (${esc(user.role)}).</p>${action('logout', 'Log out')}
+    <h2>Purchased games</h2><p>Your paid bundle belongs to this account across devices. Purchases do not change your account role.</p><a class="btn secondary" href="shop.html">My purchased games &amp; receipts</a>
     ${emailAccounts ? `<details ${message.includes('new password') ? 'open' : ''}><summary>Change / reset password</summary><label for="new-password">New password (12 or more characters)</label><input id="new-password" type="password" autocomplete="new-password">${action('change-password', 'Save new password')}</details>` : ''}
     <h2>Account drafts</h2>${accountDrafts.map(d => `<p>${esc(d.title)} - version ${d.revision} <button class="secondary small" data-action="cloud-open" data-id="${esc(d.id)}">Open latest</button><button class="secondary small" data-action="cloud-versions" data-id="${esc(d.id)}">Version history</button></p>`).join('') || '<p>No account backups yet.</p>'}
     <h2>My submissions</h2>${submissions.map(s => `<div class="card"><b>${esc(s.title)}</b> - version ${s.revision}<p>Status: ${esc(s.status.replaceAll('_', ' '))}</p><p>${esc(s.note)}</p></div>`).join('') || '<p>Nothing submitted yet.</p>'}</div>`;

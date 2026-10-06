@@ -1,6 +1,6 @@
 # 🕯️ Grim Gatherings
 
-A murder-mystery party web app. The host reads the current chapter's narration; every guest joins on their phone and reads one event-related clue aloud each round. **All story evidence is spoken to the group: no secret clues, private backstories or hidden motives.** Everyone reads about one other character and receives exactly one read-aloud clue about them, discusses the evidence, and votes. Assignments use complete circles or explicitly authored rotating routes.
+A murder-mystery party web app. In the free narrated mysteries, the host reads the current chapter's narration; every guest joins on their phone and reads one event-related clue aloud each round. **All free-mystery evidence is spoken to the group: no secret clues, private backstories or hidden motives.** Everyone reads about one other character and receives exactly one read-aloud clue about them, discusses the evidence, and votes. Assignments use complete circles or explicitly authored rotating routes. Separate premium social-deduction games use private roles and pass-and-play on one trusted device.
 
 **Production:** https://grimgatherings.com/ (new DNS may take time to propagate)
 
@@ -95,13 +95,14 @@ PeerJS recovery. Physical-device tests remain separate.
 
 Choose **Build a mystery** on the home screen, or open [the workshop](workshop.html).
 
-The home screen has **My account**, opening [the account screen](workshop.html?account=1) directly. Accounts are optional; guests can join and play without registering. Current account storage supports creator draft backups, revision history, and submissions, not gameplay history or purchased-content entitlements. For moderation, log in using your game administrator email/password (not your database password), then choose **Approve stories**. Only the trusted administrator role unlocks moderation; public signup does not grant it. Hiding administrator wording on the landing page is presentation, not access control.
+The home screen has **My account**, opening [the account screen](workshop.html?account=1) directly. Accounts are optional for free mysteries; guests can join and play without registering. Account storage supports creator draft backups, revision history, submissions and verified premium purchases, not cloud match history. For moderation, log in using your game administrator email/password (not your database password), then choose **Approve stories**. Only the trusted administrator role unlocks moderation; public signup and purchases do not grant it. Hiding administrator wording on the landing page is presentation, not access control.
 
 ### Owner developer playroom
 
 After signing into the workshop with the trusted administrator account, choose
-**Developer playroom**. Two original future paid-package prototypes are available
-only there, not in the game selector or community catalog:
+**Developer playroom**. Two original social-deduction prototypes are available
+there, not in the free game selector or community catalog. The premium shop
+offers the same two games separately through account-bound purchase access:
 
 - **The Lanternfall Covenant**: occult hidden factions, three boundary lanterns,
   rotating wards, anonymous visitor observations, and secret council ballots.
@@ -128,10 +129,42 @@ so this is not a durable competitive/anti-cheat or entitlement system. Server
 source is still visible in this project's GitHub repository; authenticated play
 access does not make repository source confidential.
 
-No checkout or paid access is enabled. Playtest balance and accessibility before
-release; future premium access needs server-side purchase verification and player
-entitlements. Run `npm run test:developer` and `npm run test:developer-browser`
-for engine and complete 3-10 player browser coverage.
+Run `npm run test:developer` and `npm run test:developer-browser` for engine
+and complete 3-10 player browser coverage. Human balance/fun playtesting remains
+important; automation does not certify it.
+
+### One-time premium bundle
+
+[Premium games](shop.html) offers **Shadow Societies: Two-Game Bundle**:
+The Lanternfall Covenant and The Black Ledger Society, **$9.99 USD once for both**.
+One host buys; guests play free. These are 3-10-player pass-and-play games on
+one trusted device, not separate-phone rooms or the free five-chapter format.
+Purchases belong to the signed-in game account across devices, not the PayPal
+email. Signed match snapshots save only in that browser and conceal cards when
+reopening. The owner's developer playroom remains independently admin-only.
+
+PayPal-hosted checkout supports PayPal and eligible credit/debit-card guest
+checkout. No card fields or merchant secrets are served in the website.
+The backend verifies order amount, currency, merchant, purchase reference and
+completed capture; return links or PayPal.Me transfers never grant access.
+Verified webhooks recover approved orders when the buyer never returns and
+handle refunds, reversals and disputes. Buyers cannot change account roles,
+payment totals or entitlements. Owner-only payment management lists the latest
+50 receipts and can issue confirmed full refunds. Private support is required
+before selling; public GitHub issues must not contain receipts or account data.
+
+**Real charging stays disabled until merchant setup and a real PayPal sandbox
+test are completed.** Local API/browser tests use a simulated PayPal provider
+and real PostgreSQL; they are not evidence of merchant/card eligibility or real
+payments. Live checkout is restricted to the production origin; testing can
+read purchases but cannot start real checkout. Sandbox purchases are owner-only
+and isolated from live purchases.
+
+See [payment operations](PAYMENTS.md) for environment secrets, migration,
+webhook setup, activation gates, recovery/refunds, price research and remaining
+merchant checks. Run `npm run test:payments`, `npm run test:payments-browser`
+and `npm run check:edge`. The optional SQLite community server does not sell
+premium access; payments use the hosted Supabase service.
 
 1. Choose **3-24 players**, five or six rounds, a setting and an idea. Optional characters are entered one per line as `Name | job`. Instructions are simple; story content is intended for teens and adults, not young children.
 2. Open the draft. Its reader assignments are preplanned: every round has unique targets, no self-targets, and every reader changes targets. Readers cover all other characters before repeating when rounds permit; a five-round story cannot cover 23 other characters for each reader.

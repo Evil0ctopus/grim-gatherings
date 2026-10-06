@@ -1,5 +1,6 @@
 import { checkDraft, isEditableStory } from '../js/workshop-core.js';
 import { createDeveloperLab } from './developer-lab.js';
+import { createPremiumPayments } from './premium-payments.js';
 
 class ApiError extends Error {
   constructor(status, message) { super(message); this.status = status; }
@@ -30,7 +31,7 @@ function playable(content) {
   return checked.story;
 }
 
-export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteUrl, registration = true, fetchImpl = fetch }) {
+export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteUrl, registration = true, paypal = {}, fetchImpl = fetch }) {
   requireValue(url && anonKey && serviceKey && Array.isArray(origins) && origins.length &&
     siteUrl && origins.includes(new URL(siteUrl).origin), 500, 'Configure Supabase keys, GG_ALLOWED_ORIGINS and GG_SITE_URL on the server.');
   const project = new URL(url);
@@ -61,6 +62,8 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     return data;
   }
   const rpc = (name, body) => upstream(`/rest/v1/rpc/${name}`, { method: 'POST', body, admin: true });
+  const payments = createPremiumPayments({ rpc, config: paypal, siteUrl, fetchImpl });
+  const premiumGames = createDeveloperLab(serviceKey, { namespace: `premium-${payments.environment}`, resume: true });
   async function profile(authUser) {
     requireValue(authUser?.id && authUser?.email, 401, 'Please log in again.');
     const name = typeof authUser.user_metadata?.name === 'string' && authUser.user_metadata.name.trim()
@@ -132,6 +135,8 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
       }
     }
     if (pathname === '/api/community' && req.method === 'GET') return rpc('gg_catalog', { p_id: null });
+    if (pathname === '/api/shop' && req.method === 'GET') return payments.catalog(null, req.headers.get('origin'));
+    if (pathname === '/api/paypal/webhook' && req.method === 'POST') return payments.webhook(req, await bodyFor(req));
     const publicId = /^\/api\/community\/([^/]+)$/.exec(pathname)?.[1];
     if (publicId && req.method === 'GET') return rpc('gg_catalog', { p_id: uuid(publicId) });
     const token = /^Bearer (.+)$/.exec(req.headers.get('authorization') || '')?.[1];
@@ -139,6 +144,15 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     // Never trust decoded JWT claims or user-supplied metadata roles.
     const user = await profile(await upstream('/auth/v1/user', { token }));
     if (pathname === '/api/auth/me' && req.method === 'GET') return { user };
+    if (pathname === '/api/purchases' && req.method === 'GET') return payments.catalog(user, req.headers.get('origin'));
+    if (pathname === '/api/purchases/orders' && req.method === 'POST') return payments.create(user, await bodyFor(req), req.headers.get('origin'));
+    if (pathname === '/api/purchases/capture' && req.method === 'POST') return payments.capture(user, await bodyFor(req));
+    if (pathname === '/api/premium/games') {
+      const library = await rpc('gg_purchases', { p_user: user.id, p_environment: payments.environment });
+      requireValue(library.owned, 403, 'Buy the two-game bundle with this account before playing. Purchase access never grants administrator privileges.');
+      if (req.method === 'GET') return premiumGames.catalog();
+      if (req.method === 'POST') return premiumGames.act(await bodyFor(req), user.id);
+    }
     if (pathname === '/api/auth/logout' && req.method === 'POST') {
       await upstream('/auth/v1/logout?scope=global', { method: 'POST', token });
       return { loggedOut: true };
@@ -179,6 +193,13 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     }
     if (pathname.startsWith('/api/admin/')) {
       requireValue(user.role === 'admin', 403, 'Only the site administrator can review submissions.');
+      if (pathname === '/api/admin/purchases' && req.method === 'GET') return payments.adminOrders(user);
+      if (pathname === '/api/admin/purchases/refund' && req.method === 'POST') {
+        const body = await bodyFor(req);
+        body.id = uuid(body.id);
+        requireValue(body.confirm === true, 400, 'Confirm the full refund and access removal.');
+        return payments.refund(user, body);
+      }
       if (pathname === '/api/admin/developer' && req.method === 'GET') return developerLab.catalog();
       if (pathname === '/api/admin/developer' && req.method === 'POST') {
         return developerLab.act(await bodyFor(req), user.id);

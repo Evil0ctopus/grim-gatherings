@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { checkDraft } from '../js/workshop-core.js';
 import { createDeveloperLab } from './developer-lab.js';
 import { SITE_FILES } from '../tools/build-site.mjs';
+import { PREMIUM_BUNDLE } from './premium-payments.js';
 
 const scrypt = promisify(scryptCallback);
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -160,6 +161,9 @@ export async function createCommunityServer({
   }
   async function api(req, pathname) {
     if (pathname === '/api/health' && req.method === 'GET') return { available: true, registration };
+    const closedShop = () => ({ bundle: PREMIUM_BUNDLE, owned: false, orders: [], environment: 'live',
+      checkoutEnabled: false, checkoutNotice: 'Purchases require the hosted Supabase payment service. This local community server does not accept payments.' });
+    if (pathname === '/api/shop' && req.method === 'GET') return closedShop();
     if (['/api/auth/login', '/api/auth/register'].includes(pathname) && req.method === 'POST') {
       throttle(attempts, `ip:${req.socket.remoteAddress}`, 120, 15 * 60 * 1000);
       const body = await readBody(req);
@@ -192,6 +196,10 @@ export async function createCommunityServer({
       return { story };
     }
     const user = userFor(req);
+    if (pathname === '/api/purchases' && req.method === 'GET') return closedShop();
+    if (pathname.startsWith('/api/purchases/') || pathname.startsWith('/api/premium/') || pathname.startsWith('/api/admin/purchases')) {
+      throw new ApiError(501, 'Payments and purchased games require the hosted Supabase payment service.');
+    }
     if (pathname === '/api/auth/me' && req.method === 'GET') return { user: profile(user) };
     if (pathname === '/api/auth/logout' && req.method === 'POST') {
       db.prepare('DELETE FROM sessions WHERE token=?').run(digest(req.headers.authorization.slice(7)));

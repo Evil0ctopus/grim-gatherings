@@ -16,7 +16,7 @@ const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/
 if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=visitor-review-v1');
+    const { startHost } = await import('./host.js?v=premium-v1');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);

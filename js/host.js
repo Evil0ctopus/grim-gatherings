@@ -4,7 +4,7 @@ import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=visitor-review-v1';
 import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=workshop-v1';
-import { communityRequest } from './community-api.js?v=reliability-v1';
+import { communityRequest } from './community-api.js?v=premium-v1';
 import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
 import { STARTER_MYSTERIES } from './starters.js?v=visitor-review-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
@@ -105,6 +105,7 @@ function renderLanding() {
       <button class="block" data-act="new" id="btn-new">Create a new game</button>
       <a class="btn secondary block" href="workshop.html">Build a mystery</a>
       <a class="btn secondary block" href="workshop.html?account=1">My account</a>
+      <a class="btn secondary block" href="shop.html">Premium games - two-game bundle</a>
       ${saved && saved.room ? `<button class="block secondary" data-act="resume" id="btn-resume">Resume “${esc(saved.story?.title || 'Untitled')}” · room ${esc(saved.room)}</button>` : ''}
     </div>
     <div class="card stack">

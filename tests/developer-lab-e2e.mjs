@@ -90,7 +90,7 @@ try {
   await click(page, 'register');
   check('regular author has no developer entry', await page.locator('[data-action="developer"]').count() === 0);
   check('regular author cannot fetch prototypes', await page.evaluate(async () => {
-    const api = await import('/js/community-api.js?v=reliability-v1');
+    const api = await import('/js/community-api.js?v=premium-v1');
     try { await api.communityRequest('/api/admin/developer'); return false; }
     catch (e) { return e.status === 403; }
   }));

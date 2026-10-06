@@ -80,7 +80,7 @@ export function createCommunityClient({ endpoint = '', provider = 'node', storag
   }
   async function request(path, options = {}) {
     const isAuthStart = /^\/api\/auth\/(login|register|recover|refresh)$/.test(path);
-    const isPublic = (options.method || 'GET') === 'GET' && /^\/api\/(?:health|community(?:\/[^/]+)?)$/.test(path);
+    const isPublic = (options.method || 'GET') === 'GET' && /^\/api\/(?:health|shop|community(?:\/[^/]+)?)$/.test(path);
     if (isPublic || isAuthStart) return send(path, { ...options, token: isPublic ? '' : (options.token || '') });
     const current = stored();
     let accessToken = options.token ?? (current?.token || '');

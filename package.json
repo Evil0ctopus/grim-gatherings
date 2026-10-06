@@ -12,6 +12,8 @@
     "test:developer-browser": "node tests/developer-lab-e2e.mjs",
     "test:navigation": "node tests/host-navigation-e2e.mjs",
     "test:visitor": "node --test tests/host-wake-lock.mjs && node tests/visitor-review-e2e.mjs",
+    "test:payments": "node --test tests/premium-payments.mjs",
+    "test:payments-browser": "node tests/premium-browser.mjs",
     "check:edge": "deno check --allow-import supabase/functions/community/index.ts"
   },
   "devDependencies": {
