@@ -13,6 +13,7 @@ async function click(action) {
 }
 try {
   await page.goto(base);
+  await page.getByRole('link', { name: 'My account', exact: true }).waitFor();
   assert.equal(await page.getByRole('link', { name: 'My account', exact: true }).count(), 1);
   assert.equal(await page.getByRole('link', { name: /admin|approv/i }).count(), 0);
   await page.getByRole('link', { name: 'Build a mystery', exact: true }).click();
