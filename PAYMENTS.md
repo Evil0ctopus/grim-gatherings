@@ -171,13 +171,14 @@ webhook probe returned HTTP 403, exercising actual live OAuth and PayPal
 signature verification without creating an order or making a real charge.
 This is not a successful live checkout or a guarantee of merchant eligibility.
 
-Remaining launch checks include a provider-dashboard refund, provider
-dispute/reversal delivery, physical-device checkout and human gameplay testing,
-and owner confirmation of applicable taxes and seller disclosures. No real
-customer sale or real-money test charge has been performed. Do not open
-checkout or treat sandbox ownership as a live entitlement. The requested
-free-story polish remains deferred until payments are activated, as requested
-by the owner.
+The later follow-up below records actual dispute-created delivery and the
+owner's tax-treatment/conditional launch decision. Provider resolution/reversal
+acceptance remains incomplete. Physical-device checkout testing of the new
+premium rooms has not been established; the owner reports four human game
+playtests. No real customer sale or real-money test charge has been performed.
+Do not open checkout or treat sandbox ownership as a live entitlement.
+The requested free-story polish remains deferred until payments are activated,
+as requested by the owner.
 
 ### Follow-up launch checks: October 6, 2026
 
@@ -195,15 +196,109 @@ These checks ran against real local PostgreSQL with **simulated PayPal HTTP**,
 not actual provider dispute/refund delivery. The production health/catalog
 checks passed and checkout remained closed in live mode.
 
-The PayPal developer session had expired when actual dashboard testing was
-resumed. Both the developer-app refresh and the normal Business-to-developer
-handoff requested a new login. The owner must sign in directly to continue
-provider-dashboard refund and delivery-log checks. Do not substitute simulator
-events for provider acceptance or open real checkout while this is pending.
-Physical-phone/group testing and applicable-tax/seller-disclosure confirmation
-also remain outstanding; neither has been confirmed by the owner.
+The owner restored the PayPal developer login and actual dashboard testing
+resumed with matching sandbox credentials temporarily enabled for the owner.
+A fourth USD 9.99 purchase returned successfully and unlocked both games.
+An accountless guest joined its deployed Lanternfall room. A full USD 9.99
+refund was then issued directly from the sandbox merchant dashboard, not
+through site refund management or payment recovery. Without either site
+action, the existing guest room returned HTTP 403 with "The host no longer
+has active bundle access" and its UI removed the room view. This verifies
+actual provider-dashboard refund delivery and room-access revocation, not
+just the simulated regression above. The room was in the lobby; actual
+mid-match provider-refund acceptance is not claimed.
+
+Operator references: order `5C46447505129814X`, receipt
+`ef488210-f389-4569-8f43-f7e256f63ba8`, capture `7DR93466VX357623N`,
+dashboard refund `80P34378L3402972U`. Only sandbox funds were used.
+Matching live app/merchant/webhook credentials were restored afterward,
+with both charging gates false. The public catalog returned HTTP 200,
+live mode, checkout disabled and USD 9.99. The secrets replacement was
+confirmed and the input form cleared.
+
+The matching app's provider event detail confirms refund event
+`WH-6TE96957N7476762J-9DJ447091M225521P` has status SUCCESS and its
+first delivery attempt to webhook `7DR56420GN994032C` was DELIVERED.
+The list initially displayed a stale Pending status; the event detail
+reconciled it. The approval and capture events for the fourth purchase
+also displayed Success. No sandbox event was resent against restored
+live credentials.
+
+Actual dispute testing resumed with a fifth USD 9.99 sandbox purchase,
+order `3V379418P5342930M`, receipt
+`32908393-824c-47e9-83b6-d078fa3be2e1`, capture `7VB10556441490317`.
+Signed approval/capture webhooks unlocked the original purchasing account
+without using Check payment. Three synthetic, accountless guests joined a
+deployed Ledger room, received their own private roles, completed the first
+night and reached the vote phase.
+
+The synthetic buyer then filed case `PP-R-DHR-10190436` through the sandbox
+Resolution Center, explicitly describing it as an integration test with no
+real customer complaint. PayPal's dispute API confirmed the case against
+that capture. Created event `WH-7CB33929N2677900B-6C188209070520407`
+was recorded as disputed in the production settlement table at
+2026-10-06 23:24:36 UTC. Without a site recovery/refund action, the purchasing
+account lost access and host view, existing guest view, voting and new joining
+all returned HTTP 403. This verifies actual signed dispute delivery and
+suspension of an already-running room. The provider event-detail API confirmed
+CUSTOMER.DISPUTE.CREATED even while the event-list UI lagged.
+
+The seller escalated the synthetic case through PayPal's advertised API
+action and submitted explicit sandbox-only test notes using provide-evidence;
+both returned HTTP 200. The case reached UNDER_REVIEW / CHARGEBACK, but
+PayPal did not offer an adjudicate action. Its documented sandbox adjudicate
+endpoint returned HTTP 400 / ACTION_NOT_ALLOWED_IN_CURRENT_DISPUTE_STATE
+in both the earlier INQUIRY stage and the later CHARGEBACK stage. The merchant
+transaction page also offered no refund action while the case was under
+review. The capture is now PENDING, so no refund request was sent and no
+seller-favour restoration, buyer-favour reversal or completed refund is
+claimed for this fifth purchase. The fifth test case remains open.
+
+This is the concrete remaining provider-acceptance blocker. Matching live
+credentials were restored with both charging gates false; the Supabase
+replacement completed and its input form cleared. The public catalog again
+returned HTTP 200, live mode, USD 9.99, the approved support email and
+checkoutEnabled false. Sandbox ownership did not become live ownership.
+Any later sandbox resolution event must be inspected or retried only with
+matching sandbox credentials/webhook, never resent into live configuration.
+
+The owner reports four human game playtests
+and continuing corrections; physical-device testing specifically of the new
+premium rooms has not been established. Automated Chromium/WebKit multi-seat
+tests and the deployed synthetic room check are separate evidence, not a
+claim of physical-phone testing. Do not substitute locally simulated events
+for provider acceptance.
 
 ## Recovery, refunds and disputes
+
+### Owner tax-readiness research: October 6, 2026
+
+The owner confirmed the public business name Grim Gatherings and a Missouri
+business location, but has not yet checked tax requirements. Missouri DOR
+[LR 8408](https://dor.mo.gov/rulings/show/8408), dated September 24, 2026,
+states that the applicant's paid online software access is not subject to
+Missouri sales/use tax. [LR 8250](https://dor.mo.gov/rulings/show/8250) also
+cites 12 CSR 10-109.050(2)(I), which excludes software as a service from tax.
+The older ruling's three-year binding period has elapsed, and both rulings
+are applicant-specific; neither is a binding determination for this business.
+
+Browser-only game access without a physical kit appears consistent with this
+guidance, but product classification should be confirmed with Missouri DOR
+or a qualified tax adviser. The guidance does not establish requirements
+for customers in other states/countries, income/self-employment tax, or
+business-name registration. Do not interpret a Missouri ZIP code as a
+worldwide no-tax determination or enable checkout on that basis alone.
+
+The owner subsequently directed use of the September 2026 ruling as the
+Missouri tax-treatment basis for the current browser-only bundle. Record
+this as the owner's business decision, not as a binding ruling issued to
+Grim Gatherings or confirmation of other jurisdictions' requirements.
+No verified nearby seller's public tax policy was found; lack of a
+competitor tax statement is not evidence that tax is unnecessary.
+
+The owner has authorized live launch after the remaining payment checks,
+using that Missouri treatment basis, and plans to call Missouri DOR for
+confirmation the following day. No real-money test charge is authorized.
 
 Purchase UUIDs generate stable create/capture/refund request IDs. A pending
 capture cannot start another charge even after a day. Return tokens are only
