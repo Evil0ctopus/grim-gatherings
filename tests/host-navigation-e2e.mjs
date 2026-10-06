@@ -17,7 +17,7 @@ try {
       const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
       const page = await context.newPage();
       const errors = [];
-      page.on('pageerror', e => errors.push(e.message));
+      page.on('pageerror', e => errors.push({ message: e.message, stack: e.stack }));
       await page.addInitScript(() => {
         window.testPeers = [];
         window.Peer = class {
@@ -27,9 +27,21 @@ try {
         };
       });
       await page.route('**/vendor/peerjs.min.js', route => route.fulfill({ contentType: 'text/javascript', body: '' }));
+      // Isolate host history from analytics unload requests and beacon integrity checks.
+      await page.route('**/*', async route => {
+        if (route.request().resourceType() !== 'document') return route.fallback();
+        const response = await route.fetch();
+        const body = (await response.text()).replace(/<script\b[^>]*src="https:\/\/static\.cloudflareinsights\.com\/[^"]*"[^>]*>[\s\S]*?<\/script>/g, '');
+        await route.fulfill({ response, body });
+      });
+      const workshop = async () => {
+        const health = liveBase ? page.waitForResponse(response => new URL(response.url()).pathname.endsWith('/api/health')) : null;
+        await page.goto(new URL('workshop.html', base).href);
+        if (health) await (await health).finished();
+      };
       const landing = () => page.locator('#btn-new').waitFor();
       const setup = () => page.locator('#guest-name').waitFor();
-      await page.goto(new URL('workshop.html', base).href);
+      await workshop();
       await page.goto(base);
       await landing();
       const startLength = await page.evaluate(() => history.length);
@@ -47,7 +59,7 @@ try {
         (await page.locator('#app').innerText()).includes('Safari Guest'));
       await page.goBack(); await landing(); await page.goForward(); await setup();
       check(`${name}: Forward restores setup`, page.url().endsWith('#host'));
-      await page.goto(new URL('workshop.html', base).href); await page.goBack(); await setup();
+      await workshop(); await page.goBack(); await setup();
       await page.evaluate(() => dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })));
       check(`${name}: page restoration leaves setup interactive`, await page.locator('#add-guest').isEnabled());
       await page.goBack(); await landing();
@@ -68,7 +80,8 @@ try {
       check(`${name}: home restoration does not reopen hidden host`, await page.evaluate(() => testPeers.every(p => p.destroyed)));
       await page.goForward(); await page.locator('#host-connection-help').waitFor();
       check(`${name}: Forward reconnects saved live room`, await page.evaluate(() => testPeers.some(p => !p.destroyed)));
-      check(`${name}: no browser exceptions`, errors.length === 0);
+      assert.equal(errors.length, 0, `${name}: browser exceptions ${JSON.stringify(errors)}`);
+      check(`${name}: no browser exceptions`, true);
     } finally { await browser.close(); }
   }
   console.log(`${checks} host navigation checks passed.`);
