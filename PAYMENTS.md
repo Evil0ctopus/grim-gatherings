@@ -290,6 +290,21 @@ or explain the required state/permissions for case `PP-R-DHR-10190436`,
 referencing the error above. Do not file a real payment dispute or send app
 secrets, passwords, authentication tokens or private application code.
 
+The owner subsequently signed into Technical Support. A sandbox-only
+technical question and human-escalation request were sent and verified in
+the authenticated Message Center. Only generic API error/state details
+were sent, not secrets or application code. The assistant repeatedly said
+it would connect support but could not answer; no human connection or
+technical ticket number was confirmed. The messages persist at
+[Message Center](https://www.paypal.com/smc/async).
+
+The official `https://www.paypal.com/mts` redirect was also checked. Its
+portal says it was retired August 31, 2026 and directs PayPal/Payflow users
+to the same Technical Help Center. Do not claim the retired portal offers
+another working ticket form or that the assistant's handoff text is proof
+of a filed technical case. Provider assistance is still needed to complete
+the actual resolution test; real checkout remains closed.
+
 The owner reports four human game playtests
 and continuing corrections; physical-device testing specifically of the new
 premium rooms has not been established. Automated Chromium/WebKit multi-seat
