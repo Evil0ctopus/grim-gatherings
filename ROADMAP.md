@@ -33,9 +33,9 @@ verified. A checked item means completed with evidence, not merely planned.
 - [x] Verify the sending domain in Resend (DKIM and sending DNS records).
 - [x] Configure custom SMTP and verify saved settings.
 - [x] Test real signup confirmation and confirmed-account login.
-- [ ] Test real password-reset delivery, redirects, and password replacement.
-- [ ] Keep public signup closed until those tests pass.
-- [ ] Review Auth email limits, sender tracking, and abuse controls.
+- [x] Test real password-reset delivery, redirects, and password replacement.
+- [x] Keep public signup closed until those tests pass, then open registration.
+- [x] Review Auth email limits, sender tracking, and abuse controls.
 - [x] Test a real author's save, backup, submission, requested changes,
   resubmission, owner approval, catalog visibility, and unpublishing.
 - [x] Confirm unauthorized users cannot approve stories in automated API/SQL
@@ -146,7 +146,7 @@ send/rsend CNAME records are published. Custom SMTP settings persisted after
 reload. A password-reset request from production returned HTTP 200 and appeared
 in Resend's queue, then reported Delivered. The owner confirmed inbox arrival;
 reset-link completion remains to be checked.
-Public registration remains closed.
+Public website registration opened after the account lifecycle checks below.
 
 The owner signed in on the production domain. The Story approval screen shows
 Account: Site owner and an empty submission queue; refreshing the protected
@@ -159,11 +159,20 @@ and reload, submission, owner-requested changes, revision-2 resubmission,
 approval, catalog visibility, and unpublishing passed. The temporary published
 test was removed from the public catalog. The user reported completing the
 recovery link in Edge, and the old temporary password was then rejected by the
-live login endpoint. The temporary browser credential was removed. A fresh
-login with the user's replacement password remains to be verified before
-opening website registration.
-The website API's closed-registration setting does not globally disable
-Supabase Auth signup.
+live login endpoint. The temporary browser credential was removed. The user
+then successfully logged in with their replacement password in VS Code; the
+shared production tab returned the author role and still rejected admin
+access. Redirect credentials were absent from its address.
+
+Website registration is now open: live health reports registration enabled,
+both production and testing account forms expose Create account, and the live
+registration route rejects invalid input with HTTP 400 rather than the closed
+gate's HTTP 403. Email confirmation remains required. Auth email limits are
+30/hour with a 60-second SMTP per-user interval; sender tracking is not
+configured. These limits are not comprehensive bot protection or a guarantee
+of capacity for a large launch. No CAPTCHA was added. Both websites still
+share the same backend. Setting GG_REGISTRATION=closed closes website signup
+but does not globally disable Supabase Auth signup.
 
 Private account identifiers and dashboard links belong in `.local-private/`,
 not this public roadmap. Update this checklist as each launch gate is verified.

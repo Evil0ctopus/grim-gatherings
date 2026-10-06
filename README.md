@@ -83,7 +83,7 @@ Built-in stories remain separate. Approval is server-enforced; an author cannot 
 
 ### Preferred free hosting: Supabase
 
-The website is connected to the deployed free Supabase community service. Registration remains closed until the owner account and public email delivery are ready. Existing accounts can log in; private editing still needs no account. The steps below document provisioning a new installation, not rerunning the initial migration against the already-provisioned production database.
+The website is connected to the deployed free Supabase community service. Public registration is open after live confirmation, password recovery, author permissions, and the submission/approval lifecycle were checked. New accounts require email confirmation and receive no administrator privileges. Private editing and guest gameplay still need no account. Production and testing currently share this backend and its email quotas. The steps below document provisioning a new installation, not rerunning the initial migration against the already-provisioned production database.
 
 Supabase hosts the PostgreSQL database, email/password authentication and the `community` Edge Function while the game stays on GitHub Pages. Free-plan quotas are not unlimited: currently 500 MB database storage, 50,000 monthly active users and two free active projects. Free projects may pause after a week of inactivity. Review the current [pricing](https://supabase.com/pricing), export important data and retain downloaded story backups. No paid hosting, billing enrollment or account creation is performed by this repository's scripts.
 
