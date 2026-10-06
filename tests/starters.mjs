@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { STARTER_MYSTERIES } from '../js/starters.js';
 import { adaptStoryForPlayers, getPlayerRange, upsertStory } from '../js/library.js';
 import { buildView, normalizeStory } from '../js/story.js';
+import { buildSampleStory, SAMPLE_INFO } from '../js/sample.js';
+import ravenmoorEditions from '../js/editions/sample.js';
 
 const ranges = {
   'mercy-hollow': { minPlayers: 3, maxPlayers: 8 },
@@ -35,6 +37,22 @@ const coreEvidence = {
 };
 const guestsFor = count => Array.from({ length: count }, (_, i) => ({ name: `Player ${i + 1}`, desc: `Description ${i + 1}` }));
 
+test('Ravenmoor exposes content and safe hosting notes without a fourth-wall photo reference', () => {
+  assert.match(SAMPLE_INFO.contentNote, /Poisoning, an off-screen death and a staged séance/);
+  const story = buildSampleStory(guestsFor(3));
+  assert.match(story.setting, /Content notes: poisoning, an off-screen death and a staged séance/);
+  assert.match(story.rounds[0].hostNotes, /battery-powered candle; do not blow out an open flame/);
+  const editions = Object.values(ravenmoorEditions);
+  assert.ok(editions.some(edition => edition.characters.some(character => character.id === 'pell')));
+  for (const edition of editions) {
+    const herbalist = edition.characters.find(character => character.id === 'pell');
+    if (herbalist) assert.equal(herbalist.name, 'Mother Agnes Morley');
+    assert.ok(!edition.rounds.some(round => /photograph needed to solve this edition/i.test(round.narration)));
+  }
+  assert.ok(editions.some(edition => edition.characters.some(character => character.id === 'finch')
+    && edition.rounds.some(round => round.narration.includes('Finch develops the photograph'))));
+});
+
 test('the starter catalog contains four distinct, complete fictional mysteries', () => {
   assert.equal(STARTER_MYSTERIES.length, 4);
   assert.equal(new Set(STARTER_MYSTERIES.map(entry => entry.id)).size, 4);
@@ -65,6 +83,52 @@ test('the starter catalog contains four distinct, complete fictional mysteries',
     const killer = entry.story.characters.find(c => c.id === entry.story.solution.killerId);
     assert.ok(killer && !killer.optional);
     assert.equal(killer.backstory, undefined);
+  }
+});
+
+test('Mercy Hollow varies clue introductions and keeps every accusation directed at another guest', () => {
+  const story = STARTER_MYSTERIES.find(entry => entry.id === 'mercy-hollow').story;
+  for (const [count, edition] of Object.entries(story.editions)) {
+    const characterIds = new Set(edition.characters.map(character => character.id));
+    edition.rounds.forEach((round, roundIndex) => {
+      const clues = edition.characters.map(character => character.rounds[roundIndex].readAloud);
+      edition.characters.forEach((character, index) => {
+        const clue = clues[index];
+        assert.ok(characterIds.has(clue.accuses));
+        assert.notEqual(clue.accuses, character.id);
+      });
+      const introductions = clues.map(clue => clue.text.match(/^[\s\S]*?(?:: |\. )/)?.[0]);
+      assert.ok(new Set(introductions).size > 1, `Openers repeat in ${count}-player round ${roundIndex + 1}`);
+    });
+  }
+});
+
+test('Blackthorn timeline and four-player read-aloud assignments stay consistent', () => {
+  const editions = STARTER_MYSTERIES.find(entry => entry.id === 'blackthorn-farm').story.editions;
+  for (const [count, edition] of Object.entries(editions)) {
+    assert.match(edition.rounds[0].narration, /Otto carried the map in intact; it was torn before his body was found/);
+  }
+  assert.match(editions[3].rounds[0].narration, /The host reads Emil's written discovery and stair-repair account aloud/);
+  const roundFourReaders = editions[4].rounds[3].narration
+    .split('Does the stranger story')[0]
+    .match(/\{(housekeeper|heir|mechanic|surveyor)\} (?:compares|reads|returns)[^.]*\./g);
+  assert.deepEqual(roundFourReaders.map(reader => reader.match(/\{([^}]+)\}/)[1]), ['housekeeper', 'heir', 'mechanic']);
+});
+
+test('Briar House gives the fourth-round duplicate comparison to the secretary in its four-player edition', () => {
+  const edition = STARTER_MYSTERIES.find(entry => entry.id === 'briar-house').story.editions[4];
+  const readers = edition.rounds[3].narration
+    .split('What independently checks')[0]
+    .match(/\{(daughter|secretary|solicitor|housekeeper)\} (?:reads|returns|compares)[^.]*\./g);
+  assert.deepEqual(readers.map(reader => reader.match(/\{([^}]+)\}/)[1]), ['daughter', 'housekeeper', 'secretary']);
+});
+
+test('Blackwater Row reveals Benjamin Barker only in the fifth-round scene', () => {
+  const edition = STARTER_MYSTERIES.find(entry => entry.id === 'blackwater-row').story;
+  assert.match(edition.rounds[4].narration, /BENJAMIN BARKER/);
+  assert.doesNotMatch(edition.rounds.slice(0, 4).map(round => round.narration).join('\n'), /Benjamin Barker/i);
+  for (const character of edition.characters) {
+    for (const round of character.rounds) assert.notEqual(round.readAloud.accuses, character.id);
   }
 });
 

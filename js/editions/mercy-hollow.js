@@ -60,31 +60,31 @@ export default {
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
+              "text": "{clerk} asks the room to consider {midwife}: An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {clerk} brings the case against {minister} into the discussion. {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
+              "text": "{clerk} turns attention to {minister}: {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
+              "text": "One detail about {midwife}, noted by {clerk}, deserves a closer look: {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {clerk} brings the case against {minister} into the discussion. The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
+              "text": "{clerk} questions how {minister} fits the evidence: The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
+              "text": "As the final comparison begins, {clerk} returns to {midwife}: {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
             }
           }
         ],
@@ -101,31 +101,31 @@ export default {
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
+              "text": "{midwife} turns attention to {minister}: {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
+              "text": "One detail about {clerk}, noted by {midwife}, deserves a closer look: A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
+              "text": "{midwife} questions how {minister} fits the evidence: {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
+              "text": "As the final comparison begins, {midwife} returns to {clerk}: {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
+              "text": "{midwife} asks the room to consider {minister}: {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
             }
           }
         ],
@@ -142,31 +142,31 @@ export default {
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {minister} brings the case against {clerk} into the discussion. Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
+              "text": "One detail about {clerk}, noted by {minister}, deserves a closer look: Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
+              "text": "{minister} questions how {midwife} fits the evidence: {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {minister} brings the case against {clerk} into the discussion. {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
+              "text": "As the final comparison begins, {minister} returns to {clerk}: {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
+              "text": "{minister} asks the room to consider {midwife}: The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {minister} brings the case against {clerk} into the discussion. Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
+              "text": "{minister} turns attention to {clerk}: Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
             }
           }
         ],
@@ -243,31 +243,31 @@ export default {
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
+              "text": "{clerk} asks the room to consider {midwife}: An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {clerk} brings the case against {witness} into the discussion. {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
+              "text": "{clerk} turns attention to {witness}: {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
+              "text": "One detail about {midwife}, noted by {clerk}, deserves a closer look: {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {clerk} brings the case against {witness} into the discussion. {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
+              "text": "{clerk} questions how {witness} fits the evidence: {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
+              "text": "As the final comparison begins, {clerk} returns to {midwife}: {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
             }
           }
         ],
@@ -284,31 +284,31 @@ export default {
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
+              "text": "{midwife} turns attention to {minister}: {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
+              "text": "One detail about {clerk}, noted by {midwife}, deserves a closer look: A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
+              "text": "{midwife} questions how {minister} fits the evidence: {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
+              "text": "As the final comparison begins, {midwife} returns to {clerk}: {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
+              "text": "{midwife} asks the room to consider {minister}: {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
             }
           }
         ],
@@ -325,31 +325,31 @@ export default {
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
+              "text": "One detail about {witness}, noted by {minister}, deserves a closer look: Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
+              "text": "{minister} questions how {midwife} fits the evidence: {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
+              "text": "As the final comparison begins, {minister} returns to {witness}: {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
+              "text": "{minister} asks the room to consider {midwife}: The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
+              "text": "{minister} turns attention to {witness}: {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
             }
           }
         ],
@@ -366,31 +366,31 @@ export default {
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {witness} brings the case against {clerk} into the discussion. Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
+              "text": "{witness} questions how {clerk} fits the evidence: Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {witness} brings the case against {minister} into the discussion. {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
+              "text": "As the final comparison begins, {witness} returns to {minister}: {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {witness} brings the case against {clerk} into the discussion. {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
+              "text": "{witness} asks the room to consider {clerk}: {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {witness} brings the case against {minister} into the discussion. The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
+              "text": "{witness} turns attention to {minister}: The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {witness} brings the case against {clerk} into the discussion. Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
+              "text": "One detail about {clerk}, noted by {witness}, deserves a closer look: Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
             }
           }
         ],
@@ -467,31 +467,31 @@ export default {
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
+              "text": "{clerk} asks the room to consider {midwife}: An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {clerk} brings the case against {minister} into the discussion. {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
+              "text": "{clerk} turns attention to {minister}: {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {clerk} brings the case against {witness} into the discussion. {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
+              "text": "One detail about {witness}, noted by {clerk}, deserves a closer look: {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {clerk} brings the case against {miller} into the discussion. The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
+              "text": "{clerk} questions how {miller} fits the evidence: The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
+              "text": "As the final comparison begins, {clerk} returns to {midwife}: {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
             }
           }
         ],
@@ -508,31 +508,31 @@ export default {
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
+              "text": "{midwife} turns attention to {minister}: {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {midwife} brings the case against {witness} into the discussion. {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
+              "text": "One detail about {witness}, noted by {midwife}, deserves a closer look: {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {midwife} brings the case against {miller} into the discussion. {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
+              "text": "{midwife} questions how {miller} fits the evidence: {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
+              "text": "As the final comparison begins, {midwife} returns to {clerk}: {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
+              "text": "{midwife} asks the room to consider {minister}: {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
             }
           }
         ],
@@ -549,31 +549,31 @@ export default {
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
+              "text": "One detail about {witness}, noted by {minister}, deserves a closer look: Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {minister} brings the case against {miller} into the discussion. A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
+              "text": "{minister} questions how {miller} fits the evidence: A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {minister} brings the case against {clerk} into the discussion. {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
+              "text": "As the final comparison begins, {minister} returns to {clerk}: {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
+              "text": "{minister} asks the room to consider {midwife}: The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
+              "text": "{minister} turns attention to {witness}: {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
             }
           }
         ],
@@ -590,31 +590,31 @@ export default {
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
+              "text": "{witness} questions how {miller} fits the evidence: {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {witness} brings the case against {clerk} into the discussion. A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
+              "text": "As the final comparison begins, {witness} returns to {clerk}: A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {witness} brings the case against {midwife} into the discussion. {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
+              "text": "{witness} asks the room to consider {midwife}: {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {witness} brings the case against {minister} into the discussion. The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
+              "text": "{witness} turns attention to {minister}: The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
+              "text": "One detail about {miller}, noted by {witness}, deserves a closer look: {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
             }
           }
         ],
@@ -631,31 +631,31 @@ export default {
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {miller} brings the case against {clerk} into the discussion. Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
+              "text": "As the final comparison begins, {miller} returns to {clerk}: Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {miller} brings the case against {midwife} into the discussion. {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
+              "text": "{miller} asks the room to consider {midwife}: {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {miller} brings the case against {minister} into the discussion. {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
+              "text": "{miller} turns attention to {minister}: {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {miller} brings the case against {witness} into the discussion. {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
+              "text": "One detail about {witness}, noted by {miller}, deserves a closer look: {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {miller} brings the case against {clerk} into the discussion. Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
+              "text": "{miller} questions how {clerk} fits the evidence: Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
             }
           }
         ],
@@ -732,31 +732,31 @@ export default {
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
+              "text": "{clerk} asks the room to consider {midwife}: An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {clerk} brings the case against {seamstress} into the discussion. {seamstress} hid a traveling cloak for an accused friend. Secret preparations to leave town could look like planning an escape after the murder."
+              "text": "{clerk} turns attention to {seamstress}: {seamstress} hid a traveling cloak for an accused friend. Secret preparations to leave town could look like planning an escape after the murder."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
+              "text": "One detail about {midwife}, noted by {clerk}, deserves a closer look: {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {clerk} brings the case against {seamstress} into the discussion. The ribbon sold by {seamstress} went to three households, not one. The clerk's request for a chain-clasp repair after the meeting began adds a checkable connection to the broken chain."
+              "text": "{clerk} questions how {seamstress} fits the evidence: The ribbon sold by {seamstress} went to three households, not one. The clerk's request for a chain-clasp repair after the meeting began adds a checkable connection to the broken chain."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
+              "text": "As the final comparison begins, {clerk} returns to {midwife}: {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
             }
           }
         ],
@@ -773,31 +773,31 @@ export default {
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
+              "text": "{midwife} turns attention to {minister}: {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
+              "text": "One detail about {clerk}, noted by {midwife}, deserves a closer look: A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
+              "text": "{midwife} questions how {minister} fits the evidence: {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
+              "text": "As the final comparison begins, {midwife} returns to {clerk}: {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
+              "text": "{midwife} asks the room to consider {minister}: {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
             }
           }
         ],
@@ -814,31 +814,31 @@ export default {
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
+              "text": "One detail about {witness}, noted by {minister}, deserves a closer look: Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
+              "text": "{minister} questions how {midwife} fits the evidence: {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
+              "text": "As the final comparison begins, {minister} returns to {witness}: {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
+              "text": "{minister} asks the room to consider {midwife}: The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
+              "text": "{minister} turns attention to {witness}: {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
             }
           }
         ],
@@ -855,31 +855,31 @@ export default {
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
+              "text": "{witness} questions how {miller} fits the evidence: {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {witness} brings the case against {minister} into the discussion. {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
+              "text": "As the final comparison begins, {witness} returns to {minister}: {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
+              "text": "{witness} asks the room to consider {miller}: {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {witness} brings the case against {minister} into the discussion. The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
+              "text": "{witness} turns attention to {minister}: The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
+              "text": "One detail about {miller}, noted by {witness}, deserves a closer look: {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
             }
           }
         ],
@@ -896,31 +896,31 @@ export default {
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {miller} brings the case against {seamstress} into the discussion. The black ribbon at the door matches stock sold by {seamstress}. The same kind of cloth appears with the staged warning. A purchase may trace how the threat was prepared; it does not establish magic or identify its buyer yet."
+              "text": "As the final comparison begins, {miller} returns to {seamstress}: The black ribbon at the door matches stock sold by {seamstress}. The same kind of cloth appears with the staged warning. A purchase may trace how the threat was prepared; it does not establish magic or identify its buyer yet."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {miller} brings the case against {witness} into the discussion. {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
+              "text": "{miller} asks the room to consider {witness}: {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {miller} brings the case against {seamstress} into the discussion. {seamstress} delivered a coat where land receipts lay on the clerk's table. Together with ribbon sales and the hidden cloak, those visits made the seamstress a keeper of other people's secrets."
+              "text": "{miller} turns attention to {seamstress}: {seamstress} delivered a coat where land receipts lay on the clerk's table. Together with ribbon sales and the hidden cloak, those visits made the seamstress a keeper of other people's secrets."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {miller} brings the case against {witness} into the discussion. {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
+              "text": "One detail about {witness}, noted by {miller}, deserves a closer look: {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {miller} brings the case against {seamstress} into the discussion. {seamstress}'s repair request dates the broken clasp after the meeting began. Ribbon sold to several houses cannot identify a murderer by itself. The request instead tests the timing of the chain evidence without inventing a witch."
+              "text": "{miller} questions how {seamstress} fits the evidence: {seamstress}'s repair request dates the broken clasp after the meeting began. Ribbon sold to several houses cannot identify a murderer by itself. The request instead tests the timing of the chain evidence without inventing a witch."
             }
           }
         ],
@@ -937,31 +937,31 @@ export default {
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {seamstress} brings the case against {clerk} into the discussion. Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
+              "text": "{seamstress} asks the room to consider {clerk}: Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {seamstress} brings the case against {miller} into the discussion. A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
+              "text": "{seamstress} turns attention to {miller}: A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {seamstress} brings the case against {clerk} into the discussion. {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
+              "text": "One detail about {clerk}, noted by {seamstress}, deserves a closer look: {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {seamstress} brings the case against {miller} into the discussion. The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
+              "text": "{seamstress} questions how {miller} fits the evidence: The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {seamstress} brings the case against {clerk} into the discussion. Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
+              "text": "As the final comparison begins, {seamstress} returns to {clerk}: Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
             }
           }
         ],
@@ -1038,31 +1038,31 @@ export default {
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
+              "text": "{clerk} asks the room to consider {midwife}: An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {clerk} brings the case against {minister} into the discussion. {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
+              "text": "{clerk} turns attention to {minister}: {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {clerk} brings the case against {witness} into the discussion. {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
+              "text": "One detail about {witness}, noted by {clerk}, deserves a closer look: {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {clerk} brings the case against {miller} into the discussion. The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
+              "text": "{clerk} questions how {miller} fits the evidence: The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {clerk} brings the case against {seamstress} into the discussion. {seamstress}'s repair request dates the broken clasp after the meeting began. Ribbon sold to several houses cannot identify a murderer by itself. The request instead tests the timing of the chain evidence without inventing a witch."
+              "text": "As the final comparison begins, {clerk} returns to {seamstress}: {seamstress}'s repair request dates the broken clasp after the meeting began. Ribbon sold to several houses cannot identify a murderer by itself. The request instead tests the timing of the chain evidence without inventing a witch."
             }
           }
         ],
@@ -1079,31 +1079,31 @@ export default {
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
+              "text": "{midwife} turns attention to {minister}: {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {midwife} brings the case against {witness} into the discussion. {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
+              "text": "One detail about {witness}, noted by {midwife}, deserves a closer look: {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {midwife} brings the case against {miller} into the discussion. {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
+              "text": "{midwife} questions how {miller} fits the evidence: {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {midwife} brings the case against {seamstress} into the discussion. The ribbon sold by {seamstress} went to three households, not one. The clerk's request for a chain-clasp repair after the meeting began adds a checkable connection to the broken chain."
+              "text": "As the final comparison begins, {midwife} returns to {seamstress}: The ribbon sold by {seamstress} went to three households, not one. The clerk's request for a chain-clasp repair after the meeting began adds a checkable connection to the broken chain."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {midwife} brings the case against {innkeeper} into the discussion. {innkeeper} can compare the account on the burnt deed with a bill already paid at the inn. That financial link is more specific than the innkeeper's own debt. Ward's help for the sheltered guest also revises the supposed motive for revenge."
+              "text": "{midwife} asks the room to consider {innkeeper}: {innkeeper} can compare the account on the burnt deed with a bill already paid at the inn. That financial link is more specific than the innkeeper's own debt. Ward's help for the sheltered guest also revises the supposed motive for revenge."
             }
           }
         ],
@@ -1120,31 +1120,31 @@ export default {
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
+              "text": "One detail about {witness}, noted by {minister}, deserves a closer look: Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {minister} brings the case against {miller} into the discussion. A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
+              "text": "{minister} questions how {miller} fits the evidence: A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {minister} brings the case against {seamstress} into the discussion. {seamstress} delivered a coat where land receipts lay on the clerk's table. Together with ribbon sales and the hidden cloak, those visits made the seamstress a keeper of other people's secrets."
+              "text": "As the final comparison begins, {minister} returns to {seamstress}: {seamstress} delivered a coat where land receipts lay on the clerk's table. Together with ribbon sales and the hidden cloak, those visits made the seamstress a keeper of other people's secrets."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {minister} brings the case against {innkeeper} into the discussion. Ward paid for the traveler's food at {innkeeper}'s inn. The concealment protected a guest; the account used to pay the clerk's inn bill matches the burnt deed and should be followed instead."
+              "text": "{minister} asks the room to consider {innkeeper}: Ward paid for the traveler's food at {innkeeper}'s inn. The concealment protected a guest; the account used to pay the clerk's inn bill matches the burnt deed and should be followed instead."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {minister} brings the case against {clerk} into the discussion. Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
+              "text": "{minister} turns attention to {clerk}: Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
             }
           }
         ],
@@ -1161,31 +1161,31 @@ export default {
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
+              "text": "{witness} questions how {miller} fits the evidence: {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {witness} brings the case against {seamstress} into the discussion. {seamstress} hid a traveling cloak for an accused friend. Secret preparations to leave town could look like planning an escape after the murder."
+              "text": "As the final comparison begins, {witness} returns to {seamstress}: {seamstress} hid a traveling cloak for an accused friend. Secret preparations to leave town could look like planning an escape after the murder."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {witness} brings the case against {innkeeper} into the discussion. {innkeeper} heard a boast that a coming land sale would settle the clerk's debts. Keeping a hidden guest and unpaid money quiet meant a useful motive stayed inside the common room."
+              "text": "{witness} asks the room to consider {innkeeper}: {innkeeper} heard a boast that a coming land sale would settle the clerk's debts. Keeping a hidden guest and unpaid money quiet meant a useful motive stayed inside the common room."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {witness} brings the case against {clerk} into the discussion. {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
+              "text": "{witness} turns attention to {clerk}: {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {witness} brings the case against {midwife} into the discussion. {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
+              "text": "One detail about {midwife}, noted by {witness}, deserves a closer look: {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
             }
           }
         ],
@@ -1202,31 +1202,31 @@ export default {
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {miller} brings the case against {seamstress} into the discussion. The black ribbon at the door matches stock sold by {seamstress}. The same kind of cloth appears with the staged warning. A purchase may trace how the threat was prepared; it does not establish magic or identify its buyer yet."
+              "text": "As the final comparison begins, {miller} returns to {seamstress}: The black ribbon at the door matches stock sold by {seamstress}. The same kind of cloth appears with the staged warning. A purchase may trace how the threat was prepared; it does not establish magic or identify its buyer yet."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {miller} brings the case against {innkeeper} into the discussion. {innkeeper} lied to the council about sheltering a traveler. That secrecy made the inn a possible refuge for someone avoiding investigation."
+              "text": "{miller} asks the room to consider {innkeeper}: {innkeeper} lied to the council about sheltering a traveler. That secrecy made the inn a possible refuge for someone avoiding investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {miller} brings the case against {clerk} into the discussion. {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
+              "text": "{miller} turns attention to {clerk}: {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {miller} brings the case against {midwife} into the discussion. The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
+              "text": "One detail about {midwife}, noted by {miller}, deserves a closer look: The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {miller} brings the case against {minister} into the discussion. {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
+              "text": "{miller} questions how {minister} fits the evidence: {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
             }
           }
         ],
@@ -1243,31 +1243,31 @@ export default {
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {seamstress} brings the case against {innkeeper} into the discussion. A debt notice among Ward's papers names {innkeeper}. The inn would benefit from relief from its creditor. Compare that document with the missing packet before assuming the person in debt followed Ward into the room."
+              "text": "{seamstress} asks the room to consider {innkeeper}: A debt notice among Ward's papers names {innkeeper}. The inn would benefit from relief from its creditor. Compare that document with the missing packet before assuming the person in debt followed Ward into the room."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {seamstress} brings the case against {clerk} into the discussion. A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
+              "text": "{seamstress} turns attention to {clerk}: A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {seamstress} brings the case against {midwife} into the discussion. {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
+              "text": "One detail about {midwife}, noted by {seamstress}, deserves a closer look: {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {seamstress} brings the case against {minister} into the discussion. The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
+              "text": "{seamstress} questions how {minister} fits the evidence: The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {seamstress} brings the case against {witness} into the discussion. {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
+              "text": "As the final comparison begins, {seamstress} returns to {witness}: {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
             }
           }
         ],
@@ -1284,31 +1284,31 @@ export default {
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {innkeeper} brings the case against {clerk} into the discussion. Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
+              "text": "{innkeeper} turns attention to {clerk}: Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {innkeeper} brings the case against {midwife} into the discussion. {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
+              "text": "One detail about {midwife}, noted by {innkeeper}, deserves a closer look: {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {innkeeper} brings the case against {minister} into the discussion. {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
+              "text": "{innkeeper} questions how {minister} fits the evidence: {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {innkeeper} brings the case against {witness} into the discussion. {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
+              "text": "As the final comparison begins, {innkeeper} returns to {witness}: {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {innkeeper} brings the case against {miller} into the discussion. {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
+              "text": "{innkeeper} asks the room to consider {miller}: {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
             }
           }
         ],
@@ -1385,31 +1385,31 @@ export default {
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
+              "text": "{clerk} asks the room to consider {midwife}: An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {clerk} brings the case against {witness} into the discussion. {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
+              "text": "{clerk} turns attention to {witness}: {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {clerk} brings the case against {seamstress} into the discussion. {seamstress} delivered a coat where land receipts lay on the clerk's table. Together with ribbon sales and the hidden cloak, those visits made the seamstress a keeper of other people's secrets."
+              "text": "One detail about {seamstress}, noted by {clerk}, deserves a closer look: {seamstress} delivered a coat where land receipts lay on the clerk's table. Together with ribbon sales and the hidden cloak, those visits made the seamstress a keeper of other people's secrets."
             }
           },
           {
             "readAloud": {
               "accuses": "schoolmaster",
-              "text": "At the evidence table, {clerk} brings the case against {schoolmaster} into the discussion. Ward annotated the retraction prepared with {schoolmaster}: \"Ask Pike about the payments.\" Protecting pupils explains the silence, while the annotation corroborates the notebook's financial lead."
+              "text": "{clerk} questions how {schoolmaster} fits the evidence: Ward annotated the retraction prepared with {schoolmaster}: \"Ask Pike about the payments.\" Protecting pupils explains the silence, while the annotation corroborates the notebook's financial lead."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {clerk} brings the case against {midwife} into the discussion. {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
+              "text": "As the final comparison begins, {clerk} returns to {midwife}: {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
             }
           }
         ],
@@ -1426,31 +1426,31 @@ export default {
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
+              "text": "{midwife} turns attention to {minister}: {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {midwife} brings the case against {miller} into the discussion. A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
+              "text": "One detail about {miller}, noted by {midwife}, deserves a closer look: A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {midwife} brings the case against {innkeeper} into the discussion. {innkeeper} heard a boast that a coming land sale would settle the clerk's debts. Keeping a hidden guest and unpaid money quiet meant a useful motive stayed inside the common room."
+              "text": "{midwife} questions how {innkeeper} fits the evidence: {innkeeper} heard a boast that a coming land sale would settle the clerk's debts. Keeping a hidden guest and unpaid money quiet meant a useful motive stayed inside the common room."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {midwife} brings the case against {clerk} into the discussion. {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
+              "text": "As the final comparison begins, {midwife} returns to {clerk}: {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {midwife} brings the case against {minister} into the discussion. {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
+              "text": "{midwife} asks the room to consider {minister}: {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
             }
           }
         ],
@@ -1467,31 +1467,31 @@ export default {
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
+              "text": "One detail about {witness}, noted by {minister}, deserves a closer look: Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {minister} brings the case against {seamstress} into the discussion. {seamstress} hid a traveling cloak for an accused friend. Secret preparations to leave town could look like planning an escape after the murder."
+              "text": "{minister} questions how {seamstress} fits the evidence: {seamstress} hid a traveling cloak for an accused friend. Secret preparations to leave town could look like planning an escape after the murder."
             }
           },
           {
             "readAloud": {
               "accuses": "schoolmaster",
-              "text": "At the evidence table, {minister} brings the case against {schoolmaster} into the discussion. {schoolmaster} recognized the confession's resemblance to village court forms. Helping with a retraction gave access to testimony, but that access does not explain why a supposed distant confession used local wording."
+              "text": "As the final comparison begins, {minister} returns to {schoolmaster}: {schoolmaster} recognized the confession's resemblance to village court forms. Helping with a retraction gave access to testimony, but that access does not explain why a supposed distant confession used local wording."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {minister} brings the case against {midwife} into the discussion. The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
+              "text": "{minister} asks the room to consider {midwife}: The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {minister} brings the case against {witness} into the discussion. {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
+              "text": "{minister} turns attention to {witness}: {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
             }
           }
         ],
@@ -1508,31 +1508,31 @@ export default {
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
+              "text": "{witness} questions how {miller} fits the evidence: {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {witness} brings the case against {innkeeper} into the discussion. {innkeeper} lied to the council about sheltering a traveler. That secrecy made the inn a possible refuge for someone avoiding investigation."
+              "text": "As the final comparison begins, {witness} returns to {innkeeper}: {innkeeper} lied to the council about sheltering a traveler. That secrecy made the inn a possible refuge for someone avoiding investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {witness} brings the case against {clerk} into the discussion. {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
+              "text": "{witness} asks the room to consider {clerk}: {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {witness} brings the case against {minister} into the discussion. The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
+              "text": "{witness} turns attention to {minister}: The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {witness} brings the case against {miller} into the discussion. {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
+              "text": "One detail about {miller}, noted by {witness}, deserves a closer look: {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
             }
           }
         ],
@@ -1549,31 +1549,31 @@ export default {
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {miller} brings the case against {seamstress} into the discussion. The black ribbon at the door matches stock sold by {seamstress}. The same kind of cloth appears with the staged warning. A purchase may trace how the threat was prepared; it does not establish magic or identify its buyer yet."
+              "text": "As the final comparison begins, {miller} returns to {seamstress}: The black ribbon at the door matches stock sold by {seamstress}. The same kind of cloth appears with the staged warning. A purchase may trace how the threat was prepared; it does not establish magic or identify its buyer yet."
             }
           },
           {
             "readAloud": {
               "accuses": "schoolmaster",
-              "text": "At the evidence table, {miller} brings the case against {schoolmaster} into the discussion. {schoolmaster} concealed a threat against the school. Fear of retaliation gave a reason to keep testimony and correspondence out of public view."
+              "text": "{miller} asks the room to consider {schoolmaster}: {schoolmaster} concealed a threat against the school. Fear of retaliation gave a reason to keep testimony and correspondence out of public view."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {miller} brings the case against {midwife} into the discussion. {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
+              "text": "{miller} turns attention to {midwife}: {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {miller} brings the case against {witness} into the discussion. {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
+              "text": "One detail about {witness}, noted by {miller}, deserves a closer look: {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {miller} brings the case against {seamstress} into the discussion. {seamstress}'s repair request dates the broken clasp after the meeting began. Ribbon sold to several houses cannot identify a murderer by itself. The request instead tests the timing of the chain evidence without inventing a witch."
+              "text": "{miller} questions how {seamstress} fits the evidence: {seamstress}'s repair request dates the broken clasp after the meeting began. Ribbon sold to several houses cannot identify a murderer by itself. The request instead tests the timing of the chain evidence without inventing a witch."
             }
           }
         ],
@@ -1590,31 +1590,31 @@ export default {
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {seamstress} brings the case against {innkeeper} into the discussion. A debt notice among Ward's papers names {innkeeper}. The inn would benefit from relief from its creditor. Compare that document with the missing packet before assuming the person in debt followed Ward into the room."
+              "text": "{seamstress} asks the room to consider {innkeeper}: A debt notice among Ward's papers names {innkeeper}. The inn would benefit from relief from its creditor. Compare that document with the missing packet before assuming the person in debt followed Ward into the room."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {seamstress} brings the case against {clerk} into the discussion. A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
+              "text": "{seamstress} turns attention to {clerk}: A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {seamstress} brings the case against {minister} into the discussion. {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
+              "text": "One detail about {minister}, noted by {seamstress}, deserves a closer look: {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {seamstress} brings the case against {miller} into the discussion. The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
+              "text": "{seamstress} questions how {miller} fits the evidence: The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {seamstress} brings the case against {innkeeper} into the discussion. {innkeeper} can compare the account on the burnt deed with a bill already paid at the inn. That financial link is more specific than the innkeeper's own debt. Ward's help for the sheltered guest also revises the supposed motive for revenge."
+              "text": "As the final comparison begins, {seamstress} returns to {innkeeper}: {innkeeper} can compare the account on the burnt deed with a bill already paid at the inn. That financial link is more specific than the innkeeper's own debt. Ward's help for the sheltered guest also revises the supposed motive for revenge."
             }
           }
         ],
@@ -1631,31 +1631,31 @@ export default {
           {
             "readAloud": {
               "accuses": "schoolmaster",
-              "text": "At the evidence table, {innkeeper} brings the case against {schoolmaster} into the discussion. The handwriting on the retraction draft belongs partly to {schoolmaster}, who helped prepare it. Ward carried the signed version into the records room. Access to its contents creates a question about why that particular packet disappeared."
+              "text": "{innkeeper} turns attention to {schoolmaster}: The handwriting on the retraction draft belongs partly to {schoolmaster}, who helped prepare it. Ward carried the signed version into the records room. Access to its contents creates a question about why that particular packet disappeared."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "At the evidence table, {innkeeper} brings the case against {midwife} into the discussion. {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
+              "text": "One detail about {midwife}, noted by {innkeeper}, deserves a closer look: {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "At the evidence table, {innkeeper} brings the case against {witness} into the discussion. {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
+              "text": "{innkeeper} questions how {witness} fits the evidence: {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account."
             }
           },
           {
             "readAloud": {
               "accuses": "seamstress",
-              "text": "At the evidence table, {innkeeper} brings the case against {seamstress} into the discussion. The ribbon sold by {seamstress} went to three households, not one. The clerk's request for a chain-clasp repair after the meeting began adds a checkable connection to the broken chain."
+              "text": "As the final comparison begins, {innkeeper} returns to {seamstress}: The ribbon sold by {seamstress} went to three households, not one. The clerk's request for a chain-clasp repair after the meeting began adds a checkable connection to the broken chain."
             }
           },
           {
             "readAloud": {
               "accuses": "schoolmaster",
-              "text": "At the evidence table, {innkeeper} brings the case against {schoolmaster} into the discussion. {schoolmaster} preserved Ward's request to ask Pike about payments. The threatened school explains why the teacher feared speaking; the written annotation supports a financial investigation, not an occult accusation."
+              "text": "{innkeeper} asks the room to consider {schoolmaster}: {schoolmaster} preserved Ward's request to ask Pike about payments. The threatened school explains why the teacher feared speaking; the written annotation supports a financial investigation, not an occult accusation."
             }
           }
         ],
@@ -1672,31 +1672,31 @@ export default {
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {schoolmaster} brings the case against {clerk} into the discussion. Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
+              "text": "One detail about {clerk}, noted by {schoolmaster}, deserves a closer look: Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "At the evidence table, {schoolmaster} brings the case against {minister} into the discussion. {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
+              "text": "{schoolmaster} questions how {minister} fits the evidence: {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "At the evidence table, {schoolmaster} brings the case against {miller} into the discussion. {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
+              "text": "As the final comparison begins, {schoolmaster} returns to {miller}: {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
             }
           },
           {
             "readAloud": {
               "accuses": "innkeeper",
-              "text": "At the evidence table, {schoolmaster} brings the case against {innkeeper} into the discussion. Ward paid for the traveler's food at {innkeeper}'s inn. The concealment protected a guest; the account used to pay the clerk's inn bill matches the burnt deed and should be followed instead."
+              "text": "{schoolmaster} asks the room to consider {innkeeper}: Ward paid for the traveler's food at {innkeeper}'s inn. The concealment protected a guest; the account used to pay the clerk's inn bill matches the burnt deed and should be followed instead."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "At the evidence table, {schoolmaster} brings the case against {clerk} into the discussion. Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
+              "text": "{schoolmaster} turns attention to {clerk}: Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
             }
           }
         ],

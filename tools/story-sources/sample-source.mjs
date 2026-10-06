@@ -6,7 +6,7 @@ import { preparePublicEvidence } from '../../js/public-evidence.js?v=public-only
 
 const BASE = {
   title: 'The Last Séance at Ravenmoor',
-  setting: 'Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor\'s death. A storm has washed out the only road. No one leaves until dawn.',
+  setting: 'Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor\'s death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.',
   intro: 'You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden "fever." Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.',
   victim: { name: 'Lord Ambrose Ravenmoor', description: 'Master of Ravenmoor Manor. Grieving, obsessive, and lately convinced that his wife Eleanor did not die of fever at all.' },
   rounds: [
@@ -128,7 +128,7 @@ const CHARS = [
     ],
   },
   {
-    id: 'pell', name: 'Mother Agnes Pell', role: 'The Cook & Herb-Witch',
+    id: 'pell', name: 'Mother Agnes Morley', role: 'The Cook & Herb-Witch',
     publicBlurb: 'The manor\'s cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.',
     backstory: 'Villagers come to you for remedies when they cannot afford the doctor. Some call you a witch behind your back. You grow strange things in the conservatory — for "warding off evil," you say.',
     secrets: ['You sell love charms and "remedies" that some would call poison.', 'You grow monkshood — wolfsbane — in the conservatory.'],
@@ -252,4 +252,4 @@ export function buildSampleStory(guests) {
   return story;
 }
 
-export const SAMPLE_INFO = { title: BASE.title, min: 3, ideal: '4–12', blurb: 'A gothic séance goes wrong on the anniversary of a young wife\'s death. 5 evolving evidence rounds + a reveal. Works for 3–12 guests (more get extra "mourner" characters).' };
+export const SAMPLE_INFO = { title: BASE.title, min: 3, ideal: '4–12', blurb: 'A gothic séance goes wrong on the anniversary of a young wife\'s death. 5 evolving evidence rounds + a reveal. Works for 3–12 guests (more get extra "mourner" characters).', contentNote: 'Poisoning, an off-screen death and a staged séance. No graphic descriptions.' };

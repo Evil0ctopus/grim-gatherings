@@ -2,7 +2,7 @@
 export default {
   "3": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 3 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -13,7 +13,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\nVesper is not a guest in this edition. Ambrose hired her performance before the blackout; the host reads her account of the pedal. His written instructions will be examined when found. Ashgrove, Crane and Constance investigate without an unplayed medium needing to supply a clue.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {constance} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 3-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 3-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 3-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -29,7 +29,7 @@ export default {
       },
       {
         "title": "Round 4 - The Drink That Did Not Kill",
-        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its ring description must agree with the medicine and blackout evidence; there is no photograph needed to solve this edition. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {crane} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 3-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {constance}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
+        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its description of a ring should be tested against the poison evidence and the movements in the dark. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {crane} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 3-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {constance}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "The clean decanter corrects the pouring accusation. Poison on one rim and a physician's ring focus the blackout timeline.",
         "hostNotes": "This is the fixed 3-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
@@ -185,7 +185,7 @@ export default {
   },
   "4": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 4 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -196,7 +196,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 4-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 4-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 4-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -212,7 +212,7 @@ export default {
       },
       {
         "title": "Round 4 - The Drink That Did Not Kill",
-        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its ring description must agree with the medicine and blackout evidence; there is no photograph needed to solve this edition. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 4-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {vesper}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\n{vesper} leads the comparison concerning {constance}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
+        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its description of a ring should be tested against the poison evidence and the movements in the dark. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 4-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {vesper}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\n{vesper} leads the comparison concerning {constance}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "The clean decanter corrects the pouring accusation. Poison on one rim and a physician's ring focus the blackout timeline.",
         "hostNotes": "This is the fixed 4-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
@@ -409,7 +409,7 @@ export default {
   },
   "5": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 5 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -420,7 +420,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 5-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 5-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 5-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -436,7 +436,7 @@ export default {
       },
       {
         "title": "Round 4 - The Drink That Did Not Kill",
-        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its ring description must agree with the medicine and blackout evidence; there is no photograph needed to solve this edition. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 5-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {grey}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\n{vesper} leads the comparison concerning {constance}.\n{grey} leads the comparison concerning {vesper}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
+        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its description of a ring should be tested against the poison evidence and the movements in the dark. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 5-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {grey}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\n{vesper} leads the comparison concerning {constance}.\n{grey} leads the comparison concerning {vesper}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "The clean decanter corrects the pouring accusation. Poison on one rim and a physician's ring focus the blackout timeline.",
         "hostNotes": "This is the fixed 5-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
@@ -674,7 +674,7 @@ export default {
   },
   "6": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 6 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -685,7 +685,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 6-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 6-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 6-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -701,7 +701,7 @@ export default {
       },
       {
         "title": "Round 4 - The Drink That Did Not Kill",
-        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its ring description must agree with the medicine and blackout evidence; there is no photograph needed to solve this edition. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 6-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {marsh}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\n{vesper} leads the comparison concerning {constance}.\n{grey} leads the comparison concerning {vesper}.\n{marsh} leads the comparison concerning {grey}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
+        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its description of a ring should be tested against the poison evidence and the movements in the dark. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 6-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {marsh}.\n{crane} leads the comparison concerning {ashgrove}.\n{constance} leads the comparison concerning {crane}.\n{vesper} leads the comparison concerning {constance}.\n{grey} leads the comparison concerning {vesper}.\n{marsh} leads the comparison concerning {grey}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "The clean decanter corrects the pouring accusation. Poison on one rim and a physician's ring focus the blackout timeline.",
         "hostNotes": "This is the fixed 6-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
@@ -980,7 +980,7 @@ export default {
   },
   "7": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 7 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -991,7 +991,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 7-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 7-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 7-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -1007,7 +1007,7 @@ export default {
       },
       {
         "title": "Round 4 - The Drink That Did Not Kill",
-        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its ring description must agree with the medicine and blackout evidence; there is no photograph needed to solve this edition. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 7-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {grey}.\n{crane} leads the comparison concerning {marsh}.\n{constance} leads the comparison concerning {pell}.\n{vesper} leads the comparison concerning {ashgrove}.\n{grey} leads the comparison concerning {crane}.\n{marsh} leads the comparison concerning {constance}.\n{pell} leads the comparison concerning {vesper}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
+        "narration": "The remaining brandy and the fragments of Ambrose's glass are compared. The decanter has no wolfsbane residue; the individual glass rim does. Constance drank from the same decanter and survived. Pouring the drinks is not the same as touching one rim during the blackout.\n\nThe doorway account describes a serpent-and-staff ring on the reaching hand. Ashgrove wears that physician's ring. The doorway account is recorded beside the glass findings. Its description of a ring should be tested against the poison evidence and the movements in the dark. The medium's script explains the false haunting. It does not explain the poisoned glass. The stolen candlestick explains Crane's doorway movement without making him an innocent witness by decree.\n\nKeep the earlier accusations beside these corrections. Ask which explanation fits the bottle, the shared drink and the single poisoned rim without changing any of those facts.\n\n{crane} compares the ring account with the glass findings. {constance} places her shared drink beside the decanter comparison. {vesper} matches the performance account to Ambrose's instructions.\nWhich accusation survives the clean decanter? In this 7-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {grey}.\n{crane} leads the comparison concerning {marsh}.\n{constance} leads the comparison concerning {pell}.\n{vesper} leads the comparison concerning {ashgrove}.\n{grey} leads the comparison concerning {crane}.\n{marsh} leads the comparison concerning {constance}.\n{pell} leads the comparison concerning {vesper}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "The clean decanter corrects the pouring accusation. Poison on one rim and a physician's ring focus the blackout timeline.",
         "hostNotes": "This is the fixed 7-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
@@ -1277,7 +1277,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -1327,7 +1327,7 @@ export default {
   },
   "8": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 8 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -1338,7 +1338,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 8-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 8-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 8-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -1624,7 +1624,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -1715,7 +1715,7 @@ export default {
   },
   "9": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 9 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -1726,7 +1726,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 9-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 9-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 9-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -2012,7 +2012,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -2144,7 +2144,7 @@ export default {
   },
   "10": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 10 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -2155,7 +2155,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 10-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 10-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 10-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -2441,7 +2441,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -2614,7 +2614,7 @@ export default {
   },
   "11": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 11 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -2625,7 +2625,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 11-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 11-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 11-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -2911,7 +2911,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -3125,7 +3125,7 @@ export default {
   },
   "12": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 12 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -3136,7 +3136,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 12-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 12-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 12-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -3422,7 +3422,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -3677,7 +3677,7 @@ export default {
   },
   "13": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 13 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -3688,7 +3688,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 13-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 13-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 13-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -3974,7 +3974,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -4270,7 +4270,7 @@ export default {
   },
   "14": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 14 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -4281,7 +4281,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 14-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 14-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 14-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -4567,7 +4567,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -4904,7 +4904,7 @@ export default {
   },
   "15": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 15 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -4915,7 +4915,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 15-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 15-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 15-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -5201,7 +5201,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -5579,7 +5579,7 @@ export default {
   },
   "16": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 16 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -5590,7 +5590,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 16-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 16-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 16-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -5876,7 +5876,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -6295,7 +6295,7 @@ export default {
   },
   "17": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 17 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -6306,7 +6306,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 17-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 17-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 17-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -6592,7 +6592,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -7052,7 +7052,7 @@ export default {
   },
   "18": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 18 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -7063,7 +7063,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 18-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {mourner6}.\n{mourner6} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 18-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 18-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -7349,7 +7349,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -7850,7 +7850,7 @@ export default {
   },
   "19": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 19 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -7861,7 +7861,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 19-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {mourner6}.\n{mourner6} leads the comparison concerning {mourner7}.\n{mourner7} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 19-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 19-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -8147,7 +8147,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -8689,7 +8689,7 @@ export default {
   },
   "20": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 20 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -8700,7 +8700,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 20-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {mourner6}.\n{mourner6} leads the comparison concerning {mourner7}.\n{mourner7} leads the comparison concerning {mourner8}.\n{mourner8} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 20-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 20-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -8986,7 +8986,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -9569,7 +9569,7 @@ export default {
   },
   "21": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 21 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -9580,7 +9580,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 21-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {mourner6}.\n{mourner6} leads the comparison concerning {mourner7}.\n{mourner7} leads the comparison concerning {mourner8}.\n{mourner8} leads the comparison concerning {mourner9}.\n{mourner9} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 21-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 21-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -9866,7 +9866,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -10490,7 +10490,7 @@ export default {
   },
   "22": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 22 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -10501,7 +10501,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 22-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {mourner6}.\n{mourner6} leads the comparison concerning {mourner7}.\n{mourner7} leads the comparison concerning {mourner8}.\n{mourner8} leads the comparison concerning {mourner9}.\n{mourner9} leads the comparison concerning {mourner10}.\n{mourner10} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 22-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 22-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -10787,7 +10787,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -11452,7 +11452,7 @@ export default {
   },
   "23": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 23 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -11463,7 +11463,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 23-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {mourner6}.\n{mourner6} leads the comparison concerning {mourner7}.\n{mourner7} leads the comparison concerning {mourner8}.\n{mourner8} leads the comparison concerning {mourner9}.\n{mourner9} leads the comparison concerning {mourner10}.\n{mourner10} leads the comparison concerning {mourner11}.\n{mourner11} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 23-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 23-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -11749,7 +11749,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [
@@ -12455,7 +12455,7 @@ export default {
   },
   "24": {
     "title": "The Last Séance at Ravenmoor",
-    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn.",
+    "setting": "Ravenmoor Manor — a crumbling stone estate on the fog-choked moors. Tonight is the first anniversary of Lady Eleanor Ravenmoor's death. A storm has washed out the only road. No one leaves until dawn. Content notes: poisoning, an off-screen death and a staged séance. No graphic descriptions.",
     "intro": "You have been summoned to Ravenmoor Manor by Lord Ambrose Ravenmoor. One year ago tonight, his young wife Eleanor died of a sudden \"fever.\" Now Ambrose has hired a famous medium to call her back from the grave.\n\nThe storm has swallowed the road. The candles are lit around the séance table. The clock in the hall is creeping toward midnight.\n\nSomething in this house is listening.\n\nTonight's 24 guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.",
     "victim": {
       "name": "Lord Ambrose Ravenmoor",
@@ -12466,7 +12466,7 @@ export default {
         "title": "Round 1 - The Glass in the Dark",
         "narration": "Midnight strikes. Madame Vesper presses her concealed pedal; the candles die. A chair scrapes beside Dr. Ashgrove. Someone reaches across the table. A choking sound, then breaking glass. When the candles return, Ambrose is dead, his lips blue. Ashgrove is already beside him and calls it a weak heart.\n\nConstance poured the brandy before the seance. Her own drink came from the same decanter. Crane was in the doorway during the darkness, returning to pocket a silver candlestick. Those are movements to investigate, not verdicts. Nobody may leave the stormbound manor.\n\nRead the first observations aloud. Separate what somebody did tonight from what they stood to gain. A debt can explain resentment; it cannot identify the hand at the glass.\n\n{crane} sets the broken glass beside the doorway account. {constance} describes when the shared brandy was poured. {vesper} reads the account of the pedal and blackout.\nWho moved when the light failed? In this 24-player edition, the comparison passes through the whole table:\n{ashgrove} leads the comparison concerning {crane}.\n{crane} leads the comparison concerning {constance}.\n{constance} leads the comparison concerning {vesper}.\n{vesper} leads the comparison concerning {grey}.\n{grey} leads the comparison concerning {marsh}.\n{marsh} leads the comparison concerning {pell}.\n{pell} leads the comparison concerning {finch}.\n{finch} leads the comparison concerning {wren}.\n{wren} leads the comparison concerning {ivy}.\n{ivy} leads the comparison concerning {vane}.\n{vane} leads the comparison concerning {blackwood}.\n{blackwood} leads the comparison concerning {mourner1}.\n{mourner1} leads the comparison concerning {mourner2}.\n{mourner2} leads the comparison concerning {mourner3}.\n{mourner3} leads the comparison concerning {mourner4}.\n{mourner4} leads the comparison concerning {mourner5}.\n{mourner5} leads the comparison concerning {mourner6}.\n{mourner6} leads the comparison concerning {mourner7}.\n{mourner7} leads the comparison concerning {mourner8}.\n{mourner8} leads the comparison concerning {mourner9}.\n{mourner9} leads the comparison concerning {mourner10}.\n{mourner10} leads the comparison concerning {mourner11}.\n{mourner11} leads the comparison concerning {mourner12}.\n{mourner12} leads the comparison concerning {ashgrove}.\nEvery guest reads the findings below on their phone; nobody acts out a discovery.",
         "publicText": "Ambrose dies during the staged blackout. Compare the poured drinks, scraped chair, reaching hand and doorway movement.",
-        "hostNotes": "This is the fixed 24-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
+        "hostNotes": "Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. This is the fixed 24-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects."
       },
       {
         "title": "Round 2 - The Bottle and the Wire",
@@ -12752,7 +12752,7 @@ export default {
       },
       {
         "id": "pell",
-        "name": "Mother Agnes Pell",
+        "name": "Mother Agnes Morley",
         "role": "The Cook & Herb-Witch",
         "publicBlurb": "The manor's cook and the village wise-woman. Knows every root and leaf on the moor — the healing kind and the other kind.",
         "rounds": [

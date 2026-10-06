@@ -195,6 +195,10 @@ function renderSetup() {
     <div class="card gold stack" ${ui.tab === 'sample' ? '' : 'hidden'}>
       <h2>${esc(SAMPLE_INFO.title)}</h2>
       <p>${esc(SAMPLE_INFO.blurb)}</p>
+      <details><summary>Content &amp; hosting notes</summary>
+        <p class="small">${esc(SAMPLE_INFO.contentNote)}</p>
+        <p class="small muted">For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame.</p>
+      </details>
       <p class="small muted">Players are assigned to characters at random — even the murderer. You can change each assignment on the next screen.</p>
       <button class="block" data-act="use-sample" id="use-sample">Use this mystery →</button>
     </div>

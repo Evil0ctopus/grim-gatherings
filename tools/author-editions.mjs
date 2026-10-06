@@ -18,6 +18,13 @@ const plans = {
     questions: ['Who moved when the light failed?', 'Which dispute connects to the medicine?', 'Why did Ambrose arrange this gathering?', 'Which accusation survives the clean decanter?', 'Whose account explains both deaths?'],
   },
   'mercy-hollow': {
+    clueOpeners: [
+      '{source} asks the room to consider {target}: ',
+      '{source} turns attention to {target}: ',
+      'One detail about {target}, noted by {source}, deserves a closer look: ',
+      '{source} questions how {target} fits the evidence: ',
+      'As the final comparison begins, {source} returns to {target}: ',
+    ],
     investigations: [
       ['the records-room entry', 'the missing packet', 'the warning at the body'],
       ['the false confession', 'the payment column', 'the purpose of the retraction'],
@@ -70,14 +77,14 @@ const deliveries = {
     [['housekeeper', 'heir', 'reads the kitchen-window sequence'], ['mechanic', 'heir', 'reads the discovery account beside the torn map'], ['surveyor', 'housekeeper', 'describes the missing coat button']],
     [['mechanic', 'heir', 'reads the stair-repair account'], ['housekeeper', 'surveyor', 'compares the chipped cup with the measuring-room cup'], ['surveyor', 'heir', 'lays out the attic sketches']],
     [['heir', 'housekeeper', 'places the two boundaries side by side'], ['teacher', 'surveyor', 'reads the water-access clause'], ['buyeragent', 'housekeeper', 'reads the separate survey-payment correspondence']],
-    [['neighbor', 'housekeeper', 'compares the age of the tracks with tonight\'s snow'], ['musician', 'heir', 'reads the account of the cap before supper'], ['housekeeper', 'surveyor', 'returns to the watched courtyard sequence']],
+    [['neighbor', 'housekeeper', 'compares the age of the tracks with tonight\'s snow'], ['musician', 'heir', 'reads the account of the cap before supper'], ['mechanic', 'surveyor', 'returns to the watched courtyard sequence']],
     [['mechanic', 'housekeeper', 'reads the button-match findings'], ['heir', 'surveyor', 'reads Otto\'s confrontation annotation'], ['postmaster', 'housekeeper', 'returns to the correspondence identifying the amendment']],
   ],
   'briar-house': [
     [['secretary', 'daughter', 'reads Iris\'s signed receipt entry'], ['housekeeper', 'solicitor', 'describes the exit with a folded document'], ['daughter', 'housekeeper', 'places the appointment account beside the missing papers']],
     [['secretary', 'housekeeper', 'reads the duplicate will'], ['daughter', 'solicitor', 'reads Cecily\'s repayment letter'], ['housekeeper', 'daughter', 'distinguishes her household shortfall from the trust']],
     [['housekeeper', 'daughter', 'explains the continuing bell mechanism'], ['secretary', 'solicitor', 'reads Cecily\'s instructions to keep copies'], ['doctor', 'daughter', 'compares the untouched complaints with the missing papers']],
-    [['daughter', 'housekeeper', 'reads the appointment note'], ['housekeeper', 'solicitor', 'returns to the no-intervening-entry account'], ['nephew', 'daughter', 'compares the inheritance rumor with the duplicate']],
+    [['daughter', 'housekeeper', 'reads the appointment note'], ['housekeeper', 'solicitor', 'returns to the no-intervening-entry account'], ['secretary', 'daughter', 'compares the inheritance rumor with the duplicate']],
     [['secretary', 'daughter', 'reads the retained carbon page'], ['foreman', 'housekeeper', 'compares the larger trust transfers with the smaller allowance'], ['solicitor', 'housekeeper', 'reads the receipt and appointment against the exit account']],
   ],
 };
@@ -104,9 +111,14 @@ function authorEdition(source, family, count) {
   const plan = plans[family];
   story.intro += `\n\nTonight's ${count} guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.`;
   story.rounds.forEach((chapter, ri) => {
-    const assignments = story.characters.map(c => {
+    const assignments = story.characters.map((c, sourceIndex) => {
       const target = story.characters.find(t => t.id === c.rounds[ri].readAloud.accuses);
-      c.rounds[ri].readAloud.text = `At the evidence table, {${c.id}} brings the case against {${target.id}} into the discussion. ${c.rounds[ri].readAloud.text}`;
+      const customOpeners = plan.clueOpeners;
+      const customOpener = customOpeners?.[(ri + sourceIndex) % customOpeners.length];
+      const opener = customOpener
+        ? customOpener.replaceAll('{source}', `{${c.id}}`).replaceAll('{target}', `{${target.id}}`)
+        : `At the evidence table, {${c.id}} brings the case against {${target.id}} into the discussion. `;
+      c.rounds[ri].readAloud.text = `${opener}${c.rounds[ri].readAloud.text}`;
       return `{${c.id}} leads the comparison concerning {${target.id}}.`;
     });
     const present = new Set(story.characters.map(c => c.id));
@@ -119,7 +131,7 @@ function authorEdition(source, family, count) {
     chapter.narration = chapter.narration
       .replace('A photograph, if its keeper is present, provides a second view; it is not needed to replace the account.', story.characters.some(c => c.id === 'finch')
         ? 'Finch develops the photograph and places it beside the doorway account. Both describe the same ring; compare them instead of trusting a single witness.'
-        : 'The doorway account is recorded beside the glass findings. Its ring description must agree with the medicine and blackout evidence; there is no photograph needed to solve this edition.')
+        : 'The doorway account is recorded beside the glass findings. Its description of a ring should be tested against the poison evidence and the movements in the dark.')
       .replace('A repair request, when the seamstress is present, corroborates the timing rather than creating the only way to know it.', story.characters.some(c => c.id === 'seamstress')
         ? 'The seamstress reads the repair request made after the meeting began. It corroborates the arrival observation and recovered fragment.'
         : 'The arrival observation and recovered fragment supply the comparison; no absent player needs to produce a repair request.')
@@ -134,13 +146,16 @@ function authorEdition(source, family, count) {
       const transfer = {
         sample: 'Vesper is not a guest in this edition. Ambrose hired her performance before the blackout; the host reads her account of the pedal. His written instructions will be examined when found. Ashgrove, Crane and Constance investigate without an unplayed medium needing to supply a clue.',
         'mercy-hollow': 'Mara is not a guest in this edition. Her signed corridor statement and retraction are read by the host, so all three guests can examine the same account.',
-        'blackthorn-farm': 'Emil is not a guest in this edition. His written discovery and stair-repair account is read by the host; Clara, Marta and Adler compare it with the objects.',
+        'blackthorn-farm': 'Emil is not a guest in this edition. The host reads Emil\'s written discovery and stair-repair account aloud; Clara, Marta and Adler compare it with the objects.',
         'briar-house': 'Iris is not a guest in this edition. Her receipt book and written discovery account are read by the host; the three guests have her retained documents, not a missing player\'s secret.',
       };
       if (ri === 0) chapter.narration += `\n\n${transfer[family]}`;
     }
     chapter.narration += `\n\n${scene}\n${plan.questions[ri]} In this ${count}-player edition, the comparison passes through the whole table:\n${assignments.join('\n')}\nEvery guest reads the findings below on their phone; nobody acts out a discovery.`;
-    chapter.hostNotes = `This is the fixed ${count}-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects.`;
+    const hostNotes = `This is the fixed ${count}-player edition. Read the entire chapter, including the investigation handoffs. Then every guest reads their assigned evidence. The cast and scripts stay locked even if a phone disconnects.`;
+    chapter.hostNotes = family === 'sample' && ri === 0
+      ? `Content note: poisoning, an off-screen death and a staged séance; no graphic descriptions. For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame. ${hostNotes}`
+      : hostNotes;
   });
   const result = normalizeStory(story);
   if (result.errors.length) throw new Error(`${family}/${count}: ${result.errors.join('; ')}`);
