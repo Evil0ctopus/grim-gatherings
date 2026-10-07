@@ -1,6 +1,6 @@
-import mercy from './editions/mercy-hollow.js?v=story-polish-v1';
-import farm from './editions/blackthorn-farm.js?v=story-polish-v1';
-import briar from './editions/briar-house.js?v=story-polish-v1';
+import mercy from './editions/mercy-hollow.js?v=story-polish-v2';
+import farm from './editions/blackthorn-farm.js?v=story-polish-v2';
+import briar from './editions/briar-house.js?v=story-polish-v2';
 import blackwater from './editions/blackwater-row.js?v=blackwater-story-v2';
 
 function catalog(editions) {

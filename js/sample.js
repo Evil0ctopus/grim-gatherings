@@ -1,4 +1,4 @@
-import editions from './editions/sample.js?v=story-polish-v1';
+import editions from './editions/sample.js?v=story-polish-v2';
 import { selectEdition } from './edition-selection.js?v=count-editions-v1';
 import { shuffle } from './util.js';
 
