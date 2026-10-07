@@ -106,13 +106,59 @@ test('Mercy Hollow varies clue introductions and keeps every accusation directed
 test('Blackthorn timeline and four-player read-aloud assignments stay consistent', () => {
   const editions = STARTER_MYSTERIES.find(entry => entry.id === 'blackthorn-farm').story.editions;
   for (const [count, edition] of Object.entries(editions)) {
-    assert.match(edition.rounds[0].narration, /Otto carried the map in intact; it was torn before his body was found/);
+    if (count === '3') {
+      assert.match(edition.rounds[0].narration, /intact sale map; the map beside him is torn/);
+    } else {
+      assert.match(edition.rounds[0].narration, /Otto carried the map in intact; it was torn before his body was found/);
+    }
   }
-  assert.match(editions[3].rounds[0].narration, /The host reads Emil's written discovery and stair-repair account aloud/);
+  assert.match(editions[3].rounds[0].narration, /Marta watched a survey coat leave the side door/);
   const roundFourReaders = editions[4].rounds[3].narration
     .split('Does the stranger story')[0]
     .match(/\{(housekeeper|heir|mechanic|surveyor)\} (?:compares|reads|returns)[^.]*\./g);
   assert.deepEqual(roundFourReaders.map(reader => reader.match(/\{([^}]+)\}/)[1]), ['housekeeper', 'heir', 'mechanic']);
+});
+
+test('Blackthorn three-player pilot separates rotating clues, narrator events, votes and final reveal', () => {
+  const edition = STARTER_MYSTERIES.find(entry => entry.id === 'blackthorn-farm').story.editions[3];
+  assert.equal(edition.clueRouting, 'rotating');
+  assert.equal(edition.edition.revision, 2);
+  assert.deepEqual(normalizeStory(edition).errors, []);
+  assert.deepEqual(normalizeStory(edition).warnings, []);
+
+  for (const [roundIndex, round] of edition.rounds.entries()) {
+    assert.ok(round.narration.length > 150);
+    assert.doesNotMatch(round.narration, /\{\w+\}|leads the comparison|investigation handoff/i);
+    assert.match(round.hostNotes, /narrator's chapter aloud.*assigned clue.*discussion and accusations.*round vote/i);
+    const incoming = [];
+    for (const character of edition.characters) {
+      const clue = character.rounds[roundIndex].readAloud;
+      assert.notEqual(clue.accuses, character.id);
+      assert.ok(clue.text.includes(`{${clue.accuses}}`));
+      assert.ok(clue.text.length > 100);
+      assert.doesNotMatch(clue.text, /\bI (?:saw|watched|found)\b/);
+      incoming.push(clue.accuses);
+    }
+    assert.equal(new Set(incoming).size, 3);
+  }
+
+  for (const character of edition.characters) {
+    const targets = character.rounds.map(round => round.readAloud.accuses);
+    assert.deepEqual(targets.slice(0, 2), [...new Set(targets)]);
+    targets.slice(1).forEach((target, index) => assert.notEqual(target, targets[index]));
+  }
+
+  assert.ok(edition.solution.revealNarration.length > 500);
+  assert.match(edition.solution.revealNarration, /Leon Adler/);
+  assert.match(edition.solution.revealNarration, /paid|payment/);
+  assert.match(edition.solution.revealNarration, /concealed stair/);
+  assert.match(edition.solution.revealNarration, /Marta|Clara/);
+
+  const story = normalizeStory(edition).story;
+  const state = { story, claims: {}, votes: {}, phase: 'round', roundIndex: 0 };
+  assert.equal(buildView(state, story.characters[0].id).evidenceHistory.length, 0);
+  state.phase = 'vote';
+  assert.equal(buildView(state, story.characters[0].id).evidenceHistory.length, 1);
 });
 
 test('Briar House gives the fourth-round duplicate comparison to the secretary in its four-player edition', () => {
@@ -156,7 +202,11 @@ for (const entry of STARTER_MYSTERIES) {
           assert.ok(character.rounds[4].readAloud.text);
         } else {
           assert.equal(count, 3);
-          assert.match(result.story.rounds[0].narration, /not a guest in this edition/);
+          if (entry.id === 'blackthorn-farm' && count === 3) {
+            assert.match(result.story.rounds[0].narration, /Emil arrived/);
+          } else {
+            assert.match(result.story.rounds[0].narration, /not a guest in this edition/);
+          }
         }
       }
       const validIds = new Set([...result.story.characters.map(c => c.id), 'victim']);

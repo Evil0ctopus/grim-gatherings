@@ -97,7 +97,7 @@ test('stories enforce the exact five-to-six round range on import and saved-game
 test('round 4 explicitly revisits earlier innocent suspicion without changing the crime', () => {
   const arcs = [
     [stories[0], 'midwife', /concealed a sister/, /protection for a sister/],
-    [stories[1], 'heir', /hid the original/, /preserves|truthful inheritance/],
+    [stories[1], 'heir', /hid the original/, /preserves|truthful inheritance|keeps the spring/],
     [stories[2], 'daughter', /hid Cecily's letter/, /still provides/],
     [stories.find(story => story.edition?.family === 'sample'), 'constance', /gambling debts/, /same decanter and survived/],
     [example, 'nell', /inherits the land/, /argument happened an hour before/],
@@ -119,7 +119,7 @@ test('required public evidence still carries the final chain at every supported 
       assert.equal(evidenceAgainst(story, story.solution.killerId, 4), evidenceAgainst(entry.story.editions[n], story.solution.killerId, 4));
       const document = entry.id === 'blackwater-row' ? /court file/ : /notebook|ledger|carbon/;
       assert.match(evidenceAgainst(story, story.solution.killerId, 4), document);
-      assert.equal(story.solution.explanation, entry.story.solution.explanation);
+      assert.equal(story.solution.explanation, entry.story.editions[n].solution.explanation);
     }
   }
 });

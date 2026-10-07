@@ -35,9 +35,15 @@ for (const family of families) {
       narrations.add(JSON.stringify(selected.rounds.map(r => r.narration)));
       for (const character of selected.characters) {
         selected.rounds.forEach((round, ri) => {
-          assert.ok(round.narration.includes(`{${character.id}} leads the comparison`), `${character.name} needs an investigation handoff`);
+          if (family.id === 'blackthorn-farm' && count === 3) {
+            assert.doesNotMatch(round.narration, /\bleads the comparison\b/);
+          } else {
+            assert.ok(round.narration.includes(`{${character.id}} leads the comparison`), `${character.name} needs an investigation handoff`);
+          }
           const clue = character.rounds[ri].readAloud;
-          const reference = family.id === 'blackwater-row' ? clue.accuses : character.id;
+          const reference = family.id === 'blackwater-row' || (family.id === 'blackthorn-farm' && count === 3)
+            ? clue.accuses
+            : character.id;
           assert.ok(clue.text.includes(`{${reference}}`));
         });
       }

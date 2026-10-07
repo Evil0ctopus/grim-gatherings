@@ -102,7 +102,7 @@ test('required public chapters establish each solution chain before reveal at sm
   const proofByRound = [
     [/chair scrapes|chair.*scrapes/, /bottle.*S\.A\./, /false prescriptions.*two patients/, /rim.*wolfsbane|wolfsbane.*rim/, /removed his gloves/],
     [/Pike.*enter/, /half-burned deed/, /draft.*Pike.s handwriting/, /fragment.*broken clasp/, /missing star.*impressions/],
-    [/coat.*side door/, /stair.*Adler.s request/, /Adler signed.*boundary/, /cap.*before supper/, /button.*Adler.s coat/],
+    [/coat.*side door/, /stair.*Adler.*request/, /(?:Adler.*signed.*boundary|boundary.*Adler.*signature)/i, /cap.*(?:before supper|spare-clothes basket)/, /button.*Adler.s coat/],
     [/Pell leave.*folded/, /removed as trustee/, /bell mechanism.*continues/, /appointment note.*study/, /transfers.*private practice/],
     [/page.*torn.*delivery log/, /scrap bearing receipt 47/, /index cites receipt 47/, /route notebook.*surviving index/is, /BENJAMIN BARKER.*false delivery entry/is],
     [/Nell saw Wick climb/, /push.*oil line/, /logbook.*coast guard/, /key.*only other copy/, /Wick.s father.*insurance/],
@@ -110,7 +110,13 @@ test('required public chapters establish each solution chain before reveal at sm
   stories.forEach((story, si) => {
     const casts = castsFor(story);
     for (const adapted of [casts[0], casts.at(-1)]) {
-      adapted.rounds.forEach((chapter, ri) => assert.match(chapter.narration, proofByRound[si][ri], `${story.title}, round ${ri + 1}, ${adapted.characters.length} players`));
+      const fill = makeFill(adapted);
+      adapted.rounds.forEach((chapter, ri) => {
+        const spokenContent = si === 2 && adapted.edition.playerCount === 3
+          ? [chapter.narration, ...adapted.characters.map(character => fill(character.rounds[ri].readAloud.text))].join('\n')
+          : chapter.narration;
+        assert.match(spokenContent, proofByRound[si][ri], `${story.title}, round ${ri + 1}, ${adapted.characters.length} players`);
+      });
     }
   });
 });
