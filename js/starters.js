@@ -1,7 +1,6 @@
 import mercy from './editions/mercy-hollow.js?v=story-polish-v2';
 import farm from './editions/blackthorn-farm.js?v=story-polish-v3';
 import briar from './editions/briar-house.js?v=story-polish-v2';
-import blackwater from './editions/blackwater-row.js?v=blackwater-story-v4';
 
 function fixedStories(id, editions, details, fixedCount = 5) {
   return Object.entries(editions).filter(([count]) => Number(count) === fixedCount).map(([count, story]) => {
@@ -33,10 +32,4 @@ export const STARTER_MYSTERIES = [
     inspiration: 'Victorian New England household tension associated with the Borden case; all characters and the solution are invented.',
     contentNote: 'Family conflict, financial fraud and an off-screen death. No graphic violence.',
   }),
-  ...fixedStories('blackwater-row', blackwater, {
-    title: 'The Barber of Blackwater Row',
-    blurb: 'Five deaths, missing records and a blade hidden behind a respectable trade. Investigate Blackwater Row one crime scene at a time.',
-    inspiration: 'A five-round, Victorian revenge mystery, written for exactly four players.',
-    contentNote: 'Five off-screen deaths with slashed throats, wrongful imprisonment, coercion and revenge. No graphic descriptions.',
-  }, 4),
 ];

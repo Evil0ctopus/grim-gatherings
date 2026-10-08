@@ -1,4 +1,4 @@
-import { blankStory, REVIEW_ITEMS } from '../js/workshop-core.js';
+import { blankStory, REVIEW_ITEMS } from '../tools/story-core.mjs';
 
 export function readyDraft() {
   const story = blankStory({ count: 3, rounds: 5 });

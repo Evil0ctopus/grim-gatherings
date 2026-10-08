@@ -75,7 +75,7 @@ export function createAtmosphere() {
   document.body.append(banner);
   const controls = document.createElement('details');
   controls.className = 'atmosphere-controls';
-  controls.innerHTML = `<summary>Atmosphere</summary>
+  controls.innerHTML = `<summary>Ambience <span class="small muted">Sound &amp; effects</span></summary>
     <label class="check-row"><input type="checkbox" data-effects ${effects ? 'checked' : ''}>Visual effects</label>
     <button type="button" class="secondary small" data-sound aria-pressed="true">Mute sound</button>
     <button type="button" class="secondary small" data-test-sound>Test sound</button>

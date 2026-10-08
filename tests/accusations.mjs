@@ -6,7 +6,6 @@ import { assignAccusationCircles, validateAccusationCircles } from '../js/accusa
 import { STARTER_MYSTERIES } from '../js/starters.js';
 import { buildSampleStory } from '../js/sample.js';
 import { adaptStoryForPlayers, makeStoryTemplate } from '../js/library.js';
-import { generateStory } from '../js/ai.js';
 
 const guests = n => Array.from({ length: n }, (_, i) => ({ name: `Player ${i + 1}`, desc: '' }));
 const example = JSON.parse(fs.readFileSync(new URL('../examples/example-story.json', import.meta.url), 'utf8'));
@@ -138,31 +137,7 @@ test('old instructions never become public evidence or survive normalization', (
   assert.equal(normalizeStory(story).story, null);
 });
 
-test('AI generation requests public-only event evidence and rotating target coverage', async t => {
-  let request;
-  t.mock.method(globalThis, 'fetch', async (_, options) => {
-    request = JSON.parse(options.body);
-    return { ok: true, status: 200, json: async () => ({ choices: [{ message: { content: JSON.stringify(example) } }] }) };
-  });
-  const content = await generateStory({ base: 'https://example.invalid', model: 'test', key: 'test-only' }, 'Lighthouse', guests(3));
-  const prompt = request.messages[0].content;
-  assert.match(prompt, /"readAloud": \{"accuses"/);
-  assert.match(prompt, /coverageRepeatNote/);
-  assert.match(prompt, /first N-1 rounds every reader must target every other character exactly once/);
-  assert.match(prompt, /"clueRouting": "rotating"/);
-  assert.match(prompt, /the character talked about reads next, and if a loop closes early the next unread character starts a new loop/);
-  assert.match(prompt, /ownership was recognized/);
-  assert.match(prompt, /repeated finale.votePrompt must be neutral/);
-  assert.match(prompt, /NO secret clues/);
-  assert.match(prompt, /event-related/);
-  assert.match(prompt, /ages 13-50/);
-  assert.match(prompt, /do not assume a fixed five- or six-round story/);
-  assert.match(prompt, /no newly invented culprits/);
-  assert.doesNotMatch(prompt, /"instructions":/);
-  assert.ok(normalizeStory(content).story);
-});
-
-test('the documentation links to a valid five-round importable example', () => {
+test('the developer documentation links to a valid five-round story example', () => {
   const readme = fs.readFileSync(new URL('../README.md', import.meta.url), 'utf8');
   assert.match(readme, /\[.*examples\/example-story.json.*\]\(examples\/example-story.json\)/);
   assert.equal(example.rounds.length, 5);

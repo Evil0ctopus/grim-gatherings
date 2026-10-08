@@ -1,5 +1,5 @@
-import { normalizeStory } from './story.js?v=workshop-v1';
-import { coverageSchedule } from './accusations.js?v=universal-game-flow-v2';
+import { normalizeStory } from '../js/story.js';
+import { coverageSchedule } from '../js/accusations.js';
 
 export const REVIEW_ITEMS = {
   evidence: 'Every clue includes an observation about its target and a physical detail that contradicts the target’s explanation; sources, ownership and limits are clear.',

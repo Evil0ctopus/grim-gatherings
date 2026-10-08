@@ -1,22 +1,20 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
-import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, download, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
+import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
 import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=workshop-v1';
-import { coverageSchedule, syncAccusationSchedules } from './accusations.js?v=universal-game-flow-v2';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=story-polish-v2';
-import { loadAiSettings, saveAiSettings, generateStory } from './ai.js?v=workshop-v1';
-import { communityRequest } from './community-api.js?v=premium-v1';
-import { STORY_LIBRARY_KEY, readStoryLibrary, upsertStory, getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
-import { STARTER_MYSTERIES } from './starters.js?v=story-polish-v4';
-import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=volume-58-v1';
+import { getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
+import { STARTER_MYSTERIES } from './starters.js?v=curated-catalog-v1';
+import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=ui-refresh-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=workshop-v1';
 import { currentCharacter, releaseCharacter, retireOtherSessions, resumeSession } from './host-sessions.js?v=connection-recovery-v1';
 import { createHostWakeLock } from './host-wake-lock.js?v=visitor-review-v1';
+import { confirmAction } from './dialog.js?v=ui-refresh-v1';
 
 const KEY = HOST_SAVE_KEY;
 let S = null; // persisted host state
-const ui = { tab: 'sample', errors: [], warnings: [], busy: false, libraryError: '', community: [], communityError: '' };
+const ui = { errors: [], warnings: [] };
 let peer = null, netStatus = 'offline', restartTimer = null, peerAttemptAt = 0, peerBlocked = false, hostPaused = false;
 let atmosphere = null;
 let wakeLock = null, wakeStatus = 'inactive';
@@ -29,6 +27,13 @@ const app = () => document.getElementById('app');
 
 function restoreGame() {
   S = load();
+  if (S?.story && (S.story.provenance || !['sample', ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
+    S.story = null; S.phase = 'setup'; S.roundIndex = -1; S.chainIndex = 0;
+    S.claims = {}; S.votes = {}; S.roundVotes = {}; S.wasLive = false;
+    save();
+    toast('This saved mystery is no longer available. Choose a current mystery; your player list is kept.', 6000);
+    return;
+  }
   if (S?.story && isOutdatedStory(S.story)) {
     localStorage.removeItem(KEY);
     S = null;
@@ -60,7 +65,6 @@ export function startHost() {
   } });
   restoreGame();
   app().addEventListener('click', onClick);
-  app().addEventListener('input', onInput);
   app().addEventListener('change', onChange);
   app().addEventListener('keydown', onKeydown);
   window.addEventListener('pagehide', () => { hostPaused = true; wakeLock.setActive(false); stopPeer(); });
@@ -104,18 +108,15 @@ function renderLanding() {
       <h2>Host a gathering</h2>
       <p>Set up the story on this device (a laptop or tablet hooked to a TV is ideal). Guests join on their phones.</p>
       <button class="block" data-act="new" id="btn-new">Create a new game</button>
-      <a class="btn secondary block" href="workshop.html">Build a mystery</a>
-      <a class="btn secondary block" href="workshop.html?account=1">My account</a>
-      <a class="btn secondary block" href="shop.html">Premium games - two-game bundle</a>
-      <a class="btn secondary block" href="premium-room.html">Join a premium room - guests play free</a>
       <a class="btn secondary block" href="mafia.html">Mafia - hidden-role game</a>
-      ${saved && saved.room ? `<button class="block secondary" data-act="resume" id="btn-resume">Resume “${esc(saved.story?.title || 'Untitled')}” · room ${esc(saved.room)}</button>` : ''}
     </div>
-    <div class="card stack">
+    ${saved && saved.room ? `<section class="card resume-card"><h2>Your saved game</h2><p>${esc(saved.story?.title || 'Game preparation')} · room ${esc(saved.room)}</p><button class="secondary" data-act="resume" id="btn-resume">Resume saved game</button></section>` : ''}
+    <div class="card stack" id="join-game">
       <h2>Joining as a guest?</h2>
-      <p>Scan the host's QR code, or enter the room code:</p>
+      <p>Scan the host's QR code, or enter a free or premium story room code here.</p>
+      <label for="join-code">Room code</label>
       <div class="row"><input id="join-code" placeholder="ROOM CODE" autocapitalize="characters" autocomplete="off" maxlength="8" style="text-transform:uppercase;letter-spacing:.2em;font-size:1.3rem;flex:2">
-      <button data-act="join" style="flex:1">Join</button></div>
+      <button data-act="join" style="flex:1">Join</button></div><p class="small muted">Premium rooms are detected automatically. Mafia players use the link shown on their table screen.</p>
     </div>
     <section class="card" aria-labelledby="about-game">
       <h2 id="about-game">About Grim Gatherings</h2>
@@ -153,9 +154,7 @@ function errBox() {
 
 function renderSetup() {
   app().className = '';
-  const ai = loadAiSettings();
   const guests = getGuests();
-  const library = getStoryLibrary();
   app().innerHTML = `
     <span class="candle">🕯️</span>
     <h1>Set the Table</h1>
@@ -169,34 +168,13 @@ function renderSetup() {
       </div>
       <p class="small muted" id="guest-count">${guests.length} player${guests.length === 1 ? '' : 's'}${guests.length && guests.length < 4 ? ' — 4 or more is best' : ''}</p>
       <ul class="clean guest-list">${guests.map((g, i) => `<li class="row guest-item"><span><b>${esc(g.name)}</b>${g.desc ? ` <span class="muted">— ${esc(g.desc)}</span>` : ''}</span><button type="button" class="secondary small" data-act="remove-guest" data-index="${i}" aria-label="Remove ${esc(g.name)}">Remove</button></li>`).join('')}</ul>
-      <label for="theme">Theme / setting <span class="muted">(used by AI generation; optional)</span></label>
-      <input id="theme" data-s="theme" value="${esc(S.theme || '')}" placeholder="e.g. 1920s gothic manor, a séance gone wrong">
     </div>
-    <div class="card">
-      <h2>Your saved mysteries</h2>
-      <p class="small muted">Saved in this browser on this device. Add your players above, then choose a story to prepare it for game night.</p>
-      ${library.length ? `<ul class="clean">${library.map(entry => `<li class="row library-item">
-        <span><b>${esc(entry.title || entry.story.title || 'Untitled mystery')}</b><span class="small muted"> · ${formatPlayerRange(entry.story)}</span>${entry.story.provenance ? ` <span class="pill">User-created</span><span class="small muted"> by ${esc(entry.story.provenance.author)}</span>` : ''}</span>
-        <span class="row library-actions"><button class="small" data-act="use-saved" data-id="${esc(entry.id)}">Use story</button><button class="secondary small" data-act="delete-saved" data-id="${esc(entry.id)}" aria-label="Delete ${esc(entry.title || 'saved story')}">Delete</button></span>
-      </li>`).join('')}</ul>` : '<p class="muted">No saved stories yet. Create one, then save it from the story review screen.</p>'}
-      ${ui.libraryError ? `<p class="err" role="alert">${esc(ui.libraryError)}</p>` : ''}
-    </div>
-    <div class="card stack">
-      <h2>Create or discover a story</h2>
-      <a class="btn secondary" href="workshop.html">Story workshop - edit, save or submit</a>
-      <button class="secondary" data-act="load-community" ${ui.busy ? 'disabled' : ''}>Browse approved community stories</button>
-      ${ui.communityError ? `<p class="err" role="alert">${esc(ui.communityError)}</p>` : ''}
-      ${ui.community.map(entry => `<div><h3>${esc(entry.title)}</h3><span class="pill">User-created</span><p class="small">By ${esc(entry.author)} · approved version ${entry.revision}</p><button data-act="use-community" data-id="${esc(entry.id)}">Play this mystery</button></div>`).join('')}
-    </div>
-    <div class="tabs">
-      <button class="${ui.tab === 'sample' ? 'on' : ''}" data-act="tab" data-tab="sample">Ready-to-play mysteries</button>
-      <button class="${ui.tab === 'paste' ? 'on' : ''}" data-act="tab" data-tab="paste">Paste story JSON</button>
-      <button class="${ui.tab === 'ai' ? 'on' : ''}" data-act="tab" data-tab="ai">AI generate</button>
-    </div>
+    <h2>Ready-to-play mysteries</h2>
     ${errBox()}
-    <div class="card gold stack" ${ui.tab === 'sample' ? '' : 'hidden'}>
+    <div class="card gold stack">
       <h2>${esc(SAMPLE_INFO.title)}</h2>
       <p>${esc(SAMPLE_INFO.blurb)}</p>
+      <p class="story-meta"><span class="pill">${SAMPLE_INFO.min} players · fixed cast</span></p>
       <details><summary>Content &amp; hosting notes</summary>
         <p class="small">${esc(SAMPLE_INFO.contentNote)}</p>
         <p class="small muted">For the blackout, dim the lights or use a battery-powered candle; do not blow out an open flame.</p>
@@ -204,53 +182,19 @@ function renderSetup() {
       <p class="small muted">Players are assigned to characters at random — even the murderer. You can change each assignment on the next screen.</p>
       <button class="block" data-act="use-sample" id="use-sample">Use this mystery →</button>
     </div>
-    ${STARTER_MYSTERIES.map(entry => `<div class="card gold stack" ${ui.tab === 'sample' ? '' : 'hidden'}>
+    ${STARTER_MYSTERIES.map(entry => `<div class="card gold stack">
       <h2>${esc(entry.title)}</h2>
       <p>${esc(entry.blurb)}</p>
-      <p><span class="pill">${formatPlayerRange(entry.story)}</span> <span class="small muted">${entry.story.rounds.length} evidence rounds + reveal</span></p>
+      <p class="story-meta"><span class="pill">${formatPlayerRange(entry.story)}</span> <span class="small muted">${entry.story.rounds.length} evidence rounds + reveal</span></p>
       <p class="small muted">${esc(entry.inspiration)}</p>
       <details><summary>Content &amp; hosting notes</summary>
         <p class="small">${esc(entry.contentNote)}</p>
         <p class="small muted">This story has a fixed cast size. Every character reads one clue and receives one clue about them each round. All evidence is public. Phone disconnections never change the cast. The host does not count unless also playing a character.</p>
       </details>
-      <p class="small muted">This is a fixed-count story. Add exactly the number of players shown above, then edit anything and save your own version.</p>
+      <p class="small muted">Add exactly the number of players shown above, then assign their characters on the next screen.</p>
       <button class="block" data-act="use-starter" data-id="${esc(entry.id)}">Play this mystery →</button>
     </div>`).join('')}
-    <div class="card stack" ${ui.tab === 'paste' ? '' : 'hidden'}>
-      <h2>Paste a story</h2>
-      <p class="small muted">Paste story JSON (format in the <a href="https://github.com/Evil0ctopus/grim-gatherings#story-json-format" target="_blank" rel="noopener">README</a>). Characters without a "guest" are matched to your player list in order.</p>
-      <textarea id="json" rows="10" placeholder='{"title": "...", "characters": [...], ...}'>${esc(ui.pasteText || '')}</textarea>
-      <input type="file" id="json-file" accept=".json,application/json,text/plain">
-      <button class="block" data-act="load-json" id="load-json">Load story →</button>
-    </div>
-    <div class="card stack" ${ui.tab === 'ai' ? '' : 'hidden'}>
-      <h2>Make a mystery with AI</h2>
-      <p>Start with a theme and player list. AI will draft the mystery, characters, clues, and ending for you to review and edit.</p>
-      <ol class="small">
-        <li>Get a free Gemini API key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a>.</li>
-        <li>Paste the key below. You only need to do this once on this browser.</li>
-        <li>Choose <b>Generate story</b>, then review and save your mystery.</li>
-      </ol>
-      <p class="small muted">Gemini offers a free API tier with usage limits. Google says free-tier content may be used to improve its products, so avoid entering private or sensitive information. Your key is stored in this browser and sent to the selected AI provider; it is not shared with players.</p>
-      <details>
-        <summary>Advanced AI settings</summary>
-        <label for="ai-base">AI service address</label><input id="ai-base" value="${esc(ai.base)}">
-        <label for="ai-model">AI model</label><input id="ai-model" value="${esc(ai.model)}">
-      </details>
-      <label for="ai-key">Gemini key</label><input id="ai-key" type="password" value="${esc(ai.key)}" placeholder="Paste your Google AI Studio key" autocomplete="off">
-      <button class="block" data-act="gen-ai" id="gen-ai" ${ui.busy ? 'disabled' : ''}>${ui.busy ? 'Summoning a story… (up to a minute)' : 'Generate story →'}</button>
-    </div>
     <div class="row"><button class="secondary small" data-act="home">← Home</button></div>`;
-}
-
-function getStoryLibrary() {
-  try {
-    ui.libraryError = '';
-    return readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY)).filter(entry => !isOutdatedStory(entry.story));
-  } catch (error) {
-    ui.libraryError = error.message || 'Saved stories could not be loaded.';
-    return [];
-  }
 }
 
 function formatPlayerRange(story) {
@@ -273,33 +217,23 @@ function guestAssignmentHtml(character, characterIndex) {
     </select></div>`;
 }
 
-const fieldHtml = (label, path, val, kind = 'text') => {
-  const id = 'f-' + path.replace(/\./g, '-');
-  if (kind === 'text') return `<label for="${id}">${esc(label)}</label><input id="${id}" data-path="${path}" value="${esc(val)}">`;
-  if (kind === 'checkbox') return `<label class="check-row" for="${id}"><input id="${id}" type="checkbox" data-path="${path}" data-kind="checkbox" ${val ? 'checked' : ''}>${esc(label)}</label>`;
-  const v = kind === 'lines' ? (val || []).join('\n') : val;
-  return `<label for="${id}">${esc(label)}${kind === 'lines' ? ' <span class="muted">(one per line)</span>' : ''}</label><textarea id="${id}" data-path="${path}" ${kind === 'lines' ? 'data-kind="lines"' : ''} rows="${kind === 'big' ? 6 : 3}">${esc(v)}</textarea>`;
-};
-
 function renderReview() {
   app().className = '';
   const st = S.story;
   app().innerHTML = `
     <h1>Review the Story</h1>
     <p class="center" id="selected-edition"><span class="pill">${st.fixedPlayerCount}-player fixed story</span></p>
-    <p class="center muted">Story preparation only — do not read this review screen to players. It contains future chapters and the solution. Open the doors, read the setup aloud, then have players read their character cards around the group. Optional discussion may follow before Round 1. During each round, follow the precomputed clue chain, then deliberate and vote. All evidence must be spoken before it is used.</p>
+    <p class="center muted">Story preparation only — do not read this review screen to players. It contains future chapters and the solution. Open the doors, read the setup aloud, then have players read their character cards around the group. Optional discussion may follow before Round 1. During each round, follow the reader prompts, then deliberate and vote. All evidence must be spoken before it is used.</p>
     ${errBox()}
-    <div class="row"><button class="secondary" data-act="save-story" id="save-story">${S.libraryId ? 'Update saved mystery' : 'Save to My Stories'}</button><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
+    <div class="row"><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
-      ${fieldHtml('Tell the murderer they are the murderer (off: everyone investigates without advance knowledge)', 'discloseKiller', st.discloseKiller, 'checkbox')}
-      <p class="small muted">Off by default. This changes only the selected player's identity notification, not the clues or solution. Either mode is solvable from public evidence. Applies to this game and saved copies.</p>
-      ${fieldHtml('Title', 'title', st.title)}
+      <label class="check-row"><input type="checkbox" data-disclose-killer ${st.discloseKiller ? 'checked' : ''}>Tell the murderer they are the murderer</label>
+      <p class="small muted">Off by default. This changes only the selected player's identity notification, not the clues or solution.</p>
+      <h2>${esc(st.title)}</h2><p>${esc(st.setting)}</p>
       <label for="story-atmosphere">Story atmosphere</label>
-      <select id="story-atmosphere" data-path="atmosphere">${[['manor', 'Haunted manor'], ['witch', 'Witch-trial candlelight'], ['farm', 'Snowbound farmhouse'], ['victorian', 'Victorian lamplight']].map(([value, label]) => `<option value="${value}" ${storyTheme(st) === value ? 'selected' : ''}>${label}</option>`).join('')}</select>
-      ${fieldHtml('Setting', 'setting', st.setting, 'area')}
-      ${fieldHtml('Intro (shown to everyone before round 1)', 'intro', st.intro, 'big')}
-      ${fieldHtml('Victim name', 'victim.name', st.victim.name)}
-      ${fieldHtml('Victim description', 'victim.description', st.victim.description, 'area')}
+      <select id="story-atmosphere">${[['manor', 'Haunted manor'], ['witch', 'Witch-trial candlelight'], ['farm', 'Snowbound farmhouse'], ['victorian', 'Victorian lamplight']].map(([value, label]) => `<option value="${value}" ${storyTheme(st) === value ? 'selected' : ''}>${label}</option>`).join('')}</select>
+      ${paras(makeFill(st)(st.intro))}
+      <p><b>${esc(st.victim.name)}</b> ${esc(st.victim.description)}</p>
     </div>
     <h2>The Cast (${st.characters.length})</h2>
     <p class="small muted">Written for exactly ${formatPlayerRange(st)}. Every character is required and reads one clue about another character each round. A different group size requires a separate story, not an omitted character.</p>
@@ -308,39 +242,21 @@ function renderReview() {
         <div><b>${esc(c.name)}</b> <span class="muted">· ${esc(c.role)}${c.id === st.solution.killerId ? ' · KILLER' : ''}</span></div>
         ${guestAssignmentHtml(c, i)}
       </div>
-      <details class="editchar">
-        <summary>Edit ${esc(c.name)} <span class="muted">· ${esc(c.role)}</span>${c.id === st.solution.killerId ? ' <span class="pill bad">KILLER</span>' : ''}</summary>
-        ${fieldHtml('Guest note (shown to them: how to lean in)', `characters.${i}.guestNote`, c.guestNote)}
-        ${fieldHtml('Character name', `characters.${i}.name`, c.name)}
-        ${fieldHtml('Role', `characters.${i}.role`, c.role)}
-        ${fieldHtml('Relationship to the event or victim', `characters.${i}.relationship`, c.relationship)}
-        ${fieldHtml('How this character ties into the event', `characters.${i}.tieIn`, c.tieIn, 'area')}
-        <p class="small muted">Required character in this fixed-count story.</p>
-        ${fieldHtml('Public blurb (everyone sees)', `characters.${i}.publicBlurb`, c.publicBlurb, 'area')}
-        ${st.rounds.map((r, ri) => `<h3>${esc(r.title)}</h3>
-          <label>Read-aloud accusation target</label>
-          <select aria-label="Accusation target for ${esc(c.name)}, round ${ri + 1}" data-path="characters.${i}.rounds.${ri}.readAloud.accuses"><option value="" ${!c.rounds[ri]?.readAloud?.accuses ? 'selected' : ''}>Choose a character</option>${st.characters.filter(target => target.id !== c.id).map(target => `<option value="${esc(target.id)}" ${c.rounds[ri]?.readAloud?.accuses === target.id ? 'selected' : ''}>${esc(target.name)}</option>`).join('')}</select>
-          ${fieldHtml('Read aloud to everyone (event evidence about the target)', `characters.${i}.rounds.${ri}.readAloud.text`, c.rounds[ri]?.readAloud?.text || '', 'area')}`).join('')}
+      <details>
+        <summary>Character card: ${esc(c.name)}</summary>
+        <p>${esc(c.relationship)}</p><p>${esc(c.tieIn)}</p>${paras(c.publicBlurb)}
+        ${st.rounds.map((r, ri) => `<h3>${esc(r.title)}</h3>${paras(makeFill(st)(c.rounds[ri].readAloud.text))}`).join('')}
       </details>`).join('')}
     <h2>Rounds</h2>
-    <div class="row"><button class="secondary small" data-act="add-story-round">Add a chapter (${st.rounds.length})</button>${st.rounds.length > st.fixedPlayerCount - 1 ? '<button class="secondary small" data-act="remove-story-round">Remove final chapter</button>' : ''}</div>
     ${st.rounds.map((r, ri) => `<details><summary>${esc(r.title)}</summary>
-      ${fieldHtml('Title', `rounds.${ri}.title`, r.title)}
-      ${fieldHtml('Narration (host reads aloud)', `rounds.${ri}.narration`, r.narration, 'big')}
-      ${fieldHtml('Public text (on every phone)', `rounds.${ri}.publicText`, r.publicText, 'area')}
-      ${fieldHtml('Host notes', `rounds.${ri}.hostNotes`, r.hostNotes, 'area')}</details>`).join('')}
+      ${paras(makeFill(st)(r.narration))}
+      ${paras(makeFill(st)(r.publicText))}
+      <p class="small muted">${esc(r.hostNotes)}</p></details>`).join('')}
     <details><summary>Finale & solution (spoilers)</summary>
-      ${fieldHtml('Finale narration', 'finale.narration', st.finale.narration, 'big')}
-      ${fieldHtml('Vote prompt', 'finale.votePrompt', st.finale.votePrompt)}
-      <label for="killer">Killer</label>
-      <select id="killer" data-path="solution.killerId">${st.characters.map(c => `<option value="${esc(c.id)}" ${c.id === st.solution.killerId ? 'selected' : ''}>${esc(c.name)} (${esc(c.guest)})</option>`).join('')}</select>
-      ${fieldHtml('Solution explanation', 'solution.explanation', st.solution.explanation, 'big')}
-      ${fieldHtml('Reveal narration', 'solution.revealNarration', st.solution.revealNarration, 'big')}
-    </details>
-    <details><summary>Export / edit raw JSON</summary>
-      <div class="row"><button class="secondary small" data-act="export">Download JSON</button><button class="secondary small" data-act="copy-json">Copy JSON</button></div>
-      <textarea id="raw-json" rows="14">${esc(JSON.stringify(st, null, 2))}</textarea>
-      <button class="small" data-act="apply-json">Apply edited JSON</button>
+      ${paras(makeFill(st)(st.finale.narration))}
+      <p>${esc(st.finale.votePrompt)}</p>
+      ${paras(makeFill(st)(st.solution.explanation))}
+      ${paras(makeFill(st)(st.solution.revealNarration))}
     </details>
     <div class="row" style="margin-top:20px"><button class="secondary" data-act="back-setup">← Back to setup</button><button data-act="open-lobby">Open the doors →</button></div>`;
 }
@@ -424,10 +340,10 @@ function renderRound() {
       <div>
         <div class="card blood"><div class="label">Read aloud</div><div class="narration">${paras(makeFill(st)(r.narration))}</div></div>
         ${r.hostNotes ? `<details id="hosting-notes"><summary>Hosting instructions — do not read aloud</summary><p class="muted small">${esc(r.hostNotes)}</p></details>` : ''}
-        <div class="card"><div class="label">On every phone now</div>${paras(makeFill(st)(r.publicText))}<p>Read the full narration, then follow the target chain below one player at a time. After every player has read, the group deliberates and votes.</p>
-        <div class="label">Clue chain</div><ol class="clean" id="clue-chain">${chain.map((character, index) => `<li ${index === S.chainIndex ? 'aria-current="step"' : ''}><b>${esc(character.name)}</b>${character.ghost && ri + 1 >= character.ghost.fromRound ? ' · GHOST' : ''}${character.guest ? ` (${esc(character.guest)})` : ''} → ${esc(st.characters.find(target => target.id === character.rounds[ri].readAloud.accuses)?.name || '')}</li>`).join('')}</ol>
-        <p class="small muted">${chainComplete ? 'Every player has read this round’s clue.' : `Next reader: ${esc(nextReader?.name || '')}${nextReader?.guest ? ` (${esc(nextReader.guest)})` : ''}`}</p></div>
-        ${evidenceHistory.length ? `<details id="host-evidence-history"><summary>Earlier public evidence (${evidenceHistory.length} rounds)</summary>
+        <div class="card"><div class="label">On every phone now</div>${paras(makeFill(st)(r.publicText))}<p>Read the full narration aloud, then call on each reader in turn.</p>
+        <div class="label">Who's reading</div>
+        <p class="turn-indicator${chainComplete ? ' complete' : ''}" id="current-reader" role="status" aria-live="polite" aria-atomic="true">${chainComplete ? 'Every player has read this round’s clue.' : `Next reader: ${esc(nextReader?.name || '')}${nextReader?.guest ? ` (${esc(nextReader.guest)})` : ''}${nextReader?.ghost && ri + 1 >= nextReader.ghost.fromRound ? ' · GHOST' : ''}`}</p></div>
+        ${evidenceHistory.length ? `<details id="host-evidence-history"><summary>Earlier public evidence (${evidenceHistory.length} round${evidenceHistory.length === 1 ? '' : 's'})</summary>
           ${evidenceHistory.map(chapter => `<h3>${esc(chapter.title)}</h3>${paras(chapter.narration)}
             ${chapter.accusations.map(clue => `<details><summary>${esc(clue.targetName)} · read by ${esc(clue.speakerName)}</summary>${paras(clue.text)}</details>`).join('')}`).join('<hr>')}</details>` : ''}
       </div>
@@ -537,18 +453,6 @@ function setPhase(phase, roundIndex = S.roundIndex) {
 }
 
 const actions = {
-  async 'load-community'() {
-    ui.busy = true; ui.communityError = ''; renderSetup();
-    try { ui.community = (await communityRequest('/api/community')).stories; }
-    catch (error) { ui.communityError = error.message; }
-    finally { ui.busy = false; renderSetup(); }
-  },
-  async 'use-community'(el) {
-    try {
-      const { story } = await communityRequest(`/api/community/${encodeURIComponent(el.dataset.id)}`);
-      acceptStory(adaptStoryForPlayers(story, getGuests(), shuffle(getGuests())), []);
-    } catch (error) { ui.errors = [error.message]; renderSetup(); }
-  },
   'atmosphere-cue'(el) {
     const kind = el.dataset.cue;
     if (!Object.hasOwn(CUES, kind)) return toast('That atmosphere cue is not available.');
@@ -556,7 +460,7 @@ const actions = {
     atmosphere.cue(message);
     broadcastRaw(message);
   },
-  new() { newGame(); },
+  new() { return newGame(); },
   resume() { restoreGame(); if (!S) return renderLanding(); render(); if (LIVE_PHASES.includes(S.phase)) startPeer(); },
   join() { const c = ($('#join-code').value || '').trim().toUpperCase(); if (c) location.href = baseUrl() + '?room=' + encodeURIComponent(c); },
   home() { if (location.hash) history.pushState(null, '', baseUrl()); renderLanding(); },
@@ -590,22 +494,17 @@ const actions = {
     save();
     renderSetup();
   },
-  tab(el) { ui.tab = el.dataset.tab; ui.errors = []; ui.warnings = []; renderSetup(); },
-  'use-sample'() {
+  async 'use-sample'() {
     const guests = getGuests();
     try {
-      acceptStory(buildSampleStory(guests), []);
+      await acceptStory(buildSampleStory(guests), []);
     } catch (error) {
       ui.errors = [error.message];
       ui.warnings = [];
       renderSetup();
     }
   },
-  'load-json'() {
-    ui.pasteText = $('#json').value;
-    acceptStory(ui.pasteText, getGuests());
-  },
-  'use-starter'(el) {
+  async 'use-starter'(el) {
     const entry = STARTER_MYSTERIES.find(item => item.id === el.dataset.id);
     if (!entry) {
       ui.errors = ['That starter mystery is not available. Reload the page and choose again.'];
@@ -620,116 +519,19 @@ const actions = {
       ui.warnings = [];
       return renderSetup();
     }
-    acceptStory(story, []);
+    await acceptStory(story, []);
   },
-  'use-saved'(el) {
-    const entry = getStoryLibrary().find(item => item.id === el.dataset.id);
-    if (!entry) { ui.libraryError = 'That saved story is no longer available.'; return renderSetup(); }
-    const guests = getGuests();
-    let story;
-    try {
-      story = adaptStoryForPlayers(entry.story, guests, shuffle(guests));
-    } catch (error) {
-      ui.errors = [error.message || 'This mystery cannot be used with this player list.'];
-      ui.warnings = [];
-      return renderSetup();
-    }
-    acceptStory(story, [], entry.id);
-  },
-  'save-story'() {
-    try {
-      const validation = normalizeStory(S.story);
-      if (!validation.story) {
-        ui.errors = validation.errors;
-        ui.warnings = validation.warnings;
-        return renderReview();
-      }
-      const entries = readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY));
-      const saved = upsertStory(entries, validation.story, S.libraryId);
-      localStorage.setItem(STORY_LIBRARY_KEY, JSON.stringify(saved.entries));
-      S.libraryId = saved.record.id;
-      save();
-      ui.libraryError = '';
-      toast('Mystery saved to My Stories');
-      renderReview();
-    } catch (error) {
-      ui.errors = [`Could not save this mystery: ${error.message || error}`];
-      renderReview();
-    }
-  },
-  'delete-saved'(el) {
-    if (!confirm('Delete this saved mystery from My Stories?')) return;
-    try {
-      const entries = readStoryLibrary(localStorage.getItem(STORY_LIBRARY_KEY));
-      localStorage.setItem(STORY_LIBRARY_KEY, JSON.stringify(entries.filter(entry => entry.id !== el.dataset.id)));
-      ui.libraryError = '';
-      renderSetup();
-    } catch (error) {
-      ui.libraryError = error.message || 'The saved mystery could not be deleted.';
-      renderSetup();
-    }
-  },
-  async 'gen-ai'() {
-    const s = { base: $('#ai-base').value.trim(), model: $('#ai-model').value.trim(), key: $('#ai-key').value.trim() };
-    saveAiSettings(s);
-    ui.busy = true; ui.errors = []; renderSetup();
-    try {
-      const txt = await generateStory(s, S.theme, getGuests());
-      ui.busy = false; ui.pasteText = txt;
-      acceptStory(txt, getGuests());
-    } catch (e) { ui.busy = false; ui.errors = [String(e.message || e)]; renderSetup(); }
-  },
-  'open-lobby'() {
+  async 'open-lobby'() {
     const res = normalizeStory(S.story);
     if (!res.story) { ui.errors = res.errors; return renderReview(); }
     const missing = res.story.characters.filter(c => !c.guest).length;
-    if (missing && !confirm(`${missing} character(s) have no player assigned. Guests will see the character name instead. Continue?`)) return;
+    if (missing && !await confirmAction(`${missing} character(s) have no player assigned. Guests will see the character name instead. Continue?`)) return;
     ui.errors = []; ui.warnings = [];
     S.story = res.story; S.wasLive = true;
     setPhase('lobby', -1); startPeer();
   },
   'back-setup'() { ui.errors = []; ui.warnings = []; setPhase('setup'); },
   'back-review'() { setPhase('review'); },
-  export() { download(`${(S.story.title || 'story').replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.json`, JSON.stringify(S.story, null, 2)); },
-  async 'copy-json'() { try { await navigator.clipboard.writeText(JSON.stringify(S.story, null, 2)); toast('Story JSON copied'); } catch { toast('Copy failed — use Download'); } },
-  'apply-json'() {
-    const res = normalizeStory($('#raw-json').value);
-    ui.errors = res.errors; ui.warnings = res.warnings;
-    if (res.story) { S.story = res.story; save(); toast('Story updated'); }
-    renderReview();
-  },
-  'add-story-round'() {
-    const roundIndex = S.story.rounds.length;
-    const cast = S.story.characters;
-    let round;
-    try { round = coverageSchedule(cast)[roundIndex % (cast.length - 1)]; }
-    catch (error) {
-      ui.errors = [error.message || 'A complete clue-coverage chain cannot be built for this cast.'];
-      return renderReview();
-    }
-    S.story.rounds.push({ title: `Round ${roundIndex + 1}`, narration: '', publicText: '', hostNotes: '', chain: [], coverageRepeat: false });
-    for (const character of cast) {
-      character.rounds.push({
-        readAloud: {
-          accuses: round.targets[character.id],
-          text: '',
-        },
-      });
-    }
-    syncAccusationSchedules(S.story);
-    save();
-    renderReview();
-    toast('Chapter added. Write its narration and every character\'s read-aloud evidence before playing.');
-  },
-  'remove-story-round'() {
-    if (S.story.rounds.length <= S.story.fixedPlayerCount - 1 ||
-        !confirm('Remove the final chapter and every character\'s clues for it?')) return;
-    S.story.rounds.pop();
-    for (const c of S.story.characters) c.rounds.pop();
-    syncAccusationSchedules(S.story);
-    save();
-    renderReview();
-  },
   start() { S.votes = {}; S.roundVotes = {}; S.chainIndex = 0; setPhase('round', 0); },
   'advance-reader'() {
     if (S.phase !== 'round') return;
@@ -740,15 +542,15 @@ const actions = {
     render();
     broadcast();
   },
-  next() {
+  async next() {
     if (S.phase === 'round') {
       const chainLength = S.story.rounds[S.roundIndex]?.chain?.length || 0;
-      if (S.chainIndex < chainLength) return toast('Finish the clue chain before beginning deliberation.');
+      if (S.chainIndex < chainLength) return toast('Every player must read before beginning deliberation.');
       return setPhase('deliberation');
     }
     if (S.phase !== 'vote' || S.roundIndex >= S.story.rounds.length - 1) return;
     const missing = S.story.characters.filter(c => S.claims[c.id] && !S.votes[c.id]);
-    if (missing.length && !confirm(`${missing.length} joined player(s) have not voted. Close this round's voting anyway?`)) return;
+    if (missing.length && !await confirmAction(`${missing.length} joined player(s) have not voted. Close this round's voting anyway?`)) return;
     setPhase('round', S.roundIndex + 1);
   },
   'open-vote'() {
@@ -762,14 +564,14 @@ const actions = {
     if (S.roundIndex <= 0) return setPhase('lobby', -1);
     setPhase('round', S.roundIndex - 1);
   },
-  reveal() {
+  async reveal() {
     if (S.phase !== 'vote' || S.roundIndex !== S.story.rounds.length - 1) return;
-    if (!Object.keys(S.votes).length && !confirm('No votes yet. Reveal anyway?')) return;
+    if (!Object.keys(S.votes).length && !await confirmAction('No votes yet. Reveal anyway?', { title: 'Reveal the truth?', acceptLabel: 'Reveal the truth' })) return;
     setPhase('reveal');
   },
-  release(el) {
+  async release(el) {
     const id = el.dataset.id;
-    if (!confirm('Release this character so another phone can claim it?')) return;
+    if (!await confirmAction('Release this character so another phone can claim it?')) return;
     releaseCharacter(S, conns, id);
     save();
     broadcast(); updateLive();
@@ -780,8 +582,8 @@ const actions = {
     toast('Reopening this room. Guests will reconnect; characters, clues and votes are kept.', 5000);
     restartPeer(0);
   },
-  end() { if (confirm('End this game and return home? This room and its progress will be cleared. Mysteries saved in My Stories or the workshop are kept.')) wipe(); },
-  'new-confirm'() { if (confirm('Start a brand new game? This one will be cleared.')) wipe(); },
+  async end() { if (await confirmAction('End this game and return home? This room and its progress will be cleared.', { acceptLabel: 'End game' })) wipe(); },
+  async 'new-confirm'() { if (await confirmAction('Start a brand new game? This one will be cleared.')) wipe(); },
 };
 
 function wipe() {
@@ -792,59 +594,43 @@ function wipe() {
   renderLanding();
 }
 
-function newGame() {
+async function newGame() {
   const prev = load();
-  if (prev?.room && !confirm('Create a new game? This replaces your saved room and its progress. Choose Cancel, then Resume to continue it. Mysteries saved in My Stories or the workshop are kept.')) return;
+  if (prev?.room && !await confirmAction('Create a new game? This replaces your saved room and its progress. Choose Cancel, then Resume to continue it.', { acceptLabel: 'Create new game' })) return;
   stopPeer();
   const guests = Array.isArray(prev?.guests) ? prev.guests : parseGuests(prev?.guestsText || '');
-  S = { room: randomRoom(), phase: 'setup', roundIndex: -1, chainIndex: 0, story: null, claims: {}, votes: {}, libraryId: null, theme: prev?.theme || '', guests, guestsText: guests.map(guest => guest.desc ? `${guest.name}, ${guest.desc}` : guest.name).join('\n'), createdAt: Date.now() };
+  S = { room: randomRoom(), phase: 'setup', roundIndex: -1, chainIndex: 0, story: null, claims: {}, votes: {}, guests, guestsText: guests.map(guest => guest.desc ? `${guest.name}, ${guest.desc}` : guest.name).join('\n'), createdAt: Date.now() };
   ui.errors = []; ui.warnings = [];
   save(); render();
 }
 
-function acceptStory(input, guests, libraryId = null) {
+async function acceptStory(input, guests) {
   const res = normalizeStory(input, guests);
   ui.errors = res.errors; ui.warnings = res.warnings;
   if (!res.story) return renderSetup();
-  if (S.story && !confirm('Replace the current mystery and reset its progress? Choose Cancel to keep it. Saved copies in My Stories or the workshop are kept.')) return;
+  if (S.story && !await confirmAction('Replace the current mystery and reset its progress? Choose Cancel to keep it.')) return;
   if (S.wasLive) { broadcastRaw({ t: 'ended' }); stopPeer(); }
-  S.story = res.story; S.claims = {}; S.votes = {}; S.roundVotes = {}; S.chainIndex = 0; S.libraryId = libraryId; S.wasLive = false;
+  S.story = res.story; S.claims = {}; S.votes = {}; S.roundVotes = {}; S.chainIndex = 0; S.wasLive = false;
   setPhase('review', -1);
 }
 
-function onClick(e) {
+let actionBusy = false;
+async function onClick(e) {
   const el = e.target.closest('[data-act]');
-  if (!el || !app().contains(el)) return;
+  if (!el || !app().contains(el) || actionBusy) return;
   const fn = actions[el.dataset.act];
-  if (fn) { e.preventDefault(); fn(el); }
+  if (fn) {
+    e.preventDefault(); actionBusy = true;
+    try { await fn(el); }
+    catch (error) { console.error('Host action failed', error); toast(`Could not complete that action: ${error.message}`); }
+    finally { actionBusy = false; }
+  }
 }
 
 function onKeydown(e) {
   if (e.key === 'Enter' && (e.target.id === 'guest-name' || e.target.id === 'guest-desc')) {
     e.preventDefault();
     actions['add-guest']();
-  }
-}
-
-function setPath(obj, path, val) {
-  const parts = path.split('.');
-  let o = obj;
-  for (let i = 0; i < parts.length - 1; i++) { if (o[parts[i]] == null) o[parts[i]] = /^\d+$/.test(parts[i + 1]) ? [] : {}; o = o[parts[i]]; }
-  o[parts[parts.length - 1]] = val;
-}
-
-function onInput(e) {
-  const t = e.target;
-  if (t.dataset.s && S) {
-    S[t.dataset.s] = t.value; save();
-  }
-  if (t.dataset.path && t.dataset.kind !== 'checkbox' && S?.story) {
-    const v = t.dataset.kind === 'lines' ? t.value.split('\n').map(s => s.trim()).filter(Boolean) : t.value;
-    setPath(S.story, t.dataset.path, v);
-    if (/^characters\.\d+\.rounds\.\d+\.readAloud\.accuses$/.test(t.dataset.path)) {
-      syncAccusationSchedules(S.story);
-    }
-    save();
   }
 }
 
@@ -876,39 +662,11 @@ function onChange(e) {
     renderReview();
     return;
   }
-  if (t.dataset.path && t.dataset.kind === 'checkbox' && S?.story) {
-    setPath(S.story, t.dataset.path, t.checked);
+  if (t.id === 'story-atmosphere' && S?.story) {
+    S.story.atmosphere = t.value;
     save();
-    renderReview();
-    return;
+    atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex }, S.story);
   }
-  if (t.dataset.path && t.dataset.kind !== 'checkbox' && S?.story) {
-    setPath(S.story, t.dataset.path, t.value);
-    if (/^characters\.\d+\.rounds\.\d+\.readAloud\.accuses$/.test(t.dataset.path)) {
-      syncAccusationSchedules(S.story);
-    }
-    save();
-    if (t.id === 'story-atmosphere') atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex }, S.story);
-    renderReview();
-    return;
-  }
-  if (t.dataset.path && t.dataset.kind !== 'checkbox' && S?.story) {
-    setPath(S.story, t.dataset.path, t.value);
-    if (/^characters\.\d+\.rounds\.\d+\.readAloud\.accuses$/.test(t.dataset.path)) {
-      syncAccusationSchedules(S.story);
-    }
-    save();
-    if (t.id === 'story-atmosphere') atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex }, S.story);
-    renderReview();
-    return;
-  }
-  if (t.id === 'json-file' && t.files?.[0]) {
-    const r = new FileReader();
-    r.onload = () => { ui.pasteText = String(r.result); $('#json').value = ui.pasteText; };
-    r.readAsText(t.files[0]);
-  }
-  if (t.id === 'killer') renderReview();
-  if (t.id === 'story-atmosphere') atmosphere.update({ room: S.room, phase: S.phase, roundIndex: S.roundIndex }, S.story);
 }
 
 // ---------- Networking (PeerJS, host = hub) ----------

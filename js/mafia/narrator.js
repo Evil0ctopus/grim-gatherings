@@ -8,6 +8,7 @@ import {
   startDay, startVote, adjustVote, votesCast, closeVote,
 } from './narrator-game.js?v=mafia-v2';
 import { createSounds } from './sounds.js?v=mafia-v2';
+import { confirmAction } from '../dialog.js?v=ui-refresh-v1';
 
 const SAVE_KEY = 'gg-mafia-narrator-v1';
 const DEAD_ROLE_PAUSE_MS = 5000;
@@ -58,7 +59,7 @@ export function startMafiaNarrator() {
 
   function settingsHtml() {
     const s = N.settings;
-    return `<details class="card mafia-settings"${N.game ? '' : ' open'}><summary>Table settings</summary>
+    return `<details class="card mafia-settings"><summary>Table settings</summary>
       <label>Discussion time <select id="set-discussion">${DISCUSSION_CHOICES.map(n => `<option value="${n}"${n === s.discussionSeconds ? ' selected' : ''}>${n / 60} minutes</option>`).join('')}</select></label>
       <label class="check"><input type="checkbox" id="set-reveal"${s.revealRoleOnDeath ? ' checked' : ''}> Reveal a player's role when they are eliminated</label>
       <label class="check"><input type="checkbox" id="set-sound"${s.sound ? ' checked' : ''}> Sound effects (gunshot, saves, deaths)</label>
@@ -111,7 +112,7 @@ export function startMafiaNarrator() {
     };
     app.querySelectorAll('[data-remove]').forEach(b => b.onclick = () => { N.names.splice(Number(b.dataset.remove), 1); changed(); });
     const clear = $('#clear-names');
-    if (clear) clear.onclick = () => { if (confirm('Remove every player name?')) { N.names = []; changed(); } };
+    if (clear) clear.onclick = async () => { if (await confirmAction('Remove every player name?')) { N.names = []; changed(); } };
     $('#deal').onclick = deal;
     bindSettings();
   }
@@ -199,7 +200,7 @@ export function startMafiaNarrator() {
   }
 
   function targetsHtml(g, step, selected) {
-    return `<div class="targets big">${stepTargets(g, step).map(p => `<button class="target${p.id === selected ? ' picked' : ''}" data-pick="${esc(p.id)}">${esc(p.name)}</button>`).join('')}</div>`;
+    return `<div class="targets big">${stepTargets(g, step).map(p => `<button class="target${p.id === selected ? ' picked' : ''}" data-pick="${esc(p.id)}" aria-pressed="${p.id === selected}">${esc(p.name)}${p.id === selected ? ' <span class="selection-label">Selected</span>' : ''}</button>`).join('')}</div>`;
   }
 
   function nightBody(g, step) {
@@ -313,10 +314,10 @@ export function startMafiaNarrator() {
     const on = (sel, fn) => { const el = $(sel); if (el) el.onclick = e => { sounds.unlock(); fn(e); }; };
     const sheet = $('#sheet');
     if (sheet) sheet.ontoggle = () => { sheetOpen = sheet.open; };
-    on('#end-game', () => { if (confirm('End this game? Roles will be lost.')) { N.game = null; changed(); } });
+    on('#end-game', async () => { if (await confirmAction('End this game? Roles will be lost.')) { N.game = null; changed(); } });
     on('#show-role', () => { showPassRole(g); changed(); });
     on('#hide-role', () => { nextPass(g); changed(); });
-    on('#skip-pass', () => { if (confirm('Skip the pass-around? Open the narrator\u2019s sheet to tell players their roles yourself.')) { skipPass(g); sheetOpen = true; changed(); } });
+    on('#skip-pass', async () => { if (await confirmAction('Skip the pass-around? Open the narrator\u2019s sheet to tell players their roles yourself.')) { skipPass(g); sheetOpen = true; changed(); } });
     on('#night', () => { if (beginNight(g)) { play('nightfall'); changed(); } });
     app.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => {
       sounds.unlock();
@@ -345,7 +346,7 @@ export function startMafiaNarrator() {
       changed();
     };
     on('#close-vote', finishVote);
-    on('#no-vote', () => { if (confirm('Close the vote with no votes? Nobody is eliminated.')) finishVote(); });
+    on('#no-vote', async () => { if (await confirmAction('Close the vote with no votes? Nobody is eliminated.')) finishVote(); });
     on('#play-again', () => deal());
     on('#change-players', () => { N.game = null; changed(); });
   }

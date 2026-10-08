@@ -5,7 +5,6 @@ import { promisify } from 'node:util';
 import { readFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkDraft } from '../js/workshop-core.js';
 import { createDeveloperLab } from './developer-lab.js';
 import { SITE_FILES } from '../tools/build-site.mjs';
 import { PREMIUM_BUNDLE } from './premium-payments.js';
@@ -121,45 +120,10 @@ export async function createCommunityServer({
     db.prepare('INSERT INTO sessions VALUES (?,?,?)').run(digest(token), user.id, Date.now() + SESSION_MS);
     return { token, user: profile(user) };
   }
-  function ownedDraft(user, id) {
-    const draft = db.prepare('SELECT * FROM drafts WHERE id=? AND user_id=?').get(id, user.id);
-    requireValue(draft, 404, 'Draft not found in your account.');
-    return draft;
-  }
-  function validateContent(content) {
-    requireValue(content && typeof content === 'object' && !Array.isArray(content), 400, 'A draft object is required.');
-    requireValue(JSON.stringify(content).length <= 750000, 413, 'Draft is too large.');
-    requireValue(Array.isArray(content.story?.characters) && content.story.characters.length <= 24 && Array.isArray(content.story?.rounds) && content.story.rounds.length <= 6, 400, 'Draft needs a story with at most 24 characters and six rounds.');
-    requireValue(Array.isArray(content.locks) && content.locks.length <= 100, 400, 'Hidden-fact rules must be a list (at most 100).');
-    requireValue(content.locks.every(lock => lock && typeof lock.term === 'string' && Number.isInteger(lock.round)), 400, 'Each hidden fact needs a phrase and round.');
-    return content;
-  }
-  function playable(content) {
-    const checked = checkDraft(validateContent(content));
-    requireValue(checked.story, 400, checked.errors.join('\n'));
-    checked.story.characters.forEach(c => { c.guest = ''; c.guestNote = ''; });
-    delete checked.story.edition;
-    delete checked.story.provenance;
-    return checked.story;
-  }
-  function writeDraft(user, id, content, expected) {
-    validateContent(content);
-    const title = text(content.story.title, 'Story title');
-    const now = Date.now();
-    db.exec('BEGIN IMMEDIATE');
-    try {
-      const current = id ? ownedDraft(user, id) : null;
-      requireValue(!current || expected === current.revision, 409, 'This draft changed on another device. Load the latest account version before saving.');
-      const draftId = current?.id || randomUUID();
-      const revision = (current?.revision || 0) + 1;
-      if (!current) db.prepare('INSERT INTO drafts VALUES (?,?,?,?,?)').run(draftId, user.id, title, revision, now);
-      else db.prepare('UPDATE drafts SET title=?,revision=?,updated=? WHERE id=?').run(title, revision, now, draftId);
-      db.prepare('INSERT INTO revisions VALUES (?,?,?,?)').run(draftId, revision, JSON.stringify(content), now);
-      db.exec('COMMIT');
-      return { id: draftId, revision, updated: now };
-    } catch (error) { db.exec('ROLLBACK'); throw error; }
-  }
   async function api(req, pathname) {
+    if (/^\/api\/(?:drafts|submissions|community|admin\/submissions)(?:\/|$)/.test(pathname)) {
+      throw new ApiError(410, 'Story creation and community publishing have been retired. Choose a mystery from the site catalog.');
+    }
     if (pathname === '/api/health' && req.method === 'GET') return { available: true, registration };
     const closedShop = () => ({ bundle: PREMIUM_BUNDLE, owned: false, orders: [], environment: 'live',
       checkoutEnabled: false, checkoutNotice: 'Purchases require the hosted Supabase payment service. This local community server does not accept payments.' });
@@ -184,17 +148,6 @@ export async function createCommunityServer({
       requireValue(user && valid, 401, 'Username or password is incorrect.');
       return login(user);
     }
-    if (pathname === '/api/community' && req.method === 'GET') {
-      return { stories: db.prepare("SELECT id,title,author,revision,updated FROM submissions WHERE status='approved' ORDER BY updated DESC LIMIT 500").all() };
-    }
-    const publicId = /^\/api\/community\/([a-f0-9-]+)$/.exec(pathname)?.[1];
-    if (publicId && req.method === 'GET') {
-      const entry = db.prepare("SELECT * FROM submissions WHERE id=? AND status='approved'").get(publicId);
-      requireValue(entry, 404, 'That story is not published.');
-      const story = playable(JSON.parse(entry.content));
-      story.provenance = { kind: 'community', author: entry.author, submissionId: entry.id, revision: entry.revision };
-      return { story };
-    }
     const user = userFor(req);
     if (pathname === '/api/purchases' && req.method === 'GET') return closedShop();
     if (pathname.startsWith('/api/purchases/') || pathname.startsWith('/api/premium/') || pathname.startsWith('/api/admin/purchases')) {
@@ -206,76 +159,10 @@ export async function createCommunityServer({
       return { loggedOut: true };
     }
     throttle(rates, user.id, 120, 60000);
-    if (pathname === '/api/drafts') {
-      if (req.method === 'GET') return { drafts: db.prepare('SELECT id,title,revision,updated FROM drafts WHERE user_id=? ORDER BY updated DESC').all(user.id) };
-      if (req.method === 'POST') return writeDraft(user, null, (await readBody(req)).content);
-    }
-    const draftMatch = /^\/api\/drafts\/([a-f0-9-]+)(?:\/(versions)(?:\/(\d+))?)?$/.exec(pathname);
-    if (draftMatch) {
-      const [, id, versions, number] = draftMatch;
-      const current = ownedDraft(user, id);
-      if (req.method === 'GET') {
-        if (versions && !number) return { versions: db.prepare('SELECT revision,created FROM revisions WHERE draft_id=? ORDER BY revision DESC').all(id) };
-        const revision = number ? Number(number) : current.revision;
-        const entry = db.prepare('SELECT * FROM revisions WHERE draft_id=? AND revision=?').get(id, revision);
-        requireValue(entry, 404, 'That version was not found.');
-        return { id, revision, content: JSON.parse(entry.content) };
-      }
-      if (!versions && req.method === 'PUT') {
-        const body = await readBody(req);
-        return writeDraft(user, id, body.content, body.expectedRevision);
-      }
-    }
-    if (pathname === '/api/submissions') {
-      if (req.method === 'GET') return { submissions: db.prepare('SELECT id,title,revision,status,note,created,updated FROM submissions WHERE user_id=? ORDER BY created DESC LIMIT 500').all(user.id) };
-      if (req.method === 'POST') {
-        const body = await readBody(req);
-        requireValue(body.consent === true, 400, 'Confirm that you own this original story and permit publication with your author credit.');
-        const draft = ownedDraft(user, text(body.draftId, 'Draft ID', 80));
-        requireValue(Number.isInteger(body.revision), 400, 'Choose a saved revision.');
-        const revision = db.prepare('SELECT content FROM revisions WHERE draft_id=? AND revision=?').get(draft.id, body.revision);
-        requireValue(revision, 404, 'That saved revision does not exist.');
-        const story = playable(JSON.parse(revision.content));
-        requireValue(!db.prepare('SELECT id FROM submissions WHERE draft_id=? AND revision=?').get(draft.id, body.revision), 409, 'This exact version has already been submitted. Edit and save a new version to resubmit.');
-        const id = randomUUID(), now = Date.now();
-        db.prepare('INSERT INTO submissions (id,user_id,draft_id,revision,title,author,content,status,created,updated) VALUES (?,?,?,?,?,?,?,?,?,?)').run(id, user.id, draft.id, body.revision, story.title, user.display_name, revision.content, 'pending', now, now);
-        return { id, status: 'pending' };
-      }
-    }
     if (pathname.startsWith('/api/admin/')) {
-      requireValue(user.role === 'admin', 403, 'Only the site administrator can review submissions.');
+      requireValue(user.role === 'admin', 403, 'Only the site administrator can access developer controls.');
       if (pathname === '/api/admin/developer' && req.method === 'GET') return developerLab.catalog();
       if (pathname === '/api/admin/developer' && req.method === 'POST') return developerLab.act(await readBody(req), user.id);
-      if (pathname === '/api/admin/submissions' && req.method === 'GET') {
-        return { submissions: db.prepare('SELECT id,title,author,revision,status,note,created,updated FROM submissions ORDER BY created DESC LIMIT 500').all() };
-      }
-      const match = /^\/api\/admin\/submissions\/([a-f0-9-]+)$/.exec(pathname);
-      if (match) {
-        const entry = db.prepare('SELECT * FROM submissions WHERE id=?').get(match[1]);
-        requireValue(entry, 404, 'Submission not found.');
-        if (req.method === 'GET') return { submission: { ...entry, content: JSON.parse(entry.content) }, history: db.prepare('SELECT decision,note,created FROM moderation WHERE submission_id=? ORDER BY created').all(entry.id) };
-        if (req.method === 'POST') {
-          const body = await readBody(req);
-          requireValue(['approved', 'changes_requested', 'rejected', 'unpublished'].includes(body.decision), 400, 'Choose approve, request changes, reject or unpublish.');
-          requireValue(typeof body.note === 'string' && body.note.length <= 2000, 400, 'Review note must be under 2000 characters.');
-          if (body.decision !== 'approved') text(body.note, 'Reason for the author', 2000);
-          if (body.decision === 'approved') {
-            requireValue(body.reviewed === true, 400, 'Preview the complete story and confirm you checked its content, pacing and solution.');
-            playable(JSON.parse(entry.content));
-          }
-          const now = Date.now();
-          db.exec('BEGIN IMMEDIATE');
-          try {
-            if (body.decision === 'approved') {
-              db.prepare("UPDATE submissions SET status='unpublished',updated=? WHERE draft_id=? AND status='approved' AND id<>?").run(now, entry.draft_id, entry.id);
-            }
-            db.prepare('UPDATE submissions SET status=?,note=?,updated=? WHERE id=?').run(body.decision, body.note.trim(), now, entry.id);
-            db.prepare('INSERT INTO moderation VALUES (?,?,?,?,?,?)').run(randomUUID(), entry.id, user.id, body.decision, body.note.trim(), now);
-            db.exec('COMMIT');
-          } catch (error) { db.exec('ROLLBACK'); throw error; }
-          return { id: entry.id, status: body.decision };
-        }
-      }
     }
     throw new ApiError(404, 'API route not found.');
   }

@@ -3,6 +3,7 @@ import { once } from 'node:events';
 import { chromium, webkit } from 'playwright';
 import { createCommunityServer } from '../server/community.mjs';
 import { premiumFixture } from './premium-fixture.mjs';
+import { acceptDialogs } from './dialog-helper.mjs';
 
 const server = await createCommunityServer({ database: ':memory:' });
 server.listen(0, '127.0.0.1'); await once(server, 'listening');
@@ -22,7 +23,7 @@ async function pageFor(user = null) {
   page.on('response', response => {
     if (response.status() >= 400) rejectedResponses.push({ url: response.url(), status: response.status(), body: response.request().postDataJSON() });
   });
-  page.on('dialog', dialog => dialog.accept());
+  await acceptDialogs(page);
   if (user) await page.addInitScript(name => sessionStorage.setItem('gg-community-session-v1', JSON.stringify({
     token: `${name}-token`, refreshToken: `${name}-refresh`, expiresAt: Date.now() + 3600000,
   })), user);
@@ -57,20 +58,21 @@ try {
   check('anonymous visitor sees exact $9.99 bundle with both titles', (await anonymous.locator('#shop').innerText()).includes('$9.99') &&
     (await anonymous.locator('#shop').innerText()).includes('The Black Ledger Society') &&
     (await anonymous.locator('#shop').innerText()).includes('The Lanternfall Covenant'));
-  check('anonymous visitor must log in to buy', await anonymous.locator('[data-shop="buy-card"]').isDisabled());
+  check('anonymous visitor must log in to buy', await anonymous.locator('[data-shop="buy-paypal"]').isDisabled());
+  check('product appears before sign-in', await anonymous.evaluate(() => !!(document.querySelector('.card.gold').compareDocumentPosition(document.querySelector('#shop-sign-in')) & Node.DOCUMENT_POSITION_FOLLOWING)));
+  check('one checkout button only', await anonymous.locator('[data-shop^="buy-"]').count() === 1);
   check('one host buys and phone-room scope is disclosed before buying', (await anonymous.locator('#shop').innerText()).includes('everyone joins free on their own phone'));
   await anonymous.fill('#shop-email', 'buyer@example.test'); await anonymous.fill('#shop-password', 'test-only-password');
   await click(anonymous, '[data-shop="login"]');
-  check('buyer login leaves card and PayPal options available', await anonymous.locator('[data-shop="buy-card"]').isEnabled() && await anonymous.locator('[data-shop="buy-paypal"]').isEnabled());
-  await click(anonymous, '[data-shop="buy-card"]');
-  check('purchase consent is required', (await anonymous.locator('#shop-error').innerText()).includes('Accept the immediate-access'));
+  check('buyer login enables secure checkout', await anonymous.locator('[data-shop="buy-paypal"]').isEnabled());
+  await click(anonymous, '[data-shop="buy-paypal"]');
+  check('purchase consent is required', (await anonymous.locator('#shop-error').innerText()).includes('Agree to the purchase'));
   await anonymous.check('#purchase-consent');
-  await anonymous.click('[data-shop="buy-card"]');
+  await anonymous.click('[data-shop="buy-paypal"]');
   await anonymous.getByRole('heading', { name: 'Simulated PayPal approval' }).waitFor();
   const orderId = new URL(anonymous.url()).searchParams.get('token');
   const creation = fixture.calls.find(call => call.path === '/v2/checkout/orders');
-  check('card option requests hosted guest checkout and fixed price', creation.body.payment_source.paypal.experience_context.landing_page === 'GUEST_CHECKOUT' &&
-    creation.body.purchase_units[0].amount.value === '9.99');
+  check('secure checkout requests the fixed bundle price', creation.body.purchase_units[0].amount.value === '9.99');
   await anonymous.getByRole('link', { name: 'Return to merchant' }).click();
   await anonymous.locator('[data-shop="play"]').waitFor();
   check('return automatically verifies payment and adds both games to the signed-in account', (await anonymous.locator('#shop-message').innerText()).includes('Payment confirmed'));

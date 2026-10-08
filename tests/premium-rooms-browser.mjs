@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { acceptDialogs } from './dialog-helper.mjs';
 import { once } from 'node:events';
 import { chromium, webkit } from 'playwright';
 import { createCommunityServer } from '../server/community.mjs';
@@ -14,7 +15,7 @@ let checks = 0;
 const check = (label, condition) => { assert.ok(condition, label); checks++; console.log(`PASS ${label}`); };
 async function phone(host = false) {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
-  page.on('pageerror', e => errors.push(e.message)); page.on('dialog', d => d.accept());
+  page.on('pageerror', e => errors.push(e.message)); await acceptDialogs(page);
   if (host) await page.addInitScript(() => sessionStorage.setItem('gg-community-session-v1', JSON.stringify({
     token: 'buyer-token', refreshToken: 'buyer-refresh', expiresAt: Date.now() + 3600000,
   })));

@@ -1,8 +1,9 @@
 import { chromium, webkit } from 'playwright';
 import assert from 'node:assert/strict';
+import { acceptDialogs } from './dialog-helper.mjs';
 import { once } from 'node:events';
 import { createCommunityServer } from '../server/community.mjs';
-import { readyDraft } from './workshop-fixture.mjs';
+import { buildSampleStory } from '../js/sample.js';
 
 const liveBase = process.argv[2];
 const server = liveBase ? null : await createCommunityServer({ database: ':memory:' });
@@ -16,7 +17,7 @@ try {
     try {
       const context = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
       const page = await context.newPage();
-      page.on('dialog', dialog => dialog.accept());
+      await acceptDialogs(page);
       const errors = [];
       page.on('pageerror', e => errors.push({ message: e.message, stack: e.stack }));
       await page.addInitScript(() => {
@@ -66,7 +67,7 @@ try {
       await page.goBack(); await landing();
       await page.locator('#btn-new').click(); await setup();
       check(`${name}: create works again after return`, await page.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).room) !== room);
-      const story = readyDraft().story;
+      const story = buildSampleStory(Array.from({ length: 5 }, (_, i) => ({ name: `Player ${i + 1}`, desc: '' })));
       await page.evaluate(story => {
         const state = JSON.parse(localStorage.getItem('gg-host-v1'));
         state.phase = 'lobby'; state.story = story;

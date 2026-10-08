@@ -1,11 +1,12 @@
 // End-to-end test: host and every selected player in separate browser contexts.
-// Usage: node tests/e2e.mjs [url] [playerCount=3] [mysteryId=sample] [discloseKiller=false]
+// Usage: node tests/e2e.mjs [url] [playerCount=5] [mysteryId=sample] [discloseKiller=false]
 import { chromium, devices } from 'playwright';
+import { acceptDialogs } from './dialog-helper.mjs';
 import fs from 'node:fs';
 import { STARTER_MYSTERIES } from '../js/starters.js';
 
 const URL = process.argv[2] || 'https://evil0ctopus.github.io/grim-gatherings/';
-const playerCount = Number(process.argv[3] || 3);
+const playerCount = Number(process.argv[3] || 5);
 const mysteryId = process.argv[4] || 'sample';
 let discloseKiller = process.argv[5] === 'true';
 if (!Number.isInteger(playerCount) || playerCount < 3) throw new Error('Use at least three players for this integration test.');
@@ -31,7 +32,7 @@ async function mkPage(label, mobile) {
       }
     });
   });
-  page.on('dialog', d => d.accept());
+  await acceptDialogs(page);
   page.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') logs.push(`[${label}] ${m.text()}`); });
   page.on('pageerror', e => logs.push(`[${label}] PAGEERROR ${e.message}`));
   return page;
@@ -48,21 +49,15 @@ try {
     await host.click('#add-guest');
   }
   ok('players can be added one at a time', await host.locator('.guest-item').count() === GUESTS.length);
-  if (mysteryId === 'example') {
-    await host.locator('[data-act="tab"][data-tab="paste"]').click();
-    const example = JSON.parse(fs.readFileSync(new globalThis.URL('../examples/example-story.json', import.meta.url)));
-    example.characters.forEach(c => { c.guest = ''; c.guestNote = ''; });
-    await host.fill('#json', JSON.stringify(example));
-    await host.click('#load-json');
-  } else {
+  {
     const edition = STARTER_MYSTERIES.find(entry =>
       entry.story.edition?.family === mysteryId && entry.story.fixedPlayerCount === playerCount);
     if (mysteryId !== 'sample' && !edition) throw new Error(`No ${playerCount}-player edition for ${mysteryId}.`);
     await host.click(mysteryId === 'sample' ? '#use-sample' : `[data-act="use-starter"][data-id="${edition.id}"]`);
   }
   await host.waitForSelector('#open-lobby');
-  if (mysteryId !== 'example') ok('review displays the selected fixed-count story', (await host.textContent('#selected-edition')).includes(`${playerCount}-player fixed story`));
-  await host.locator('[data-path="discloseKiller"]').setChecked(discloseKiller);
+  ok('review displays the selected fixed-count story', (await host.textContent('#selected-edition')).includes(`${playerCount}-player fixed story`));
+  await host.locator('[data-disclose-killer]').setChecked(discloseKiller);
   ok('host built selected story & reached review', true, el());
   const initialAssignments = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters.map(c => c.guest));
   const movedPlayer = initialAssignments[1], displacedPlayer = initialAssignments[0];

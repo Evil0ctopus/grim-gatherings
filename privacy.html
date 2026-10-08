@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Privacy - Grim Gatherings</title>
-<link rel="stylesheet" href="css/style.css?v=visitor-review-v1">
+<link rel="stylesheet" href="css/style.css?v=ui-refresh-v1">
 </head>
 <body>
+<script type="module" src="js/page-ui.js?v=ui-refresh-v1"></script>
 <main>
 <h1>Privacy</h1>
-<p class="small muted">Updated October 6, 2026. This notice describes the website, optional accounts, story workshop and payments.</p>
+<p class="small muted">Updated October 7, 2026. This notice describes the website, optional accounts and payments.</p>
 <section class="card">
 <h2>Playing &amp; browser storage</h2>
 <p>You can play without an account. Host game progress, player names, character assignments, votes, guest reconnection tokens and locally saved mysteries are stored in your browser. They remain until removed by the app or you clear the relevant browser data. Use a trusted device; anyone with access to its saved host game can inspect the story and solution.</p>
@@ -17,9 +18,9 @@
 <p>Local game progress is not uploaded as an account gameplay history. Ending a game clears the active host save but does not delete saved mystery copies or other devices' browser data.</p>
 </section>
 <section class="card">
-<h2>Optional accounts &amp; submissions</h2>
+<h2>Optional accounts &amp; legacy story records</h2>
 <p>Supabase provides email/password authentication and the community database. It processes account email, authentication credentials and sessions; signup and recovery emails use Resend. Login tokens are saved in this browser to maintain and refresh your session. Signing out removes this browser's current login session. Passwords are handled by the authentication service, not included in game packets.</p>
-<p>Account-backed draft saves, revision history, submissions and moderation records are stored by the community service. Administrators can review submitted stories and moderation records. Approved stories and their author credit appear in the public catalog; private drafts are not public catalog entries. Do not submit material you do not want an administrator to review.</p>
+<p>Story creation, submissions and community publishing are no longer offered. Previously stored drafts, revision history, submissions and moderation records are not automatically deleted by this change. Previously saved device drafts and story copies may also remain in browser storage, but are no longer accessible through the site editor. Contact the owner about legacy records or deletion.</p>
 <p>Signing out does not delete your account or cloud records. Local story deletion is not a request to delete an account or moderation history. For access, correction or deletion questions, use the <a href="how-to-play.html#contact">contact route</a> to ask for a private conversation without posting account information publicly. There is no self-service account-deletion screen yet.</p>
 </section>
 <section class="card">
@@ -31,8 +32,8 @@
 <p>Payment questions and refund requests use the private support email shown in the shop before live purchases open. Do not post receipts, account details or payment information in the public GitHub tracker.</p>
 </section>
 <section class="card">
-<h2>Optional AI &amp; external services</h2>
-<p>Only when you request AI generation, your prompt and selected story/player details are sent to the AI provider you configure. Its own privacy and retention policies apply. Provider API keys and AI settings are saved in this browser; do not use them on a shared device. Avoid private or sensitive information, especially with free-tier providers that may use content to improve their products.</p>
+<h2>External services</h2>
+<p>The site no longer offers AI story generation or review and makes no story-assistant provider requests. AI keys and settings saved by an older version may remain in that browser until its site data is cleared. Clearing site data also removes local game progress and login sessions.</p>
 <p>Cloudflare and GitHub Pages host the website. Google Fonts supplies fonts, and external links take you to services with their own policies. Those services receive ordinary network request information.</p>
 </section>
 <section class="card">

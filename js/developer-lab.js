@@ -1,5 +1,6 @@
 import { esc } from './util.js?v=workshop-v1';
 import { communityRequest } from './community-api.js?v=premium-v1';
+import { confirmAction } from './dialog.js?v=ui-refresh-v1';
 
 export function createGameRoom({ endpoint = '/api/admin/developer', noticeHtml = null, storageKey = null } = {}) {
   let games = [], snapshot = null, revealed = false;
@@ -43,7 +44,7 @@ export function createGameRoom({ endpoint = '/api/admin/developer', noticeHtml =
   function passTurnHtml() {
     const state = snapshot.state, player = snapshot.turn;
     if (!player) return '';
-    if (!revealed) return `<div class="card"><h3>Pass the device to ${esc(player.name)}</h3>
+    if (!revealed) return `<div class="card"><p class="turn-indicator" role="status" aria-live="polite" aria-atomic="true">Pass the device to ${esc(player.name)}</p>
       <p>Everyone else looks away. Reveal only when the next reader or voter is ready.</p>${button('reveal', 'Reveal this turn')}</div>`;
     let control;
     if (state.phase === 'introduction') control = button('read-card', 'Read character card aloud and pass');
@@ -59,7 +60,7 @@ export function createGameRoom({ endpoint = '/api/admin/developer', noticeHtml =
     if (state.phase === 'intro-discussion') return `<div class="card"><h3>Pre-round deliberation</h3>
       <p>Discuss and accuse based on the setup and character introductions. This discussion is optional.</p>${button('start-rounds', 'Begin clue rounds')}</div>`;
     if (state.phase === 'round-intro') return `<div class="card"><h3>${esc(current.title)}</h3>
-      <p>${esc(current.narration)}</p><p>${esc(current.publicText)}</p>${button('start-clues', 'Narration read — begin clue chain')}</div>`;
+      <p>${esc(current.narration)}</p><p>${esc(current.publicText)}</p>${button('start-clues', 'Narration read — begin player clues')}</div>`;
     if (state.phase === 'deliberation') return `<div class="card"><h3>Round ${state.round} deliberation and vote</h3>
       <p>Discuss the clues just read. Then open the round vote.</p>${tallyHtml(state.roundVoteTallies[state.roundIndex])}${button('open-vote', 'Discussion finished — open round vote')}</div>`;
     if (state.phase === 'final-accusation') return `<div class="card"><h3>Final accusations</h3>
@@ -101,7 +102,7 @@ export function createGameRoom({ endpoint = '/api/admin/developer', noticeHtml =
       revealed = false;
     } else if (action === 'reveal') revealed = true;
     else if (action === 'restart') {
-      if (!confirm(`End this ${storageKey ? 'match' : 'test'}? Its progress will be discarded.`)) return;
+      if (!await confirmAction(`End this ${storageKey ? 'match' : 'test'}? Its progress will be discarded.`)) return;
       snapshot = null; revealed = false;
       if (storageKey) localStorage.removeItem(storageKey);
     } else {

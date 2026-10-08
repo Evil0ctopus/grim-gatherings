@@ -4,36 +4,54 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>About &amp; how to play - Grim Gatherings</title>
-<link rel="stylesheet" href="css/style.css?v=visitor-review-v1">
+<link rel="stylesheet" href="css/style.css?v=ui-refresh-v1">
 </head>
 <body>
+<script type="module" src="js/page-ui.js?v=ui-refresh-v1"></script>
 <main>
-<h1>Welcome to Grim Gatherings</h1>
-<p>A story-led murder-mystery party for friends, with the host's narration on one device and each guest's character and clues on their own phone. You can use a ready-to-play mystery or write one in the workshop. Accounts are optional for playing.</p>
-<section class="card" aria-labelledby="how-to-play">
-<h2 id="how-to-play">Your story game in three steps</h2>
-<ol>
-<li><b>Prepare the gathering.</b> Choose Create a new game, add each player's name, and pick a mystery written for exactly your group's size. Review the story and assign characters. The host narrates and only counts as a player if assigned a character too.</li>
-<li><b>Open the doors and meet the cast.</b> Open the lobby before sharing its QR code or room link. Guests scan or enter the code, choose their assigned name, and read their character invitation. The host reads the setup aloud, then each player reads their character card aloud around the group. The group may discuss or accuse based on the introduction alone before starting.</li>
-<li><b>Follow the clue chain.</b> The first scheduled player reads a clue about another character. The character talked about reads next, continuing by target until everyone has read once; if that loop closes early, the next unread player starts again. Discuss and vote after every round. Repeat the chain for each round; after the final round, make final accusations and cast the final vote. Then choose Reveal the truth and read the complete fixed story. After the host confirms End game, the host returns home and connected guests can choose Return home.</li>
-</ol>
-<p>Every story, including both premium stories, has one fixed player count and a chain/coverage schedule written in advance. The first N−1 rounds give every player one clue about every other player exactly once. Any extra rounds follow the story's event arc, occur only after that complete coverage, and may repeat a reader-target pair only where the story notes why it requires it. Clues are read aloud and target another character; story-specific mechanics come from that story's events. Do not inspect the host's story review if you want to avoid spoilers. Murderer identity notification is an optional host setting; it is off by default.</p>
-<p><a href="shop.html">Optional premium games</a> follow the same universal flow and are each written for exactly five players. Only the host buys the $9.99 USD two-game bundle. In the shop, choose Host a room and share the eight-character code or joining link. Guests <a href="premium-room.html">join the premium room</a> free on their own phones without accounts. Check all lobby names before starting. The host advances setup, discussion and vote phases; players read their assigned character cards and clues aloud and vote when it is their turn. The group deliberates and votes after every round, makes final accusations and a final vote, then hears the fixed full-story reveal. A playing host joins a player seat too; a non-playing host uses only host controls. Keep the same browser to reconnect and finish within 24 hours. Optional pass-and-play follows the same flow. The shop tells you whether purchases are open.</p>
+<h1>How to play</h1>
+<p class="center">A mystery night with friends. One host narrates; everyone reads, discusses and votes.</p>
+<section class="card gold" aria-labelledby="quick-start">
+<h2 id="quick-start">Quick start</h2>
+<p>Choose <b>Create a new game</b>, add your players and pick a story that fits your group. Open the lobby and share its QR code. Follow the reader prompts until the final reveal.</p>
+<a class="btn" href="index.html">Start a gathering</a>
 </section>
-<section class="card">
-<h2>Devices, connections &amp; saved games</h2>
-<p>Use a current Safari or Chrome browser and an internet connection on every device. A laptop or tablet is ideal for hosting. The host browser runs the room: keep the game screen open and the device awake. We request screen sleep prevention where the browser allows it, but this cannot keep a closed laptop, locked device or suspended browser running.</p>
-<p>If someone disconnects, leave their character assigned. Phones retry automatically and keep their last received clues; votes wait until reconnected. Return to the host screen or choose Reconnect room. Do not create a new room just to repair a connection.</p>
-<p>If you reload the host or return home, choose Resume on the same browser and device to reopen the saved room. Guests keep the same link and character. Browser Back preserves your saved game. Creating a new game or replacing a mystery asks for confirmation before discarding the old room's progress.</p>
-<p>Save an edited mystery to My Stories or download its JSON before ending a game. A saved mystery is separate from live progress. Local saves are not an account backup and can be lost if you clear browser data. Optional workshop accounts provide creator draft backups, not live-game cloud hosting.</p>
-<p>If a room cannot connect, check its code, ask the host to open the lobby, and make sure the host is awake and online. Some restrictive networks block peer-to-peer connections; try another network or browser. A sleeping host temporarily pauses the game rather than providing always-on server hosting.</p>
+<section class="card" aria-labelledby="how-to-play">
+<h2 id="how-to-play">How it works</h2>
+<ol>
+<li><b>Choose your mystery.</b> Every story has one fixed cast size. Add that many players, assign characters and open the lobby.</li>
+<li><b>Meet the cast.</b> Guests join on their phones without accounts. The host reads the setup aloud, then each player reads their character card. Discuss the introduction if you like.</li>
+<li><b>Read, discuss, vote.</b> The turn banner tells you who reads next. Everyone reads one clue each round, then the group deliberates and votes. Make final accusations and a final vote before hearing the full story and its fixed reveal.</li>
+</ol>
+<h3>Devices</h3>
+<p>A laptop or tablet is ideal for the host; guests use their phones. Use a current Chrome or Safari browser and an internet connection on every device. Keep the host screen open and awake.</p>
+<p><a href="mafia.html">Mafia</a> is a separate hidden-role game with fresh random roles each time. Choose everyone's-phone mode or one-phone narrator mode; its screen walks you through night, discussion and voting.</p>
+</section>
+<section aria-labelledby="host-guide">
+<h2 id="host-guide">Host guide</h2>
+<details class="card"><summary>Preparing &amp; running a story</summary>
+<p>Review the character assignments before opening the lobby. The host counts as a player only if assigned a character. The review contains spoilers, so keep it private from players.</p>
+<p>Read the narration aloud and call on the reader named in the turn banner. Mark each clue read. Every player reads once per round; discussion and voting follow every round.</p>
+<p>Murderer identity notification is off by default. The host can enable it during character review. Ghost parts appear only where the story calls for them; they stay in the reading order.</p>
+<p>Clue order is precomputed. Each player reads about every other character before any story-required repeats, which the story notes explain. You do not need to manage the coverage math.</p>
+</details>
+<details class="card"><summary>Connections, rejoining &amp; saved games</summary>
+<p>The host browser runs free-story and everyone's-phone Mafia rooms. A closed laptop, locked device or suspended browser cannot keep a room running, even when sleep prevention is available.</p>
+<p>If someone disconnects, leave their character assigned. Phones retry automatically and keep their last received clues; voting needs a connection. Return to the host screen or choose Reconnect room, rather than creating a new room.</p>
+<p>To reopen a saved game, use Resume on the same browser and device. Guests keep the same link and character. Browser Back preserves your game; creating a new game or replacing a mystery asks for confirmation.</p>
+<p>Clearing browser data can lose progress. Accounts keep premium purchase access, not free-game cloud backups. Restrictive networks may block peer connections; try another network or browser.</p>
+</details>
+<details class="card"><summary>Premium rooms</summary>
+<p>Only the host buys. In the <a href="shop.html">shop</a>, choose Host a room and share its eight-character code. Guests join free through <a href="index.html#join-game">Join a room</a>, without accounts.</p>
+<p>Each premium story has five players and uses the same read-aloud story loop. Check lobby names before starting. A playing host joins a player seat too; a non-playing host uses only host controls.</p>
+<p>Reconnect in the same browser and finish within 24 hours. Pass-and-play is also available on one trusted device. Purchases may be paused at times; the shop shows availability and pricing.</p>
+</details>
 </section>
 <section class="card" id="contact" aria-labelledby="contact-heading">
 <h2 id="contact-heading">Contact &amp; support</h2>
-<p>Report bugs or ask general questions through our <a href="https://github.com/Evil0ctopus/grim-gatherings/issues" target="_blank" rel="noopener">GitHub support tracker</a>. Include the browser, device, steps to reproduce and any non-sensitive error message. A GitHub account is needed to post.</p>
-<p><b>Reports are public.</b> Never post passwords, API keys, account tokens, live room links, unpublished stories or personal information. For an account or privacy question, ask the owner for a private contact method without posting your account details.</p>
+<p>Report bugs through our <a href="https://github.com/Evil0ctopus/grim-gatherings/issues" target="_blank" rel="noopener">GitHub support tracker</a>. Include your browser, device and steps to reproduce. A GitHub account is needed to post.</p>
+<p><b>Reports are public.</b> Never post passwords, tokens, live room links or personal information. For account or privacy questions, ask the owner for a private contact method.</p>
 </section>
-<p><a class="btn secondary" href="index.html">Back to the game</a></p>
 </main>
 <footer class="site-footer">
 <nav aria-label="Site information"><a href="how-to-play.html">About &amp; how to play</a> <a href="#contact">Contact</a> <a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></nav>

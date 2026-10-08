@@ -6,7 +6,7 @@ import { normalizeStory } from '../js/story.js';
 import { validateAccusationCircles } from '../js/accusations.js';
 import { buildSampleStory, SAMPLE_INFO } from '../js/sample.js';
 
-const expectedCounts = { 'mercy-hollow': 5, 'blackthorn-farm': 5, 'briar-house': 5, 'blackwater-row': 4 };
+const expectedCounts = { 'mercy-hollow': 5, 'blackthorn-farm': 5, 'briar-house': 5 };
 const expectedFamilies = Object.keys(expectedCounts);
 const guestList = count => Array.from({ length: count }, (_, index) => ({ name: `Guest ${index + 1}`, desc: '' }));
 

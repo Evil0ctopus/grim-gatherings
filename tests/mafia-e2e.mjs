@@ -1,6 +1,7 @@
 // Mafia browser test: a table screen plus phones in separate contexts, over real PeerJS.
 // Usage: node tests/mafia-e2e.mjs [baseUrl] [players=5] [screenshotDir]
 import { chromium, devices } from 'playwright';
+import { acceptDialogs } from './dialog-helper.mjs';
 import fs from 'node:fs';
 
 const BASE = (process.argv[2] || 'https://evil0ctopus.github.io/grim-gatherings/').replace(/\/?$/, '/');
@@ -21,7 +22,7 @@ const phones = [];
 async function mkPage(label, mobile) {
   const ctx = await browser.newContext(mobile ? { ...devices['iPhone 13'], browserName: undefined } : { viewport: { width: 1280, height: 900 } });
   const page = await ctx.newPage();
-  page.on('dialog', d => d.accept());
+  await acceptDialogs(page);
   page.on('pageerror', e => errors.push(`[${label}] ${e.message}`));
   page.on('console', m => { if (m.type() === 'error') errors.push(`[${label}] ${m.text()}`); });
   return page;
@@ -43,6 +44,8 @@ async function readRoles(phones) {
 try {
   const host = await mkPage('table', false);
   await host.goto(BASE + 'mafia.html', { waitUntil: 'load' });
+  ok('entry does not silently create a saved room', await host.evaluate(() => localStorage.getItem('gg-mafia-host-v1') === null));
+  await host.click('#create-mafia-room');
   await host.waitForSelector('.room-code', { timeout: T });
   const room = (await host.textContent('.room-code')).trim();
   ok('table screen shows a room code', /^[A-Z0-9]{3,12}$/.test(room), room);

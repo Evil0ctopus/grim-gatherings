@@ -1,7 +1,29 @@
 # Grim Gatherings roadmap
 
+## Clean, simple UI refresh
+
+- Visitor story authoring, AI help and story-file tools are retired; accounts remain.
+- Blackwater Row is withdrawn for a rewrite, with its source preserved.
+- Gold-on-black pages have clearer spacing, touch targets and live turn banners;
+  clue-chain computation and reader order are unchanged.
+- Confirmations use accessible in-app dialogs, including keyboard cancellation.
+- Home has two hosting choices and one free/premium story join flow.
+- Mafia requires explicit new-room creation; settings start collapsed.
+- The shop is product-first with one consent-gated checkout; help is concise and
+  long host guidance is collapsed.
+
 Stage 1 is the launch gate. Stage 2 monetization starts only after Stage 1 is
 verified. A checked item means completed with evidence, not merely planned.
+
+## October 7 catalog cleanup
+
+The current code removes public story creation, AI assistance, JSON tools and
+community publishing. The former workshop address is now accounts only.
+Blackwater Row is withdrawn for rewriting; its source is retained. Clue-chain
+diagrams are hidden while reader prompts and the authored order remain.
+Historical workshop/catalog checks below describe older releases, not current
+features. Static release and deployment of the updated Supabase `community`
+function must be verified separately.
 
 ## Stage 1 - connected, reliable, playable
 

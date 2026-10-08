@@ -5,15 +5,14 @@ import { STARTER_MYSTERIES } from '../js/starters.js';
 import { normalizeStory } from '../js/story.js';
 import { validateAccusationCircles } from '../js/accusations.js';
 
-test('Blackwater Row is playable at its fixed four-player count with exact coverage', () => {
+test('Blackwater Row source is retained for rewriting but is not in the playable catalog', () => {
   const story = blackwater[4];
   assert.equal(story.fixedPlayerCount, 4);
   assert.equal(story.characters.length, 4);
   assert.deepEqual(normalizeStory(story).errors, []);
   assert.deepEqual(validateAccusationCircles(story), []);
   const entry = STARTER_MYSTERIES.find(item => item.story.edition?.family === 'blackwater-row');
-  assert.ok(entry);
-  assert.equal(entry.story.fixedPlayerCount, 4);
+  assert.equal(entry, undefined);
 
   const pairs = new Set();
   story.rounds.forEach((round, ri) => {

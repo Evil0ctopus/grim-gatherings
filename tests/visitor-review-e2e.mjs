@@ -13,12 +13,13 @@ async function fits(page, label) {
   check(`${label}: no horizontal overflow`, await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
 }
 async function confirmClick(page, selector, accept) {
-  const dialogPromise = page.waitForEvent('dialog');
-  const click = page.locator(selector).first().click();
-  const dialog = await dialogPromise;
-  check('destructive action has a confirmation', dialog.type() === 'confirm');
-  if (accept) await dialog.accept(); else await dialog.dismiss();
-  await click;
+  await page.locator(selector).first().click();
+  const dialog = page.getByRole('dialog');
+  await dialog.waitFor();
+  check('destructive action has a themed confirmation', await dialog.locator('#game-dialog-message').isVisible());
+  await dialog.locator(accept ? '[data-dialog-accept]' : '[data-dialog-cancel]').click();
+  await dialog.waitFor({ state: 'detached' });
+  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
 }
 
 try {

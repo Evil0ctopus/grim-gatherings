@@ -14,7 +14,6 @@ function guestLink() {
 }
 function render() {
   root.innerHTML = `<h1>${room ? esc(room.game.title) : 'Premium story room'}</h1>
-    <nav class="row"><a class="btn secondary" href="shop.html">Shop &amp; purchases</a><a class="btn secondary" href="index.html">Game home</a></nav>
     <p id="room-error" class="err" role="alert">${esc(error)}</p>${error ? button('retry', 'Retry connection') : ''}
     ${room ? roomHtml() : setupHtml()}`;
   if (busy) root.querySelectorAll('button,input,select').forEach(element => { element.disabled = true; });
@@ -78,7 +77,7 @@ function hostControls() {
   if (room.phase === 'lobby') controls = button('start', 'Everyone joined — begin story');
   else if (room.phase === 'setup') controls = button('start-introduction', 'Setup read — begin character cards');
   else if (room.phase === 'intro-discussion') controls = button('start-rounds', 'Begin clue rounds');
-  else if (room.phase === 'round-intro') controls = button('start-clues', 'Narration read — begin clue chain');
+  else if (room.phase === 'round-intro') controls = button('start-clues', 'Narration read — begin player clues');
   else if (room.phase === 'deliberation') controls = button('open-vote', 'Discussion finished — open round vote');
   else if (room.phase === 'final-accusation') controls = button('open-final-vote', 'Accusations finished — open final vote');
   else if (room.phase === 'reveal') controls = button('finish-reveal', 'Finish story');
@@ -93,9 +92,9 @@ function guestControls() {
   const player = room.private;
   if (!room.stateStarted) return `<section class="card gold"><h2>Your seat</h2><p>You have joined. Wait for the host to begin the story.</p></section>`;
   if (!player.isCurrentTurn) return `<section class="card gold"><h2>Your seat</h2>
-    <p>${room.currentPlayer ? `It is ${esc(room.currentPlayer)}’s turn.` : 'Wait for the next story phase.'}</p></section>`;
+    <p class="turn-indicator" role="status" aria-live="polite" aria-atomic="true">${room.currentPlayer ? `It is ${esc(room.currentPlayer)}’s turn.` : 'Wait for the next story phase.'}</p></section>`;
   if (room.phase === 'introduction' || room.phase === 'round') {
-    return `<section class="card gold"><h2>Your turn</h2><p>Read the card or clue aloud to everyone.</p>
+    return `<section class="card gold"><h2>Your turn</h2><p class="turn-indicator your-turn" role="status" aria-live="polite" aria-atomic="true">You are next to read. Read the card or clue aloud to everyone.</p>
       ${button(room.phase === 'introduction' ? 'read-card' : 'read-clue', room.phase === 'introduction' ? 'Character card read — next' : 'Clue read — next')}</section>`;
   }
   if (room.phase === 'vote' || room.phase === 'final-vote') return `<section class="card gold"><h2>Your private vote</h2>
@@ -112,7 +111,7 @@ function roomHtml() {
     <p class="small">Expires ${esc(new Date(room.expiresAt).toLocaleString())}. Refresh or reopen this page to reconnect.</p>
     <p>${esc(room.game.premise)}</p><p>${room.game.specialMechanics.map(esc).join(' ')}</p>
     <ul>${room.players.map(player => `<li>${esc(player.name)}${player.characterName ? ` — ${esc(player.characterName)}` : ''}</li>`).join('')}</ul>
-    ${readAloudHtml()}${phaseHtml()}${room.waiting ? `<p role="status">Waiting for ${esc(room.currentPlayer || 'the host')}.</p>` : ''}
+    ${readAloudHtml()}${phaseHtml()}${host && room.waiting ? `<p class="turn-indicator" role="status" aria-live="polite" aria-atomic="true">Waiting for ${esc(room.currentPlayer || 'the host')}.</p>` : ''}
     ${closed ? '<p>This room is closed.</p>' : ''}</section>
     ${hostControls()}${guestControls()}
     <details><summary>Universal story flow</summary><p>Read the setup and character cards, then follow each precomputed clue chain. Deliberate and vote after every round; make final accusations and cast a final vote before the fixed full-story reveal.</p></details>`;
@@ -150,7 +149,7 @@ root.addEventListener('click', async event => {
   if (!element || busy) return;
   const action = element.dataset.room;
   if (action === 'reveal' || action === 'hide') { revealed = action === 'reveal'; render(); return; }
-  if (action === 'close' && !confirm('Close this room for all players? This cannot be undone.')) return;
+  if (action === 'close' && !await confirmAction('Close this room for all players? This cannot be undone.')) return;
   busy = true; error = '';
   root.querySelectorAll('button').forEach(button => { button.disabled = true; });
   try {
@@ -186,3 +185,4 @@ document.addEventListener('visibilitychange', () => {
 try { token = code ? localStorage.getItem(key()) || '' : ''; await load(); }
 catch (failure) { error = failure.message; }
 render(); schedule();
+import { confirmAction } from './dialog.js?v=ui-refresh-v1';

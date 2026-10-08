@@ -6,6 +6,7 @@ import {
   roleCounts, startGame, acknowledgeRole, submitNightAction, castVote, forceAdvance, tick, viewFor, normalizeSettings,
 } from './engine.js?v=mafia-v2';
 import { createSounds } from './sounds.js?v=mafia-v2';
+import { confirmAction } from '../dialog.js?v=ui-refresh-v1';
 
 export const MAFIA_PEER_PREFIX = 'grimgath-mafia-v1-';
 const SAVE_KEY = 'gg-mafia-host-v1';
@@ -24,7 +25,9 @@ function load() {
 
 export function startMafiaHost() {
   const app = $('#app');
-  let H = load() || { room: randomRoom(), lobby: [], game: null, gameNumber: 0, settings: { ...DEFAULT_SETTINGS }, voice: false };
+  let H = load();
+  const freshRoom = () => ({ room: randomRoom(), lobby: [], game: null, gameNumber: 0, settings: { ...DEFAULT_SETTINGS }, voice: false, sound: true });
+  H ||= { room: '', lobby: [], game: null, gameNumber: 0, settings: { ...DEFAULT_SETTINGS }, voice: false };
   H.settings = normalizeSettings(H.settings);
   const conns = new Map(); // conn -> { playerId }
   let peer = null, netStatus = 'starting…', restartTimer = null, blocked = false;
@@ -81,7 +84,7 @@ export function startMafiaHost() {
 
   // ---------- networking ----------
   function startPeer() {
-    if (blocked || (peer && !peer.destroyed)) return;
+    if (!H.room || blocked || (peer && !peer.destroyed)) return;
     if (typeof window.Peer !== 'function') { netStatus = 'PeerJS failed to load'; renderNet(); return; }
     netStatus = 'connecting…'; renderNet();
     const p = new window.Peer(MAFIA_PEER_PREFIX + H.room.toLowerCase(), { debug: 1 });
@@ -281,12 +284,13 @@ export function startMafiaHost() {
 
   function settingsHtml() {
     const s = H.settings;
-    return `<div class="card mafia-settings"><h3>Table settings</h3>
+    return `<details class="card mafia-settings"><summary>Table settings</summary>
       <label>Discussion time <select id="set-discussion">${DISCUSSION_CHOICES.map(n => `<option value="${n}"${n === s.discussionSeconds ? ' selected' : ''}>${n / 60} minutes</option>`).join('')}</select></label>
       <label class="check"><input type="checkbox" id="set-reveal"${s.revealRoleOnDeath ? ' checked' : ''}> Reveal a player's role when they are eliminated</label>
       <label class="check"><input type="checkbox" id="set-voice"${H.voice ? ' checked' : ''}> Narrator voice on this screen</label>
       <label class="check"><input type="checkbox" id="set-sound"${H.sound ? ' checked' : ''}> Sound effects (gunshot, saves, deaths)</label>
-      <p class="small muted">Votes are plurality: the single player with the most votes is eliminated. A tie eliminates no one.</p></div>`;
+      <label class="check"><input type="checkbox" checked disabled> Mafia know each other</label>
+      <p class="small muted">Mafia teammates always see each other in this standard ruleset. Most votes eliminates one player; a tie eliminates no one.</p></details>`;
   }
 
   function renderLobby() {
@@ -348,11 +352,13 @@ export function startMafiaHost() {
     </section>`;
     renderNet();
     const on = (sel, fn) => { const el = $(sel); if (el) el.onclick = fn; };
-    on('#force', () => {
-      if (g.phase === 'night' && !confirm('Force dawn? Anyone who has not acted loses their action tonight, and an unagreed mafia kill is cancelled.')) return;
+    on('#force', async () => {
+      const phase = g.phase;
+      if (g.phase === 'night' && !await confirmAction('Force dawn? Anyone who has not acted loses their action tonight, and an unagreed mafia kill is cancelled.')) return;
+      if (H.game !== g || g.phase !== phase) return toast('The game has already advanced. Review the current phase.');
       forceAdvance(g); changed();
     });
-    on('#end-game', () => { if (confirm('End this game and return everyone to the lobby?')) toLobby(); });
+    on('#end-game', async () => { if (await confirmAction('End this game and return everyone to the lobby?')) toLobby(); });
     on('#play-again', newGame);
     on('#to-lobby', toLobby);
     bindSettings();
@@ -361,7 +367,24 @@ export function startMafiaHost() {
     updateTimers();
   }
 
-  function render() { if (H.game) renderGame(); else renderLobby(); }
+  function renderEntry() {
+    app.innerHTML = `<section class="mafia-host mafia-entry"><header class="mafia-head"><h1>Mafia</h1>
+      <p>A hidden-role party game. Fresh secret roles every time.</p></header>
+      <section class="card gold"><h2>Everyone has a phone?</h2><p>Create a room, then share its code with 5–18 players. Each player gets a private role on their own phone.</p>
+      <button class="block" id="create-mafia-room">Create a Mafia room</button></section>
+      <section class="card"><h2>Only one phone?</h2><p>Enter names and let the narrator's phone guide the whole game.</p><a class="btn secondary block" href="mafia.html?mode=narrator">Play in narrator mode</a></section>
+      <details class="card"><summary>Joining an existing Mafia room</summary><label for="mafia-room-code">Room code</label>
+      <form id="join-mafia-form" class="row"><input id="mafia-room-code" required maxlength="12" pattern="[A-Za-z0-9]{3,12}" autocapitalize="characters"><button>Join Mafia</button></form></details></section>`;
+    $('#create-mafia-room').onclick = () => {
+      H = freshRoom(); blocked = false; netStatus = 'connecting…'; sounds.enabled = H.sound;
+      save(); render(); wakeLock.setActive(true); startPeer();
+    };
+    $('#join-mafia-form').onsubmit = event => {
+      event.preventDefault();
+      location.assign(mafiaJoinUrl($('#mafia-room-code').value.trim().toUpperCase()));
+    };
+  }
+  function render() { if (!H.room) renderEntry(); else if (H.game) renderGame(); else renderLobby(); }
 
   let lastTick = null;
   function updateTimers() {
@@ -380,12 +403,12 @@ export function startMafiaHost() {
   }, 500);
 
   document.addEventListener('visibilitychange', () => {
-    wakeLock.setActive(true);
-    if (!document.hidden && (!peer || peer.destroyed || peer.disconnected)) restartPeer(0);
+    wakeLock.setActive(!!H.room);
+    if (H.room && !document.hidden && (!peer || peer.destroyed || peer.disconnected)) restartPeer(0);
   });
-  window.addEventListener('online', () => restartPeer(0));
-  wakeLock.setActive(true);
-  save();
+  window.addEventListener('online', () => { if (H.room) restartPeer(0); });
+  wakeLock.setActive(!!H.room);
+  if (H.room) save();
   render();
   startPeer();
 }

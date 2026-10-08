@@ -1,6 +1,7 @@
 import { esc } from './util.js?v=workshop-v1';
 import { communityRequest, storeSession, sessionToken } from './community-api.js?v=premium-v1';
-import { createGameRoom } from './developer-lab.js?v=premium-v1';
+import { createGameRoom } from './developer-lab.js?v=ui-refresh-v1';
+import { confirmAction } from './dialog.js?v=ui-refresh-v1';
 
 const app = document.getElementById('shop');
 let catalog = null, user = null, error = '', message = '', busy = false, room = null, playing = false, adminMode = false, adminOrders = [];
@@ -14,17 +15,17 @@ if (params.has('payment')) {
 function render() {
   const bundle = catalog?.bundle;
   app.innerHTML = `<h1>${playing ? 'My premium game' : 'Premium games'}</h1>
-    <nav class="row" aria-label="Premium navigation"><a class="btn secondary" href="index.html">Game home</a>
-    <a class="btn secondary" href="workshop.html?account=1">My account</a>
-    <button class="secondary" data-shop="refresh">Shop &amp; my purchases</button>
+    <nav class="row" aria-label="Purchase tools">
+    <button class="secondary small" data-shop="refresh">Refresh purchases</button>
     ${user ? '<button class="secondary" data-shop="logout">Log out</button>' : ''}</nav>
     ${user?.role === 'admin' ? '<button class="secondary small" data-shop="payments-admin">Owner payment management</button>' : ''}
     <p class="${error ? 'err' : ''}" id="shop-error" role="alert">${esc(error)}</p>
     <p id="shop-message" role="status">${esc(message)}</p>
     ${busy ? '<p role="status">Working... Please wait.</p>' : ''}
-    ${user ? `<p>Signed in as <b>${esc(user.name)}</b>. Purchases belong to this account, not the PayPal email.</p>` : loginHtml()}
+    ${user ? `<p>Signed in as <b>${esc(user.name)}</b>. Purchases belong to this account.</p>` : ''}
     ${returnedOrder ? `<div class="card"><p>PayPal return reference: ${esc(returnedOrder)}. A return link alone never unlocks games.</p><button data-shop="capture-return" ${!user ? 'disabled' : ''}>Check payment</button></div>` : ''}
     ${adminMode ? adminHtml() : playing && room ? room.html() : bundle ? bundleHtml(bundle) : '<p>The shop is unavailable. Refresh to retry. Free games and your saved stories are unaffected.</p>'}
+    ${!user ? loginHtml() : ''}
     ${!playing && user && catalog ? purchasesHtml() : ''}`;
   if (busy) app.querySelectorAll('button,input,select,textarea').forEach(el => { el.disabled = true; });
 }
@@ -35,7 +36,7 @@ function adminHtml() {
       ${order.status === 'paid' ? `<button class="danger" data-shop="refund" data-id="${esc(order.id)}">Refund full payment &amp; remove access</button>` : ''}</div>`).join('') || '<p>No payments yet.</p>'}</section>`;
 }
 function loginHtml() {
-  return `<section class="card"><h2>Sign in before buying</h2><p>Both games are added to the Grim Gatherings account you use here. Guests do not need accounts or separate purchases.</p>
+  return `<section class="card" id="shop-sign-in"><h2>Sign in to buy</h2><p>Both games will be added to this account. Your guests play free without accounts.</p>
     <label for="shop-email">Email</label><input type="email" id="shop-email" autocomplete="username">
     <label for="shop-password">Password</label><input type="password" id="shop-password" autocomplete="current-password">
     <button data-shop="login">Log in</button> <a href="workshop.html?account=1">Create an account or reset password</a></section>`;
@@ -44,18 +45,18 @@ function bundleHtml(bundle) {
   return `<section class="card gold"><h2>${esc(bundle.title)}</h2><p><b>$${esc(bundle.amount)} ${esc(bundle.currency)} once for BOTH games.</b> No subscription. Replay for personal, non-commercial game nights while the service operates.</p>
     <h3>The Lanternfall Covenant</h3><p>Investigate Orren’s death and a boundary scheme through public lantern records, physical traces and a fixed, target-chained clue story.</p>
     <h3>The Black Ledger Society</h3><p>Investigate Ivo’s death and a forged-debt scheme through public auction records, counterfoils and a fixed, target-chained clue story.</p>
-    <ul><li>Each story is written for exactly five players and follows the same setup, read-aloud character cards, precomputed clue chains, deliberation and vote after every round, final accusation, final vote and fixed full-story reveal as the free stories.</li>
+    <ul><li>Five players per story. Read your character cards and clues aloud, discuss and vote each round, then hear the full story and its fixed reveal.</li>
     <li><b>One host buys; everyone joins free on their own phone.</b> The host creates an eight-character room code. Guests join the story on their own phones; no guest account is required.</li>
-    <li>Purchases stay with your account across devices. Phone rooms persist for 24 hours; reconnect on the same browser to keep your seat. Optional pass-and-play uses the same story flow on one trusted device and saves only in this browser. Do not share your password.</li>
-    <li>The lantern and counterfeit-ledger evidence are story-specific mechanics layered on the universal flow. The free game catalog remains free.</li></ul>
+    </ul>
+    <details><summary>Devices &amp; saved progress</summary><p>Purchases stay with your account across devices. Phone rooms last 24 hours; reconnect on the same browser to keep your seat. Pass-and-play saves on one trusted device only. Do not share your password.</p></details>
     ${catalog.environment === 'sandbox' ? '<p class="err"><b>TEST MODE:</b> sandbox funds only; these purchases never unlock live purchases.</p>' : ''}
     ${catalog.checkoutNotice ? `<p class="card" role="status">${esc(catalog.checkoutNotice)}</p>` : ''}
     ${catalog.owned ? `<p class="pill ok">Owned by this account</p><button data-shop="play">Host a room - play my purchased games</button><button class="secondary" data-shop="play-pass">Optional pass-and-play</button><button class="secondary" data-shop="discard">Discard saved pass-and-play match</button>` : `
-      <label class="check-row"><input type="checkbox" id="purchase-consent">I want immediate digital access to both games and accept the <a href="terms.html#purchases">purchase and refund terms</a>.</label>
-      <div class="row"><button data-shop="buy-paypal" ${!user || !catalog.checkoutEnabled ? 'disabled' : ''}>Buy both with PayPal - $${esc(bundle.amount)}</button>
-      <button data-shop="buy-card" ${!user || !catalog.checkoutEnabled ? 'disabled' : ''}>Buy both with credit/debit card - $${esc(bundle.amount)}</button></div>`}
-    <p class="small muted">Checkout is hosted by PayPal. Card details are never entered on Grim Gatherings. Guest-card availability depends on PayPal eligibility and merchant settings; if unavailable, PayPal may offer account checkout instead. No PayPal.Me transfer can automatically unlock this bundle.</p>
-    <p class="small">One host buys; guests play free. <a href="premium-room.html">Join a premium room</a> with your host’s code. This purchase gives game access only, never administrator or developer permissions.</p></section>`;
+      <label class="check-row purchase-consent"><input type="checkbox" id="purchase-consent"><span>I agree to the <a href="terms.html#purchases">purchase and refund terms</a>.</span></label>
+      <button class="block" data-shop="buy-paypal" ${!user || !catalog.checkoutEnabled ? 'disabled' : ''}>Buy both — $${esc(bundle.amount)}</button>
+      ${!user ? '<p class="small"><a href="#shop-sign-in">Sign in below to buy.</a></p>' : ''}`}
+    <p class="small muted">Secure checkout via PayPal. No card details touch this site.</p>
+    <p class="small muted">Purchases may be paused at times. Guests can always join an open room with their host’s code.</p></section>`;
 }
 function purchasesHtml() {
   return `<section class="card"><h2>My purchases &amp; payment recovery</h2>${catalog.orders.length ? catalog.orders.map(order => `<div class="card">
@@ -106,8 +107,8 @@ const actions = {
     });
     await room.open(); playing = true;
   },
-  discard() {
-    if (!confirm('Discard this browser’s saved premium match? Your purchased games stay in your account.')) return;
+  async discard() {
+    if (!await confirmAction('Discard this browser’s saved premium match? Your purchased games stay in your account.')) return;
     localStorage.removeItem(`gg-premium-${catalog.environment}-${user.id}`);
     room?.clear(); playing = false;
     message = 'Saved match discarded. Your purchase is unchanged.';
@@ -118,7 +119,7 @@ const actions = {
     adminMode = true;
   },
   async refund(element) {
-    if (!confirm('Issue a full PayPal refund and remove bundle access from this purchase? This cannot be undone.')) return;
+    if (!await confirmAction('Issue a full PayPal refund and remove bundle access from this purchase? This cannot be undone.')) return;
     const result = await communityRequest('/api/admin/purchases/refund', { method: 'POST', body: { id: element.dataset.id, confirm: true } });
     message = result.message;
     await refresh();
@@ -128,14 +129,13 @@ const actions = {
   'check-order': el => capture(el.dataset.order),
 };
 async function buy(paymentMethod) {
-  if (!app.querySelector('#purchase-consent').checked) throw new Error('Accept the immediate-access and purchase terms before checkout.');
+  if (!app.querySelector('#purchase-consent').checked) throw new Error('Agree to the purchase and refund terms before checkout.');
   const order = await communityRequest('/api/purchases/orders', { method: 'POST', body: {
     consent: true, termsVersion: catalog.bundle.termsVersion, paymentMethod,
   } });
   location.assign(order.approvalUrl);
 }
 actions['buy-paypal'] = () => buy('paypal');
-actions['buy-card'] = () => buy('card');
 app.addEventListener('click', async event => {
   const element = event.target.closest('[data-shop],[data-action]');
   if (!element || busy) return;

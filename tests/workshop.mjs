@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { blankStory, routingPlan, createPrompt, checkDraft, editedDraft, isEditableStory, REVIEW_ITEMS } from '../js/workshop-core.js';
+import { blankStory, routingPlan, createPrompt, checkDraft, editedDraft, isEditableStory, REVIEW_ITEMS } from '../tools/story-core.mjs';
 import { normalizeStory } from '../js/story.js';
 import { upsertStory, readStoryLibrary, adaptStoryForPlayers } from '../js/library.js';
 import { readyDraft } from './workshop-fixture.mjs';

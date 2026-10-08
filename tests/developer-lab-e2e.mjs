@@ -1,5 +1,6 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
+import { acceptDialogs } from './dialog-helper.mjs';
 import { once } from 'node:events';
 import { createCommunityServer } from '../server/community.mjs';
 
@@ -39,7 +40,7 @@ async function click(page, name) {
 try {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
   page.on('pageerror', error => errors.push(error.message));
-  page.on('dialog', dialog => dialog.accept());
+  await acceptDialogs(page);
   await page.route('**/js/community-config.js*', route => route.fulfill({
     contentType: 'text/javascript', body: "export const COMMUNITY_API='';export const COMMUNITY_PROVIDER='node';",
   }));

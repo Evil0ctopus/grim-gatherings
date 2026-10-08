@@ -1,6 +1,7 @@
 // One-phone narrator mode browser test: one phone runs the whole game.
 // Usage: node tests/mafia-narrator-e2e.mjs [baseUrl] [players=5] [screenshotDir]
 import { chromium, devices } from 'playwright';
+import { acceptDialogs } from './dialog-helper.mjs';
 import fs from 'node:fs';
 
 const BASE = (process.argv[2] || 'https://evil0ctopus.github.io/grim-gatherings/').replace(/\/?$/, '/');
@@ -22,18 +23,18 @@ await ctx.addInitScript(() => {
   window.addEventListener('mafia-sound', e => window.__sounds.push(e.detail.name));
 });
 const page = await ctx.newPage();
-page.on('dialog', d => d.accept());
+await acceptDialogs(page);
 page.on('pageerror', e => errors.push(e.message));
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 const sounds = () => page.evaluate(() => window.__sounds.slice());
 const clearSounds = () => page.evaluate(() => { window.__sounds.length = 0; });
-const btn = name => page.locator('[data-pick]').filter({ hasText: new RegExp(`^\\s*${name}\\s*$`) }).first();
+const btn = name => page.locator('[data-pick]').filter({ hasText: new RegExp(`^\\s*${name}(?:\\s+Selected)?\\s*$`) }).first();
 
 try {
   await page.goto(BASE + 'index.html');
   await page.evaluate(() => localStorage.clear());
   await page.goto(BASE + 'mafia.html');
-  await page.click('.mode-switch a');
+  await page.getByRole('link', { name: 'Play in narrator mode', exact: true }).click();
   await page.waitForSelector('.mafia-narrator #add-form');
   ok('lobby links to narrator mode', page.url().includes('mode=narrator'));
 
@@ -82,6 +83,7 @@ try {
         if (script.includes('doctor')) {
           const other = [...alive].find(n => n !== victim);
           await btn(saveVictim ? victim : other).click();
+          ok('doctor selection has one labelled accessible selected target', await page.locator('[data-pick][aria-pressed="true"] .selection-label').count() === 1);
         } else {
           const target = (await page.locator('[data-pick]').allInnerTexts())[0].trim();
           await btn(target).click();

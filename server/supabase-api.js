@@ -1,4 +1,3 @@
-import { checkDraft, isEditableStory } from '../js/workshop-core.js';
 import { createDeveloperLab } from './developer-lab.js';
 import { createPremiumPayments } from './premium-payments.js';
 import { createPremiumRooms } from './premium-rooms.js';
@@ -11,25 +10,6 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function uuid(value) {
   requireValue(typeof value === 'string' && UUID.test(value), 400, 'Choose a valid saved story or submission.');
   return value;
-}
-function validateDraft(content) {
-  requireValue(content && typeof content === 'object' && !Array.isArray(content) &&
-    isEditableStory(content.story), 400, 'A complete editable draft structure is required; its text may still be unfinished.');
-  requireValue(JSON.stringify(content).length <= 750000, 413, 'Draft is too large.');
-  requireValue(Array.isArray(content.locks) && content.locks.length <= 100 &&
-    content.locks.every(l => l && typeof l.term === 'string' && Number.isInteger(l.round)), 400, 'Hidden facts need a phrase and first-release round.');
-  requireValue(typeof content.story.title === 'string' && content.story.title.trim().length > 0 &&
-    content.story.title.length <= 200, 400, 'Add a story title of 1-200 characters.');
-  return content;
-}
-function playable(content) {
-  validateDraft(content);
-  requireValue(!content.rawJson, 400, 'Apply or correct the pasted JSON before submitting.');
-  const checked = checkDraft(content);
-  requireValue(checked.story, 400, checked.errors.join('\n'));
-  checked.story.characters.forEach(c => { c.guest = ''; c.guestNote = ''; });
-  delete checked.story.edition; delete checked.story.provenance;
-  return checked.story;
 }
 
 export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteUrl, registration = true, paypal = {}, fetchImpl = fetch }) {
@@ -110,6 +90,9 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
     return value;
   }
   async function route(req, pathname) {
+    if (/^\/api\/(?:drafts|submissions|community|admin\/submissions)(?:\/|$)/.test(pathname)) {
+      throw new ApiError(410, 'Story creation and community publishing have been retired. Choose a mystery from the site catalog.');
+    }
     if (pathname === '/api/health' && req.method === 'GET') {
       // Detect a missing migration instead of reporting a success-shaped health check.
       await rpc('gg_catalog', { p_id: null });
@@ -136,12 +119,9 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
         return { message: 'If this address has an account, a password-reset email will arrive. Check your inbox and spam folder.' };
       }
     }
-    if (pathname === '/api/community' && req.method === 'GET') return rpc('gg_catalog', { p_id: null });
     if (pathname === '/api/shop' && req.method === 'GET') return payments.catalog(null, req.headers.get('origin'));
     if (pathname === '/api/paypal/webhook' && req.method === 'POST') return payments.webhook(req, await bodyFor(req));
     if (pathname === '/api/premium/rooms/guest' && req.method === 'POST') return premiumRooms.guest(await bodyFor(req));
-    const publicId = /^\/api\/community\/([^/]+)$/.exec(pathname)?.[1];
-    if (publicId && req.method === 'GET') return rpc('gg_catalog', { p_id: uuid(publicId) });
     const token = /^Bearer (.+)$/.exec(req.headers.get('authorization') || '')?.[1];
     requireValue(token && token.length <= 8192, 401, 'Please log in again.');
     // Never trust decoded JWT claims or user-supplied metadata roles.
@@ -173,37 +153,8 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
       await upstream('/auth/v1/user', { method: 'PUT', token, body: { password: password(body.password) } });
       return { message: 'Password updated. Keep it in your password manager.' };
     }
-    if (pathname === '/api/drafts') {
-      if (req.method === 'GET') return rpc('gg_read_drafts', { p_user: user.id });
-      if (req.method === 'POST') {
-        const body = await bodyFor(req);
-        return rpc('gg_save_draft', { p_user: user.id, p_id: null, p_content: validateDraft(body.content), p_expected: null });
-      }
-    }
-    const match = /^\/api\/drafts\/([^/]+)(?:\/(versions)(?:\/(\d+))?)?$/.exec(pathname);
-    if (match) {
-      const [, id, versions, number] = match;
-      if (req.method === 'GET') return rpc('gg_read_drafts', { p_user: user.id, p_id: uuid(id),
-        p_revision: number ? Number(number) : null, p_versions: !!versions && !number });
-      if (!versions && req.method === 'PUT') {
-        const body = await bodyFor(req);
-        requireValue(Number.isInteger(body.expectedRevision) && body.expectedRevision > 0, 400, 'Choose the expected saved revision.');
-        return rpc('gg_save_draft', { p_user: user.id, p_id: uuid(id), p_content: validateDraft(body.content), p_expected: body.expectedRevision });
-      }
-    }
-    if (pathname === '/api/submissions') {
-      if (req.method === 'GET') return rpc('gg_read_submissions', { p_user: user.id });
-      if (req.method === 'POST') {
-        const body = await bodyFor(req);
-        requireValue(body.consent === true, 400, 'Confirm ownership and permission to publish.');
-        requireValue(Number.isInteger(body.revision) && body.revision > 0, 400, 'Choose a saved revision.');
-        const id = uuid(body.draftId);
-        const saved = await rpc('gg_read_drafts', { p_user: user.id, p_id: id, p_revision: body.revision });
-        return rpc('gg_submit', { p_user: user.id, p_id: id, p_revision: body.revision, p_story: playable(saved.content), p_consent: true });
-      }
-    }
     if (pathname.startsWith('/api/admin/')) {
-      requireValue(user.role === 'admin', 403, 'Only the site administrator can review submissions.');
+      requireValue(user.role === 'admin', 403, 'Only the site administrator can access developer or payment controls.');
       if (pathname === '/api/admin/purchases' && req.method === 'GET') return payments.adminOrders(user);
       if (pathname === '/api/admin/purchases/refund' && req.method === 'POST') {
         const body = await bodyFor(req);
@@ -214,22 +165,6 @@ export function createSupabaseHandler({ url, anonKey, serviceKey, origins, siteU
       if (pathname === '/api/admin/developer' && req.method === 'GET') return developerLab.catalog();
       if (pathname === '/api/admin/developer' && req.method === 'POST') {
         return developerLab.act(await bodyFor(req), user.id);
-      }
-      if (pathname === '/api/admin/submissions' && req.method === 'GET') return rpc('gg_read_submissions', { p_user: user.id, p_admin: true });
-      const id = /^\/api\/admin\/submissions\/([^/]+)$/.exec(pathname)?.[1];
-      if (id) {
-        if (req.method === 'GET') return rpc('gg_read_submissions', { p_user: user.id, p_admin: true, p_id: uuid(id) });
-        if (req.method === 'POST') {
-          const body = await bodyFor(req);
-          requireValue(['approved', 'changes_requested', 'rejected', 'unpublished'].includes(body.decision) &&
-            typeof body.note === 'string' && body.note.length <= 2000, 400, 'Choose a moderation decision and note under 2000 characters.');
-          if (body.decision === 'approved') {
-            requireValue(body.reviewed === true, 400, 'Preview every chapter and confirm your review.');
-            const entry = await rpc('gg_read_submissions', { p_user: user.id, p_admin: true, p_id: uuid(id) });
-            playable(entry.submission.content);
-          }
-          return rpc('gg_moderate', { p_user: user.id, p_id: uuid(id), p_decision: body.decision, p_note: body.note, p_reviewed: body.reviewed === true });
-        }
       }
     }
     throw new ApiError(404, 'API route not found.');

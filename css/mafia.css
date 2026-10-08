@@ -137,3 +137,19 @@ body.mafia-page main:has(.mafia-narrator){max-width:620px}
 .narrator-sheet summary,.mafia-narrator details > summary{cursor:pointer;font-family:Cinzel,serif;color:var(--gold)}
 .game-log{padding-left:1.2em;text-align:left}
 .game-log li{margin:.35em 0}
+
+.mafia-grid{gap:24px}
+.mafia-grid > *{min-width:0}
+.mafia-settings label.check{display:flex;align-items:flex-start;gap:14px;margin:20px 0}
+.mafia-settings label.check input{flex:none;margin-top:4px}
+.mafia-host .link-btn,.mafia-phone .link-btn{min-height:48px;padding:12px 16px;font-size:1rem}
+.mafia-narrator #skip-pass{margin-top:32px;border-top:1px solid var(--line);width:100%;color:var(--muted)}
+.targets{gap:14px;margin:24px 0}
+.target.picked,.target.picked:hover{background:#f7d28b;color:#211406;border:3px solid #fff0ca;box-shadow:0 0 0 2px #8b611e}
+.selection-label{display:block;font-size:.85rem;font-weight:700;text-transform:uppercase;margin-top:6px}
+.target.picked{display:flex;flex-direction:column}
+.mafia-entry{max-width:700px;margin:auto}
+.name-chips button{min-width:44px;min-height:44px}
+.name-chips{gap:12px}
+.mafia-roster li,.final-row{gap:12px;padding:14px 8px}
+@media(max-width:400px){.mafia-grid{grid-template-columns:minmax(0,1fr)}.vote-row{gap:6px;padding:12px 6px}.final-row{flex-wrap:wrap}.name-entry{flex-wrap:wrap}.name-entry input{flex-basis:100%}}

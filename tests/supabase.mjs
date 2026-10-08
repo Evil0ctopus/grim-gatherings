@@ -148,17 +148,17 @@ test('Supabase Edge API verifies Auth, validates exact saved content, blocks aut
     assert.equal(registration.confirmationRequired, true);
     const login = await request('/api/auth/login', { method: 'POST', body: { username: 'creator@example.test', password: 'test-password-12345' } });
     assert.equal(login.user.role, 'author', 'User metadata cannot grant admin');
-    await request('/api/admin/submissions', { token: 'author-token', status: 403 });
+    await request('/api/admin/submissions', { token: 'author-token', status: 410 });
     for (const method of ['GET', 'POST']) {
       await request('/api/admin/developer', { method, status: 401, ...(method === 'POST' ? { body: { command: { type: 'create' } } } : {}) });
       await request('/api/admin/developer', { method, token: 'author-token', status: 403, ...(method === 'POST' ? { body: { role: 'admin', command: { type: 'create' } } } : {}) });
     }
-    const content = readyDraft();
-    const saved = await request('/api/drafts', { method: 'POST', token: 'author-token', body: { content } });
-    content.review = {};
-    await request(`/api/drafts/${saved.id}`, { method: 'PUT', token: 'author-token', body: { content, expectedRevision: 1 } });
-    await request('/api/submissions', { method: 'POST', token: 'author-token', body: { draftId: saved.id, revision: 2, consent: true }, status: 400 });
-    const submitted = await request('/api/submissions', { method: 'POST', token: 'author-token', body: { draftId: saved.id, revision: 1, consent: true } });
+    for (const path of ['/api/drafts', '/api/drafts/old-story', '/api/submissions', '/api/community', '/api/community/old-story', '/api/admin/submissions/old-story']) {
+      for (const method of ['GET', 'POST', 'PUT']) {
+        const result = await request(path, { method, token: 'author-token', status: 410, ...(method === 'GET' ? {} : { body: {} }) });
+        assert.match(result.error, /retired/);
+      }
+    }
     await call(db, 'gg_profile', { p_user: ids.admin, p_email: 'owner@example.test', p_name: 'Owner' });
     await db.query("update public.gg_profiles set role='admin' where id=$1", [ids.admin]);
     assert.equal((await request('/api/admin/developer', { token: 'admin-token' })).games.length, 2);
@@ -182,9 +182,6 @@ test('Supabase Edge API verifies Auth, validates exact saved content, blocks aut
     cardRead.state.roundIndex = 4;
     await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
       body: { ...cardRead, command: { type: 'resume' } }, status: 400 });
-    await request(`/api/admin/submissions/${submitted.id}`, { method: 'POST', token: 'admin-token', body: { decision: 'approved', note: '', reviewed: true } });
-    assert.equal((await request('/api/community')).stories.length, 1);
-    assert.equal((await request(`/api/community/${submitted.id}`)).story.characters.every(c => !c.guest), true);
     const recovered = await request('/api/auth/recover', { method: 'POST', body: { username: 'creator@example.test' } });
     assert.match(recovered.message, /If this address/);
     await request('/api/auth/password', { method: 'POST', token: 'author-token', body: { password: 'a-new-test-password' } });

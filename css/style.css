@@ -237,3 +237,67 @@ body[data-motion=reduced] .manor-rain{display:none}
   .manor-scene-shade{background:linear-gradient(0deg,#03070bc9,transparent 65%),linear-gradient(180deg,#03070bb3,transparent 42%),radial-gradient(ellipse at center,transparent 25%,#02050a66)}
 }
 @media(prefers-reduced-motion:reduce){.manor-rain{display:none}}
+
+/* Readable surfaces and generous controls, shared by story, account and shop pages. */
+:root{--muted:#d0c5b3;--line:#64524e}
+body{line-height:1.65}
+main{padding:24px 20px 64px}
+h2,h3{margin-top:1em;margin-bottom:.6em}
+p{margin:.8em 0}
+li + li{margin-top:.65em}
+.card{padding:clamp(20px,4vw,30px);margin:24px 0;background:linear-gradient(145deg,#241c1e,#141114)}
+.card > :first-child{margin-top:0}
+.card > :last-child{margin-bottom:0}
+.card .card{box-shadow:none;background:#100d10;border-color:#635249}
+.card.gold{background:linear-gradient(145deg,#28201b,#151114)}
+.label{color:#e1c998;font-size:.9rem;letter-spacing:.08em;margin:1.2em 0 .5em}
+.small{font-size:.95rem;line-height:1.6}
+.row{gap:14px}
+.row > *{min-width:0}
+.stack > * + *{margin-top:16px}
+button.small,.btn.small{min-height:44px}
+button.secondary,.btn.secondary{background:#151114;border-color:#8f7654}
+.btn.block{width:100%}
+label{font-size:1rem;color:var(--text);letter-spacing:.015em;margin:20px 0 8px}
+label.check-row{align-items:flex-start;gap:14px;line-height:1.6}
+input[type=checkbox]{flex:none;width:20px;height:20px;transform:none;margin:4px 0 0}
+input:not([type=checkbox]),select{min-height:48px}
+details{padding:16px 18px;margin:18px 0}
+details > summary{min-height:44px;display:flex;align-items:center;gap:8px}
+details[open] > summary{margin-bottom:16px}
+.grid2{gap:24px}
+.grid2 > *{min-width:0}
+.story-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.turn-indicator{padding:20px;border:2px solid #e9b44c;border-radius:12px;background:#151009;color:#ffe0a0;font-size:clamp(1.2rem,4vw,1.5rem);line-height:1.5;font-weight:600}
+.turn-indicator.your-turn{background:#f7d28b;color:#211406;border-color:#fff0ca}
+.turn-indicator.complete{border-color:#9acda8;color:#c0efcf;background:#102016}
+.site-nav{position:relative;z-index:3;display:flex;flex-wrap:wrap;gap:8px 24px;align-items:center;justify-content:center;margin:0 auto;padding:10px 16px;background:#0b0809e8;border-bottom:1px solid #64524e}
+.site-nav a{min-height:44px;display:inline-flex;align-items:center;font-size:1rem;text-decoration:none}
+.site-nav a:hover{text-decoration:underline}
+.statusbar{flex-wrap:wrap;margin:-24px -20px 20px;padding:12px 16px}
+.actions{gap:14px;padding-top:20px}
+.atmosphere-controls{margin:16px auto;background:#141114}
+.atmosphere-controls summary{font-size:1rem;letter-spacing:0}
+body:not([data-phase=home]) main{background:#0d0b0ef2}
+body[data-theme=witch]:not([data-phase=home]) main,body[data-theme=farm]:not([data-phase=home]) main,body[data-theme=victorian]:not([data-phase=home]) main{background:#0d0b0ef2}
+.landing-actions{max-width:540px}
+.landing-actions .card{background:#141318f5}
+.game-dialog{position:fixed;width:min(540px,calc(100vw - 32px));max-height:calc(100dvh - 48px);overflow:auto;padding:28px;border:2px solid #e9b44c;border-radius:16px;background:#151114;color:#f4ead5;box-shadow:0 24px 80px #000;font:inherit}
+.game-dialog::backdrop{background:#000b;backdrop-filter:blur(3px)}
+.game-dialog h2{color:#ffd27a}
+.game-dialog .label{margin-top:0}
+.dialog-actions{display:flex;flex-wrap:wrap;gap:16px;margin-top:28px}
+.dialog-actions button{flex:1 1 160px}
+button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #ffe0a0;outline-offset:4px}
+@media(max-width:600px){
+  main{padding:20px 16px 48px}
+  .statusbar{margin:-20px -16px 20px;gap:12px}
+  .card{padding:20px;margin:20px 0}
+  .row > button,.row > .btn{flex:1 1 180px}
+  .site-nav{gap:4px 18px}
+  .site-nav a{font-size:.95rem}
+  .game-dialog{padding:22px}
+  .atmosphere-controls{margin:16px}
+  body:not([data-phase=home]) main{margin-top:20px}
+  .roster li{flex-wrap:wrap}
+}

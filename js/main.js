@@ -1,4 +1,4 @@
-import { startPlayer } from './player.js?v=visitor-review-v1';
+import { startPlayer } from './player.js?v=ui-refresh-v1';
 import { removeOutdatedSavedContent } from './saved-content.js?v=workshop-v1';
 import { toast } from './util.js?v=f1ed522';
 
@@ -17,7 +17,7 @@ if (/^[A-Z2-9]{8}$/.test(room)) location.replace(new URL(`premium-room.html?room
 else if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=mafia-button-v1');
+    const { startHost } = await import('./host.js?v=ui-refresh-v1');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);

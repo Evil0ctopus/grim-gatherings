@@ -1,8 +1,9 @@
 // Guest (phone) side. Connects to the host's peer id, claims a character, renders ONLY its own packet.
 import { $, esc, paras, uid, toast, baseUrl, PEER_PREFIX } from './util.js?v=f1ed522';
-import { createAtmosphere } from './atmosphere.js?v=volume-58-v1';
+import { createAtmosphere } from './atmosphere.js?v=ui-refresh-v1';
 import { voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { createPlayerConnection } from './player-connection.js?v=visitor-review-v1';
+import { confirmAction } from './dialog.js?v=ui-refresh-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();
@@ -29,9 +30,9 @@ export function startPlayer(room) {
     network.stop();
     location.href = baseUrl();
   }
-  $('#leave-game').addEventListener('click', () => {
+  $('#leave-game').addEventListener('click', async () => {
     if (ended || !me.charId) return returnHome();
-    if (!confirm('Leave this game and return home? Your character will be released for someone else. If disconnected, the host may need to release it manually.')) return;
+    if (!await confirmAction('Leave this game and return home? Your character will be released for someone else. If disconnected, the host may need to release it manually.')) return;
     if (status !== 'connected') return returnHome();
     if (leaving) return;
     leaving = true;
@@ -41,10 +42,10 @@ export function startPlayer(room) {
       $('#leave-game').disabled = false;
       return;
     }
-    leaveTimer = setTimeout(() => {
+    leaveTimer = setTimeout(async () => {
       leaving = false;
       $('#leave-game').disabled = false;
-      if (confirm('The host did not confirm releasing your character. Return home anyway? The host may need to release it manually.')) returnHome();
+      if (await confirmAction('The host did not confirm releasing your character. Return home anyway? The host may need to release it manually.')) returnHome();
     }, 4000);
   });
 
@@ -186,8 +187,8 @@ export function startPlayer(room) {
       phaseCard = `<div class="card blood" id="phase-card"><div class="label">Round ${v.roundIndex + 1} of ${v.roundsTotal}</div>
         <h2 id="round-title">${esc(v.currentRound.title)}</h2>${paras(v.currentRound.publicText)}
         <details data-k="narration"><summary>The host's narration</summary>${paras(v.currentRound.narration)}</details>
-        <div class="card"><div class="label">Clue chain</div><ol>${chain.map((reader, index) => `<li ${index === v.currentRound.chainIndex ? 'aria-current="step"' : ''}>${esc(reader.name)}${reader.guest ? ` (${esc(reader.guest)})` : ''}</li>`).join('')}</ol>
-        <p class="small muted">${currentReader?.id === v.me ? 'You are next to read.' : currentReader ? `Waiting for ${esc(currentReader.name)} to read.` : 'The clue chain is complete.'}</p></div>
+        <div class="card"><div class="label">Who's reading</div>
+        <p class="turn-indicator${currentReader?.id === v.me ? ' your-turn' : !currentReader ? ' complete' : ''}" id="current-reader" role="status" aria-live="polite" aria-atomic="true">${currentReader?.id === v.me ? 'You are next to read.' : currentReader ? `Waiting for ${esc(currentReader.name)}${currentReader.guest ? ` (${esc(currentReader.guest)})` : ''} to read.` : 'Everyone has read this round’s clue.'}</p></div>
         <hr><div id="my-clues">${r ? cluesBlock(r) : ''}</div></div>`;
     } else if (v.phase === 'deliberation' && v.currentRound) {
       const last = v.roundIndex === v.roundsTotal - 1;
@@ -242,7 +243,7 @@ export function startPlayer(room) {
       <p class="footer">Wrong character? <button class="secondary small" data-unclaim="1">Switch</button></p>`;
   }
 
-  body.addEventListener('click', e => {
+  body.addEventListener('click', async e => {
     const claim = e.target.closest('[data-claim]');
     if (claim && !claim.disabled) { if (send({ t: 'claim', charId: claim.dataset.claim, token: me.token })) claim.textContent = 'Opening your packet…'; return; }
     const vote = e.target.closest('[data-vote]');
@@ -255,7 +256,7 @@ export function startPlayer(room) {
       return;
     }
     if (e.target.closest('[data-unclaim]:not(:disabled)')) {
-      if (confirm('Give up this character and pick again?')) send({ t: 'unclaim' });
+      if (await confirmAction('Give up this character and pick again?')) send({ t: 'unclaim' });
     }
   });
 
