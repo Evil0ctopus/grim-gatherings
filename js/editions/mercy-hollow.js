@@ -125,41 +125,41 @@ export default {
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "About {witness}: Ward's inventory lists a signed retraction by {witness} inside the missing packet. The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement.",
-              "observation": "Ward's inventory lists a signed retraction by {witness} inside the missing packet.",
-              "contradictingDetail": "The earlier testimony harmed an accused family. Removing that document could benefit a frightened witness, or the person who arranged the first statement."
+              "text": "I read Ward's inventory: {witness}'s signed retraction was in the missing packet; the first testimony harmed a family. I wonder who benefits: her, or whoever arranged it.",
+              "observation": "I read Ward's inventory: {witness}'s signed retraction was in the missing packet; the first testimony harmed a family.",
+              "contradictingDetail": "I wonder who benefits: her, or whoever arranged it."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "About {miller}: A receipt shows {miller} paid the same records fee twice. A concealed payment may connect a village quarrel to the papers Ward was investigating.",
-              "observation": "A receipt shows {miller} paid the same records fee twice.",
-              "contradictingDetail": "A concealed payment may connect a village quarrel to the papers Ward was investigating."
+              "text": "I found a receipt showing {miller} paid the same records fee twice. I wonder whether that hidden payment connects our quarrel to Ward's papers.",
+              "observation": "I found a receipt showing {miller} paid the same records fee twice.",
+              "contradictingDetail": "I wonder whether that hidden payment connects our quarrel to Ward's papers."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "About {minister}: {minister} rescued a draft before the meeting while still concealing a warning about copied testimonies. That selective silence raises a question: why save a paper but withhold the warning that made it matter?",
-              "observation": "{minister} rescued a draft before the meeting while still concealing a warning about copied testimonies.",
-              "contradictingDetail": "That selective silence raises a question: why save a paper but withhold the warning that made it matter?"
+              "text": "I learned {minister} rescued a draft before our meeting but hid a warning about copied testimonies. I can't understand saving the paper while withholding what made it matter.",
+              "observation": "I learned {minister} rescued a draft before our meeting but hid a warning about copied testimonies.",
+              "contradictingDetail": "I can't understand saving the paper while withholding what made it matter."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "About {midwife}: The letter and concealment by {midwife} sought protection for a sister, not a land payment. The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later.",
-              "observation": "The letter and concealment by {midwife} sought protection for a sister, not a land payment.",
-              "contradictingDetail": "The midwife's report of an intact brass chain before the meeting gives a timeline for the fragment found later."
+              "text": "I read {midwife}'s letter; her concealment sought protection for her sister, not land payment. Her report of an intact brass chain before our meeting makes that later fragment matter to me.",
+              "observation": "I read {midwife}'s letter; her concealment sought protection for her sister, not land payment.",
+              "contradictingDetail": "Her report of an intact brass chain before our meeting makes that later fragment matter to me."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "About {witness}: {witness}'s retraction threatened the person who dictated the original testimony. The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation.",
-              "observation": "{witness}'s retraction threatened the person who dictated the original testimony.",
-              "contradictingDetail": "The reported pressure to stay silent fits the stolen packet, while the notebook and physical clues support the account independently of a frightened witness's reputation."
+              "text": "I see how {witness}'s retraction threatened whoever dictated her testimony. Pressure to stay silent fits the stolen packet. I have the notebook and physical clues, not just her frightened reputation.",
+              "observation": "I see how {witness}'s retraction threatened whoever dictated her testimony.",
+              "contradictingDetail": "Pressure to stay silent fits the stolen packet. I have the notebook and physical clues, not just her frightened reputation."
             }
           }
         ],
@@ -179,41 +179,41 @@ export default {
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "About {minister}: {minister} opens the records-room door and calls for help at Ward's body. The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt.",
-              "observation": "{minister} opens the records-room door and calls for help at Ward's body.",
-              "contradictingDetail": "The packet has disappeared. Establish what the minister saw at discovery and why earlier testimony was withheld before treating discovery as proof of guilt."
+              "text": "I saw {minister} open the records-room door and call for help at Ward's body. The packet's gone. I want his discovery account and withheld testimony explained before blaming him.",
+              "observation": "I saw {minister} open the records-room door and call for help at Ward's body.",
+              "contradictingDetail": "The packet's gone. I want his discovery account and withheld testimony explained before blaming him."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "About {witness}: {witness} came to correct the testimony rather than repeat it. A missing retraction might still protect a frightened witness from the consequences of an earlier lie.",
-              "observation": "{witness} came to correct the testimony rather than repeat it.",
-              "contradictingDetail": "A missing retraction might still protect a frightened witness from the consequences of an earlier lie."
+              "text": "I heard {witness} came to correct her testimony, not repeat it. But losing that retraction could spare her the consequences of the earlier lie. I'm uneasy.",
+              "observation": "I heard {witness} came to correct her testimony, not repeat it.",
+              "contradictingDetail": "But losing that retraction could spare her the consequences of the earlier lie. I'm uneasy."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "About {clerk}: {clerk} dictated the witness's false testimony and arranged payment. The packet held the signed retraction, so taking it could protect more than an ordinary records mistake.",
-              "observation": "{clerk} dictated the witness's false testimony and arranged payment.",
-              "contradictingDetail": "The packet held the signed retraction, so taking it could protect more than an ordinary records mistake."
+              "text": "I learned {clerk} dictated the false testimony and arranged payment. That packet held the signed retraction. I wonder if taking it protects more than a records mistake.",
+              "observation": "I learned {clerk} dictated the false testimony and arranged payment.",
+              "contradictingDetail": "That packet held the signed retraction. I wonder if taking it protects more than a records mistake."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "About {miller}: The mill named in the private payment column belongs to {miller}. The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward.",
-              "observation": "The mill named in the private payment column belongs to {miller}.",
-              "contradictingDetail": "The entry was not a lawful council charge; it supports the fee scheme rather than establishing who entered the room to kill Ward."
+              "text": "I see {miller}'s mill in the private payment column, not a lawful council charge. I suspect a fee scheme, but that doesn't tell me who entered to kill Ward.",
+              "observation": "I see {miller}'s mill in the private payment column, not a lawful council charge.",
+              "contradictingDetail": "I suspect a fee scheme, but that doesn't tell me who entered to kill Ward."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "About {minister}: {minister} discovered the body and preserved a draft written before the forged confession arrived. Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty.",
-              "observation": "{minister} discovered the body and preserved a draft written before the forged confession arrived.",
-              "contradictingDetail": "Its matching phrase and damaged seal make a checkable account, not an alibi invented from superstition. The minister's earlier failure was repeating false certainty."
+              "text": "I know {minister} found Ward and saved a draft predating the forged confession. Its matching phrase and damaged seal are checkable. I distrust his earlier false certainty, not superstition.",
+              "observation": "I know {minister} found Ward and saved a draft predating the forged confession.",
+              "contradictingDetail": "Its matching phrase and damaged seal are checkable. I distrust his earlier false certainty, not superstition."
             }
           }
         ],
@@ -233,41 +233,41 @@ export default {
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "About {miller}: {miller} argues with Ward over grain before Ward enters the records room. Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet.",
-              "observation": "{miller} argues with Ward over grain before Ward enters the records room.",
-              "contradictingDetail": "Disputed account entries survive in the meeting papers. The argument is a real event, but it must be connected to access and the missing packet."
+              "text": "I heard {miller} argue with Ward over grain before Ward entered the records room. Disputed entries remain in our papers. I still need to connect access and the missing packet.",
+              "observation": "I heard {miller} argue with Ward over grain before Ward entered the records room.",
+              "contradictingDetail": "Disputed entries remain in our papers. I still need to connect access and the missing packet."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "About {midwife}: {midwife} concealed a sister's whereabouts from the council. That deliberate deception invites questions about what else the midwife knew on the night Ward died.",
-              "observation": "{midwife} concealed a sister's whereabouts from the council.",
-              "contradictingDetail": "That deliberate deception invites questions about what else the midwife knew on the night Ward died."
+              "text": "I learned {midwife} hid her sister's whereabouts from the council. That deliberate lie makes me wonder what else she knew the night Ward died.",
+              "observation": "I learned {midwife} hid her sister's whereabouts from the council.",
+              "contradictingDetail": "That deliberate lie makes me wonder what else she knew the night Ward died."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "About {witness}: {witness} accepted payment for false testimony and could lose protection if the retraction disappeared. A frightened witness had reason to hesitate over the corridor account.",
-              "observation": "{witness} accepted payment for false testimony and could lose protection if the retraction disappeared.",
-              "contradictingDetail": "A frightened witness had reason to hesitate over the corridor account."
+              "text": "I learned {witness} took money for false testimony; losing the retraction could cost her protection. I wonder whether fear explains her hesitation over that corridor account.",
+              "observation": "I learned {witness} took money for false testimony; losing the retraction could cost her protection.",
+              "contradictingDetail": "I wonder whether fear explains her hesitation over that corridor account."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "About {clerk}: {clerk} dictated the paid testimony and had a reason to remove its retraction. The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers.",
-              "observation": "{clerk} dictated the paid testimony and had a reason to remove its retraction.",
-              "contradictingDetail": "The matching phrase in the rescued draft ties a village court form to the supposed confession. Those connections remain when protective lies and ordinary ribbon weaken the accusations against other villagers."
+              "text": "I know {clerk} dictated paid testimony; its retraction threatened him. The rescued draft's matching court-form phrase troubles me, even when protective lies and ordinary ribbon weaken other accusations.",
+              "observation": "I know {clerk} dictated paid testimony; its retraction threatened him.",
+              "contradictingDetail": "The rescued draft's matching court-form phrase troubles me, even when protective lies and ordinary ribbon weaken other accusations."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "About {miller}: {miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill. The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery.",
-              "observation": "{miller}'s grain dishonesty is separate from an unlawful records charge paid by the mill.",
-              "contradictingDetail": "The double receipt helps expose the fee scheme. It does not place the miller in the room between Ward's entry and the minister's discovery."
+              "text": "I see {miller}'s dishonest grain accounts separately from the mill's unlawful records charge. That double receipt exposes fees. I can't place him inside between Ward's entry and my discovery.",
+              "observation": "I see {miller}'s dishonest grain accounts separately from the mill's unlawful records charge.",
+              "contradictingDetail": "That double receipt exposes fees. I can't place him inside between Ward's entry and my discovery."
             }
           }
         ],
@@ -287,41 +287,41 @@ export default {
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "About {midwife}: An angry letter from {midwife} is among Ward's meeting papers. It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room.",
-              "observation": "An angry letter from {midwife} is among Ward's meeting papers.",
-              "contradictingDetail": "It demands action after the hearings endangered a sister. Ward is now dead and his packet gone: compare the written grievance with who actually entered the room."
+              "text": "I read {midwife}'s angry letter in Ward's papers, demanding action after hearings endangered her sister. Now he's dead, his packet gone. I wonder who actually entered that room.",
+              "observation": "I read {midwife}'s angry letter in Ward's papers, demanding action after hearings endangered her sister.",
+              "contradictingDetail": "Now he's dead, his packet gone. I wonder who actually entered that room."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "About {clerk}: A scorched deed records payments to a private account linked to {clerk}. The forged confession uses the language of court forms: fear may be covering a land fraud.",
-              "observation": "A scorched deed records payments to a private account linked to {clerk}.",
-              "contradictingDetail": "The forged confession uses the language of court forms: fear may be covering a land fraud."
+              "text": "I read a scorched deed showing private-account payments linked to {clerk}. The forged confession sounds like court forms. I wonder if our fear is hiding land fraud.",
+              "observation": "I read a scorched deed showing private-account payments linked to {clerk}.",
+              "contradictingDetail": "The forged confession sounds like court forms. I wonder if our fear is hiding land fraud."
             }
           },
           {
             "readAloud": {
               "accuses": "miller",
-              "text": "About {miller}: {miller} kept dishonest grain accounts while the private payment column named the mill. The argument and double fee now need to be separated rather than treated as one undifferentiated debt.",
-              "observation": "{miller} kept dishonest grain accounts while the private payment column named the mill.",
-              "contradictingDetail": "The argument and double fee now need to be separated rather than treated as one undifferentiated debt."
+              "text": "I see {miller}'s dishonest grain accounts and his mill in the private payment column. I don't want to confuse that argument and double fee as one debt.",
+              "observation": "I see {miller}'s dishonest grain accounts and his mill in the private payment column.",
+              "contradictingDetail": "I don't want to confuse that argument and double fee as one debt."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "About {minister}: The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting. Withholding testimony was wrong, but preserving this page helps expose an earthly forgery.",
-              "observation": "The draft preserved by {minister} repeats the false confession's wording and carries the clerk's handwriting.",
-              "contradictingDetail": "Withholding testimony was wrong, but preserving this page helps expose an earthly forgery."
+              "text": "I read {minister}'s saved draft: the false confession's wording, in the clerk's handwriting. He shouldn't have withheld testimony, but I see this page exposing an earthly forgery.",
+              "observation": "I read {minister}'s saved draft: the false confession's wording, in the clerk's handwriting.",
+              "contradictingDetail": "He shouldn't have withheld testimony, but I see this page exposing an earthly forgery."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "About {midwife}: {midwife}'s concealment protected the person endangered by the hearings. Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter.",
-              "observation": "{midwife}'s concealment protected the person endangered by the hearings.",
-              "contradictingDetail": "Ward's change of view offered help, not only a grievance. Anger remains real, but the paid forgery and records-room evidence do not arise from the midwife's letter."
+              "text": "I know {midwife} hid someone endangered by the hearings; Ward's changed view offered help. Her anger's real, but I can't trace the paid forgery or records-room evidence to her letter.",
+              "observation": "I know {midwife} hid someone endangered by the hearings; Ward's changed view offered help.",
+              "contradictingDetail": "Her anger's real, but I can't trace the paid forgery or records-room evidence to her letter."
             }
           }
         ],
@@ -341,41 +341,41 @@ export default {
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "About {clerk}: Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments. When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for.",
-              "observation": "Mara sees {clerk} follow Ward into the records room, then hears a dispute about payments.",
-              "contradictingDetail": "When the door opens again, Ward is dead and his packet is missing. The clerk has a specific entry to account for."
+              "text": "I heard Mara say {clerk} followed Ward into the records room; she heard payments disputed. When it reopened, Ward was dead, his packet gone. I want that entry explained.",
+              "observation": "I heard Mara say {clerk} followed Ward into the records room; she heard payments disputed.",
+              "contradictingDetail": "When it reopened, Ward was dead, his packet gone. I want that entry explained."
             }
           },
           {
             "readAloud": {
               "accuses": "minister",
-              "text": "About {minister}: {minister} held back testimony that could have challenged the hearings. A reputation built on those hearings gave the minister a reason to fear Ward's investigation.",
-              "observation": "{minister} held back testimony that could have challenged the hearings.",
-              "contradictingDetail": "A reputation built on those hearings gave the minister a reason to fear Ward's investigation."
+              "text": "I learned {minister} withheld testimony that could challenge the hearings. His reputation rests on them. I wonder how much he feared Ward's investigation.",
+              "observation": "I learned {minister} withheld testimony that could challenge the hearings.",
+              "contradictingDetail": "His reputation rests on them. I wonder how much he feared Ward's investigation."
             }
           },
           {
             "readAloud": {
               "accuses": "midwife",
-              "text": "About {midwife}: {midwife} needed Ward to clear a sister's name after writing an angry letter. The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed.",
-              "observation": "{midwife} needed Ward to clear a sister's name after writing an angry letter.",
-              "contradictingDetail": "The demand for justice could be mistaken for revenge, particularly while the sister's whereabouts stayed concealed."
+              "text": "I read {midwife}'s angry letter; she needed Ward to clear her sister. With her sister's whereabouts hidden, I worry her demand for justice could look like revenge.",
+              "observation": "I read {midwife}'s angry letter; she needed Ward to clear her sister.",
+              "contradictingDetail": "With her sister's whereabouts hidden, I worry her demand for justice could look like revenge."
             }
           },
           {
             "readAloud": {
               "accuses": "witness",
-              "text": "About {witness}: {witness} saw the clerk leave holding a packet. That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence.",
-              "observation": "{witness} saw the clerk leave holding a packet.",
-              "contradictingDetail": "That account explains the missing retraction without proving the witness stole it. Compare the sighting with the notebook and physical evidence."
+              "text": "I heard {witness} saw the clerk leave with a packet. That explains the missing retraction, not her stealing it. I want the notebook and physical evidence checked too.",
+              "observation": "I heard {witness} saw the clerk leave with a packet.",
+              "contradictingDetail": "That explains the missing retraction, not her stealing it. I want the notebook and physical evidence checked too."
             }
           },
           {
             "readAloud": {
               "accuses": "clerk",
-              "text": "About {clerk}: Ward's notebook names {clerk} as the collector of unapproved deed payments. The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers.",
-              "observation": "Ward's notebook names {clerk} as the collector of unapproved deed payments.",
-              "contradictingDetail": "The missing star on the seal and a fragment of the clerk's broken chain join motive, forgery and presence in the records room. {clerk} links the bought testimony to the diverted deeds. Ward's notebook, the flawed seal, the chain fragment and the corridor account independently support that link. A supernatural warning explains neither a private account nor removed papers."
+              "text": "I read Ward's notebook naming {clerk}'s unapproved deed collections. Bought testimony, diverted deeds, missing seal star, broken-chain fragment and corridor account point to {clerk}. I can't explain missing papers with supernatural warnings.",
+              "observation": "I read Ward's notebook naming {clerk}'s unapproved deed collections.",
+              "contradictingDetail": "Bought testimony, diverted deeds, missing seal star, broken-chain fragment and corridor account point to {clerk}. I can't explain missing papers with supernatural warnings."
             }
           }
         ],

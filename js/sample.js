@@ -1,4 +1,4 @@
-import editions from './editions/sample.js?v=story-polish-v2';
+import editions from './editions/sample.js?v=clue-voice-v1';
 import { shuffle } from './util.js';
 
 export function buildSampleStory(guests) {

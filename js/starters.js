@@ -1,6 +1,6 @@
-import mercy from './editions/mercy-hollow.js?v=story-polish-v2';
-import farm from './editions/blackthorn-farm.js?v=story-polish-v3';
-import briar from './editions/briar-house.js?v=story-polish-v2';
+import mercy from './editions/mercy-hollow.js?v=clue-voice-v1';
+import farm from './editions/blackthorn-farm.js?v=clue-voice-v1';
+import briar from './editions/briar-house.js?v=clue-voice-v1';
 
 function fixedStories(id, editions, details, fixedCount = 5) {
   return Object.entries(editions).filter(([count]) => Number(count) === fixedCount).map(([count, story]) => {

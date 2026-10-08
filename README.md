@@ -55,6 +55,13 @@ The first N-1 rounds cover every other character exactly once; extra beats can
 repeat only after coverage and with an authored explanation. Ghost parts exist
 only when the story calls for a dead player character to return.
 
+The four free mysteries use short, first-person player clues: what the speaker
+witnessed or found, followed by their own doubt or reaction. Each clue keeps its
+separate `observation` and `contradictingDetail` fields; `text` joins both for
+reading aloud. Full clue text is at most 35 words before character-name
+substitution. Narrator chapters, evidence, targets and fixed solutions are
+unchanged. This voice pass does not apply to Mafia.
+
 Game progress saves automatically in the host's browser. Keep that device
 connected, open and awake: free rooms use PeerJS/WebRTC and the host is their
 hub. A screen wake lock cannot keep a closed laptop or suspended browser alive.
@@ -166,6 +173,7 @@ text, room codes, account details or authentication tokens to analytics events.
 npm run build:site
 npm run test:site
 node --test tests/starters.mjs tests/editions.mjs tests/accusations.mjs tests/public-playthrough.mjs tests/blackwater-row.mjs tests/community.mjs
+node --test tests/clue-voice.mjs
 npm run test:catalog-browser
 npm run test:visitor
 npm run test:navigation
@@ -182,6 +190,9 @@ npm run check:edge
 Browser fixtures use simulated transport or payment providers where documented;
 they are not proof of real payment eligibility or physical-device compatibility.
 Human mystery-quality and Mafia balance/fun testing remain necessary.
+The clue-voice checks pin pre-rewrite targets, narration and other non-voice
+data, preserve placeholder names in each field, and require every clue to be
+shorter than its original. They do not replace human fact and spoken-voice review.
 
 ## Limitations
 

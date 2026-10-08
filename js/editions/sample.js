@@ -125,41 +125,41 @@ export default {
           {
             "readAloud": {
               "accuses": "vesper",
-              "text": "About {vesper}: {vesper} presses a concealed pedal just before the lights go out. A reaching hand and choking sound follow. Control of the darkness gives the medium a specific action to explain, not merely a reputation for fraud.",
-              "observation": "{vesper} presses a concealed pedal just before the lights go out.",
-              "contradictingDetail": "A reaching hand and choking sound follow. Control of the darkness gives the medium a specific action to explain, not merely a reputation for fraud."
+              "text": "I saw {vesper} press a hidden pedal just before the lights died. Then a hand reached and someone choked. I want that darkness explained.",
+              "observation": "I saw {vesper} press a hidden pedal just before the lights died.",
+              "contradictingDetail": "Then a hand reached and someone choked. I want that darkness explained."
             }
           },
           {
             "readAloud": {
               "accuses": "grey",
-              "text": "About {grey}: Eleanor confided her fear of her medicine to {grey}, yet that warning never reached the household. Silence protected someone while her illness worsened.",
-              "observation": "Eleanor confided her fear of her medicine to {grey}, yet that warning never reached the household.",
-              "contradictingDetail": "Silence protected someone while her illness worsened."
+              "text": "I learned Eleanor told {grey} she feared her medicine; he never warned us. His silence protected someone while she worsened. I'm worried.",
+              "observation": "I learned Eleanor told {grey} she feared her medicine; he never warned us.",
+              "contradictingDetail": "His silence protected someone while she worsened. I'm worried."
             }
           },
           {
             "readAloud": {
               "accuses": "constance",
-              "text": "About {constance}: {constance} wished Ambrose would join Eleanor during their dinner argument. Beside the gambling debt and the poured drinks, those words make resentment difficult to dismiss.",
-              "observation": "{constance} wished Ambrose would join Eleanor during their dinner argument.",
-              "contradictingDetail": "Beside the gambling debt and the poured drinks, those words make resentment difficult to dismiss."
+              "text": "I heard {constance} wish Ambrose would join Eleanor during their dinner argument. With her gambling debts and those poured drinks, I can't dismiss that resentment.",
+              "observation": "I heard {constance} wish Ambrose would join Eleanor during their dinner argument.",
+              "contradictingDetail": "With her gambling debts and those poured drinks, I can't dismiss that resentment."
             }
           },
           {
             "readAloud": {
               "accuses": "crane",
-              "text": "About {crane}: {crane} noticed Eleanor's tonic bottle and the glass evidence. The silver theft explains secrecy, but the clean decanter and poisoned rim require a hand at Ambrose's own glass, not merely access to household service.",
-              "observation": "{crane} noticed Eleanor's tonic bottle and the glass evidence.",
-              "contradictingDetail": "The silver theft explains secrecy, but the clean decanter and poisoned rim require a hand at Ambrose's own glass, not merely access to household service."
+              "text": "I know {crane} noticed Eleanor's tonic bottle and the glass evidence. I see why he'd hide stolen silver, but that clean decanter leaves Ambrose's poisoned rim unexplained.",
+              "observation": "I know {crane} noticed Eleanor's tonic bottle and the glass evidence.",
+              "contradictingDetail": "I see why he'd hide stolen silver, but that clean decanter leaves Ambrose's poisoned rim unexplained."
             }
           },
           {
             "readAloud": {
               "accuses": "vesper",
-              "text": "About {vesper}: {vesper} concealed a fraud. Ambrose knowingly hired it to ask a question about the tonic, and died before that line was spoken. That sequence explains the performance without explaining who used its darkness to poison a glass.",
-              "observation": "{vesper} concealed a fraud.",
-              "contradictingDetail": "Ambrose knowingly hired it to ask a question about the tonic, and died before that line was spoken. That sequence explains the performance without explaining who used its darkness to poison a glass."
+              "text": "I know {vesper} hid a fraud. Ambrose knowingly hired it to ask about the tonic, but died before that question. I still wonder who poisoned his glass in her darkness.",
+              "observation": "I know {vesper} hid a fraud.",
+              "contradictingDetail": "Ambrose knowingly hired it to ask about the tonic, but died before that question. I still wonder who poisoned his glass in her darkness."
             }
           }
         ],
@@ -179,41 +179,41 @@ export default {
           {
             "readAloud": {
               "accuses": "constance",
-              "text": "About {constance}: {constance} pours the brandy before the candles fail. Ambrose dies beside a shattered glass, while the pourer also has a drink from that decanter. Establish whether the drink was shared or the individual glass was touched.",
-              "observation": "{constance} pours the brandy before the candles fail.",
-              "contradictingDetail": "Ambrose dies beside a shattered glass, while the pourer also has a drink from that decanter. Establish whether the drink was shared or the individual glass was touched."
+              "text": "I saw {constance} pour brandy before the candles failed; she drank from that decanter too. Ambrose died beside shattered glass. I wonder who touched his alone.",
+              "observation": "I saw {constance} pour brandy before the candles failed; she drank from that decanter too.",
+              "contradictingDetail": "Ambrose died beside shattered glass. I wonder who touched his alone."
             }
           },
           {
             "readAloud": {
               "accuses": "vesper",
-              "text": "About {vesper}: A wire beneath the table links {vesper} to the supposed spirit knocks. Ambrose had threatened to expose the fraudulent medium: a reason to silence an employer.",
-              "observation": "A wire beneath the table links {vesper} to the supposed spirit knocks.",
-              "contradictingDetail": "Ambrose had threatened to expose the fraudulent medium: a reason to silence an employer."
+              "text": "I found a wire beneath the table linking {vesper} to those spirit knocks. Ambrose threatened to expose her fraud. I wonder what she'd do to silence him.",
+              "observation": "I found a wire beneath the table linking {vesper} to those spirit knocks.",
+              "contradictingDetail": "Ambrose threatened to expose her fraud. I wonder what she'd do to silence him."
             }
           },
           {
             "readAloud": {
               "accuses": "ashgrove",
-              "text": "About {ashgrove}: {ashgrove} signed Eleanor's death certificate as fever, yet her tonic made her lips numb and killed plants when she poured it away. The initials on the bottle now connect a medical judgment to a medicine that needs explaining.",
-              "observation": "{ashgrove} signed Eleanor's death certificate as fever, yet her tonic made her lips numb and killed plants when she poured it away.",
-              "contradictingDetail": "The initials on the bottle now connect a medical judgment to a medicine that needs explaining."
+              "text": "I read {ashgrove}'s fever certificate, but Eleanor's discarded tonic numbed her lips and killed plants. His bottle initials worry me. I want that medicine explained.",
+              "observation": "I read {ashgrove}'s fever certificate, but Eleanor's discarded tonic numbed her lips and killed plants.",
+              "contradictingDetail": "His bottle initials worry me. I want that medicine explained."
             }
           },
           {
             "readAloud": {
               "accuses": "grey",
-              "text": "About {grey}: {grey} kept Eleanor's warning under the seal of confession. That explains the silence, not murder. The warning says her medicine, rather than fever, killed her: test the priest's account against the tonic evidence.",
-              "observation": "{grey} kept Eleanor's warning under the seal of confession.",
-              "contradictingDetail": "That explains the silence, not murder. The warning says her medicine, rather than fever, killed her: test the priest's account against the tonic evidence."
+              "text": "I learned {grey} kept Eleanor's warning under confession's seal. She said medicine, not fever, would kill her. I understand silence, but I still want the tonic checked.",
+              "observation": "I learned {grey} kept Eleanor's warning under confession's seal.",
+              "contradictingDetail": "She said medicine, not fever, would kill her. I understand silence, but I still want the tonic checked."
             }
           },
           {
             "readAloud": {
               "accuses": "constance",
-              "text": "About {constance}: {constance} remains the heir, but the drink she shared was harmless. The earlier accusation confused control of the decanter with access to a single rim during darkness. Her report of Eleanor's numb lips instead connects tonight to the old tonic.",
-              "observation": "{constance} remains the heir, but the drink she shared was harmless.",
-              "contradictingDetail": "The earlier accusation confused control of the decanter with access to a single rim during darkness. Her report of Eleanor's numb lips instead connects tonight to the old tonic."
+              "text": "I know {constance} inherits, but her shared drink was harmless. Pouring isn't touching Ambrose's rim in darkness. Her account of Eleanor's numb lips makes me worry about that tonic.",
+              "observation": "I know {constance} inherits, but her shared drink was harmless.",
+              "contradictingDetail": "Pouring isn't touching Ambrose's rim in darkness. Her account of Eleanor's numb lips makes me worry about that tonic."
             }
           }
         ],
@@ -233,41 +233,41 @@ export default {
           {
             "readAloud": {
               "accuses": "grey",
-              "text": "About {grey}: At the gathering, an earlier letter from Ambrose threatens to report {grey} to the bishop for drinking. The priest objects to the seance. That documented dispute supplies a grievance, but the glass and blackout still need a method.",
-              "observation": "At the gathering, an earlier letter from Ambrose threatens to report {grey} to the bishop for drinking.",
-              "contradictingDetail": "The priest objects to the seance. That documented dispute supplies a grievance, but the glass and blackout still need a method."
+              "text": "I read Ambrose's letter threatening to report {grey}'s drinking to the bishop; he objects to our seance. I hear a grievance, but how does it explain that glass and blackout?",
+              "observation": "I read Ambrose's letter threatening to report {grey}'s drinking to the bishop; he objects to our seance.",
+              "contradictingDetail": "I hear a grievance, but how does it explain that glass and blackout?"
             }
           },
           {
             "readAloud": {
               "accuses": "crane",
-              "text": "About {crane}: The stolen silver links {crane} to concealed dealings outside the manor. Familiarity with the drinks and a threatened livelihood make that theft more troubling after the tonic discovery.",
-              "observation": "The stolen silver links {crane} to concealed dealings outside the manor.",
-              "contradictingDetail": "Familiarity with the drinks and a threatened livelihood make that theft more troubling after the tonic discovery."
+              "text": "I see stolen silver linking {crane} to secret dealings outside the manor. He knows the drinks, and his livelihood's threatened. After that tonic discovery, I'm uneasy.",
+              "observation": "I see stolen silver linking {crane} to secret dealings outside the manor.",
+              "contradictingDetail": "He knows the drinks, and his livelihood's threatened. After that tonic discovery, I'm uneasy."
             }
           },
           {
             "readAloud": {
               "accuses": "vesper",
-              "text": "About {vesper}: {vesper} was paid triple to follow Ambrose's script and controlled the bellows. The fee and the threatened exposure make the staged darkness look less like an innocent entertainment.",
-              "observation": "{vesper} was paid triple to follow Ambrose's script and controlled the bellows.",
-              "contradictingDetail": "The fee and the threatened exposure make the staged darkness look less like an innocent entertainment."
+              "text": "I learned {vesper} was paid triple for Ambrose's script and controlled the bellows. With exposure threatened too, I can't call that staged darkness harmless entertainment.",
+              "observation": "I learned {vesper} was paid triple for Ambrose's script and controlled the bellows.",
+              "contradictingDetail": "With exposure threatened too, I can't call that staged darkness harmless entertainment."
             }
           },
           {
             "readAloud": {
               "accuses": "ashgrove",
-              "text": "About {ashgrove}: {ashgrove} dismissed the death as a weak heart while recognizing the poison symptoms. The clean decanter narrows the method to Ambrose's glass. The physician's earlier tonic and the question in Ambrose's script make that dismissal harder to accept, even before the final witness accounts are compared.",
-              "observation": "{ashgrove} dismissed the death as a weak heart while recognizing the poison symptoms.",
-              "contradictingDetail": "The clean decanter narrows the method to Ambrose's glass. The physician's earlier tonic and the question in Ambrose's script make that dismissal harder to accept, even before the final witness accounts are compared."
+              "text": "I heard {ashgrove} call it a weak heart despite recognizing poison symptoms. The clean decanter points to Ambrose's glass. With his old tonic and that scripted question, I'm not convinced.",
+              "observation": "I heard {ashgrove} call it a weak heart despite recognizing poison symptoms.",
+              "contradictingDetail": "The clean decanter points to Ambrose's glass. With his old tonic and that scripted question, I'm not convinced."
             }
           },
           {
             "readAloud": {
               "accuses": "grey",
-              "text": "About {grey}: {grey} failed to pass on a warning, but the warning predates tonight's murder. Its medical content supports investigation of the tonic; a threat to report the priest's drinking does not explain the poisoned rim or identifying ring.",
-              "observation": "{grey} failed to pass on a warning, but the warning predates tonight's murder.",
-              "contradictingDetail": "Its medical content supports investigation of the tonic; a threat to report the priest's drinking does not explain the poisoned rim or identifying ring."
+              "text": "I know {grey} withheld a warning from before tonight's murder; it points to the tonic. Threatened exposure of his drinking doesn't explain the poisoned rim or ring to me.",
+              "observation": "I know {grey} withheld a warning from before tonight's murder; it points to the tonic.",
+              "contradictingDetail": "Threatened exposure of his drinking doesn't explain the poisoned rim or ring to me."
             }
           }
         ],
@@ -287,41 +287,41 @@ export default {
           {
             "readAloud": {
               "accuses": "crane",
-              "text": "About {crane}: {crane} returns to the doorway during the blackout to pocket a silver candlestick. The stolen object explains a movement at the moment Ambrose dies, but does not tell us whether the butler also approached the glass.",
-              "observation": "{crane} returns to the doorway during the blackout to pocket a silver candlestick.",
-              "contradictingDetail": "The stolen object explains a movement at the moment Ambrose dies, but does not tell us whether the butler also approached the glass."
+              "text": "I learned {crane} returned to the doorway in the blackout to pocket a silver candlestick. That explains movement when Ambrose died. I still wonder whether he approached the glass.",
+              "observation": "I learned {crane} returned to the doorway in the blackout to pocket a silver candlestick.",
+              "contradictingDetail": "That explains movement when Ambrose died. I still wonder whether he approached the glass."
             }
           },
           {
             "readAloud": {
               "accuses": "ashgrove",
-              "text": "About {ashgrove}: Eleanor's old tonic bottle bears the initials S.A. in {ashgrove}'s handwriting. Soil from the cut monkshood leads toward the physician's chair. Was the same poison used twice?",
-              "observation": "Eleanor's old tonic bottle bears the initials S.",
-              "contradictingDetail": "A. in {ashgrove}'s handwriting. Soil from the cut monkshood leads toward the physician's chair. Was the same poison used twice?"
+              "text": "I found initials on Eleanor's old tonic bottle. I recognize S.A. in {ashgrove}'s handwriting; cut-monkshood soil leads toward his chair. I wonder if it's the same poison twice.",
+              "observation": "I found initials on Eleanor's old tonic bottle.",
+              "contradictingDetail": "I recognize S.A. in {ashgrove}'s handwriting; cut-monkshood soil leads toward his chair. I wonder if it's the same poison twice."
             }
           },
           {
             "readAloud": {
               "accuses": "grey",
-              "text": "About {grey}: {grey} heard Eleanor say that her death would come from medicine, not fever. The warning stayed private even when Ambrose demanded justice. Was the priest protecting a confession or protecting a person?",
-              "observation": "{grey} heard Eleanor say that her death would come from medicine, not fever.",
-              "contradictingDetail": "The warning stayed private even when Ambrose demanded justice. Was the priest protecting a confession or protecting a person?"
+              "text": "I learned {grey} heard Eleanor say medicine, not fever, would kill her. He stayed silent when Ambrose demanded justice. I wonder whether he's protecting a confession or a person.",
+              "observation": "I learned {grey} heard Eleanor say medicine, not fever, would kill her.",
+              "contradictingDetail": "He stayed silent when Ambrose demanded justice. I wonder whether he's protecting a confession or a person."
             }
           },
           {
             "readAloud": {
               "accuses": "constance",
-              "text": "About {constance}: {constance} drank brandy from the same decanter and survived. The poison was on Ambrose's individual glass, not in the shared drink. The inheritance remains suspicious, but pouring alone is not proof.",
-              "observation": "{constance} drank brandy from the same decanter and survived.",
-              "contradictingDetail": "The poison was on Ambrose's individual glass, not in the shared drink. The inheritance remains suspicious, but pouring alone is not proof."
+              "text": "I saw {constance} drink from that decanter and survive; poison was on Ambrose's glass alone. Her inheritance troubles me, but pouring isn't proof.",
+              "observation": "I saw {constance} drink from that decanter and survive; poison was on Ambrose's glass alone.",
+              "contradictingDetail": "Her inheritance troubles me, but pouring isn't proof."
             }
           },
           {
             "readAloud": {
               "accuses": "crane",
-              "text": "About {crane}: {crane} was in the doorway, not a claimed innocent elsewhere. The candlestick explains that presence; the description of a serpent-and-staff ring should be judged against the poison on the individual glass. Theft explains concealment without explaining both deaths.",
-              "observation": "{crane} was in the doorway, not a claimed innocent elsewhere.",
-              "contradictingDetail": "The candlestick explains that presence; the description of a serpent-and-staff ring should be judged against the poison on the individual glass. Theft explains concealment without explaining both deaths."
+              "text": "I place {crane} in the doorway; the candlestick explains his presence, not both deaths. That serpent-and-staff ring description and poison on Ambrose's glass still need explaining to me.",
+              "observation": "I place {crane} in the doorway; the candlestick explains his presence, not both deaths.",
+              "contradictingDetail": "That serpent-and-staff ring description and poison on Ambrose's glass still need explaining to me."
             }
           }
         ],
@@ -341,41 +341,41 @@ export default {
           {
             "readAloud": {
               "accuses": "ashgrove",
-              "text": "About {ashgrove}: When the candles fail, the chair beside {ashgrove} scrapes and a hand reaches toward Ambrose. When light returns, the physician is already at the body and calls the blue lips a weak heart. Compare that immediate explanation with the choking and broken glass.",
-              "observation": "When the candles fail, the chair beside {ashgrove} scrapes and a hand reaches toward Ambrose.",
-              "contradictingDetail": "When light returns, the physician is already at the body and calls the blue lips a weak heart. Compare that immediate explanation with the choking and broken glass."
+              "text": "I heard the chair beside {ashgrove} scrape; a hand reached toward Ambrose. Light returns; he's at the body, calling blue lips 'weak heart.' I can't reconcile choking and shattered glass.",
+              "observation": "I heard the chair beside {ashgrove} scrape; a hand reached toward Ambrose.",
+              "contradictingDetail": "Light returns; he's at the body, calling blue lips 'weak heart.' I can't reconcile choking and shattered glass."
             }
           },
           {
             "readAloud": {
               "accuses": "constance",
-              "text": "About {constance}: {constance} kept gambling debts hidden, and Ambrose refused to lend money at dinner. The promised inheritance would settle those debts; was the pouring more than hospitality?",
-              "observation": "{constance} kept gambling debts hidden, and Ambrose refused to lend money at dinner.",
-              "contradictingDetail": "The promised inheritance would settle those debts; was the pouring more than hospitality?"
+              "text": "I learned {constance} hid gambling debts; Ambrose refused her money at dinner. Her inheritance would settle them. I wonder whether pouring those drinks was more than hospitality.",
+              "observation": "I learned {constance} hid gambling debts; Ambrose refused her money at dinner.",
+              "contradictingDetail": "Her inheritance would settle them. I wonder whether pouring those drinks was more than hospitality."
             }
           },
           {
             "readAloud": {
               "accuses": "crane",
-              "text": "About {crane}: {crane} returned to the seance room to pocket a candlestick. That theft puts the butler in the doorway during the darkness, precisely when movements around the glass matter most.",
-              "observation": "{crane} returned to the seance room to pocket a candlestick.",
-              "contradictingDetail": "That theft puts the butler in the doorway during the darkness, precisely when movements around the glass matter most."
+              "text": "I learned {crane} returned to pocket a candlestick in the seance room. That puts him in the doorway during darkness. I can't ignore movement while Ambrose's glass was within reach.",
+              "observation": "I learned {crane} returned to pocket a candlestick in the seance room.",
+              "contradictingDetail": "That puts him in the doorway during darkness. I can't ignore movement while Ambrose's glass was within reach."
             }
           },
           {
             "readAloud": {
               "accuses": "vesper",
-              "text": "About {vesper}: The script paid for by Ambrose ordered {vesper} to ask, \"Who gave me the tonic?\" The blackout was planned for a trap, not proof of a supernatural murder. The medium concealed fraud, but the script explains the performance.",
-              "observation": "The script paid for by Ambrose ordered {vesper} to ask, \"Who gave me the tonic?",
-              "contradictingDetail": "\" The blackout was planned for a trap, not proof of a supernatural murder. The medium concealed fraud, but the script explains the performance."
+              "text": "I read Ambrose's paid script telling {vesper} to ask, \"Who gave me the tonic?\" I see a planned trap behind her hidden fraud, not proof of supernatural murder.",
+              "observation": "I read Ambrose's paid script telling {vesper} to ask, \"Who gave me the tonic?\"",
+              "contradictingDetail": "I see a planned trap behind her hidden fraud, not proof of supernatural murder."
             }
           },
           {
             "readAloud": {
               "accuses": "ashgrove",
-              "text": "About {ashgrove}: A reaching hand wore {ashgrove}'s serpent-and-staff ring. Ambrose's glass rim carried wolfsbane, but the shared decanter was clean. The bottle, ring and soil connect the physician to both deaths. {ashgrove} had reason to fear the question Ambrose paid to ask: who gave Eleanor the tonic? The glass rim, ring and soil support an opportunity during the blackout, while the old bottle supplies the link Ambrose was investigating. A weak-heart explanation accounts for none of them.",
-              "observation": "A reaching hand wore {ashgrove}'s serpent-and-staff ring.",
-              "contradictingDetail": "Ambrose's glass rim carried wolfsbane, but the shared decanter was clean. The bottle, ring and soil connect the physician to both deaths. {ashgrove} had reason to fear the question Ambrose paid to ask: who gave Eleanor the tonic? The glass rim, ring and soil support an opportunity during the blackout, while the old bottle supplies the link Ambrose was investigating. A weak-heart explanation accounts for none of them."
+              "text": "I recognize {ashgrove}'s serpent-and-staff ring on that reaching hand; wolfsbane coats Ambrose's rim, not the decanter. Bottle and soil link both deaths. I doubt {ashgrove}'s 'weak heart'; Eleanor's tonic question threatens him.",
+              "observation": "I recognize {ashgrove}'s serpent-and-staff ring on that reaching hand; wolfsbane coats Ambrose's rim, not the decanter.",
+              "contradictingDetail": "Bottle and soil link both deaths. I doubt {ashgrove}'s 'weak heart'; Eleanor's tonic question threatens him."
             }
           }
         ],

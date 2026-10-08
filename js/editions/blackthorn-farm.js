@@ -125,41 +125,41 @@ export default {
           {
             "readAloud": {
               "accuses": "mechanic",
-              "text": "About {mechanic}: {mechanic} raises the alarm at the unforced side door. Otto's complaint about pawned spare parts threatens the mechanic's job. Knowledge of the workshop gives access, but the door and button must fit an actual sequence.",
-              "observation": "{mechanic} raises the alarm at the unforced side door.",
-              "contradictingDetail": "Otto's complaint about pawned spare parts threatens the mechanic's job. Knowledge of the workshop gives access, but the door and button must fit an actual sequence."
+              "text": "I heard {mechanic} raise the alarm at the unforced side door; Otto threatened his job over pawned parts. He knows the workshop. I still need that door and button explained.",
+              "observation": "I heard {mechanic} raise the alarm at the unforced side door; Otto threatened his job over pawned parts.",
+              "contradictingDetail": "He knows the workshop. I still need that door and button explained."
             }
           },
           {
             "readAloud": {
               "accuses": "neighbor",
-              "text": "About {neighbor}: {neighbor} moved a fence post to reach water. A new survey could expose that interference and turn a quiet dispute into a costly one.",
-              "observation": "{neighbor} moved a fence post to reach water.",
-              "contradictingDetail": "A new survey could expose that interference and turn a quiet dispute into a costly one."
+              "text": "I learned {neighbor} moved a fence post to reach water. A new survey could expose it. I wonder how costly that quiet dispute might become.",
+              "observation": "I learned {neighbor} moved a fence post to reach water.",
+              "contradictingDetail": "A new survey could expose it. I wonder how costly that quiet dispute might become."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} found a chipped cup in the attic matching one from the measuring room. Having blamed missing food on a visitor makes that report hard to assess until her own theft is separated from the hidden room.",
-              "observation": "{housekeeper} found a chipped cup in the attic matching one from the measuring room.",
-              "contradictingDetail": "Having blamed missing food on a visitor makes that report hard to assess until her own theft is separated from the hidden room."
+              "text": "I heard {housekeeper} found an attic cup matching a chipped measuring-room cup. She blamed missing food on a visitor. I need her theft separated from that hidden room.",
+              "observation": "I heard {housekeeper} found an attic cup matching a chipped measuring-room cup.",
+              "contradictingDetail": "She blamed missing food on a visitor. I need her theft separated from that hidden room."
             }
           },
           {
             "readAloud": {
               "accuses": "heir",
-              "text": "About {heir}: The plan saved by {heir} keeps the spring inside the farm. Otto's note on it called for confronting the surveyor that evening. The concealed map protects a truthful inheritance rather than the false sale.",
-              "observation": "The plan saved by {heir} keeps the spring inside the farm.",
-              "contradictingDetail": "Otto's note on it called for confronting the surveyor that evening. The concealed map protects a truthful inheritance rather than the false sale."
+              "text": "I read the plan {heir} saved: the spring stays with the farm; Otto's note calls for confronting the surveyor tonight. I think she's protecting her real inheritance, not that false sale.",
+              "observation": "I read the plan {heir} saved: the spring stays with the farm; Otto's note calls for confronting the surveyor tonight.",
+              "contradictingDetail": "I think she's protecting her real inheritance, not that false sale."
             }
           },
           {
             "readAloud": {
               "accuses": "mechanic",
-              "text": "About {mechanic}: {mechanic} matches the recovered button to the survey coat and remembers an intact map carried into the workshop. The parts theft explains fear of dismissal, while these observations test the route and confrontation described by other evidence.",
-              "observation": "{mechanic} matches the recovered button to the survey coat and remembers an intact map carried into the workshop.",
-              "contradictingDetail": "The parts theft explains fear of dismissal, while these observations test the route and confrontation described by other evidence."
+              "text": "I heard {mechanic} match the button to the survey coat and recall an intact map entering the workshop. Stolen parts explain dismissal fears. I want that route and confrontation checked.",
+              "observation": "I heard {mechanic} match the button to the survey coat and recall an intact map entering the workshop.",
+              "contradictingDetail": "Stolen parts explain dismissal fears. I want that route and confrontation checked."
             }
           }
         ],
@@ -179,41 +179,41 @@ export default {
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} helps find Otto and reports a coat leaving from the kitchen window. A wage demand records the earlier threat to resign. The same person supplies a useful sighting and has a grievance; test both rather than ignoring either.",
-              "observation": "{housekeeper} helps find Otto and reports a coat leaving from the kitchen window.",
-              "contradictingDetail": "A wage demand records the earlier threat to resign. The same person supplies a useful sighting and has a grievance; test both rather than ignoring either."
+              "text": "I heard {housekeeper} help find Otto and report a departing coat from the kitchen window. Her wage demand threatened resignation. I can't ignore either her sighting or her grievance.",
+              "observation": "I heard {housekeeper} help find Otto and report a departing coat from the kitchen window.",
+              "contradictingDetail": "Her wage demand threatened resignation. I can't ignore either her sighting or her grievance."
             }
           },
           {
             "readAloud": {
               "accuses": "mechanic",
-              "text": "About {mechanic}: {mechanic} repaired the concealed attic stair without Otto's approval. That repair created access for the person behind the staged footsteps.",
-              "observation": "{mechanic} repaired the concealed attic stair without Otto's approval.",
-              "contradictingDetail": "That repair created access for the person behind the staged footsteps."
+              "text": "I learned {mechanic} repaired the hidden attic stair without Otto's approval. I worry that let someone stage those footsteps.",
+              "observation": "I learned {mechanic} repaired the hidden attic stair without Otto's approval.",
+              "contradictingDetail": "I worry that let someone stage those footsteps."
             }
           },
           {
             "readAloud": {
               "accuses": "surveyor",
-              "text": "About {surveyor}: {surveyor}'s signature appears on the amended plan that moves the spring. The attic sketches are no longer simply evidence of sleeping in a hidden room: they connect that room to the contested sale.",
-              "observation": "{surveyor}'s signature appears on the amended plan that moves the spring.",
-              "contradictingDetail": "The attic sketches are no longer simply evidence of sleeping in a hidden room: they connect that room to the contested sale."
+              "text": "I see {surveyor}'s signature on the amended plan moving the spring. Those attic sketches now tie the hidden room to our sale. I can't call it just somewhere to sleep.",
+              "observation": "I see {surveyor}'s signature on the amended plan moving the spring.",
+              "contradictingDetail": "Those attic sketches now tie the hidden room to our sale. I can't call it just somewhere to sleep."
             }
           },
           {
             "readAloud": {
               "accuses": "neighbor",
-              "text": "About {neighbor}: The post moved by {neighbor} concerns pasture, not the north spring. The older footprints near the woods predate tonight's snow: the fence dispute does not establish a new intruder.",
-              "observation": "The post moved by {neighbor} concerns pasture, not the north spring.",
-              "contradictingDetail": "The older footprints near the woods predate tonight's snow: the fence dispute does not establish a new intruder."
+              "text": "I see {neighbor}'s moved post concerns pasture, not the north spring; woodland footprints predate tonight's snow. I can't call that fence dispute proof of a new intruder.",
+              "observation": "I see {neighbor}'s moved post concerns pasture, not the north spring; woodland footprints predate tonight's snow.",
+              "contradictingDetail": "I can't call that fence dispute proof of a new intruder."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} identifies a survey coat leaving the workshop and no outsider crossing the watched courtyard. Her food theft explains a rumor, not that coat. Compare the sighting with the missing button and the mechanic's arrival.",
-              "observation": "{housekeeper} identifies a survey coat leaving the workshop and no outsider crossing the watched courtyard.",
-              "contradictingDetail": "Her food theft explains a rumor, not that coat. Compare the sighting with the missing button and the mechanic's arrival."
+              "text": "I heard {housekeeper} identify a survey coat leaving the workshop, with no outsider crossing her watched courtyard. Food theft explains a rumor. I want the button and mechanic's arrival checked.",
+              "observation": "I heard {housekeeper} identify a survey coat leaving the workshop, with no outsider crossing her watched courtyard.",
+              "contradictingDetail": "Food theft explains a rumor. I want the button and mechanic's arrival checked."
             }
           }
         ],
@@ -233,41 +233,41 @@ export default {
           {
             "readAloud": {
               "accuses": "neighbor",
-              "text": "About {neighbor}: A complaint brought to supper threatens {neighbor} with a lawsuit over the fence. Old tracks lie near that boundary. The dispute supplies a grievance, but establish when the tracks were made before linking them to tonight's body.",
-              "observation": "A complaint brought to supper threatens {neighbor} with a lawsuit over the fence.",
-              "contradictingDetail": "Old tracks lie near that boundary. The dispute supplies a grievance, but establish when the tracks were made before linking them to tonight's body."
+              "text": "I read the supper complaint threatening {neighbor} with a fence lawsuit; old tracks lie there. I hear a grievance, but I need those tracks dated before connecting tonight's body.",
+              "observation": "I read the supper complaint threatening {neighbor} with a fence lawsuit; old tracks lie there.",
+              "contradictingDetail": "I hear a grievance, but I need those tracks dated before connecting tonight's body."
             }
           },
           {
             "readAloud": {
               "accuses": "heir",
-              "text": "About {heir}: {heir} hid the original boundary plan while the offered map diverted the valuable spring. Concealing the very document needed to check the sale deserves an explanation.",
-              "observation": "{heir} hid the original boundary plan while the offered map diverted the valuable spring.",
-              "contradictingDetail": "Concealing the very document needed to check the sale deserves an explanation."
+              "text": "I learned {heir} hid the original boundary plan; the offered map diverted our valuable spring. I wonder why she hid our way to check the sale.",
+              "observation": "I learned {heir} hid the original boundary plan; the offered map diverted our valuable spring.",
+              "contradictingDetail": "I wonder why she hid our way to check the sale."
             }
           },
           {
             "readAloud": {
               "accuses": "mechanic",
-              "text": "About {mechanic}: {mechanic} knew the side door was unforced and the hidden stair worked. Repairing that stair without permission could look like preparing a route until the identity of the person who requested it is considered.",
-              "observation": "{mechanic} knew the side door was unforced and the hidden stair worked.",
-              "contradictingDetail": "Repairing that stair without permission could look like preparing a route until the identity of the person who requested it is considered."
+              "text": "I know {mechanic} knew the side door wasn't forced and his unauthorized stair repair worked. It looks like a prepared route to me until I know who requested it.",
+              "observation": "I know {mechanic} knew the side door wasn't forced and his unauthorized stair repair worked.",
+              "contradictingDetail": "It looks like a prepared route to me until I know who requested it."
             }
           },
           {
             "readAloud": {
               "accuses": "surveyor",
-              "text": "About {surveyor}: {surveyor} knew the stair worked because the mechanic repaired it at his request. The cup and blanket link the attic to the measuring room and an earlier visit. That knowledge contradicts the inaccessible-room claim even after the cap and old tracks weaken the outsider theory.",
-              "observation": "{surveyor} knew the stair worked because the mechanic repaired it at his request.",
-              "contradictingDetail": "The cup and blanket link the attic to the measuring room and an earlier visit. That knowledge contradicts the inaccessible-room claim even after the cap and old tracks weaken the outsider theory."
+              "text": "I learned {surveyor} requested the working stair's repair; cup and blanket connect attic, measuring room and an earlier visit. I doubt 'inaccessible'; cap and old tracks weaken the outsider story.",
+              "observation": "I learned {surveyor} requested the working stair's repair; cup and blanket connect attic, measuring room and an earlier visit.",
+              "contradictingDetail": "I doubt 'inaccessible'; cap and old tracks weaken the outsider story."
             }
           },
           {
             "readAloud": {
               "accuses": "neighbor",
-              "text": "About {neighbor}: {neighbor} had a fence dispute, not the paid amendment diverting the north spring. The old tracks weaken a fresh-outsider theory; familiarity observed near the attic window corroborates building access without proving the neighbor killed Otto.",
-              "observation": "{neighbor} had a fence dispute, not the paid amendment diverting the north spring.",
-              "contradictingDetail": "The old tracks weaken a fresh-outsider theory; familiarity observed near the attic window corroborates building access without proving the neighbor killed Otto."
+              "text": "I see {neighbor}'s fence dispute, not the paid north-spring amendment. Old tracks weaken a fresh-outsider story. Familiarity near the attic window suggests access to me, not proof she killed Otto.",
+              "observation": "I see {neighbor}'s fence dispute, not the paid north-spring amendment.",
+              "contradictingDetail": "Old tracks weaken a fresh-outsider story. Familiarity near the attic window suggests access to me, not proof she killed Otto."
             }
           }
         ],
@@ -287,41 +287,41 @@ export default {
           {
             "readAloud": {
               "accuses": "heir",
-              "text": "About {heir}: After Otto is found, correspondence shows {heir} contacted another buyer without his knowledge. The torn sale map and the inheritance make that action suspicious. Which version of the boundary would actually benefit the heir?",
-              "observation": "After Otto is found, correspondence shows {heir} contacted another buyer without his knowledge.",
-              "contradictingDetail": "The torn sale map and the inheritance make that action suspicious. Which version of the boundary would actually benefit the heir?"
+              "text": "I read correspondence after we found Otto: {heir} contacted another buyer secretly. The torn sale map and inheritance trouble me. I wonder which boundary would actually benefit her.",
+              "observation": "I read correspondence after we found Otto: {heir} contacted another buyer secretly.",
+              "contradictingDetail": "The torn sale map and inheritance trouble me. I wonder which boundary would actually benefit her."
             }
           },
           {
             "readAloud": {
               "accuses": "surveyor",
-              "text": "About {surveyor}: Boundary sketches in the attic match the work of {surveyor}. The concealed stair leads from the measuring room, despite the surveyor's claim that the attic was inaccessible.",
-              "observation": "Boundary sketches in the attic match the work of {surveyor}.",
-              "contradictingDetail": "The concealed stair leads from the measuring room, despite the surveyor's claim that the attic was inaccessible."
+              "text": "I see {surveyor}'s work in the attic boundary sketches. That hidden stair leads from the measuring room. I can't square it with his claim the attic was inaccessible.",
+              "observation": "I see {surveyor}'s work in the attic boundary sketches.",
+              "contradictingDetail": "That hidden stair leads from the measuring room. I can't square it with his claim the attic was inaccessible."
             }
           },
           {
             "readAloud": {
               "accuses": "neighbor",
-              "text": "About {neighbor}: {neighbor} knew the spring was worth more than the disputed pasture. A moved fence post gives a small example of dishonest boundaries, but it is not automatically the same alteration as the sale map.",
-              "observation": "{neighbor} knew the spring was worth more than the disputed pasture.",
-              "contradictingDetail": "A moved fence post gives a small example of dishonest boundaries, but it is not automatically the same alteration as the sale map."
+              "text": "I learned {neighbor} knew the spring outvalued the disputed pasture. Her moved post shows dishonest boundaries. I won't assume it's the same alteration as the sale map.",
+              "observation": "I learned {neighbor} knew the spring outvalued the disputed pasture.",
+              "contradictingDetail": "Her moved post shows dishonest boundaries. I won't assume it's the same alteration as the sale map."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} remained at the kitchen window until the mechanic arrived and reported no outsider crossing the courtyard. Food theft explains some missing supplies, but the survey coat sighting should be tested against the button.",
-              "observation": "{housekeeper} remained at the kitchen window until the mechanic arrived and reported no outsider crossing the courtyard.",
-              "contradictingDetail": "Food theft explains some missing supplies, but the survey coat sighting should be tested against the button."
+              "text": "I know {housekeeper} stayed at the kitchen window until I arrived, reporting no outsider crossing. Her food theft explains supplies, not that survey coat. I want the button compared.",
+              "observation": "I know {housekeeper} stayed at the kitchen window until I arrived, reporting no outsider crossing.",
+              "contradictingDetail": "Her food theft explains supplies, not that survey coat. I want the button compared."
             }
           },
           {
             "readAloud": {
               "accuses": "heir",
-              "text": "About {heir}: {heir} benefits from preserving the true boundary. Hiding the original looked like interference in round 2, but its survival exposes the sale's lie. The confrontation note connects Otto's decision to the paid survey, not to a new scheme by the heir.",
-              "observation": "{heir} benefits from preserving the true boundary.",
-              "contradictingDetail": "Hiding the original looked like interference in round 2, but its survival exposes the sale's lie. The confrontation note connects Otto's decision to the paid survey, not to a new scheme by the heir."
+              "text": "I see {heir} benefits from the true boundary; her hidden original exposes the false sale. I read Otto's confrontation note as tied to the paid survey, not a new scheme of hers.",
+              "observation": "I see {heir} benefits from the true boundary; her hidden original exposes the false sale.",
+              "contradictingDetail": "I read Otto's confrontation note as tied to the paid survey, not a new scheme of hers."
             }
           }
         ],
@@ -341,41 +341,41 @@ export default {
           {
             "readAloud": {
               "accuses": "surveyor",
-              "text": "About {surveyor}: {surveyor} is reported leaving the workshop after Otto enters with a map. A brass button lies by the desk and one is missing from the survey coat. Compare the sighting with the recovered object before deciding what happened inside.",
-              "observation": "{surveyor} is reported leaving the workshop after Otto enters with a map.",
-              "contradictingDetail": "A brass button lies by the desk and one is missing from the survey coat. Compare the sighting with the recovered object before deciding what happened inside."
+              "text": "I heard {surveyor} left the workshop after Otto entered with a map. A brass desk-side button matches one missing from his coat. I want that sighting checked against it.",
+              "observation": "I heard {surveyor} left the workshop after Otto entered with a map.",
+              "contradictingDetail": "A brass desk-side button matches one missing from his coat. I want that sighting checked against it."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} secretly took food, allowing the household to blame an intruder. That deception helped the supposed haunting seem real.",
-              "observation": "{housekeeper} secretly took food, allowing the household to blame an intruder.",
-              "contradictingDetail": "That deception helped the supposed haunting seem real."
+              "text": "I learned {housekeeper} secretly took food while we blamed an intruder. I believed the haunting because she deceived us.",
+              "observation": "I learned {housekeeper} secretly took food while we blamed an intruder.",
+              "contradictingDetail": "I believed the haunting because she deceived us."
             }
           },
           {
             "readAloud": {
               "accuses": "heir",
-              "text": "About {heir}: {heir} wanted a sale and had another buyer in mind, yet the plan she hid differs from the amended one. The question is which boundary would serve her inheritance and which would strip it of the spring.",
-              "observation": "{heir} wanted a sale and had another buyer in mind, yet the plan she hid differs from the amended one.",
-              "contradictingDetail": "The question is which boundary would serve her inheritance and which would strip it of the spring."
+              "text": "I know {heir} wanted a sale and another buyer, but her hidden plan differs from the amended one. I wonder which protects her inheritance and which steals its spring.",
+              "observation": "I know {heir} wanted a sale and another buyer, but her hidden plan differs from the amended one.",
+              "contradictingDetail": "I wonder which protects her inheritance and which steals its spring."
             }
           },
           {
             "readAloud": {
               "accuses": "mechanic",
-              "text": "About {mechanic}: The stair repair by {mechanic} was requested by the surveyor. Otto carried an intact map into the workshop; the later tear and recovered coat button point to a confrontation, not proof that the parts thief caused it.",
-              "observation": "The stair repair by {mechanic} was requested by the surveyor.",
-              "contradictingDetail": "Otto carried an intact map into the workshop; the later tear and recovered coat button point to a confrontation, not proof that the parts thief caused it."
+              "text": "I learned the surveyor requested {mechanic}'s stair repair; Otto entered the workshop with an intact map. I see the later tear and button suggesting confrontation, not proof against a parts thief.",
+              "observation": "I learned the surveyor requested {mechanic}'s stair repair; Otto entered the workshop with an intact map.",
+              "contradictingDetail": "I see the later tear and button suggesting confrontation, not proof against a parts thief."
             }
           },
           {
             "readAloud": {
               "accuses": "surveyor",
-              "text": "About {surveyor}: The ledger names {surveyor} as the paid author of the altered north boundary. Otto wrote that he would confront Adler. The recovered brass button matches the survey coat, linking the payment to the workshop encounter. {surveyor} knew the repaired stair, changed the valuable boundary and received a separate payment. Otto's challenge and the coat button place the financial dispute beside the workshop encounter. A stranger's cap cannot account for those connected facts.",
-              "observation": "The ledger names {surveyor} as the paid author of the altered north boundary.",
-              "contradictingDetail": "Otto wrote that he would confront Adler. The recovered brass button matches the survey coat, linking the payment to the workshop encounter. {surveyor} knew the repaired stair, changed the valuable boundary and received a separate payment. Otto's challenge and the coat button place the financial dispute beside the workshop encounter. A stranger's cap cannot account for those connected facts."
+              "text": "I read {surveyor} was paid separately to alter the north boundary; Otto planned to confront Adler. I can't ignore {surveyor}'s matching button and repaired-stair access, whatever that stranger's cap means.",
+              "observation": "I read {surveyor} was paid separately to alter the north boundary; Otto planned to confront Adler.",
+              "contradictingDetail": "I can't ignore {surveyor}'s matching button and repaired-stair access, whatever that stranger's cap means."
             }
           }
         ],

@@ -2,9 +2,9 @@
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
 import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=workshop-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
-import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=story-polish-v2';
+import { buildSampleStory, SAMPLE_INFO } from './sample.js?v=clue-voice-v1';
 import { getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
-import { STARTER_MYSTERIES } from './starters.js?v=curated-catalog-v1';
+import { STARTER_MYSTERIES } from './starters.js?v=clue-voice-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=ui-refresh-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=workshop-v1';

@@ -125,41 +125,41 @@ export default {
           {
             "readAloud": {
               "accuses": "secretary",
-              "text": "About {secretary}: {secretary} discovers Cecily after the bell. The receipt book also records the earlier handover of the missing will. Document access makes the secretary worth questioning, while that signed receipt may identify an earlier holder.",
-              "observation": "{secretary} discovers Cecily after the bell.",
-              "contradictingDetail": "The receipt book also records the earlier handover of the missing will. Document access makes the secretary worth questioning, while that signed receipt may identify an earlier holder."
+              "text": "I learned {secretary} found Cecily after the bell; the receipt records an earlier handover of the missing will. I question her document access, but that signature points to another holder.",
+              "observation": "I learned {secretary} found Cecily after the bell; the receipt records an earlier handover of the missing will.",
+              "contradictingDetail": "I question her document access, but that signature points to another holder."
             }
           },
           {
             "readAloud": {
               "accuses": "nephew",
-              "text": "About {nephew}: {nephew} never read the will and borrowed money under a false promise. The story of disinheritance was a guess presented as fact.",
-              "observation": "{nephew} never read the will and borrowed money under a false promise.",
-              "contradictingDetail": "The story of disinheritance was a guess presented as fact."
+              "text": "I learned {nephew} borrowed under a false promise without reading the will. I don't trust his disinheritance guess dressed as fact.",
+              "observation": "I learned {nephew} borrowed under a false promise without reading the will.",
+              "contradictingDetail": "I don't trust his disinheritance guess dressed as fact."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} says the bell sounds after the pull. Her corridor sighting may therefore challenge an alibi rather than establish the time of a later attack, despite her reluctance to invite an account investigation.",
-              "observation": "{housekeeper} says the bell sounds after the pull.",
-              "contradictingDetail": "Her corridor sighting may therefore challenge an alibi rather than establish the time of a later attack, despite her reluctance to invite an account investigation."
+              "text": "I heard {housekeeper} say the bell sounds after the pull. Her corridor sighting could challenge an alibi, not time a later attack. I worry her account-investigation fears delayed it.",
+              "observation": "I heard {housekeeper} say the bell sounds after the pull.",
+              "contradictingDetail": "Her corridor sighting could challenge an alibi, not time a later attack. I worry her account-investigation fears delayed it."
             }
           },
           {
             "readAloud": {
               "accuses": "daughter",
-              "text": "About {daughter}: The new will still provides for {daughter}. The letter and appointment note she preserved expose the adviser's repayment problem; resentment alone does not explain the targeted account page.",
-              "observation": "The new will still provides for {daughter}.",
-              "contradictingDetail": "The letter and appointment note she preserved expose the adviser's repayment problem; resentment alone does not explain the targeted account page."
+              "text": "I read the new will still provides for {daughter}. Her saved letter and appointment expose the adviser's repayment trouble. I can't blame that targeted account page on resentment alone.",
+              "observation": "I read the new will still provides for {daughter}.",
+              "contradictingDetail": "Her saved letter and appointment expose the adviser's repayment trouble. I can't blame that targeted account page on resentment alone."
             }
           },
           {
             "readAloud": {
               "accuses": "secretary",
-              "text": "About {secretary}: {secretary} kept copies on Cecily's orders, preserving the transfers and the instruction to confront Pell. What looked like secret hoarding protects the evidence against destruction. The decision to leave does not explain payments to another person's practice.",
-              "observation": "{secretary} kept copies on Cecily's orders, preserving the transfers and the instruction to confront Pell.",
-              "contradictingDetail": "What looked like secret hoarding protects the evidence against destruction. The decision to leave does not explain payments to another person's practice."
+              "text": "I learned {secretary} kept copies on Cecily's orders: transfers and the instruction to confront Pell. I see evidence protected, not hoarded. Leaving doesn't explain payments to someone else's practice.",
+              "observation": "I learned {secretary} kept copies on Cecily's orders: transfers and the instruction to confront Pell.",
+              "contradictingDetail": "I see evidence protected, not hoarded. Leaving doesn't explain payments to someone else's practice."
             }
           }
         ],
@@ -179,41 +179,41 @@ export default {
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} is near the study corridor before the alarm and describes a departure while the bell is still ringing. Cecily's account check threatened the housekeeper's job. Ask why the account was delayed and test the sequence.",
-              "observation": "{housekeeper} is near the study corridor before the alarm and describes a departure while the bell is still ringing.",
-              "contradictingDetail": "Cecily's account check threatened the housekeeper's job. Ask why the account was delayed and test the sequence."
+              "text": "I heard {housekeeper} was near the study corridor before the alarm, then saw someone leave during ringing. Cecily's account check threatened her job. I wonder why she delayed her account.",
+              "observation": "I heard {housekeeper} was near the study corridor before the alarm, then saw someone leave during ringing.",
+              "contradictingDetail": "Cecily's account check threatened her job. I wonder why she delayed her account."
             }
           },
           {
             "readAloud": {
               "accuses": "secretary",
-              "text": "About {secretary}: {secretary} planned to leave the household without telling the family. The duplicate will in the correspondence tray shows important papers were being retained.",
-              "observation": "{secretary} planned to leave the household without telling the family.",
-              "contradictingDetail": "The duplicate will in the correspondence tray shows important papers were being retained."
+              "text": "I learned {secretary} planned to leave without telling us. I found her duplicate will in the correspondence tray. Why keep important papers?",
+              "observation": "I learned {secretary} planned to leave without telling us.",
+              "contradictingDetail": "I found her duplicate will in the correspondence tray. Why keep important papers?"
             }
           },
           {
             "readAloud": {
               "accuses": "solicitor",
-              "text": "About {solicitor}: {solicitor} denies the study meeting, yet the appointment names him and the secretary recorded his collection of the will. The bell continues ringing after it is pulled, so hearing it elsewhere cannot undo those records.",
-              "observation": "{solicitor} denies the study meeting, yet the appointment names him and the secretary recorded his collection of the will.",
-              "contradictingDetail": "The bell continues ringing after it is pulled, so hearing it elsewhere cannot undo those records."
+              "text": "I read the appointment naming {solicitor} and the secretary's receipt for his will collection. He denies the meeting. I can't accept hearing a continuing bell elsewhere as an answer.",
+              "observation": "I read the appointment naming {solicitor} and the secretary's receipt for his will collection.",
+              "contradictingDetail": "He denies the meeting. I can't accept hearing a continuing bell elsewhere as an answer."
             }
           },
           {
             "readAloud": {
               "accuses": "nephew",
-              "text": "About {nephew}: The duplicate will provides enough for {nephew} to address the debts. Pell encouraged the complaints before supper; the nephew's dishonesty does not make the false inheritance rumor true.",
-              "observation": "The duplicate will provides enough for {nephew} to address the debts.",
-              "contradictingDetail": "Pell encouraged the complaints before supper; the nephew's dishonesty does not make the false inheritance rumor true."
+              "text": "I read the duplicate: {nephew} gets enough for his debts; Pell encouraged his complaints before supper. He's dishonest, but I won't turn that false inheritance rumor into truth.",
+              "observation": "I read the duplicate: {nephew} gets enough for his debts; Pell encouraged his complaints before supper.",
+              "contradictingDetail": "He's dishonest, but I won't turn that false inheritance rumor into truth."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} saw a folded legal document carried out of the study and no intervening entry. Her small theft remains a separate offense. The independent appointment and receipt let the room check her delayed account rather than simply trust or dismiss it.",
-              "observation": "{housekeeper} saw a folded legal document carried out of the study and no intervening entry.",
-              "contradictingDetail": "Her small theft remains a separate offense. The independent appointment and receipt let the room check her delayed account rather than simply trust or dismiss it."
+              "text": "I heard {housekeeper} saw a folded legal document leave the study, with no intervening entry. Her small theft's separate. I can check the delayed sighting against appointment and receipt.",
+              "observation": "I heard {housekeeper} saw a folded legal document leave the study, with no intervening entry.",
+              "contradictingDetail": "Her small theft's separate. I can check the delayed sighting against appointment and receipt."
             }
           }
         ],
@@ -233,41 +233,41 @@ export default {
           {
             "readAloud": {
               "accuses": "nephew",
-              "text": "About {nephew}: Before supper, {nephew} loudly claims the new will will ruin him. The debt notices show why he fears that outcome. Compare the claim with an actual surviving document before treating a shouted rumor as its contents.",
-              "observation": "Before supper, {nephew} loudly claims the new will will ruin him.",
-              "contradictingDetail": "The debt notices show why he fears that outcome. Compare the claim with an actual surviving document before treating a shouted rumor as its contents."
+              "text": "I heard {nephew} shout before supper that the new will would ruin him; debt notices explain his fear. I want the surviving document, not a shouted rumor.",
+              "observation": "I heard {nephew} shout before supper that the new will would ruin him; debt notices explain his fear.",
+              "contradictingDetail": "I want the surviving document, not a shouted rumor."
             }
           },
           {
             "readAloud": {
               "accuses": "daughter",
-              "text": "About {daughter}: {daughter} hid Cecily's letter about the accounts. Withholding a warning after the argument invites questions about whether money mattered more than reconciliation.",
-              "observation": "{daughter} hid Cecily's letter about the accounts.",
-              "contradictingDetail": "Withholding a warning after the argument invites questions about whether money mattered more than reconciliation."
+              "text": "I learned {daughter} hid Cecily's account letter. After their argument, I wonder whether hiding that warning means money mattered more than reconciliation.",
+              "observation": "I learned {daughter} hid Cecily's account letter.",
+              "contradictingDetail": "After their argument, I wonder whether hiding that warning means money mattered more than reconciliation."
             }
           },
           {
             "readAloud": {
               "accuses": "secretary",
-              "text": "About {secretary}: {secretary} retained a duplicate will that undermines the inheritance rumor. Keeping papers while preparing to leave might look like theft, until Cecily's instructions about copies are taken into account.",
-              "observation": "{secretary} retained a duplicate will that undermines the inheritance rumor.",
-              "contradictingDetail": "Keeping papers while preparing to leave might look like theft, until Cecily's instructions about copies are taken into account."
+              "text": "I see {secretary}'s duplicate will contradicting the inheritance rumor. Keeping papers while preparing to leave looks like theft to me, until I hear Cecily's instructions about copies.",
+              "observation": "I see {secretary}'s duplicate will contradicting the inheritance rumor.",
+              "contradictingDetail": "Keeping papers while preparing to leave looks like theft to me, until I hear Cecily's instructions about copies."
             }
           },
           {
             "readAloud": {
               "accuses": "solicitor",
-              "text": "About {solicitor}: {solicitor} collected the new will and was seen leaving before the bell stopped. A bell that keeps ringing does not prove he heard it from elsewhere. The repayment letter and appointment still require an explanation after the inheritance rumor falls apart.",
-              "observation": "{solicitor} collected the new will and was seen leaving before the bell stopped.",
-              "contradictingDetail": "A bell that keeps ringing does not prove he heard it from elsewhere. The repayment letter and appointment still require an explanation after the inheritance rumor falls apart."
+              "text": "I know {solicitor} collected the will and left before the bell stopped. Continued ringing doesn't place him elsewhere for me. Repayment letter and appointment still need explaining after that inheritance rumor collapses.",
+              "observation": "I know {solicitor} collected the will and left before the bell stopped.",
+              "contradictingDetail": "Continued ringing doesn't place him elsewhere for me. Repayment letter and appointment still need explaining after that inheritance rumor collapses."
             }
           },
           {
             "readAloud": {
               "accuses": "nephew",
-              "text": "About {nephew}: {nephew}'s debts and false promises remain, but his claim of disinheritance was wrong. The duplicate corrects the early motive, while the encouragement to complain fits attention being drawn away from the trustee's accounts.",
-              "observation": "{nephew}'s debts and false promises remain, but his claim of disinheritance was wrong.",
-              "contradictingDetail": "The duplicate corrects the early motive, while the encouragement to complain fits attention being drawn away from the trustee's accounts."
+              "text": "I know {nephew}'s debts and false promises remain, but the duplicate disproves disinheritance. I wonder if encouraging his complaints drew us away from the trustee's accounts.",
+              "observation": "I know {nephew}'s debts and false promises remain, but the duplicate disproves disinheritance.",
+              "contradictingDetail": "I wonder if encouraging his complaints drew us away from the trustee's accounts."
             }
           }
         ],
@@ -287,41 +287,41 @@ export default {
           {
             "readAloud": {
               "accuses": "daughter",
-              "text": "About {daughter}: The household hears {daughter} argue with Cecily about control of her inheritance that afternoon. A private appointment follows before the alarm. A loud argument supplies a grievance, but the meeting and missing papers need their own timeline.",
-              "observation": "The household hears {daughter} argue with Cecily about control of her inheritance that afternoon.",
-              "contradictingDetail": "A private appointment follows before the alarm. A loud argument supplies a grievance, but the meeting and missing papers need their own timeline."
+              "text": "I heard {daughter} argue with Cecily about inheritance control this afternoon; a private appointment followed before the alarm. I'm troubled, but when did that meeting happen and those papers disappear?",
+              "observation": "I heard {daughter} argue with Cecily about inheritance control this afternoon; a private appointment followed before the alarm.",
+              "contradictingDetail": "I'm troubled, but when did that meeting happen and those papers disappear?"
             }
           },
           {
             "readAloud": {
               "accuses": "solicitor",
-              "text": "About {solicitor}: The duplicate will removes {solicitor} as trustee. Cecily's letter demands repayment before she goes to the bank: the adviser, not the heirs, loses most.",
-              "observation": "The duplicate will removes {solicitor} as trustee.",
-              "contradictingDetail": "Cecily's letter demands repayment before she goes to the bank: the adviser, not the heirs, loses most."
+              "text": "I read the duplicate removing {solicitor} as trustee; Cecily demands repayment before visiting the bank. I see him losing most, not the heirs.",
+              "observation": "I read the duplicate removing {solicitor} as trustee; Cecily demands repayment before visiting the bank.",
+              "contradictingDetail": "I see him losing most, not the heirs."
             }
           },
           {
             "readAloud": {
               "accuses": "nephew",
-              "text": "About {nephew}: {nephew} still receives enough to address his debts under the surviving will. The adviser encouraged his complaints before supper, giving a false rumor a useful public voice.",
-              "observation": "{nephew} still receives enough to address his debts under the surviving will.",
-              "contradictingDetail": "The adviser encouraged his complaints before supper, giving a false rumor a useful public voice."
+              "text": "I read that {nephew} still gets enough for his debts. The adviser encouraged his complaints before supper. I wonder whether that false rumor needed a public voice.",
+              "observation": "I read that {nephew} still gets enough for his debts.",
+              "contradictingDetail": "The adviser encouraged his complaints before supper. I wonder whether that false rumor needed a public voice."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: The money taken by {housekeeper} was a small household sum, separate from the trust transfers. Her report of no other entry between the meeting and discovery can be compared with the receipt and appointment.",
-              "observation": "The money taken by {housekeeper} was a small household sum, separate from the trust transfers.",
-              "contradictingDetail": "Her report of no other entry between the meeting and discovery can be compared with the receipt and appointment."
+              "text": "I learned {housekeeper} took a small household sum, separate from the trust transfers. I can check her report of no intervening entry against the receipt and appointment.",
+              "observation": "I learned {housekeeper} took a small household sum, separate from the trust transfers.",
+              "contradictingDetail": "I can check her report of no intervening entry against the receipt and appointment."
             }
           },
           {
             "readAloud": {
               "accuses": "daughter",
-              "text": "About {daughter}: {daughter} preserved the appointment naming the adviser. The angry argument made her plausible early on, but the will corrects disinheritance and the letter redirects the financial motive. Independence is not the same interest as keeping stolen trust funds.",
-              "observation": "{daughter} preserved the appointment naming the adviser.",
-              "contradictingDetail": "The angry argument made her plausible early on, but the will corrects disinheritance and the letter redirects the financial motive. Independence is not the same interest as keeping stolen trust funds."
+              "text": "I see {daughter}'s saved appointment naming the adviser; her argument seemed suspicious. The will corrects disinheritance, the letter redirects money worries. I don't confuse independence with keeping stolen trust funds.",
+              "observation": "I see {daughter}'s saved appointment naming the adviser; her argument seemed suspicious.",
+              "contradictingDetail": "The will corrects disinheritance, the letter redirects money worries. I don't confuse independence with keeping stolen trust funds."
             }
           }
         ],
@@ -341,41 +341,41 @@ export default {
           {
             "readAloud": {
               "accuses": "solicitor",
-              "text": "About {solicitor}: {solicitor} signs for the new will before Cecily's meeting. Ada then sees the adviser leave the study carrying a folded document before the bell stops. Compare those two events with the denial of ever entering the room.",
-              "observation": "{solicitor} signs for the new will before Cecily's meeting.",
-              "contradictingDetail": "Ada then sees the adviser leave the study carrying a folded document before the bell stops. Compare those two events with the denial of ever entering the room."
+              "text": "I read {solicitor}'s signed will receipt before Cecily's meeting; Ada saw him leave the study with a folded document before the bell stopped. I can't reconcile his denial of entry.",
+              "observation": "I read {solicitor}'s signed will receipt before Cecily's meeting; Ada saw him leave the study with a folded document before the bell stopped.",
+              "contradictingDetail": "I can't reconcile his denial of entry."
             }
           },
           {
             "readAloud": {
               "accuses": "housekeeper",
-              "text": "About {housekeeper}: {housekeeper} delayed reporting a corridor sighting out of fear of an investigation. Missing household money makes that delay suspicious.",
-              "observation": "{housekeeper} delayed reporting a corridor sighting out of fear of an investigation.",
-              "contradictingDetail": "Missing household money makes that delay suspicious."
+              "text": "I learned {housekeeper} delayed her corridor account, fearing investigation. Missing household money makes me suspicious of that delay.",
+              "observation": "I learned {housekeeper} delayed her corridor account, fearing investigation.",
+              "contradictingDetail": "Missing household money makes me suspicious of that delay."
             }
           },
           {
             "readAloud": {
               "accuses": "daughter",
-              "text": "About {daughter}: {daughter} still inherits under the duplicate will. Her hidden letter demands that Pell return money, making the argument about control different from the adviser's fear of repayment.",
-              "observation": "{daughter} still inherits under the duplicate will.",
-              "contradictingDetail": "Her hidden letter demands that Pell return money, making the argument about control different from the adviser's fear of repayment."
+              "text": "I read the duplicate: {daughter} still inherits; her hidden letter demands Pell repay money. I see an argument over control, not the adviser's fear of repayment.",
+              "observation": "I read the duplicate: {daughter} still inherits; her hidden letter demands Pell repay money.",
+              "contradictingDetail": "I see an argument over control, not the adviser's fear of repayment."
             }
           },
           {
             "readAloud": {
               "accuses": "secretary",
-              "text": "About {secretary}: Cecily instructed {secretary} to keep copies. The carbon page survives the torn original and names the private practice receiving trust money. Preparing to leave does not explain those transfers.",
-              "observation": "Cecily instructed {secretary} to keep copies.",
-              "contradictingDetail": "The carbon page survives the torn original and names the private practice receiving trust money. Preparing to leave does not explain those transfers."
+              "text": "I learned Cecily ordered {secretary} to keep copies. The carbon survives the torn original, naming trust payments to a private practice. I can't explain those transfers by her leaving.",
+              "observation": "I learned Cecily ordered {secretary} to keep copies.",
+              "contradictingDetail": "The carbon survives the torn original, naming trust payments to a private practice. I can't explain those transfers by her leaving."
             }
           },
           {
             "readAloud": {
               "accuses": "solicitor",
-              "text": "About {solicitor}: The carbon account copy records transfers to {solicitor}'s private practice. The appointment note and corridor sighting independently contradict the alibi. Destroying originals did not erase copies. {solicitor}'s private practice received the missing funds. Cecily demanded repayment and arranged the meeting he denied. The receipt, appointment, carbon page and exit sighting support one sequence; a missing original cannot erase it.",
-              "observation": "The carbon account copy records transfers to {solicitor}'s private practice.",
-              "contradictingDetail": "The appointment note and corridor sighting independently contradict the alibi. Destroying originals did not erase copies. {solicitor}'s private practice received the missing funds. Cecily demanded repayment and arranged the meeting he denied. The receipt, appointment, carbon page and exit sighting support one sequence; a missing original cannot erase it."
+              "text": "I read the carbon: trust money reached {solicitor}'s private practice; Cecily demanded repayment and arranged his denied meeting. Receipt, appointment and exit sighting contradict {solicitor}. I see torn originals, not erased copies.",
+              "observation": "I read the carbon: trust money reached {solicitor}'s private practice; Cecily demanded repayment and arranged his denied meeting.",
+              "contradictingDetail": "Receipt, appointment and exit sighting contradict {solicitor}. I see torn originals, not erased copies."
             }
           }
         ],
