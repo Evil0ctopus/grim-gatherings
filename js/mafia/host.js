@@ -274,7 +274,7 @@ export function startMafiaHost() {
         <div class="card"><h2>Players (${n})</h2>
           ${n ? `<ul class="mafia-roster">${H.lobby.map(p => `<li><span class="dot ${online(p.id) ? 'on' : ''}"></span>${esc(p.name)} <button class="link-btn" data-kick="${esc(p.id)}" aria-label="Remove ${esc(p.name)}">remove</button></li>`).join('')}</ul>` : '<p class="muted">Waiting for players to join&hellip;</p>'}
           <p class="small muted">Everyone who joins plays. ${MIN_PLAYERS}&ndash;${MAX_PLAYERS} players; odd numbers avoid tied votes.</p>
-          ${counts ? `<p class="deal-line">This deal: <span class="role-tag mafia">${counts.mafia} Mafia</span> <span class="role-tag doctor">1 Doctor</span> <span class="role-tag detective">1 Detective</span> <span class="role-tag town">${counts.town} Town</span></p>` : `<p class="small">Need ${Math.max(0, MIN_PLAYERS - n)} more player${MIN_PLAYERS - n === 1 ? '' : 's'}.</p>`}
+          ${counts ? `<p class="deal-line">This deal: <span class="role-tag mafia">${counts.mafia} Mafia</span> <span class="role-tag doctor">${counts.doctor} Doctor${counts.doctor === 1 ? '' : 's'}</span> <span class="role-tag detective">${counts.detective} Detective${counts.detective === 1 ? '' : 's'}</span> <span class="role-tag town">${counts.town} Town</span></p>` : `<p class="small">Need ${Math.max(0, MIN_PLAYERS - n)} more player${MIN_PLAYERS - n === 1 ? '' : 's'}.</p>`}
           <button class="btn block" id="start"${counts ? '' : ' disabled'}>Deal roles &amp; start</button>
         </div>
       </div>

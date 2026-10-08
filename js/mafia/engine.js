@@ -19,10 +19,12 @@ export function cryptoRandom() {
 }
 
 // Roughly one mafia per 3-4 players: 5-6 -> 1, 7-10 -> 2, 11-14 -> 3, 15-18 -> 4.
+// At 13+ players the town gets a second doctor and a second detective.
 export function roleCounts(n) {
   if (!Number.isInteger(n) || n < MIN_PLAYERS || n > MAX_PLAYERS) throw new Error(`Mafia needs ${MIN_PLAYERS}-${MAX_PLAYERS} players (got ${n}).`);
   const mafia = Math.max(1, Math.floor((n + 1) / 4));
-  return { mafia, doctor: 1, detective: 1, town: n - mafia - 2 };
+  const helpers = n >= 13 ? 2 : 1;
+  return { mafia, doctor: helpers, detective: helpers, town: n - mafia - 2 * helpers };
 }
 
 export function roleDeck(n) {

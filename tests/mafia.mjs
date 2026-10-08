@@ -33,7 +33,8 @@ test('role counts follow the ratio table for every lobby size 5-18', () => {
   for (let n = MIN_PLAYERS; n <= MAX_PLAYERS; n++) {
     const c = roleCounts(n);
     assert.equal(c.mafia, expectedMafia[n], `mafia at ${n}`);
-    assert.equal(c.doctor, 1); assert.equal(c.detective, 1);
+    const helpers = n >= 13 ? 2 : 1;
+    assert.equal(c.doctor, helpers, `doctors at ${n}`); assert.equal(c.detective, helpers, `detectives at ${n}`);
     assert.equal(c.mafia + c.doctor + c.detective + c.town, n);
     assert.ok(c.town >= 1);
     assert.ok(c.mafia < n - c.mafia, 'mafia never start at parity');
@@ -92,6 +93,26 @@ test('mafia must agree; a doctor save cancels the kill', () => {
   assert.deepEqual(s.announcement, { night: 1, killed: null, role: null });
   assert.deepEqual(s.history.at(-1), { type: 'night', night: 1, target: victims[1].id, saved: true, killed: null });
   assert.equal(submitNightAction(s, doctor.id, doctor.id).ok, false, 'no night actions by day');
+});
+
+test('13+ players: two doctors (either one saves) and two detectives with private results', () => {
+  const s = begin(13, {}, seeded(5));
+  const doctors = byRole(s, 'doctor'), detectives = byRole(s, 'detective'), mafia = byRole(s, 'mafia');
+  assert.equal(doctors.length, 2); assert.equal(detectives.length, 2);
+  const victim = s.players.find(p => p.role === 'town');
+  for (const p of s.players) {
+    const pick = p.role === 'mafia' ? victim.id
+      : p.id === doctors[0].id ? doctors[0].id
+      : p.id === doctors[1].id ? victim.id
+      : p.id === detectives[0].id ? mafia[0].id
+      : p.id === detectives[1].id ? victim.id
+      : validNightTargets(s, p.id)[0];
+    submitNightAction(s, p.id, pick, 0);
+  }
+  assert.equal(s.phase, 'dawn');
+  assert.equal(victim.alive, true, 'the second doctor saved the victim');
+  assert.deepEqual(viewFor(s, detectives[0].id).investigations, [{ night: 1, target: mafia[0].id, guilty: true }]);
+  assert.deepEqual(viewFor(s, detectives[1].id).investigations, [{ night: 1, target: victim.id, guilty: false }]);
 });
 
 test('unsaved victim dies; the detective gets an accurate private result', () => {

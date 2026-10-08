@@ -6,7 +6,7 @@ import fs from 'node:fs';
 const BASE = (process.argv[2] || 'https://evil0ctopus.github.io/grim-gatherings/').replace(/\/?$/, '/');
 const COUNT = Number(process.argv[3] || 5);
 const SHOTS = process.argv[4] || '';
-const NAMES = ['Ada', 'Bram', 'Cleo', 'Dev', 'Esme', 'Finn', 'Gus', 'Hana', 'Ivo'].slice(0, COUNT);
+const NAMES = ['Ada', 'Bram', 'Cleo', 'Dev', 'Esme', 'Finn', 'Gus', 'Hana', 'Ivo', 'Jude', 'Kai', 'Lena', 'Milo', 'Nell', 'Otto', 'Pia', 'Quin', 'Rhea'].slice(0, COUNT);
 const T = 45000;
 const ok = (name, cond, extra = '') => {
   console.log(`${cond ? 'PASS' : 'FAIL'}  ${name}${extra ? ' - ' + extra : ''}`);
@@ -73,7 +73,8 @@ try {
     if (game === 1) await shot(phones[0].page, 'phone-role-card');
     const mafia = phones.filter(p => p.role === 'mafia');
     const killers = mafia.map(p => p.name).sort().join(',');
-    ok(`game ${game}: roles dealt`, mafia.length >= 1 && phones.filter(p => p.role === 'doctor').length === 1 && phones.filter(p => p.role === 'detective').length === 1, phones.map(p => `${p.name}=${p.role}`).join(' '));
+    const helpers = COUNT >= 13 ? 2 : 1;
+    ok(`game ${game}: roles dealt`, mafia.length >= 1 && phones.filter(p => p.role === 'doctor').length === helpers && phones.filter(p => p.role === 'detective').length === helpers, phones.map(p => `${p.name}=${p.role}`).join(' '));
     for (const p of phones) {
       const html = await p.page.innerHTML('#app');
       const leaked = phones.filter(o => o !== p && html.includes(`role-tag`)).length;
