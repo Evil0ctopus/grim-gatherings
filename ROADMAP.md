@@ -4,6 +4,10 @@
 
 - The owner-supplied Muse/Melissa rules replace the previous reference rules in
   [`RULESETS.md`](RULESETS.md), with separate narrative and social-deduction categories.
+- The supplied section 34 correction requires least-invasive repairs, protects
+  passing content and the evidence spine, and requires an intervention record.
+  Story and Mafia changes remain pending owner approval; adopting the repair
+  doctrine does not itself change any game.
 - This is a documentation update, not a gameplay migration. Implement and
   verify chain consistency, approved chain-ends handling, repeat gaps and
   compatibility grading before claiming compliance with the replacement rules.

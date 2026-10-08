@@ -23,6 +23,7 @@ This version replaces the previous rule set in full.
 - §20 (new): rule amendment process — author states the exception, admin approves; unapproved deviations are defects.
 - §21 (new): story completion grade — rule-compatibility score from the §18 checklist, with critical gates; 85% minimum to submit for testing and to publish.
 - Restructured into two categories with a game-type choice at submission: CATEGORY 1 narrative mysteries (§§1–21), CATEGORY 2 social deduction games (§§22–32, genre-general with room for creative variants).
+- §34 (new): least-invasive repair doctrine — rearrange before rewriting, small additions before restructuring; never change solution or evidence spine for compliance; document every intervention.
 
 1. STORY OWNERSHIP
 
@@ -683,3 +684,35 @@ STYLE
 [ ] Creative additions do not break the phase structure.
 
 Scored under §21 against this checklist; the same 85% thresholds apply.
+
+---
+
+## REPAIR DOCTRINE
+
+### 34. LEAST-INVASIVE REPAIR
+
+When a story fails compatibility, fix it with the smallest intervention
+that achieves compliance. Prefer, in order:
+
+1. REARRANGE — move existing content before changing it. Reassign
+   pairings, reorder chains, or shift content between rounds where the
+   rules allow. (Example: swapping which pairing set a round uses rather
+   than rewriting its clues.)
+2. SMALL ADDITIONS — add the minimum needed: a round to reach N−1, a
+   missing reveal, a clarifying narration line. Additions must follow
+   the story's existing voice and evidence.
+3. TARGETED REWRITES — rewrite only the failing elements: the broken
+   chain links, the over-long clues, the invalid placeholders. Do not
+   rewrite passing content "while you're in there."
+
+Never, in the name of compliance, alter what §11 protects: the killer,
+motive, method, opportunity, evidence spine, and suspicion balance. Do
+not rewrite content that already passes.
+
+If no minimal fix achieves compliance, the change is no longer minimal:
+send it back to the author under §20 rather than reshaping the story
+unilaterally.
+
+Document every intervention: what changed, which rule required it, and
+what the original said. The author must be able to see exactly what
+compliance cost their story.

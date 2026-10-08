@@ -14,6 +14,9 @@ and Melissa on October 8, 2026. It supersedes earlier reference rules and
 separates narrative mysteries from social deduction games. It includes
 chain consistency, the chain-ends exception, repeat gaps, authoring-scaffolding
 conversion, approved amendments and compatibility grading with an 85% threshold.
+Section 34 requires least-invasive repairs: rearrange before adding or
+rewriting, leave passing content alone, preserve the solution and evidence
+spine, and record the original content and reason for every intervention.
 Submission refers to the owner's authoring/review process; public story
 submission remains retired.
 
@@ -165,7 +168,8 @@ Do not invent missing submitted content or regenerate clue schedules at runtime.
 
 The site uses plain HTML/CSS/JavaScript modules. Node 24 is required for tooling.
 `npm run build:site` creates disposable `dist/` output containing only the HTML
-entry points and `assets/`, `css/`, `js/`, and `vendor/`. Server modules, tests,
+entry points, the public `RULESETS.md` reference, and `assets/`, `css/`, `js/`,
+and `vendor/`. Server modules, tests,
 tools and `.local-private/` are excluded. Never upload the whole local checkout.
 Keep passwords and keys in a password manager; `.local-private/` is not encrypted.
 
