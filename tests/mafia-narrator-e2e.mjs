@@ -53,10 +53,16 @@ try {
     const name = NAMES[i];
     roles[name] = await page.evaluate(() => [...document.querySelector('.role-card').classList].find(c => c !== 'role-card'));
     ok(`${name} sees only their own role card`, (await page.locator('.role-card').count()) === 1 && (await page.locator('.role-card').innerText()).includes(name));
+    if (COUNT >= 13 && ['doctor', 'detective'].includes(roles[name])) {
+      const order = Object.values(roles).filter(role => role === roles[name]).length;
+      ok(`${name} receives their private helper order`,
+        (await page.locator('.role-card').innerText()).includes(`${order === 1 ? 'First' : 'Second'} ${roles[name] === 'doctor' ? 'Doctor' : 'Detective'}`));
+    }
     if (i === 0) await shot(page, 'narrator-pass-role');
     await page.click('#hide-role');
   }
   const mafia = NAMES.filter(n => roles[n] === 'mafia');
+  ok('elimination reveal policy is locked during the game', await page.isDisabled('#set-reveal'));
   const townNames = NAMES.filter(n => roles[n] !== 'mafia');
   ok('deal has mafia, doctor and detective', mafia.length >= 1 && Object.values(roles).includes('doctor') && Object.values(roles).includes('detective'), JSON.stringify(roles));
 
@@ -108,12 +114,22 @@ try {
   }
 
   await playNight(true);
+  const publicLog = page.locator('details').filter({ has: page.getByText('Public game log', { exact: true }) });
+  const privateLog = page.locator('details').filter({ has: page.getByText('Private narrator log (keep hidden)', { exact: true }) });
+  ok('public log contains only the announced no-death outcome',
+    (await publicLog.locator('.game-log').textContent()).trim() === 'Night 1: nobody died.');
+  ok('private narrator log is separate and closed by default',
+    await privateLog.count() === 1 && !(await privateLog.evaluate(element => element.open)));
   await shot(page, 'narrator-dawn-saved');
   await page.click('#discuss');
   await page.waitForSelector('.mafia-timer[data-ends]');
   await page.click('#to-vote');
-  await page.click('#no-vote');
-  ok('skipping the vote eliminates nobody', alive.size === COUNT);
+  ok('empty vote cannot be skipped', await page.isDisabled('#close-vote') && await page.locator('#no-vote').count() === 0);
+  for (const name of NAMES.slice(0, 2)) {
+    await page.locator('.vote-row').filter({ hasText: name }).locator('[data-d="1"]').click();
+  }
+  await page.click('#close-vote');
+  ok('tied vote eliminates nobody', alive.size === COUNT);
 
   await playNight(false);
   await shot(page, 'narrator-dawn-killed');
@@ -139,6 +155,7 @@ try {
   const over = await page.locator('.narrator').first().innerText();
   ok('town wins after the mafia are voted out', /town wins/i.test(over), over.slice(0, 120));
   ok('game over reveals every role', await page.locator('.final-row').count() === COUNT);
+  ok('next deal reveal policy is editable', !(await page.isDisabled('#set-reveal')));
   await page.waitForFunction(() => window.__sounds.includes('fanfare'), null, { timeout: 5000 }).catch(() => {});
   ok('win fanfare plays', (await sounds()).includes('fanfare'));
   await shot(page, 'narrator-over');

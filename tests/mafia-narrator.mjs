@@ -9,6 +9,27 @@ const game = (names = NAMES, settings = {}, seed = 7) => N.newNarratorGame(names
 const role = (s, r) => s.players.filter(p => p.role === r);
 const town = s => s.players.filter(p => p.alive && p.role !== 'mafia');
 
+test('public history excludes saved targets, helper identities and investigations', () => {
+  const s = game(NAMES, { revealRoleOnDeath: false });
+  const victim = town(s)[0];
+  const doctor = role(s, 'doctor')[0];
+  s.phase = 'day';
+  s.history = [
+    { type: 'night', night: 1, target: victim.id, savedBy: [doctor.id], killed: null },
+    { type: 'investigate', night: 1, actor: doctor.id, target: victim.id, guilty: false },
+    { type: 'vote', day: 1, eliminated: victim.id, tie: false },
+  ];
+  assert.deepEqual(N.publicHistory(s), [
+    { type: 'night', number: 1, eliminated: null, role: null, tie: false },
+    { type: 'vote', number: 1, eliminated: victim.id, role: null, tie: false },
+  ]);
+  s.settings.revealRoleOnDeath = true;
+  assert.equal(N.publicHistory(s)[1].role, victim.role);
+  s.settings.revealRoleOnDeath = false;
+  s.phase = 'over';
+  assert.equal(N.publicHistory(s)[1].role, victim.role);
+});
+
 function toNight(s) {
   N.skipPass(s);
   assert.equal(N.beginNight(s), true);
@@ -129,9 +150,13 @@ test("a dead doctor's step is still read but needs no pick and saves nobody", ()
   const victim = town(s).find(p => p.id !== doc.id);
   playNight(s, doc.id, victim.id);
   assert.equal(doc.alive, false);
-  N.startDay(s); N.startVote(s); N.closeVote(s); // no votes -> no elimination
+  N.startDay(s); N.startVote(s);
+  assert.equal(N.closeVote(s), false);
+  const [first, second] = Object.keys(s.voteCounts);
+  N.adjustVote(s, first, 1); N.adjustVote(s, second, 1);
+  N.closeVote(s);
   assert.equal(s.verdict.eliminated, null);
-  assert.equal(s.verdict.tie, false);
+  assert.equal(s.verdict.tie, true);
   assert.equal(N.beginNight(s), true);
   const docStep = s.steps.find(x => x.kind === 'doctor');
   assert.ok(docStep, 'doctor step still present');

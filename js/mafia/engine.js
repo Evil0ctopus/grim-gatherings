@@ -237,10 +237,13 @@ function finishIfWon(s) {
   s.endsAt = null;
 }
 
-// Host forces progress when a player has wandered off. At night, an unresolved mafia disagreement means no kill.
+// The moderator can advance public phases, but cannot bypass unfinished secret actions.
 export function forceAdvance(s, now = Date.now()) {
   if (s.phase === 'reveal') { s.ready = s.players.map(p => p.id); beginNight(s); }
-  else if (s.phase === 'night') resolveNight(s, now);
+  else if (s.phase === 'night') {
+    if (!nightComplete(s)) return false;
+    resolveNight(s, now);
+  }
   else if (s.phase === 'dawn') startDiscussion(s, now);
   else if (s.phase === 'day') startVote(s, now);
   else if (s.phase === 'vote') closeVote(s, now);
@@ -279,7 +282,6 @@ export function viewFor(s, id = null) {
     announcement: s.announcement && s.phase !== 'night' ? { ...s.announcement } : null,
     verdict: s.verdict ? { ...s.verdict, votes: { ...s.verdict.votes }, counts: { ...s.verdict.counts } } : null,
     votes: s.phase === 'vote' ? { ...s.votes } : null,
-    nightProgress: s.phase === 'night' ? { done: living(s).filter(p => hasActed(s, p)).length, of: living(s).length } : null,
     winner: s.winner,
   };
   if (!me) return v;

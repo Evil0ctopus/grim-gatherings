@@ -1,7 +1,7 @@
 // Mafia phone screen. Receives only viewFor(state, me) from the table screen; never sees anyone else's secret role.
 import { $, esc, uid, toast } from '../util.js?v=f1ed522';
 import { createPlayerConnection } from '../player-connection.js?v=visitor-review-v1';
-import { ROLE_INFO } from './engine.js?v=mafia-v2';
+import { ROLE_INFO } from './engine.js?v=rules-repair-v1';
 import { MAFIA_PEER_PREFIX } from './host.js?v=mafia-v2';
 
 const TASK_TEXT = {
@@ -146,7 +146,7 @@ export function startMafiaPlayer(room) {
     return `<div class="card night"><p class="phase-name">Night ${view.night}</p><h2>${t.title}</h2><p class="small muted">${t.hint}</p>
       <div class="targets">${buttons}</div>${extra}
       ${done ? '<p class="center ok-line">Done. Close your eyes and wait for dawn.</p>' : ''}
-      <p class="small muted center">${view.nightProgress.done} of ${view.nightProgress.of} phones done</p></div>`;
+      <p class="small muted center">Wait quietly until dawn.</p></div>`;
   }
 
   function voteHtml() {
@@ -178,7 +178,7 @@ export function startMafiaPlayer(room) {
     if (view.phase === 'lobby') {
       app.innerHTML = `<section class="mafia-phone"><header class="mafia-head"><h1>Mafia</h1><p class="muted">Room ${esc(room.toUpperCase())}</p></header>
         <div class="card"><h2>You're in, ${esc(view.me?.name)}</h2><p>${view.roster.length} player${view.roster.length === 1 ? '' : 's'} at the table. The host will deal roles when everyone has joined.</p>
-        ${view.counts ? `<p class="small">This deal: ${view.counts.mafia} Mafia, 1 Doctor, 1 Detective, ${view.counts.town} Town.</p>` : `<p class="small muted">At least ${view.min} players are needed.</p>`}
+        ${view.counts ? `<p class="small">This deal: ${view.counts.mafia} Mafia, ${view.counts.doctor} Doctor${view.counts.doctor === 1 ? '' : 's'}, ${view.counts.detective} Detective${view.counts.detective === 1 ? '' : 's'}, ${view.counts.town} Town.</p>` : `<p class="small muted">At least ${view.min} players are needed.</p>`}
         ${aliveList()}<button class="btn secondary" id="leave">Leave room</button></div>
         <p id="mafia-status" class="small muted center"></p></section>`;
       $('#leave').onclick = () => act({ t: 'leave' });

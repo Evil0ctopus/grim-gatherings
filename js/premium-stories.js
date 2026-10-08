@@ -10,67 +10,67 @@ const ledgerChains = chains.map(chain => chain.map(id => ({
 
 const lanternFacts = {
   ada: [
-    ['The bridge lamp log bears {ada}’s initials beside the eight-o’clock wick change. The brass key kept on her belt fits the lamp’s service lock, though the entry alone does not show whether she altered the flame.'],
-    ['The ward register records {ada} moving the bridge seal after the first lantern dimmed. Its wax impression matches the seal she carried at the public renewal, not the older seal she said she had used.'],
-    ['A soot line on {ada}’s sleeve matches the bridge lamp’s lower vent. She said she checked it only from the path, but the vent can be reached only by opening the service hatch.'],
-    ['The final wick was cut with {ada}’s short maintenance shears, identified by the crescent notch in their handle. She had reported those shears missing, yet their oil-dark case remained in her tool basket.'],
+    ["I read {ada}'s initials in the bridge-lamp log beside the eight-o'clock wick change; her belt's brass key fits its service lock.", "I can't tell whether she altered the flame."],
+    ["I read the ward register: {ada} moved the bridge seal after the first lantern dimmed.", "I compared its wax: her public-renewal seal, not the older one she claimed."],
+    ["I compared {ada}'s sleeve soot with the bridge lamp's lower vent.", "I can't reconcile her path-only check with a vent reached only through the service hatch."],
+    ["I identified the final wick's cuts with {ada}'s short maintenance shears, crescent-notched handle and all.", "I question her missing-shears report: their oil-dark case stayed in her tool basket."],
   ],
   bryn: [
-    ['The bell-listener’s slate shows {bryn} marked the orchard lantern as steady at nine. The matching chalk dust is on the slate hinge, although the clean slate face he described had already been wiped.'],
-    ['A recording cylinder catalogued by {bryn} contains the double bell strike that followed the orchard flame going out. He said the cylinder was blank, but its wax groove carries a fresh impression.'],
-    ['The listening map in {bryn}’s case places the last sound at the orchard post. He claimed to have stayed in the belfry, yet mud from that post is pressed into the map’s folded edge.'],
-    ['The bell rope was tied off with {bryn}’s distinctive square knot. He said no one could reach the rope after the doors were sealed, but the knot lies on the public side of the latch.'],
+    ["I read {bryn}'s slate: orchard lantern steady at nine.", "I saw matching chalk on its hinge; the clean face he described had already been wiped."],
+    ["I heard the double bell strike after the orchard flame died on {bryn}'s catalogued cylinder.", "I question his blank-cylinder claim: the wax groove has a fresh impression."],
+    ["I read the listening map in {bryn}'s case: last sound at the orchard post.", "I doubt his belfry-only claim with that post's mud pressed into the map's folded edge."],
+    ["I recognized {bryn}'s square knot tying off the bell rope.", "I question his sealed-door claim: the knot sits on the latch's public side, where the rope could be reached."],
   ],
   cato: [
-    ['The orchard keeper’s basket shows {cato} carried lamp oil to the renewal. He called it cider for the guests, but the bottle bears the lampwright’s measuring mark beneath its paper label.'],
-    ['A strip of silvered glass recovered from {cato}’s orchard press fits the lantern’s cracked viewing pane. He said the pane broke in the storm, though the glass edge is cleanly scored rather than wind-shattered.'],
-    ['The orchard gate tally puts {cato} at the boundary after midnight. He blamed a fallen branch, but the gate’s inner bar was lifted from the lantern side and left no branch fibers.'],
-    ['Ash from the orchard lantern was wrapped in {cato}’s harvest cloth. He said the cloth had never left his shed, yet the damp ash has the same cedar scent as the shed’s open brazier.'],
+    ["I checked {cato}'s basket: he carried lamp oil to the renewal.", "I question his guests' cider claim; the bottle's paper label hides the lampwright's measuring mark."],
+    ["I compared silvered glass recovered from {cato}'s orchard press: it fits the lantern's cracked viewing pane.", "I doubt his storm story; that edge is cleanly scored, not wind-shattered."],
+    ["I read the orchard gate tally placing {cato} at the boundary after midnight.", "I question his fallen-branch claim: the inner bar lifted from the lantern side, leaving no branch fibers."],
+    ["I saw orchard-lantern ash wrapped in {cato}'s harvest cloth.", "I question his shed-only claim; that damp ash smells of cedar, just like the shed's open brazier."],
   ],
   dara: [
-    ['The covenant clerk’s draft, signed by {dara}, changes the boundary wording the day before the death. She said the copy was made after the meeting, but the ink beneath the seal is still wet in the preserved fold.'],
-    ['A brass pin from {dara}’s map case fits the loose lantern latch. She denied carrying metal tools, though the empty pin slot in her case has fresh green tarnish around it.'],
-    ['The deed map in {dara}’s desk moves the boundary line beyond the orchard. She called it an old survey, but the paper’s watermark dates it to the week Orren died.'],
-    ['Orren’s sealed note names {dara} as the only person who requested the unlit route. She said he never trusted her with the covenant, yet her own initials appear beside the route on his carbon copy.'],
+    ["I read {dara}'s signed draft changing boundary wording the day before the death.", "I question her after-meeting copy claim: beneath the seal, ink stays wet in the preserved fold."],
+    ["I compared {dara}'s brass map-case pin: it fits the loose lantern latch.", "I question her denial of metal tools; fresh green tarnish surrounds the empty pin slot."],
+    ["I read the deed map from {dara}'s desk moving the boundary beyond the orchard.", "I doubt her old-survey claim: its watermark dates to the week Orren died."],
+    ["I read Orren's sealed note: only {dara} requested the unlit route.", "I question her claim he never trusted her with the covenant; her initials mark that route on his carbon copy."],
   ],
   elan: [
-    ['The bridge watch roster places {elan} at the crossing when the first lantern dimmed. He said he saw no one, but his boot print beside the post has the heel split shown on his own roster sketch.'],
-    ['A lantern-glass shard in {elan}’s coat pocket fits the bridge lamp’s missing panel. He blamed the broken window at the watch hut, but that window is intact and has no matching edge.'],
-    ['The watch bell’s spring was replaced by {elan} that afternoon. He described it as a repair to the clock, while the spring’s hooked end matches the release inside the bridge lantern.'],
-    ['A damp footprint beneath {elan}’s window faces outward toward the boundary path. He claimed he slept through the alarm, but the mud contains the fresh brass dust found only at the lantern posts.'],
+    ["I read {elan}'s bridge-watch roster: at the crossing when the first lantern dimmed.", "I question his no-sighting account; his post-side bootprint has the heel split in his own roster sketch."],
+    ["I compared the lantern-glass shard in {elan}'s coat pocket: it fits the bridge lamp's missing panel.", "I doubt his broken-watch-hut-window explanation; that window's intact, without a matching edge."],
+    ["I learned {elan} replaced the watch-bell spring that afternoon.", "I question his clock-repair explanation: the spring's hooked end matches the release inside the bridge lantern."],
+    ["I saw a damp footprint beneath {elan}'s window facing the boundary path.", "I doubt he slept through the alarm; its mud contains fresh brass dust found only at lantern posts."],
   ],
 };
 
 const ledgerFacts = {
   alice: [
-    ['The auction register signed by {alice} lists the reserve seal as intact at opening. She said she sealed it after the last bid, but the impression beneath her signature is from the earlier, broken wax.'],
-    ['A correction in {alice}’s lot book moves one receipt to the reserve column. She called it a copyist’s mark, yet the red pencil stroke crosses the printed total instead of the handwritten note.'],
-    ['The witness docket records {alice} announcing a reserve loss before the counting bell. She said the figure came from the clerk, but her own pocket tally contains the same number in older ink.'],
-    ['The closing sheet prepared by {alice} shows the reserve was opened with two keys. She said both were present, but one key’s brass dust appears only on the bidder’s ledger page.'],
+    ["I read {alice}'s signed auction register: reserve seal intact at opening.", "I question her after-last-bid sealing claim; the impression beneath her signature comes from earlier, broken wax."],
+    ["I read {alice}'s lot-book correction moving a receipt to the reserve column.", "I question her copyist-mark explanation; red pencil crosses the printed total, not the handwritten note."],
+    ["I read the witness docket: {alice} announced a reserve loss before the counting bell.", "I question her clerk-supplied figure; her pocket tally has that number in older ink."],
+    ["I read {alice}'s closing sheet: two keys opened the reserve.", "I question her both-keys-present claim; one key's brass dust appears only on the bidder's ledger page."],
   ],
   ben: [
-    ['The escrow cabinet log bears {ben}’s initials beside the reserve key. He said it stayed in the cabinet all evening, but the key’s fresh wax smear matches the opened seal.'],
-    ['A shield receipt in {ben}’s case lists a bidder who was already absent. He called it a routine duplicate, yet the receipt carries a new counterfoil number not found in the cabinet copy.'],
-    ['The escrow balance sheet shows {ben} restored one credit after a loss. He said the adjustment was automatic, but the ink begins under the line where he denied opening the reserve.'],
-    ['The cabinet hinge carries a strand from {ben}’s blue cuff. He said the door never moved, although the strand is trapped beneath the newest layer of polishing wax.'],
+    ["I read {ben}'s initials beside the reserve key in the escrow-cabinet log.", "I doubt it stayed inside all evening; its fresh wax smear matches the opened seal."],
+    ["I read the shield receipt in {ben}'s case listing an already-absent bidder.", "I question his routine-duplicate explanation; its new counterfoil number isn't in the cabinet copy."],
+    ["I read the escrow balance sheet: {ben} restored a credit after a loss.", "I question his automatic-adjustment claim; ink starts beneath his denial of opening the reserve."],
+    ["I saw a strand from {ben}'s blue cuff in the cabinet hinge.", "I doubt the door never moved; the strand's trapped beneath the newest polishing wax."],
   ],
   celia: [
-    ['The debt index copied by {celia} lists two bidders against one receipt number. She said the duplicate was a harmless filing error, but both entries carry separate reserve totals.'],
-    ['A torn counterfoil in {celia}’s desk matches the counterfeit batch. She said it came from discarded drafts, yet its punched corner matches the live auction book.'],
-    ['The daily sum in {celia}’s ledger omits a reserve loss announced at noon. She blamed a slow clerk, but the missing line was cut out with a ruler and the page number continues.'],
-    ['The final index in {celia}’s hand marks one debt as paid. She said the mark was copied from a receipt, but the ink contains the same silver fleck found on the forged originals.'],
+    ["I read {celia}'s copied debt index: two bidders share one receipt number.", "I question her harmless-filing-error claim; both entries have separate reserve totals."],
+    ["I compared the torn counterfoil in {celia}'s desk: it matches the counterfeit batch.", "I doubt her discarded-drafts explanation; its punched corner matches the live auction book."],
+    ["I read {celia}'s ledger: the daily sum omits noon's announced reserve loss.", "I question her slow-clerk explanation; a ruler-cut line is missing, but page numbering continues."],
+    ["I read the final index in {celia}'s hand marking one debt paid.", "I question her receipt-copy explanation; the ink has the same silver fleck as the forged originals."],
   ],
   dario: [
-    ['The bidder card signed by {dario} claims he left before the first lot. The auction bell record places his bid after that time, and the card’s reverse has a fresh carbon transfer.'],
-    ['A counterfeit receipt bears {dario}’s uncommon crossed-seven mark. He called it the clerk’s handwriting, but his signed bid sheet uses the same doubled stroke.'],
-    ['The reserve tally puts {dario}’s debt among the losses. He said his account was settled, yet his own pocket copy still shows the unpaid amount in wet red ink.'],
-    ['The hidden escrow key was wrapped in {dario}’s lot catalogue. He denied entering the cabinet, but the catalogue’s torn edge matches the paper caught in its lock.'],
+    ["I read {dario}'s signed bidder card: gone before the first lot.", "I doubt it; the auction-bell record places his bid later, and the card's reverse carries fresh carbon."],
+    ["I recognized {dario}'s uncommon crossed-seven mark on a counterfeit receipt.", "I question his clerk-handwriting claim; his signed bid sheet uses that same doubled stroke."],
+    ["I read the reserve tally: {dario}'s debt among the losses.", "I doubt his settled-account claim; his pocket copy still shows the unpaid amount in wet red ink."],
+    ["I saw the hidden escrow key wrapped in {dario}'s lot catalogue.", "I question his cabinet-entry denial; the catalogue's torn edge matches paper caught in its lock."],
   ],
   eva: [
-    ['The advocate’s note shows {eva} objected to the reserve transfer before the auction. She said she only questioned the fee, but her underlined copy names the exact missing receipt.'],
-    ['A chalk total on {eva}’s sleeve matches the counterfeited debt sum. She said it came from the bidding board, though that board used black ink and was wiped before the chalk appeared.'],
-    ['The sealed complaint filed by {eva} identifies a gap in the reserve count. She said she filed it the next morning, but the seal has the prior evening’s bell stamp.'],
-    ['The final account in {eva}’s folder clears a bidder who paid in cash. She said the receipt was verified, yet the paper is watermarked with the same false reserve series.'],
+    ["I read {eva}'s advocate note objecting to the reserve transfer before the auction.", "I question her fee-only explanation; her underlined copy names the exact missing receipt."],
+    ["I compared {eva}'s sleeve chalk total with the counterfeited debt sum.", "I doubt her bidding-board explanation; it used black ink and was wiped before the chalk appeared."],
+    ["I read {eva}'s sealed complaint identifying a reserve-count gap.", "I question her next-morning filing claim; the seal bears the prior evening's bell stamp."],
+    ["I read the final account in {eva}'s folder clearing a cash-paying bidder.", "I question her verified-receipt claim; its watermark matches the false reserve series."],
   ],
 };
 
@@ -147,13 +147,13 @@ function compileStory(input) {
       const chain = round.chain;
       const readerIndex = chain.indexOf(character.id);
       const targetId = chain[(readerIndex + 1) % chain.length];
-      const text = input.characters.find(item => item.id === targetId).evidence[roundIndex][0];
+      const [observation, contradictingDetail] = input.characters.find(item => item.id === targetId).evidence[roundIndex];
       return {
         readAloud: {
           accuses: targetId,
-          text: `{${targetId}}: ${text}`,
-          observation: text.split('. ')[0],
-          contradictingDetail: text.split('. ').slice(1).join('. '),
+          text: `${observation} ${contradictingDetail}`,
+          observation,
+          contradictingDetail,
         },
       };
     }),

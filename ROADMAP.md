@@ -6,8 +6,9 @@
   [`RULESETS.md`](RULESETS.md), with separate narrative and social-deduction categories.
 - The supplied section 34 correction requires least-invasive repairs, protects
   passing content and the evidence spine, and requires an intervention record.
-  Story and Mafia changes remain pending owner approval; adopting the repair
-  doctrine does not itself change any game.
+  The owner approved the audit repairs, including the per-game role-reveal
+  lock. Author-specific facts and grading decisions still require clarification;
+  adopting the repair doctrine does not itself change any game.
 - This is a documentation update, not a gameplay migration. Implement and
   verify chain consistency, approved chain-ends handling, repeat gaps and
   compatibility grading before claiming compliance with the replacement rules.
@@ -17,6 +18,48 @@
   how section 32's social-deduction checklist maps to those weights.
 
 ## Clean, simple UI refresh
+
+### Approved Mafia compliance repairs
+
+- Sections 23/26: removed the public `nightProgress` counter and its host/player
+  displays. Previously one consensus action could increment completion by the
+  entire Mafia team; private picks and consensus feedback remain unchanged.
+- Section 27: elimination-role visibility is selected before the deal and
+  locked during play. Previously settings handlers changed the active game.
+  The next game's choice remains editable after game over.
+- Sections 26/30: duplicate Doctors and Detectives receive their First/Second
+  designation on their private pass-around card. Previously only the narrator's
+  spoken prompts distinguished these roles. Guest lobby counts now use the
+  actual deck instead of saying one Doctor and Detective at every count.
+- Sections 23/29: the in-progress narrator history is explicitly labelled
+  private, with a warning not to read it aloud or pass the screen to players.
+  Previously its generic "Game log" label did not explain its secret contents.
+  A separate public log now redacts investigations, attempted victims and
+  helper identities, and follows the locked elimination-role policy.
+- Section 25: removed "Force dawn (unfinished actions are skipped)" and reject
+  forced night resolution until every private action is complete. Removed the
+  narrator's "Nobody voted -- skip" path; empty narrator votes cannot close.
+
+### Approved narrative compliance repairs
+
+- Sections 3/15: free-story next-round and reveal actions require ballots from
+  the entire fixed cast. Previously a confirmation allowed incomplete round
+  voting, and the final reveal allowed partial or confirmed empty voting.
+- Sections 8-10: rewrote only the 40 premium clue voice fields from the
+  report-style readings in commit `bdac9ca`, keeping the original facts,
+  targets, narration, chains, cast and solution. Six Lanternfall and one Ledger
+  readings exceeded 35 words; all now fit the cap and are shorter. The exact
+  original readings and interventions are available in the version-control
+  diff against `bdac9ca`. Regression fingerprints pin every non-voice field.
+- Sections 20/34: Blackwater's split-loop rounds, unclear murder-method facts
+  and unspecified grading decisions are not being silently rewritten. These
+  require author review; no complete-compatibility claim is made.
+- Validation: 189 unit tests, five complete free-story browser games, both
+  thirteen-player Mafia modes, the visitor ballot-guard checks and 130 premium
+  phone-room fixture checks passed. Static build passed.
+- Release scope: Mafia and free-story guard repairs ship through both static
+  sites. Premium clue changes also require a separate Supabase Edge Function
+  deployment; local fixture success does not verify production backend content.
 
 - Visitor story authoring, AI help and story-file tools are retired; accounts remain.
 - Blackwater Row is back for playtesting at four players, with short first-person

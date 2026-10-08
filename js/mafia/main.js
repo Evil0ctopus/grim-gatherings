@@ -1,6 +1,6 @@
-import { startMafiaHost } from './host.js?v=ui-refresh-v1';
-import { startMafiaPlayer } from './player.js?v=mafia-v2';
-import { startMafiaNarrator } from './narrator.js?v=ui-refresh-v1';
+import { startMafiaHost } from './host.js?v=rules-repair-v1';
+import { startMafiaPlayer } from './player.js?v=rules-repair-v1';
+import { startMafiaNarrator } from './narrator.js?v=rules-repair-v1';
 
 const params = new URLSearchParams(location.search);
 const room = params.get('room');

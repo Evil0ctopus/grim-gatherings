@@ -10,6 +10,27 @@ const seeded = seed => () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 2 *
 const byRole = (s, role) => s.players.filter(p => p.role === role && p.alive);
 const ROLE_WORDS = /"role":"(mafia|doctor|detective|town)"/g;
 
+test('night views never expose role-dependent action completion counters', () => {
+  const s = begin(13, {}, seeded(7));
+  const mafia = byRole(s, 'mafia');
+  const victim = s.players.find(p => p.role === 'town');
+  for (const actor of mafia) {
+    submitNightAction(s, actor.id, victim.id, 0);
+    for (const id of [null, ...s.players.map(p => p.id)]) {
+      assert.ok(!Object.hasOwn(viewFor(s, id), 'nightProgress'));
+    }
+  }
+  assert.equal(viewFor(s, mafia[0].id).myPick, victim.id);
+  assert.equal(viewFor(s, mafia[0].id).consensus, victim.id);
+});
+
+test('moderator cannot force dawn before all private actions finish', () => {
+  const s = begin(13, {}, seeded(7));
+  assert.equal(forceAdvance(s, 0), false);
+  assert.equal(s.phase, 'night');
+  assert.equal(s.history.length, 0);
+});
+
 function begin(n, settings = {}, rng) {
   const s = startGame(lobby(n), settings, { rng, now: 0 });
   for (const p of s.players) acknowledgeRole(s, p.id);

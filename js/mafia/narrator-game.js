@@ -1,6 +1,6 @@
 // One-phone narrator mode: the narrator holds the only device and enters what the players point to.
 // Pure state transitions (no DOM) so the rules can be unit-tested. Reuses the deal, win and vote rules from engine.js.
-import { deal, winner, tally, normalizeSettings, cryptoRandom, MIN_PLAYERS, MAX_PLAYERS } from './engine.js?v=mafia-v2';
+import { deal, winner, tally, normalizeSettings, cryptoRandom, MIN_PLAYERS, MAX_PLAYERS } from './engine.js?v=rules-repair-v1';
 
 export function cleanNames(names) {
   const seen = new Set();
@@ -12,6 +12,20 @@ export function cleanNames(names) {
     out.push(name);
   }
   return out;
+}
+
+export function publicHistory(game) {
+  return game.history.filter(event => event.type === 'night' || event.type === 'vote').map(event => {
+    const id = event.type === 'night' ? event.killed : event.eliminated;
+    const player = game.players.find(player => player.id === id);
+    return {
+      type: event.type,
+      number: event.type === 'night' ? event.night : event.day,
+      eliminated: id || null,
+      role: player && (game.settings.revealRoleOnDeath || game.phase === 'over') ? player.role : null,
+      tie: event.type === 'vote' && !!event.tie,
+    };
+  });
 }
 
 export function newNarratorGame(names, settings = {}, { rng = cryptoRandom, gameNumber = 1 } = {}) {
@@ -184,7 +198,7 @@ export function adjustVote(s, id, delta) {
 }
 
 export function closeVote(s) {
-  if (s.phase !== 'vote') return false;
+  if (s.phase !== 'vote' || votesCast(s) === 0) return false;
   const ballots = {};
   let n = 0;
   for (const [id, c] of Object.entries(s.voteCounts)) for (let i = 0; i < c; i++) ballots[`b${n++}`] = id;

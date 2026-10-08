@@ -87,6 +87,8 @@ try {
     }
     for (const p of phones) await p.page.click('#ready');
     await waitPhones(phones, 'night');
+    ok(`game ${game}: elimination reveal policy is locked`, await host.isDisabled('#set-reveal'));
+    ok(`game ${game}: public night progress is hidden`, !(await host.textContent('#app')).includes('phones done'));
     if (game === 1) { await shot(host, 'table-night'); }
 
     // Night: mafia pick the first non-mafia player; everyone else picks their first option.
@@ -153,6 +155,7 @@ try {
     }
     await host.waitForSelector('#play-again', { timeout: T });
     await waitPhones(phones, 'over');
+    ok(`game ${game}: next deal reveal policy is editable`, !(await host.isDisabled('#set-reveal')));
     const finalTable = await host.innerHTML('#app');
     ok(`game ${game}: game over reveals every role on the table`, phones.every(p => finalTable.includes(p.name)) && (finalTable.match(/role-tag/g) || []).length >= COUNT);
     if (COUNT <= 6) ok(`game ${game}: town wins after voting out the mafia`, /win-town/.test(finalTable));

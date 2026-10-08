@@ -95,11 +95,28 @@ try {
         await fits(page, `${name}: deliberation ${round + 1}`);
         await page.click('#open-vote');
         await fits(page, `${name}: vote ${round + 1}`);
+        await page.click(round < 4 ? '#next-round' : '#reveal-btn');
+        check(`${name}: empty vote cannot advance round ${round + 1}`,
+          await page.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).phase === 'vote'));
+        const setBallots = async count => {
+          await page.evaluate(count => {
+            const state = JSON.parse(localStorage.getItem('gg-host-v1'));
+            const cast = state.story.characters;
+            state.votes = Object.fromEntries(cast.slice(0, count).map((c, i) => [c.id, cast[(i + 1) % cast.length].id]));
+            state.roundVotes[state.roundIndex] = state.votes;
+            localStorage.setItem('gg-host-v1', JSON.stringify(state));
+          }, count);
+          await page.reload();
+          await page.waitForSelector(round < 4 ? '#next-round' : '#reveal-btn');
+        };
+        await setBallots(story.characters.length - 1);
+        await page.click(round < 4 ? '#next-round' : '#reveal-btn');
+        check(`${name}: one missing fixed-cast ballot blocks round ${round + 1}`,
+          await page.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).phase === 'vote'));
+        await setBallots(story.characters.length);
         if (round < 4) await page.click('#next-round');
       }
-      await confirmClick(page, '#reveal-btn', false);
-      check(`${name}: cancelling no-vote reveal keeps final voting`, await page.locator('#reveal-btn').count() === 1);
-      await confirmClick(page, '#reveal-btn', true);
+      await page.click('#reveal-btn');
       const killer = story.characters.find(character => character.id === story.solution.killerId);
       const names = Object.fromEntries(story.characters.map(character => [character.id, character.name]));
       names.victim = story.victim.name;

@@ -4,7 +4,7 @@ import { createHostWakeLock } from '../host-wake-lock.js?v=visitor-review-v1';
 import {
   MIN_PLAYERS, MAX_PLAYERS, ROLE_INFO, DISCUSSION_CHOICES, DEFAULT_SETTINGS,
   roleCounts, startGame, acknowledgeRole, submitNightAction, castVote, forceAdvance, tick, viewFor, normalizeSettings,
-} from './engine.js?v=mafia-v2';
+} from './engine.js?v=rules-repair-v1';
 import { createSounds } from './sounds.js?v=mafia-v2';
 import { confirmAction } from '../dialog.js?v=ui-refresh-v1';
 
@@ -260,8 +260,7 @@ export function startMafiaHost() {
     switch (g.phase) {
       case 'reveal': return `<p class="center">${g.ready.length} of ${g.players.length} players have seen their role.</p>`;
       case 'night': {
-        const v = viewFor(g, null);
-        return `<div class="moon" aria-hidden="true"></div><p class="center">${v.nightProgress.done} of ${v.nightProgress.of} phones done. Keep your eyes closed and your phones hidden.</p>`;
+        return `<div class="moon" aria-hidden="true"></div><p class="center">Keep your eyes closed and your phones hidden until dawn.</p>`;
       }
       case 'dawn': return `<p class="center muted">The day begins shortly.</p>`;
       case 'day': return `<p class="center muted">${living} players remain. When the timer ends, voting opens.</p>`;
@@ -277,7 +276,7 @@ export function startMafiaHost() {
   }
 
   function controlsHtml(g) {
-    const next = { reveal: 'Skip waiting: start the night', night: 'Force dawn (unfinished actions are skipped)', dawn: 'Start discussion now', day: 'Open voting now', vote: 'Close voting now', verdict: 'Night falls now' }[g.phase];
+    const next = { reveal: 'Skip waiting: start the night', dawn: 'Start discussion now', day: 'Open voting now', vote: 'Close voting now', verdict: 'Night falls now' }[g.phase];
     if (g.phase === 'over') return `<div class="row"><button class="btn" id="play-again">Play again (new roles)</button><button class="btn secondary" id="to-lobby">Change players</button></div>`;
     return `<div class="row">${next ? `<button class="btn secondary" id="force">${next}</button>` : ''}<button class="btn secondary" id="end-game">End game</button></div>`;
   }
@@ -286,7 +285,8 @@ export function startMafiaHost() {
     const s = H.settings;
     return `<details class="card mafia-settings"><summary>Table settings</summary>
       <label>Discussion time <select id="set-discussion">${DISCUSSION_CHOICES.map(n => `<option value="${n}"${n === s.discussionSeconds ? ' selected' : ''}>${n / 60} minutes</option>`).join('')}</select></label>
-      <label class="check"><input type="checkbox" id="set-reveal"${s.revealRoleOnDeath ? ' checked' : ''}> Reveal a player's role when they are eliminated</label>
+      <label class="check"><input type="checkbox" id="set-reveal"${s.revealRoleOnDeath ? ' checked' : ''}${H.game && H.game.phase !== 'over' ? ' disabled' : ''}> Reveal a player's role when they are eliminated</label>
+      ${H.game && H.game.phase !== 'over' ? '<p class="small muted">Role reveals are fixed for this game. Change this setting before the next deal.</p>' : ''}
       <label class="check"><input type="checkbox" id="set-voice"${H.voice ? ' checked' : ''}> Narrator voice on this screen</label>
       <label class="check"><input type="checkbox" id="set-sound"${H.sound ? ' checked' : ''}> Sound effects (gunshot, saves, deaths)</label>
       <label class="check"><input type="checkbox" checked disabled> Mafia know each other</label>
@@ -332,7 +332,15 @@ export function startMafiaHost() {
 
   function bindSettings() {
     $('#set-discussion').onchange = e => { H.settings.discussionSeconds = Number(e.target.value); if (H.game) H.game.settings.discussionSeconds = H.settings.discussionSeconds; changed(); };
-    $('#set-reveal').onchange = e => { H.settings.revealRoleOnDeath = e.target.checked; if (H.game) H.game.settings.revealRoleOnDeath = e.target.checked; changed(); };
+    $('#set-reveal').onchange = e => {
+      if (H.game && H.game.phase !== 'over') {
+        e.target.checked = H.game.settings.revealRoleOnDeath;
+        toast('Role reveals are fixed until this game ends.');
+        return;
+      }
+      H.settings.revealRoleOnDeath = e.target.checked;
+      changed();
+    };
     $('#set-voice').onchange = e => { H.voice = e.target.checked; save(); if (H.voice && H.game) { lastSpoken = ''; speak(narration(H.game)); } };
     $('#set-sound').onchange = e => { H.sound = sounds.enabled = e.target.checked; save(); if (H.sound) { sounds.unlock(); sounds.play('chime'); } };
   }
@@ -354,9 +362,9 @@ export function startMafiaHost() {
     const on = (sel, fn) => { const el = $(sel); if (el) el.onclick = fn; };
     on('#force', async () => {
       const phase = g.phase;
-      if (g.phase === 'night' && !await confirmAction('Force dawn? Anyone who has not acted loses their action tonight, and an unagreed mafia kill is cancelled.')) return;
       if (H.game !== g || g.phase !== phase) return toast('The game has already advanced. Review the current phase.');
-      forceAdvance(g); changed();
+      if (!forceAdvance(g)) return toast('Finish all private actions before dawn.');
+      changed();
     });
     on('#end-game', async () => { if (await confirmAction('End this game and return everyone to the lobby?')) toLobby(); });
     on('#play-again', newGame);

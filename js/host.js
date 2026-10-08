@@ -549,8 +549,8 @@ const actions = {
       return setPhase('deliberation');
     }
     if (S.phase !== 'vote' || S.roundIndex >= S.story.rounds.length - 1) return;
-    const missing = S.story.characters.filter(c => S.claims[c.id] && !S.votes[c.id]);
-    if (missing.length && !await confirmAction(`${missing.length} joined player(s) have not voted. Close this round's voting anyway?`)) return;
+    const missing = S.story.characters.filter(c => !S.votes[c.id]);
+    if (missing.length) return toast(`Wait for all players to vote. ${missing.length} ballot(s) still needed.`);
     setPhase('round', S.roundIndex + 1);
   },
   'open-vote'() {
@@ -566,7 +566,8 @@ const actions = {
   },
   async reveal() {
     if (S.phase !== 'vote' || S.roundIndex !== S.story.rounds.length - 1) return;
-    if (!Object.keys(S.votes).length && !await confirmAction('No votes yet. Reveal anyway?', { title: 'Reveal the truth?', acceptLabel: 'Reveal the truth' })) return;
+    const missing = S.story.characters.filter(c => !S.votes[c.id]);
+    if (missing.length) return toast(`The final vote must be complete before the reveal. ${missing.length} ballot(s) still needed.`);
     setPhase('reveal');
   },
   async release(el) {

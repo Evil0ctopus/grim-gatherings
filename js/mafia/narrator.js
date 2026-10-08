@@ -1,12 +1,13 @@
 // One-phone narrator console: the narrator holds the only device, reads the script, and taps what the players point to.
 import { $, esc, toast } from '../util.js?v=f1ed522';
 import { createHostWakeLock } from '../host-wake-lock.js?v=visitor-review-v1';
-import { ROLE_INFO, DISCUSSION_CHOICES, DEFAULT_SETTINGS, roleCounts } from './engine.js?v=mafia-v2';
+import { ROLE_INFO, DISCUSSION_CHOICES, DEFAULT_SETTINGS, roleCounts } from './engine.js?v=rules-repair-v1';
 import {
   MIN_PLAYERS, MAX_PLAYERS, cleanNames, newNarratorGame, byId, livingPlayers, showPassRole, nextPass, skipPass,
   beginNight, currentStep, actorAlive, stepTargets, pick, confirmKill, detectiveResult, canAdvance, advanceNight,
   startDay, startVote, adjustVote, votesCast, closeVote,
-} from './narrator-game.js?v=mafia-v2';
+  publicHistory,
+} from './narrator-game.js?v=rules-repair-v1';
 import { createSounds } from './sounds.js?v=mafia-v2';
 import { confirmAction } from '../dialog.js?v=ui-refresh-v1';
 
@@ -61,7 +62,8 @@ export function startMafiaNarrator() {
     const s = N.settings;
     return `<details class="card mafia-settings"><summary>Table settings</summary>
       <label>Discussion time <select id="set-discussion">${DISCUSSION_CHOICES.map(n => `<option value="${n}"${n === s.discussionSeconds ? ' selected' : ''}>${n / 60} minutes</option>`).join('')}</select></label>
-      <label class="check"><input type="checkbox" id="set-reveal"${s.revealRoleOnDeath ? ' checked' : ''}> Reveal a player's role when they are eliminated</label>
+      <label class="check"><input type="checkbox" id="set-reveal"${s.revealRoleOnDeath ? ' checked' : ''}${N.game && N.game.phase !== 'over' ? ' disabled' : ''}> Reveal a player's role when they are eliminated</label>
+      ${N.game && N.game.phase !== 'over' ? '<p class="small muted">Role reveals are fixed for this game. Change this setting before the next deal.</p>' : ''}
       <label class="check"><input type="checkbox" id="set-sound"${s.sound ? ' checked' : ''}> Sound effects (gunshot, saves, deaths)</label>
       <label class="check"><input type="checkbox" id="set-voice"${s.voice ? ' checked' : ''}> Read the script aloud (phone voice)</label>
       <p class="small muted">Votes are plurality: the single player with the most votes is eliminated. A tie eliminates no one.</p></details>`;
@@ -70,7 +72,15 @@ export function startMafiaNarrator() {
   function bindSettings() {
     const set = (id, fn) => { const el = $(id); if (el) el.onchange = fn; };
     set('#set-discussion', e => { N.settings.discussionSeconds = Number(e.target.value); if (N.game) N.game.settings.discussionSeconds = N.settings.discussionSeconds; save(); });
-    set('#set-reveal', e => { N.settings.revealRoleOnDeath = e.target.checked; if (N.game) N.game.settings.revealRoleOnDeath = e.target.checked; save(); });
+    set('#set-reveal', e => {
+      if (N.game && N.game.phase !== 'over') {
+        e.target.checked = N.game.settings.revealRoleOnDeath;
+        toast('Role reveals are fixed until this game ends.');
+        return;
+      }
+      N.settings.revealRoleOnDeath = e.target.checked;
+      save();
+    });
     set('#set-sound', e => { N.settings.sound = sounds.enabled = e.target.checked; save(); if (e.target.checked) play('chime'); });
     set('#set-voice', e => { N.settings.voice = e.target.checked; save(); if (!e.target.checked && 'speechSynthesis' in window) speechSynthesis.cancel(); });
   }
@@ -151,6 +161,17 @@ export function startMafiaNarrator() {
       if (h.type === 'vote') return h.eliminated ? `<li>Day ${h.day}: the town voted out <strong>${nm(h.eliminated)}</strong> (${ROLE_INFO[byId(g, h.eliminated).role].name}).</li>`
         : `<li>Day ${h.day}: ${h.tie ? 'a tied vote' : 'no votes'} &mdash; nobody was eliminated.</li>`;
       return '';
+    }).join('');
+    return `<ol class="game-log">${rows}</ol>`;
+  }
+
+  function publicLogHtml(g) {
+    const rows = publicHistory(g).map(event => {
+      const heading = `${event.type === 'night' ? 'Night' : 'Day'} ${event.number}`;
+      const result = event.eliminated
+        ? `${event.type === 'night' ? 'died' : 'was voted out'}: <strong>${nm(event.eliminated)}</strong>${event.role ? ` (${esc(ROLE_INFO[event.role].name)})` : ''}`
+        : event.type === 'night' ? 'nobody died' : event.tie ? 'a tied vote; nobody was eliminated' : 'nobody was eliminated';
+      return `<li>${heading}: ${result}.</li>`;
     }).join('');
     return `<ol class="game-log">${rows}</ol>`;
   }
@@ -242,8 +263,12 @@ export function startMafiaNarrator() {
         <button class="link-btn" id="skip-pass">Narrator: skip the pass-around (I&rsquo;ll tell players their roles)</button></div>`;
     }
     const info = ROLE_INFO[p.role];
+    const helpers = g.players.filter(player => player.role === p.role);
+    const helperOrder = ['doctor', 'detective'].includes(p.role) && helpers.length > 1
+      ? `<p class="small">You are the <strong>${helpers.indexOf(p) === 0 ? 'First' : 'Second'} ${info.name}</strong>. Wake only when the narrator calls that numbered role.</p>`
+      : '';
     const last = g.passIndex === g.players.length - 1;
-    return `<div class="role-card ${p.role}"><p class="small">${esc(p.name)}, you are</p><h2>${p.role === 'town' ? 'A Townsperson' : `The ${info.name}`}</h2><p>${info.blurb}</p>${teammates(g, p)}</div>
+    return `<div class="role-card ${p.role}"><p class="small">${esc(p.name)}, you are</p><h2>${p.role === 'town' ? 'A Townsperson' : `The ${info.name}`}</h2>${helperOrder}<p>${info.blurb}</p>${teammates(g, p)}</div>
       <button class="btn block" id="hide-role">Hide &amp; ${last ? 'give the phone back to the narrator' : `pass to ${esc(g.players[g.passIndex + 1].name)}`}</button>`;
   }
 
@@ -286,8 +311,7 @@ export function startMafiaNarrator() {
           <span class="tally-count">${g.voteCounts[p.id]}</span>
           <button class="btn secondary round" data-vote="${esc(p.id)}" data-d="1" aria-label="One more vote for ${esc(p.name)}"${cast < living.length ? '' : ' disabled'}>+</button></div>`).join('')}</div>
         <p class="small">${cast} of ${living.length} votes counted.</p>
-        <button class="btn block" id="close-vote"${cast ? '' : ' disabled'}>Read the verdict &rarr;</button>
-        <button class="link-btn" id="no-vote">Nobody voted &mdash; skip</button></div>`;
+        <button class="btn block" id="close-vote"${cast ? '' : ' disabled'}>Read the verdict &rarr;</button></div>`;
     } else if (g.phase === 'verdict') {
       said = plainText(verdictText(g));
       body = `<div class="card narrator"><p class="phase-name">Day ${g.day} &middot; verdict</p><p class="narration">${verdictText(g)}</p>
@@ -302,7 +326,8 @@ export function startMafiaNarrator() {
     const hideSheet = g.phase === 'pass' || g.phase === 'over';
     app.innerHTML = `<section class="mafia-host mafia-narrator phase-${g.phase}${g.phase === 'over' ? ` win-${g.winner}` : ''}">${head}${body}
       ${hideSheet ? '' : sheetHtml(g)}
-      ${g.history.length && g.phase !== 'over' && g.phase !== 'pass' ? `<details class="card"><summary>Game log</summary>${logHtml(g)}</details>` : ''}
+      ${g.history.length && g.phase !== 'over' && g.phase !== 'pass' ? `<details class="card"><summary>Public game log</summary>${publicLogHtml(g)}</details>
+      <details class="card narrator-sheet"><summary>Private narrator log (keep hidden)</summary><p class="small muted">Narrator only: includes secret investigations, attempted victims and roles. Never read this log aloud or pass this screen to players.</p>${logHtml(g)}</details>` : ''}
       ${g.phase === 'pass' ? '' : settingsHtml()}</section>`;
     bindGame(g);
     bindSettings();
@@ -346,7 +371,6 @@ export function startMafiaNarrator() {
       changed();
     };
     on('#close-vote', finishVote);
-    on('#no-vote', async () => { if (await confirmAction('Close the vote with no votes? Nobody is eliminated.')) finishVote(); });
     on('#play-again', () => deal());
     on('#change-players', () => { N.game = null; changed(); });
   }
