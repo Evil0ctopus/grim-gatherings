@@ -1,6 +1,9 @@
-import { startMafiaHost } from './host.js?v=mafia-v1';
-import { startMafiaPlayer } from './player.js?v=mafia-v1';
+import { startMafiaHost } from './host.js?v=mafia-v2';
+import { startMafiaPlayer } from './player.js?v=mafia-v2';
+import { startMafiaNarrator } from './narrator.js?v=mafia-v2';
 
-const room = new URLSearchParams(location.search).get('room');
+const params = new URLSearchParams(location.search);
+const room = params.get('room');
 if (room && /^[A-Za-z0-9]{3,12}$/.test(room)) startMafiaPlayer(room.toUpperCase());
+else if (params.get('mode') === 'narrator') startMafiaNarrator();
 else startMafiaHost();

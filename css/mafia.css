@@ -104,3 +104,36 @@ button.tally-row.picked{border-color:var(--blood2);background:#2a0d14;box-shadow
 .peek .role-card{margin-top:0}
 
 @media (prefers-reduced-motion:reduce){.moon,.mafia-timer.urgent,.role-card{animation:none}}
+
+/* One-phone narrator console */
+body.mafia-page main:has(.mafia-narrator){max-width:620px}
+.mafia-narrator .mafia-grid{grid-template-columns:1fr}
+.mode-switch{margin:14px 0}
+.name-entry{display:flex;gap:8px}
+.name-entry input{flex:1 1 auto;min-width:0}
+.name-chips{list-style:none;padding:0;margin:10px 0;display:flex;flex-wrap:wrap;gap:6px}
+.name-chips li{display:flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:999px;padding:4px 4px 4px 12px;background:#0d0d14}
+.name-chips button{background:none;border:0;color:var(--muted);font-size:1.2rem;line-height:1;cursor:pointer;width:30px;height:30px;border-radius:50%}
+.name-chips button:hover{color:var(--blood2);background:#2a0d14}
+.mafia-narrator .narrator.center{display:flex;flex-direction:column;align-items:center}
+.mafia-narrator .role-back{min-height:38vh}
+.mafia-narrator .script{font-size:clamp(1.3rem,5vw,1.7rem);line-height:1.4;font-style:italic;color:var(--gold2);margin:.4em auto;max-width:34ch}
+.mafia-narrator .hint{font-size:.95rem;color:var(--muted)}
+.mafia-narrator .targets.big .target{font-size:1.15rem;min-height:60px}
+.step-dots{display:flex;justify-content:center;gap:6px;margin:4px 0 8px}
+.step-dots span{width:9px;height:9px;border-radius:50%;background:#2b3560}
+.step-dots span.done{background:#6a7bb8}
+.step-dots span.now{background:var(--gold2);box-shadow:0 0 6px var(--gold2)}
+.kill-btn{background:linear-gradient(180deg,#d61f38,#8a0f1f);border-color:#ff5a6e;font-size:1.35rem;letter-spacing:.12em;min-height:62px}
+.kill-btn:disabled{background:#2a0d14;border-color:#6a1a26;letter-spacing:0;font-size:1rem}
+.verdict-big{font-family:Cinzel,serif;font-size:clamp(1.4rem,6vw,2rem);padding:16px;border-radius:14px;border:2px solid currentColor;margin:10px 0;animation:mafia-flip .4s ease-out}
+.verdict-big.guilty{background:#2a0b12;color:#ff8a96}
+.verdict-big.innocent{background:#0e2418;color:#8fe3b0}
+.vote-counters{display:flex;flex-direction:column;gap:6px;margin:10px 0;text-align:left}
+.vote-row{display:grid;grid-template-columns:1fr auto 2.5em auto;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:10px;background:#0d0d14}
+.vote-row .tally-count{text-align:center;font-family:Cinzel,serif;font-size:1.4rem;color:var(--gold2)}
+.btn.round{width:46px;height:46px;padding:0;border-radius:50%;font-size:1.4rem;line-height:1}
+.center-row{justify-content:center;flex-wrap:wrap;gap:8px}
+.narrator-sheet summary,.mafia-narrator details > summary{cursor:pointer;font-family:Cinzel,serif;color:var(--gold)}
+.game-log{padding-left:1.2em;text-align:left}
+.game-log li{margin:.35em 0}

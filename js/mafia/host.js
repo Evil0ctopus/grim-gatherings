@@ -4,7 +4,8 @@ import { createHostWakeLock } from '../host-wake-lock.js?v=visitor-review-v1';
 import {
   MIN_PLAYERS, MAX_PLAYERS, ROLE_INFO, DISCUSSION_CHOICES, DEFAULT_SETTINGS,
   roleCounts, startGame, acknowledgeRole, submitNightAction, castVote, forceAdvance, tick, viewFor, normalizeSettings,
-} from './engine.js?v=mafia-v1';
+} from './engine.js?v=mafia-v2';
+import { createSounds } from './sounds.js?v=mafia-v2';
 
 export const MAFIA_PEER_PREFIX = 'grimgath-mafia-v1-';
 const SAVE_KEY = 'gg-mafia-host-v1';
@@ -29,6 +30,30 @@ export function startMafiaHost() {
   let peer = null, netStatus = 'starting…', restartTimer = null, blocked = false;
   let lastSpoken = '';
   const wakeLock = createHostWakeLock({});
+  if (typeof H.sound !== 'boolean') H.sound = true;
+  const sounds = createSounds();
+  sounds.enabled = H.sound;
+  let lastSoundKey = null;
+  document.addEventListener('pointerdown', () => sounds.unlock(), { capture: true });
+
+  // Plays the drama for a phase the first time this screen shows it: the gunshot lands at dawn, then the
+  // heavenly chime (Doctor save) or the wah-wah (victim dead) decides the night.
+  function phaseSounds(g) {
+    const key = `${g.gameNumber}:${g.phase}:${g.night}:${g.day}`;
+    if (key === lastSoundKey) return;
+    const first = lastSoundKey === null;
+    lastSoundKey = key;
+    if (first || !H.sound) return;
+    const lastNight = [...g.history].reverse().find(h => h.type === 'night');
+    if (g.phase === 'night') sounds.play('nightfall');
+    else if (g.phase === 'dawn' || (g.phase === 'over' && g.history.at(-1)?.type === 'night')) {
+      if (lastNight?.target) {
+        sounds.play('gunshot');
+        sounds.after(1100, lastNight.saved ? 'chime' : 'wahwah');
+      } else sounds.play('daybreak');
+    } else if (g.phase === 'verdict' || (g.phase === 'over' && g.history.at(-1)?.type === 'vote')) sounds.play('gavel');
+    if (g.phase === 'over') sounds.after(2600, 'fanfare', g.winner);
+  }
 
   const save = () => { try { localStorage.setItem(SAVE_KEY, JSON.stringify(H)); } catch { /* storage full */ } };
   const byId = id => H.lobby.find(p => p.id === id);
@@ -260,6 +285,7 @@ export function startMafiaHost() {
       <label>Discussion time <select id="set-discussion">${DISCUSSION_CHOICES.map(n => `<option value="${n}"${n === s.discussionSeconds ? ' selected' : ''}>${n / 60} minutes</option>`).join('')}</select></label>
       <label class="check"><input type="checkbox" id="set-reveal"${s.revealRoleOnDeath ? ' checked' : ''}> Reveal a player's role when they are eliminated</label>
       <label class="check"><input type="checkbox" id="set-voice"${H.voice ? ' checked' : ''}> Narrator voice on this screen</label>
+      <label class="check"><input type="checkbox" id="set-sound"${H.sound ? ' checked' : ''}> Sound effects (gunshot, saves, deaths)</label>
       <p class="small muted">Votes are plurality: the single player with the most votes is eliminated. A tie eliminates no one.</p></div>`;
   }
 
@@ -286,6 +312,7 @@ export function startMafiaHost() {
         <li><strong>Day.</strong> The narrator announces who died (a Doctor save means nobody did). Discuss, then vote. The player with the most votes is eliminated; a tie eliminates no one.</li>
         <li><strong>Winning.</strong> The town wins when every mafia member is gone. The mafia win when they equal or outnumber everyone else.</li></ol>
         <p>Eliminated players keep watching but cannot speak, act or vote.</p></details>
+      <p class="center mode-switch"><a class="btn secondary" href="mafia.html?mode=narrator">Only one phone? Play in narrator mode</a></p>
     </section>`;
     renderNet();
     $('#copy-link').onclick = async () => { try { await navigator.clipboard.writeText(url); toast('Join link copied'); } catch { toast(url, 6000); } };
@@ -303,6 +330,7 @@ export function startMafiaHost() {
     $('#set-discussion').onchange = e => { H.settings.discussionSeconds = Number(e.target.value); if (H.game) H.game.settings.discussionSeconds = H.settings.discussionSeconds; changed(); };
     $('#set-reveal').onchange = e => { H.settings.revealRoleOnDeath = e.target.checked; if (H.game) H.game.settings.revealRoleOnDeath = e.target.checked; changed(); };
     $('#set-voice').onchange = e => { H.voice = e.target.checked; save(); if (H.voice && H.game) { lastSpoken = ''; speak(narration(H.game)); } };
+    $('#set-sound').onchange = e => { H.sound = sounds.enabled = e.target.checked; save(); if (H.sound) { sounds.unlock(); sounds.play('chime'); } };
   }
 
   function renderGame() {
@@ -329,16 +357,20 @@ export function startMafiaHost() {
     on('#to-lobby', toLobby);
     bindSettings();
     speak(text);
+    phaseSounds(g);
     updateTimers();
   }
 
   function render() { if (H.game) renderGame(); else renderLobby(); }
 
+  let lastTick = null;
   function updateTimers() {
     document.querySelectorAll('[data-ends]').forEach(el => {
       const left = Math.max(0, Math.ceil((Number(el.dataset.ends) - Date.now()) / 1000));
       el.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`;
       el.classList.toggle('urgent', left <= 10);
+      if (H.sound && left !== lastTick && lastTick !== null && left > 0 && left <= 10) sounds.play('tick');
+      lastTick = left;
     });
   }
 

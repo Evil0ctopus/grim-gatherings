@@ -1,8 +1,8 @@
 // Mafia phone screen. Receives only viewFor(state, me) from the table screen; never sees anyone else's secret role.
 import { $, esc, uid, toast } from '../util.js?v=f1ed522';
 import { createPlayerConnection } from '../player-connection.js?v=visitor-review-v1';
-import { ROLE_INFO } from './engine.js?v=mafia-v1';
-import { MAFIA_PEER_PREFIX } from './host.js?v=mafia-v1';
+import { ROLE_INFO } from './engine.js?v=mafia-v2';
+import { MAFIA_PEER_PREFIX } from './host.js?v=mafia-v2';
 
 const TASK_TEXT = {
   kill: { title: 'Choose tonight\'s victim', hint: 'All mafia must pick the same player. You can change your pick until you agree.', button: 'Mark' },
