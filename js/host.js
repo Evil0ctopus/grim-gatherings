@@ -108,6 +108,7 @@ function renderLanding() {
       <a class="btn secondary block" href="workshop.html?account=1">My account</a>
       <a class="btn secondary block" href="shop.html">Premium games - two-game bundle</a>
       <a class="btn secondary block" href="premium-room.html">Join a premium room - guests play free</a>
+      <a class="btn secondary block" href="mafia.html">Mafia - hidden-role game</a>
       ${saved && saved.room ? `<button class="block secondary" data-act="resume" id="btn-resume">Resume “${esc(saved.story?.title || 'Untitled')}” · room ${esc(saved.room)}</button>` : ''}
     </div>
     <div class="card stack">
