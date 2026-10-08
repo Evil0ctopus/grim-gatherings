@@ -54,12 +54,23 @@ try {
       check(`${name}: homepage has no story builder`, await host.getByRole('link', { name: /Build a mystery/i }).count() === 0);
       check(`${name}: accounts, shop and Mafia links remain`, await host.locator('a[href="workshop.html?account=1"], a[href="shop.html"], a[href="mafia.html"]').count() >= 3);
       await host.click('#btn-new');
-      for (const player of ['Avery', 'Blake', 'Casey', 'Drew', 'Elliot']) {
+      for (const player of ['Avery', 'Blake', 'Casey', 'Drew']) {
         await host.fill('#guest-name', player); await host.click('#add-guest');
       }
       check(`${name}: no setup authoring controls`, await host.locator(retiredControls).count() === 0);
-      check(`${name}: only the four current mysteries are offered`, await host.locator('#use-sample, [data-act="use-starter"]').count() === 4 &&
-        !(await host.locator('#app').innerText()).includes('Blackwater Row'));
+      check(`${name}: five current mysteries include four-player Blackwater`, await host.locator('#use-sample, [data-act="use-starter"]').count() === 5 &&
+        (await host.locator('#app').innerText()).includes('Blackwater Row') &&
+        await host.locator('[data-id="blackwater-row-4"]').isEnabled());
+      await host.click('[data-id="blackwater-row-4"]');
+      await host.locator('#open-lobby').waitFor();
+      check(`${name}: Blackwater review has its fixed four-player cast`, await host.locator('[data-assign-character]').count() === 4 &&
+        (await host.locator('#selected-edition').innerText()).includes('4-player fixed story') &&
+        await host.locator(retiredControls).count() === 0);
+      await host.click('[data-act="back-setup"]');
+      await host.fill('#guest-name', 'Elliot'); await host.click('#add-guest');
+      await host.click('[data-id="blackwater-row-4"]');
+      check(`${name}: Blackwater rejects five players with an explicit count error`, await host.locator('#guest-name').count() === 1 &&
+        (await host.locator('#app').innerText()).includes('written for exactly 4 players'));
 
       for (const selector of ['#use-sample', '[data-id="mercy-hollow-5"]', '[data-id="blackthorn-farm-5"]', '[data-id="briar-house-5"]']) {
         if (selector !== '#use-sample') await host.click('[data-act="back-setup"]');
@@ -117,7 +128,16 @@ try {
         localStorage.setItem('gg-host-v1', JSON.stringify(state));
       }, blackwater[4]);
       await host.reload();
-      check(`${name}: saved Blackwater cannot bypass withdrawal`, await host.locator('#guest-name').count() === 1 &&
+      await host.locator('#current-reader').waitFor();
+      check(`${name}: current Blackwater saved games can resume`, await host.locator('#current-reader').count() === 1 &&
+        await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.edition.family === 'blackwater-row'));
+      await host.evaluate(() => {
+        const state = JSON.parse(localStorage.getItem('gg-host-v1'));
+        state.story.edition.family = 'withdrawn-test-story';
+        localStorage.setItem('gg-host-v1', JSON.stringify(state));
+      });
+      await host.reload();
+      check(`${name}: non-catalog saved stories still cannot resume`, await host.locator('#guest-name').count() === 1 &&
         await host.locator('.guest-item').count() === 5 && (await host.locator('#toast').innerText()).includes('no longer available'));
       await host.click('#use-sample');
       await host.evaluate(() => {

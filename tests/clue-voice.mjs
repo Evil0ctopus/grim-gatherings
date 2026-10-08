@@ -42,17 +42,18 @@ const wordCount = text => text.trim().split(/\s+/).length;
 test('the narrative import path refreshes cached clue content without touching Mafia', () => {
   const read = file => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
   const version = 'clue-voice-v1';
-  for (const [file, dependency] of [
-    ['index.html', 'js/main.js'],
-    ['js/main.js', './host.js'],
+  for (const [file, dependency, dependencyVersion = version] of [
+    ['index.html', 'js/main.js', 'blackwater-voice-v1'],
+    ['js/main.js', './host.js', 'blackwater-voice-v1'],
     ['js/host.js', './sample.js'],
-    ['js/host.js', './starters.js'],
+    ['js/host.js', './starters.js', 'blackwater-voice-v1'],
     ['js/sample.js', './editions/sample.js'],
     ['js/starters.js', './editions/mercy-hollow.js'],
     ['js/starters.js', './editions/blackthorn-farm.js'],
     ['js/starters.js', './editions/briar-house.js'],
+    ['js/starters.js', './editions/blackwater-row.js', 'blackwater-voice-v1'],
   ]) {
-    assert.ok(read(file).includes(`${dependency}?v=${version}`), `${file} refreshes ${dependency}`);
+    assert.ok(read(file).includes(`${dependency}?v=${dependencyVersion}`), `${file} refreshes ${dependency}`);
   }
   assert.ok(!read('mafia.html').includes(version));
 });

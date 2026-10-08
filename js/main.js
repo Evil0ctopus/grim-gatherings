@@ -17,7 +17,7 @@ if (/^[A-Z2-9]{8}$/.test(room)) location.replace(new URL(`premium-room.html?room
 else if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=clue-voice-v1');
+    const { startHost } = await import('./host.js?v=blackwater-voice-v1');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);

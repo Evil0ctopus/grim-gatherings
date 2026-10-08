@@ -3,7 +3,8 @@
 ## Clean, simple UI refresh
 
 - Visitor story authoring, AI help and story-file tools are retired; accounts remain.
-- Blackwater Row is withdrawn for a rewrite, with its source preserved.
+- Blackwater Row is back for playtesting at four players, with short first-person
+  clues and its complete supporting evidence in same-round narration.
 - Gold-on-black pages have clearer spacing, touch targets and live turn banners;
   clue-chain computation and reader order are unchanged.
 - Confirmations use accessible in-app dialogs, including keyboard cancellation.
@@ -19,7 +20,8 @@ verified. A checked item means completed with evidence, not merely planned.
 
 The current code removes public story creation, AI assistance, JSON tools and
 community publishing. The former workshop address is now accounts only.
-Blackwater Row is withdrawn for rewriting; its source is retained. Clue-chain
+Blackwater Row was withdrawn for rewriting and returned on October 8 with
+first-person clues and unchanged four-player coverage and solution. Clue-chain
 diagrams are hidden while reader prompts and the authored order remain.
 Historical workshop/catalog checks below describe older releases, not current
 features. Static release and deployment of the updated Supabase `community`

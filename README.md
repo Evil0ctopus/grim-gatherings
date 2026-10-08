@@ -14,17 +14,25 @@ characters. They cannot write or edit story content, generate stories with AI,
 import/export story files, save their own story editions or submit community
 stories. The site owner adds and revises stories through VS Code.
 
-The free catalog contains four five-player mysteries:
+The free catalog contains four five-player mysteries and one four-player
+playtesting edition:
 
 - The Last Seance at Ravenmoor.
 - The Ashes of Mercy Hollow.
 - Footsteps Above Blackthorn Farm.
 - The Last Will at Briar House.
+- The Barber of Blackwater Row (4 players; back for playtesting).
 
-**Blackwater Row is withdrawn pending a rewrite.** Its source remains in
-[`js/editions/blackwater-row.js`](js/editions/blackwater-row.js), but it is not
-imported by the catalog or available to resume. Saved rooms using withdrawn or
-non-catalog stories return to story selection with their player list preserved.
+**Blackwater Row is available again for testing.** Its twenty player clues now
+use the same short first-person voice. The longer original witness details are
+read in the same round's narration, preserving all evidence and its release
+timing. Its four-player cast completes all twelve directed reader-target pairs
+in the first three rounds; the authored exception repeats pairs in rounds four
+and five because each of the five deaths needs its own chapter. All player
+characters remain alive, so there are no ghost roles.
+Saved rooms using non-catalog stories return to story selection with their
+player list preserved. Start a new Blackwater game for the revised wording;
+existing saved games retain their saved story text.
 Previously stored drafts and community database records are not deleted.
 
 The old [`workshop.html`](workshop.html) address now serves accounts only, so
@@ -55,12 +63,14 @@ The first N-1 rounds cover every other character exactly once; extra beats can
 repeat only after coverage and with an authored explanation. Ghost parts exist
 only when the story calls for a dead player character to return.
 
-The four free mysteries use short, first-person player clues: what the speaker
+The free mysteries use short, first-person player clues: what the speaker
 witnessed or found, followed by their own doubt or reaction. Each clue keeps its
 separate `observation` and `contradictingDetail` fields; `text` joins both for
 reading aloud. Full clue text is at most 35 words before character-name
 substitution. Narrator chapters, evidence, targets and fixed solutions are
-unchanged. This voice pass does not apply to Mafia.
+unchanged in the original four mysteries. Blackwater's supporting witness
+accounts moved into same-round narration without changing its facts, targets,
+solution or reading order. This voice pass does not apply to Mafia.
 
 Game progress saves automatically in the host's browser. Keep that device
 connected, open and awake: free rooms use PeerJS/WebRTC and the host is their
