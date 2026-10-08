@@ -7,6 +7,21 @@ separate, randomly dealt Mafia game.
 
 **Testing:** https://evil0ctopus.github.io/grim-gatherings/
 
+## Authoritative game rules
+
+[`RULESETS.md`](RULESETS.md) contains the replacement rules supplied by Muse
+and Melissa on October 8, 2026. It supersedes earlier reference rules and
+separates narrative mysteries from social deduction games. It includes
+chain consistency, the chain-ends exception, repeat gaps, authoring-scaffolding
+conversion, approved amendments and compatibility grading with an 85% threshold.
+Submission refers to the owner's authoring/review process; public story
+submission remains retired.
+
+This update records the supplied specification only. Existing gameplay,
+validators and stories have not been migrated to its new requirements, and
+automated compatibility grading is not yet implemented. The sections below
+describe the current implementation, not proof of compliance with the new rules.
+
 ## Current catalog and story ownership
 
 Visitors choose a finished story, enter their player names and assign
@@ -57,11 +72,13 @@ updating static pages alone does not change an already deployed function.
 5. Discuss and vote after every round. Finish with final accusations, a final
    vote and the complete fixed-story reveal.
 
-Removing the chain diagram does not change the authored reading order or clue
+In the current implementation, removing the chain diagram does not change the authored reading order or clue
 coverage. Everyone still reads one clue about another character per round.
 The first N-1 rounds cover every other character exactly once; extra beats can
 repeat only after coverage and with an authored explanation. Ghost parts exist
 only when the story calls for a dead player character to return.
+For the replacement chain-ends exception and repeat-gap requirements, see
+[`RULESETS.md`](RULESETS.md), sections 5–7.
 
 The free mysteries use short, first-person player clues: what the speaker
 witnessed or found, followed by their own doubt or reaction. Each clue keeps its

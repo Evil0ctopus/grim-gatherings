@@ -27,8 +27,16 @@ test('static build includes only game assets, never account notes or backend fil
   const output = await buildSite(root);
   assert.deepEqual((await readdir(output)).sort(), [...SITE_FILES, ...SITE_DIRECTORIES].sort());
   assert.equal(await readFile(join(output, 'index.html'), 'utf8'), 'fixture index.html');
+  assert.equal(await readFile(join(output, 'RULESETS.md'), 'utf8'), 'fixture RULESETS.md');
   assert.equal(await readFile(join(output, 'js', 'asset.txt'), 'utf8'), 'fixture js');
   assert.equal(await readFile(join(root, '.local-private', 'DO-NOT-PUBLISH.txt'), 'utf8'), 'private fixture');
+});
+
+test('how-to-play links to the published replacement rules without claiming game compliance', async () => {
+  assert.ok(SITE_FILES.includes('RULESETS.md'));
+  const guide = await readFile(new URL('../how-to-play.html', import.meta.url), 'utf8');
+  assert.match(guide, /href="RULESETS\.md"/);
+  assert.match(guide, /publishing this reference does not change their gameplay/);
 });
 
 test('rebuild removes obsolete published assets', async t => {

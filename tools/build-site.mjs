@@ -2,7 +2,7 @@ import { cp, lstat, mkdir, readdir, rm } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-export const SITE_FILES = ['index.html', 'workshop.html', 'shop.html', 'premium-room.html', 'how-to-play.html', 'privacy.html', 'terms.html', 'mafia.html', '.nojekyll'];
+export const SITE_FILES = ['index.html', 'workshop.html', 'shop.html', 'premium-room.html', 'how-to-play.html', 'privacy.html', 'terms.html', 'mafia.html', 'RULESETS.md', '.nojekyll'];
 export const SITE_DIRECTORIES = ['assets', 'css', 'js', 'vendor'];
 
 async function checkTree(path) {

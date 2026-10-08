@@ -1,5 +1,17 @@
 # Grim Gatherings roadmap
 
+## October 8 replacement rules specification
+
+- The owner-supplied Muse/Melissa rules replace the previous reference rules in
+  [`RULESETS.md`](RULESETS.md), with separate narrative and social-deduction categories.
+- This is a documentation update, not a gameplay migration. Implement and
+  verify chain consistency, approved chain-ends handling, repeat gaps and
+  compatibility grading before claiming compliance with the replacement rules.
+- Resolve specification details before automated grading: section 5 permits
+  duplicate targets in chain-ends rounds while section 6 prohibits them without
+  restating that exception; section 21's narrative scoring weights do not define
+  how section 32's social-deduction checklist maps to those weights.
+
 ## Clean, simple UI refresh
 
 - Visitor story authoring, AI help and story-file tools are retired; accounts remain.
