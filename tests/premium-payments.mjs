@@ -36,8 +36,15 @@ test('PayPal and card purchases are price-fixed, account-bound and idempotent, w
   assert.equal((await f.request('/api/auth/me')).body.user.role, 'author');
   assert.equal((await f.request('/api/admin/developer')).status, 403);
   assert.equal((await f.request('/api/premium/games')).body.games.length, 2);
-  const deal = await f.request('/api/premium/games', { method: 'POST', body: { command: { type: 'create' }, gameId: 'lanternfall', names: ['A', 'B', 'C'] } });
+  const deal = await f.request('/api/premium/games', { method: 'POST', body: {
+    command: { type: 'create' }, gameId: 'lanternfall', names: ['A', 'B', 'C', 'D', 'E'],
+  } });
   assert.equal(deal.status, 200);
+  assert.equal(deal.body.state.players.length, 5);
+  assert.equal(deal.body.state.phase, 'setup');
+  assert.equal((await f.request('/api/premium/games', { method: 'POST', body: {
+    command: { type: 'create' }, gameId: 'lanternfall', names: ['A', 'B', 'C'],
+  } })).status, 400);
   const resume = { state: deal.body.state, seal: deal.body.seal, command: { type: 'resume' } };
   assert.equal((await f.request('/api/premium/games', { method: 'POST', body: resume })).status, 200);
   assert.equal((await f.request('/api/premium/games', { user: 'other', method: 'POST', body: resume })).status, 403);

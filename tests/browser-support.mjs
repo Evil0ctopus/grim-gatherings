@@ -11,6 +11,7 @@ try {
   const context = await browser.newContext();
   await context.addInitScript(() => {
     Object.defineProperty(window, 'RTCPeerConnection', { value: undefined, configurable: true });
+    Object.defineProperty(window, 'webkitRTCPeerConnection', { value: undefined, configurable: true });
   });
   const host = await context.newPage(), phone = await context.newPage();
   const errors = [], peerErrors = [];
@@ -22,7 +23,7 @@ try {
   }
   await host.goto(url);
   await host.click('#btn-new');
-  for (const name of ['One', 'Two', 'Three']) {
+  for (const name of ['One', 'Two', 'Three', 'Four', 'Five']) {
     await host.fill('#guest-name', name); await host.click('#add-guest');
   }
   await host.click('#use-sample'); await host.click('#open-lobby');

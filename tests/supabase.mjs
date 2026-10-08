@@ -163,11 +163,25 @@ test('Supabase Edge API verifies Auth, validates exact saved content, blocks aut
     await db.query("update public.gg_profiles set role='admin' where id=$1", [ids.admin]);
     assert.equal((await request('/api/admin/developer', { token: 'admin-token' })).games.length, 2);
     const prototype = await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
-      body: { gameId: 'lanternfall', names: ['One', 'Two', 'Three'], command: { type: 'create' } } });
-    const command = { type: 'night', playerId: prototype.turn.id, target: prototype.targets[0].id };
-    assert.equal(Object.keys((await request('/api/admin/developer', { method: 'POST', token: 'admin-token', body: { ...prototype, command } })).state.actions).length, 1);
-    prototype.state.round = 4;
-    await request('/api/admin/developer', { method: 'POST', token: 'admin-token', body: { ...prototype, command }, status: 400 });
+      body: { gameId: 'lanternfall', names: ['One', 'Two', 'Three', 'Four', 'Five'], command: { type: 'create' } } });
+    assert.equal(prototype.state.phase, 'setup');
+    assert.equal(prototype.game.story.fixedPlayerCount, 5);
+    assert.ok(prototype.state.players.every(player => !Object.hasOwn(player, 'role')));
+    await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
+      body: { gameId: 'lanternfall', names: ['One', 'Two', 'Three'], command: { type: 'create' } }, status: 400 });
+    const introduction = await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
+      body: { ...prototype, command: { type: 'start-introduction' } } });
+    assert.equal(introduction.state.phase, 'introduction');
+    assert.equal(introduction.current.type, 'character-card');
+    assert.equal(introduction.current.character.id, introduction.turn.characterId);
+    const cardRead = await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
+      body: { ...introduction, command: { type: 'read-card', playerId: introduction.turn.id } } });
+    assert.equal(cardRead.state.introIndex, 1);
+    await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
+      body: { ...cardRead, command: { type: 'read-clue', playerId: cardRead.turn.id } }, status: 400 });
+    cardRead.state.roundIndex = 4;
+    await request('/api/admin/developer', { method: 'POST', token: 'admin-token',
+      body: { ...cardRead, command: { type: 'resume' } }, status: 400 });
     await request(`/api/admin/submissions/${submitted.id}`, { method: 'POST', token: 'admin-token', body: { decision: 'approved', note: '', reviewed: true } });
     assert.equal((await request('/api/community')).stories.length, 1);
     assert.equal((await request(`/api/community/${submitted.id}`)).story.characters.every(c => !c.guest), true);

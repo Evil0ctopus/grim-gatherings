@@ -1,4 +1,3 @@
-import { assignAccusationCircles } from './accusations.js?v=accusation-circle-v1';
 import { expandChapters, CONNECTING_EVIDENCE, KILLER_FOURTH_CLUE } from './progression.js?v=five-rounds-v1';
 import { usePublicChapters } from './public-chapters.js?v=public-only-v1';
 
@@ -236,6 +235,9 @@ export function preparePublicEvidence(story, kind) {
       : [original[0], original[1], connecting[0], original[2], connecting[1]];
     for (const r of c.rounds) delete r.instructions;
   }
-  assignAccusationCircles(story, evidence);
+  story.rounds.forEach((_, ri) => story.characters.forEach((speaker, i) => {
+    const target = story.characters[(i + ri + 1) % story.characters.length];
+    speaker.rounds[ri].readAloud = { accuses: target.id, text: evidence[target.id][ri] };
+  }));
   usePublicChapters(story, kind);
 }

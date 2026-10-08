@@ -1,40 +1,42 @@
 import mercy from './editions/mercy-hollow.js?v=story-polish-v2';
 import farm from './editions/blackthorn-farm.js?v=story-polish-v3';
 import briar from './editions/briar-house.js?v=story-polish-v2';
-import blackwater from './editions/blackwater-row.js?v=blackwater-story-v2';
+import blackwater from './editions/blackwater-row.js?v=blackwater-story-v4';
 
-function catalog(editions) {
-  const maximum = Math.max(...Object.keys(editions).map(Number));
-  return { ...editions[maximum], editions };
+function fixedStories(id, editions, details, fixedCount = 5) {
+  return Object.entries(editions).filter(([count]) => Number(count) === fixedCount).map(([count, story]) => {
+    const playerCount = Number(count);
+    const fixedStory = structuredClone(story);
+    fixedStory.title = `${story.title} (${playerCount} players)`;
+    fixedStory.fixedPlayerCount = playerCount;
+    fixedStory.storyId = `${id}-${playerCount}`;
+    return { id: fixedStory.storyId, story: fixedStory, ...details };
+  });
 }
 
 export const STARTER_MYSTERIES = [
-  {
-    id: 'mercy-hollow', title: mercy[3].title,
+  ...fixedStories('mercy-hollow', mercy, {
+    title: 'The Ashes of Mercy Hollow',
     blurb: 'Witch-trial panic, forged confessions and a stolen packet. Discover who turned a frightened village into a profitable lie.',
     inspiration: 'Salem-era suspicion and witch hearings; wholly fictional, with no supernatural knowledge required.',
     contentNote: 'Persecution, false accusations and an off-screen death. Witchcraft accusations are not evidence of guilt.',
-    story: catalog(mercy),
-  },
-  {
-    id: 'blackthorn-farm', title: farm[3].title,
+  }),
+  ...fixedStories('blackthorn-farm', farm, {
+    title: 'Footsteps Above Blackthorn Farm',
     blurb: 'Footsteps in the attic, a stranger in the snow and a land sale worth killing for. The outsider may be a story somebody planted.',
     inspiration: 'The isolated-farm atmosphere associated with Hinterkaifeck; not an answer to the real unsolved case.',
     contentNote: 'Isolation, staged haunting and an off-screen death. No child victims or graphic violence.',
-    story: catalog(farm),
-  },
-  {
-    id: 'briar-house', title: briar[3].title,
+  }),
+  ...fixedStories('briar-house', briar, {
+    title: 'The Last Will at Briar House',
     blurb: 'A missing will, a respectable household and a bell that cannot tell the whole truth. Follow the money before blaming the heirs.',
     inspiration: 'Victorian New England household tension associated with the Borden case; all characters and the solution are invented.',
     contentNote: 'Family conflict, financial fraud and an off-screen death. No graphic violence.',
-    story: catalog(briar),
-  },
-  {
-    id: 'blackwater-row', title: blackwater[4].title,
+  }),
+  ...fixedStories('blackwater-row', blackwater, {
+    title: 'The Barber of Blackwater Row',
     blurb: 'Five deaths, missing records and a blade hidden behind a respectable trade. Investigate Blackwater Row one crime scene at a time.',
     inspiration: 'A five-round, Victorian revenge mystery, written for exactly four players.',
-    contentNote: 'Five off-screen deaths with slashed throats, wrongful imprisonment, coercion and revenge. No graphic descriptions. Readers rotate targets every round; each reads about all three other characters by Round 3. Read only the current chapter, then its player accounts.',
-    story: catalog(blackwater),
-  },
+    contentNote: 'Five off-screen deaths with slashed throats, wrongful imprisonment, coercion and revenge. No graphic descriptions.',
+  }, 4),
 ];

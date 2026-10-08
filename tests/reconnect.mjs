@@ -10,6 +10,7 @@ const browser = await (engine === 'webkit' ? webkit : chromium).launch();
 const timeout = 90000;
 const errors = [];
 const connectionLogs = [];
+let primaryId, secondaryId, alternateId;
 let checks = 0;
 const check = (name, condition) => { assert.ok(condition, name); console.log(`PASS ${name}`); checks++; };
 
@@ -26,11 +27,13 @@ async function pageIn(context) {
 async function game(host, waitingPhone = null) {
   await host.goto(url);
   await host.click('#btn-new');
-  for (const name of ['Josh', 'Melissa', 'Xander guest', 'Lydia guest']) {
+  for (const name of ['Josh', 'Melissa', 'Xander guest']) {
     await host.fill('#guest-name', name);
     await host.click('#add-guest');
   }
-  await host.click('[data-act="use-starter"][data-id="blackwater-row"]');
+  await host.click('#use-sample');
+  const characters = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters);
+  [primaryId, secondaryId, alternateId] = characters.map(character => character.id);
   if (waitingPhone) {
     const room = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).room);
     await waitingPhone.goto(`${url}?room=${room}`);
@@ -54,11 +57,18 @@ async function join(page, room, id) {
   await page.waitForFunction(id => window.__gg?.view.me === id && document.querySelector('#pstatus')?.textContent === 'connected', id, { timeout });
 }
 
-async function restored(page, id = 'xander', roundIndex = 2, phase = 'round') {
+async function restored(page, id = primaryId, roundIndex = 2, phase = 'round') {
   await page.waitForFunction(({ id, roundIndex, phase }) =>
     window.__gg?.view.me === id && window.__gg.view.roundIndex === roundIndex &&
     window.__gg.view.phase === phase && document.querySelector('#pstatus')?.textContent === 'connected',
   { id, roundIndex, phase }, { timeout });
+}
+
+async function openRoundVote(host, roundIndex) {
+  const story = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story);
+  for (const _reader of story.rounds[roundIndex].chain) await host.click('#next-reader');
+  await host.click('#next-round');
+  await host.click('#open-vote');
 }
 
 async function lifecycle(page, event, persisted = true) {
@@ -77,25 +87,27 @@ try {
   const phoneContext = await browser.newContext({ ...devices['iPhone 13'], browserName: undefined });
   const host = await pageIn(hostContext), phone = await pageIn(phoneContext);
   const room = await game(host, phone);
-  await join(phone, room, 'xander');
+  await join(phone, room, primaryId);
   const identity = await phone.evaluate(room => JSON.parse(localStorage.getItem(`gg-player-v1-${room}`)), room);
   await host.click('#start-game');
   for (let round = 0; round < 2; round++) {
-    await host.click('#next-round');
+    await openRoundVote(host, round);
     await phone.waitForSelector('#vote-list');
-    await phone.click('[data-vote="marla"]');
-    await phone.waitForFunction(() => window.__gg.view.vote?.myVote === 'marla');
+    await phone.click(`[data-vote="${secondaryId}"]`);
+    await phone.waitForFunction(id => window.__gg.view.vote?.myVote === id, secondaryId);
     await host.click('#next-round');
-    await restored(phone, 'xander', round + 1);
+    await restored(phone, primaryId, round + 1);
   }
   const before = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')));
   check('reached the reported failure point: Round 3', before.roundIndex === 2);
+  const primaryTurn = before.story.rounds[2].chain.indexOf(primaryId);
+  for (let index = 0; index < primaryTurn; index++) await host.click('#next-reader');
 
   await lifecycle(phone, 'pagehide');
   check('paused phone exposes a reconnect status and disables actions', await phone.locator('#pstatus').innerText() === 'reconnecting…');
   await lifecycle(phone, 'pageshow');
   await restored(phone);
-  const clueTarget = before.story.characters.find(c => c.id === 'xander').rounds[2].readAloud.accuses;
+  const clueTarget = before.story.characters.find(c => c.id === primaryId).rounds[2].readAloud.accuses;
   const clueTargetName = before.story.characters.find(c => c.id === clueTarget).name;
   check('iPhone-style page restoration returns directly to Xander in Round 3',
     (await phone.locator('#my-clues').innerText()).includes(clueTargetName));
@@ -125,48 +137,51 @@ try {
   await duplicate.close();
   check('manual retry explicitly takes the character back from another tab', true);
 
-  await host.click('[data-act="release"][data-id="xander"]');
+  await host.click(`[data-act="release"][data-id="${primaryId}"]`);
   await phone.waitForSelector('#picker');
-  await phone.click('[data-claim="xander"]');
-  await restored(phone);
+  await phone.click(`[data-claim="${primaryId}"]`);
+  await restored(phone, primaryId);
   check('host release and same-phone reclaim work during Round 3', true);
 
   const lateContext = await browser.newContext({ ...devices['iPhone 13'], browserName: undefined });
   const late = await pageIn(lateContext);
-  await join(late, room, 'marla');
-  await restored(late, 'marla');
+  await join(late, room, secondaryId);
+  await restored(late, secondaryId);
   check('a previously unconnected phone can join an already-running third round',
     await late.locator('#my-case .personal-evidence').count() === 2);
 
+  const roundTwoChain = before.story.rounds[2].chain;
+  for (let index = primaryTurn; index < roundTwoChain.length; index++) await host.click('#next-reader');
   await host.click('#next-round');
-  await restored(phone, 'xander', 2, 'vote');
-  await phone.click('[data-vote="jasper"]');
-  await phone.waitForFunction(() => window.__gg.view.vote.myVote === 'jasper');
+  await host.click('#open-vote');
+  await restored(phone, primaryId, 2, 'vote');
+  await phone.click(`[data-vote="${alternateId}"]`);
+  await phone.waitForFunction(id => window.__gg.view.vote.myVote === id, alternateId);
   const savedVotes = await host.evaluate(() => JSON.stringify(JSON.parse(localStorage.getItem('gg-host-v1')).roundVotes));
-  await host.click('[data-act="release"][data-id="xander"]');
+  await host.click(`[data-act="release"][data-id="${primaryId}"]`);
   await phone.waitForSelector('#picker');
-  await phone.click('[data-claim="xander"]');
-  await restored(phone, 'xander', 2, 'vote');
+  await phone.click(`[data-claim="${primaryId}"]`);
+  await restored(phone, primaryId, 2, 'vote');
   check('release and reclaim preserve the current ballot',
-    await phone.evaluate(() => window.__gg.view.vote.myVote === 'jasper'));
+    await phone.evaluate(id => window.__gg.view.vote.myVote === id, alternateId));
 
   await host.click('[data-act="reconnect-host"]');
   await host.waitForFunction(() => document.querySelector('#net')?.textContent === 'Live', null, { timeout });
   await host.waitForFunction(() => document.querySelector('#conn-count')?.textContent.startsWith('2/'), null, { timeout });
-  await restored(phone, 'xander', 2, 'vote');
-  await restored(late, 'marla', 2, 'vote');
+  await restored(phone, primaryId, 2, 'vote');
+  await restored(late, secondaryId, 2, 'vote');
   check('host room recovery keeps the room code, characters, phase and all ballots',
-    await host.evaluate(({ room, votes }) => {
+    await host.evaluate(({ room, votes, primaryId }) => {
       const state = JSON.parse(localStorage.getItem('gg-host-v1'));
       return state.room === room && state.roundIndex === 2 && state.phase === 'vote' &&
-        state.claims.xander && JSON.stringify(state.roundVotes) === votes;
-    }, { room, votes: savedVotes }));
+        state.claims[primaryId] && JSON.stringify(state.roundVotes) === votes;
+    }, { room, votes: savedVotes, primaryId }));
 
   await lifecycle(host, 'pagehide');
   await lifecycle(host, 'pageshow');
   await host.waitForFunction(() => document.querySelector('#net')?.textContent === 'Live', null, { timeout });
   await host.waitForFunction(() => document.querySelector('#conn-count')?.textContent.startsWith('2/'), null, { timeout });
-  await restored(phone, 'xander', 2, 'vote');
+  await restored(phone, primaryId, 2, 'vote');
   check('host page restoration reopens the same room without restarting the story', true);
 
   await host.evaluate(() => {
@@ -186,7 +201,7 @@ try {
   });
   await host.click('[data-act="reconnect-host"]');
   await host.waitForFunction(() => window.hostRecoveryPeers.length >= 2 && document.querySelector('#net')?.textContent === 'Live', null, { timeout });
-  await restored(phone, 'xander', 2, 'vote');
+  await restored(phone, primaryId, 2, 'vote');
   check('host watchdog replaces a signaling attempt that never reports ready',
     await host.evaluate(() => window.hostRecoveryPeers[0].destroyed));
 
@@ -196,7 +211,7 @@ try {
     (await phone.locator('#connection-help').innerText()).includes('offline'));
   await host.click('#next-round');
   await phoneContext.setOffline(false);
-  await restored(phone, 'xander', 3);
+  await restored(phone, primaryId, 3);
   check('switching networks catches up to the latest round automatically', true);
 
   // Drop only incoming state, leaving the channel open and heartbeat pongs working.
@@ -221,10 +236,10 @@ try {
   check('an open channel missing state times out with actionable feedback',
     await phone.locator('#pstatus').innerText() !== 'connected');
   await phone.evaluate(() => { window.dropGameState = false; });
-  await restored(phone, 'xander', 3);
+  await restored(phone, primaryId, 3);
   check('automatic fresh-peer retry restores state after a stalled handshake', true);
   await phone.evaluate(() => window.recoveryPeers.at(-1).destroy());
-  await restored(phone, 'xander', 3);
+  await restored(phone, primaryId, 3);
   check('unexpected peer destruction triggers automatic recovery', true);
 
   await phone.click('#leave-game');
@@ -232,38 +247,41 @@ try {
   await phone.fill('#join-code', room);
   await phone.click('[data-act="join"]');
   await phone.waitForSelector('#picker', { timeout });
-  await phone.click('[data-claim="xander"]');
-  await restored(phone, 'xander', 3);
+  await phone.click(`[data-claim="${primaryId}"]`);
+  await restored(phone, primaryId, 3);
   check('leaving the game and re-entering its code rejoins the active round', true);
 
-  await host.click('[data-act="release"][data-id="xander"]');
-  await host.click('[data-act="release"][data-id="marla"]');
+  await host.click(`[data-act="release"][data-id="${primaryId}"]`);
+  await host.click(`[data-act="release"][data-id="${secondaryId}"]`);
   await phone.waitForSelector('#picker'); await late.waitForSelector('#picker');
-  await phone.click('[data-claim="xander"]'); await late.click('[data-claim="marla"]');
-  await restored(phone, 'xander', 3); await restored(late, 'marla', 3);
+  await phone.click(`[data-claim="${primaryId}"]`); await late.click(`[data-claim="${secondaryId}"]`);
+  await restored(phone, primaryId, 3); await restored(late, secondaryId, 3);
   check('releasing every joined guest does not require a new room or restart', true);
 
   await host.locator('[data-act="end"]').first().click();
   await phone.waitForFunction(() => document.querySelector('#pbody')?.textContent.includes('The candles are out'));
   const nextRoom = await game(host);
   check('a restarted gathering has a new room code', nextRoom !== room);
-  await join(phone, nextRoom, 'xander');
+  await join(phone, nextRoom, primaryId);
   await phone.reload();
-  await restored(phone, 'xander', -1, 'lobby');
+  await restored(phone, primaryId, -1, 'lobby');
   check('the same iPhone can join a fresh room and reload without a stale-room hang', true);
   await host.locator('[data-act="end"]').first().click();
   check('no JavaScript exceptions during recovery', errors.length === 0);
   console.log(`${checks}/${checks} recovery checks passed using ${engine}.`);
 } catch (error) {
+  console.error('Recovery test failed:', error);
   console.error('Recovery failure diagnostics:', connectionLogs.slice(-20));
   for (const context of browser.contexts()) {
     for (const page of context.pages()) {
-      console.error(await page.evaluate(() => ({
-        url: location.href,
-        hostStatus: document.querySelector('#net')?.textContent,
-        playerStatus: document.querySelector('#pstatus')?.textContent,
-        help: document.querySelector('#connection-help')?.textContent,
-      })));
+      try {
+        console.error(await page.evaluate(() => ({
+          url: location.href,
+          hostStatus: document.querySelector('#net')?.textContent,
+          playerStatus: document.querySelector('#pstatus')?.textContent,
+          help: document.querySelector('#connection-help')?.textContent,
+        })));
+      } catch { console.error('Could not inspect browser page after its context changed.'); }
     }
   }
   throw error;

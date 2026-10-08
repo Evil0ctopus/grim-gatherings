@@ -1,7 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
-import { validateAccusationCircles } from './accusations.js?v=rotating-clues-v1';
+import { accusationChain, validateAccusationCircles } from './accusations.js?v=universal-game-flow-v2';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -17,7 +17,7 @@ export function parseGuests(text) {
 }
 
 const asStr = v => (v == null ? '' : typeof v === 'string' ? v : String(v));
-const asLines = v => (Array.isArray(v) ? v.map(asStr).map(s => s.trim()).filter(Boolean) : asStr(v).trim() ? [asStr(v).trim()] : []);
+const asLines = v => (Array.isArray(v) ? v : asStr(v).split('\n')).map(asStr).map(s => s.trim()).filter(Boolean);
 
 /**
  * Validate + normalise a story object (possibly written by hand / another AI).
@@ -34,24 +34,32 @@ export function normalizeStory(input, guests = []) {
     }
   }
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return { story: null, errors: ['The story must be a JSON object ({ ... }).'], warnings };
+  if (obj.schemaVersion !== 2) errors.push('"schemaVersion" must be 2; older story formats need to be rewritten for the current game flow.');
 
   const s = {
     schemaVersion: 2,
+    fixedPlayerCount: Number.isInteger(obj.fixedPlayerCount) ? obj.fixedPlayerCount : null,
     discloseKiller: obj.discloseKiller === true,
     title: asStr(obj.title).trim(),
     atmosphere: storyTheme(obj),
     setting: asStr(obj.setting).trim(),
     intro: asStr(obj.intro).trim(),
+    hiddenThread: asStr(obj.hiddenThread).trim(),
+    coverageRepeatNote: asStr(obj.coverageRepeatNote).trim(),
+    specialMechanics: asLines(obj.specialMechanics),
     victim: { name: asStr(obj.victim?.name ?? obj.victim).trim(), description: asStr(obj.victim?.description).trim() },
     rounds: [],
     characters: [],
     finale: { narration: asStr(obj.finale?.narration).trim(), votePrompt: asStr(obj.finale?.votePrompt).trim() },
     solution: { killerId: '', explanation: '', revealNarration: '' },
   };
-  if (obj.clueRouting !== undefined) {
-    if (!['circle', 'rotating'].includes(obj.clueRouting)) errors.push('"clueRouting" must be "circle" or "rotating".');
-    else s.clueRouting = obj.clueRouting;
+  if (!Number.isInteger(s.fixedPlayerCount) || s.fixedPlayerCount < 2) {
+    errors.push('"fixedPlayerCount" must declare one fixed player count of at least 2.');
   }
+  if (!s.hiddenThread) errors.push('"hiddenThread" must describe the one story-specific hidden thread.');
+  if (!s.specialMechanics.length) errors.push('"specialMechanics" must include a mechanic derived from this story\'s event map.');
+  if (obj.clueRouting !== 'rotating') errors.push('"clueRouting" must be "rotating" for target-chained coverage.');
+  else s.clueRouting = obj.clueRouting;
   if (obj.provenance) {
     const p = obj.provenance;
     if (!['user', 'community'].includes(p.kind) || typeof p.author !== 'string' || p.author.length > 80 ||
@@ -76,13 +84,24 @@ export function normalizeStory(input, guests = []) {
   if (!s.title) errors.push('"title" is missing — give the mystery a name.');
   if (!s.victim.name) warnings.push('"victim.name" is missing — players won\'t know who died.');
 
-  if (!Array.isArray(obj.rounds)) errors.push('"rounds" must be a list with 5 or 6 rounds.');
+  if (!Array.isArray(obj.rounds)) errors.push('"rounds" must be a list of clue rounds.');
   else obj.rounds.forEach((r, i) => {
-    const rr = { title: asStr(r?.title).trim() || `Round ${i + 1}`, narration: asStr(r?.narration).trim(), publicText: asStr(r?.publicText).trim(), hostNotes: asStr(r?.hostNotes).trim() };
+    const rr = {
+      title: asStr(r?.title).trim() || `Round ${i + 1}`,
+      narration: asStr(r?.narration).trim(),
+      publicText: asStr(r?.publicText).trim(),
+      hostNotes: asStr(r?.hostNotes).trim(),
+      events: asLines(r?.events),
+      chain: Array.isArray(r?.chain) ? r.chain.map(asStr) : [],
+      coverageRepeat: r?.coverageRepeat === true,
+    };
+    if (!Array.isArray(r?.chain)) errors.push(`rounds[${i}].chain must store the complete precomputed reader order.`);
+    if (typeof r?.coverageRepeat !== 'boolean') errors.push(`rounds[${i}].coverageRepeat must explicitly record whether reader-target pairs repeat.`);
     if (!rr.narration) errors.push(`rounds[${i}] needs spoken host narration. Put all story discoveries in narration or read-aloud clues.`);
+    if (!rr.events.length) errors.push(`rounds[${i}].events must list this round's ordered story-event beats.`);
     s.rounds.push(rr);
   });
-  if (Array.isArray(obj.rounds) && (obj.rounds.length < 5 || obj.rounds.length > 6)) errors.push('Every mystery must have 5 or 6 rounds. Expand the narration and character evidence together before playing.');
+  if (Array.isArray(obj.rounds) && !obj.rounds.length) errors.push('Every mystery needs at least one clue round.');
 
   if (!Array.isArray(obj.characters) || obj.characters.length < 2) errors.push('"characters" must be a list with at least 2 characters.');
   else {
@@ -95,6 +114,9 @@ export function normalizeStory(input, guests = []) {
       const name = asStr(c.name).trim();
       if (!name) errors.push(`characters[${i}].name is missing.`);
       const rounds = Array.isArray(c.rounds) ? c.rounds : [];
+      if (!asStr(c.role).trim() || !asStr(c.relationship).trim() || !asStr(c.tieIn).trim()) {
+        errors.push(`${name || id}: add a job, relationship to the event and story tie-in.`);
+      }
       if (rounds.length > s.rounds.length && s.rounds.length) warnings.push(`characters[${i}] (${name || id}) has more round entries than the story has rounds; extras are ignored.`);
       s.characters.push({
         id, name,
@@ -102,20 +124,44 @@ export function normalizeStory(input, guests = []) {
         guest: asStr(c.guest).trim(),
         guestNote: asStr(c.guestNote).trim(),
         role: asStr(c.role).trim(),
+        relationship: asStr(c.relationship).trim(),
+        tieIn: asStr(c.tieIn).trim(),
         publicBlurb: asStr(c.publicBlurb).trim(),
         rounds: s.rounds.map((_, ri) => ({
           readAloud: {
             accuses: asStr(rounds[ri]?.readAloud?.accuses).trim(),
             text: asStr(rounds[ri]?.readAloud?.text).trim(),
+            observation: asStr(rounds[ri]?.readAloud?.observation).trim(),
+            contradictingDetail: asStr(rounds[ri]?.readAloud?.contradictingDetail).trim(),
           },
         })),
+        ghost: c.ghost && typeof c.ghost === 'object'
+         ? {
+           fromRound: Number(c.ghost.fromRound),
+           parts: Array.isArray(c.ghost.parts)
+             ? c.ghost.parts.map(part => asStr(part).trim())
+             : asLines(c.ghost.parts),
+         }
+         : null,
       });
+      const ghost = s.characters.at(-1).ghost;
+      if (ghost && (!Number.isInteger(ghost.fromRound) || ghost.fromRound < 2 || ghost.fromRound > s.rounds.length)) {
+        errors.push(`${name || id}: ghost.fromRound must be a round after this character's death and within the story.`);
+      } else if (ghost && s.rounds.some((_, ri) => ri >= ghost.fromRound - 1 && !ghost.parts[ri])) {
+        errors.push(`${name || id}: add a plot-advancing ghost part for every round from Round ${ghost.fromRound} onward.`);
+      }
       if (asStr(c.backstory).trim() || asLines(c.secrets).length || asStr(c.motive).trim() || rounds.some(r => asLines(r?.clues).length)) {
         errors.push(`${name || id}: private story information is no longer supported. Rewrite it into the host narration or read-aloud evidence, then remove backstory, secrets, motive and clues.`);
       }
       if (rounds.some(r => r?.instructions)) warnings.push(`${name || id}: legacy instruction fields were removed. Put relevant events in spoken host narration or read-aloud evidence instead.`);
     });
-    if (s.characters.filter(c => !c.optional).length < 2) errors.push('At least two characters must remain required so the mystery can be played with a smaller group.');
+    if (s.characters.some(c => c.optional)) errors.push('Every story has one fixed player count; optional characters and scaled-down casts are not supported.');
+    if (s.fixedPlayerCount !== null && s.fixedPlayerCount !== s.characters.length) {
+      errors.push(`This story declares ${s.fixedPlayerCount} players but contains ${s.characters.length} character cards.`);
+    }
+    if (s.rounds.length < s.characters.length - 1) {
+      errors.push(`A ${s.characters.length}-player story needs at least ${s.characters.length - 1} rounds for complete clue coverage.`);
+    }
   }
 
   // Killer
@@ -134,9 +180,20 @@ export function normalizeStory(input, guests = []) {
   s.solution = { killerId, explanation: asStr(sol.explanation).trim(), revealNarration: asStr(sol.revealNarration).trim() };
   if (s.characters.find(c => c.id === killerId)?.optional) errors.push('The killer character cannot be optional.');
   if (!s.solution.explanation) warnings.push('"solution.explanation" is empty — the reveal will be short.');
+  for (const character of s.characters) {
+    character.rounds.forEach((round, ri) => {
+      const clue = round.readAloud;
+      if (!clue.observation || !clue.contradictingDetail) {
+        errors.push(`${character.name || character.id}, Round ${ri + 1}: add the target observation and contradicting physical detail.`);
+      }
+    });
+  }
 
   // Assign guests (in order) to characters without one.
   if (guests.length && s.characters.length) {
+    if (guests.length !== s.fixedPlayerCount) {
+      errors.push(`This story is written for exactly ${s.fixedPlayerCount} players; ${guests.length} player names were provided.`);
+    }
     const used = new Set(s.characters.map(c => c.guest.toLowerCase()).filter(Boolean));
     const free = guests.filter(g => !used.has(g.name.toLowerCase()));
     for (const c of s.characters) {
@@ -172,21 +229,45 @@ export function buildView(S, charId) {
   const ch = charId ? st.characters.find(c => c.id === charId) : null;
   const ri = S.roundIndex;
   const phase = S.phase;
-  const inGame = ['round', 'vote', 'reveal'].includes(phase);
+  const inGame = ['round', 'deliberation', 'vote', 'reveal'].includes(phase);
   const v = {
     room: S.room,
     title: fill(st.title), setting: fill(st.setting), intro: fill(st.intro),
+    fixedPlayerCount: st.fixedPlayerCount,
     atmosphere: storyTheme(st),
     victim: { name: st.victim?.name || '', description: fill(st.victim?.description || '') },
     phase, roundIndex: ri, roundsTotal: st.rounds.length,
     ...(st.edition ? { edition: { ...st.edition } } : {}),
     voteSummary: voteSummary(S),
-    roster: st.characters.map(c => ({ id: c.id, name: c.name, guest: c.guest, role: c.role, publicBlurb: fill(c.publicBlurb), claimed: !!S.claims[c.id] })),
+    roster: st.characters.map(c => ({
+      id: c.id, name: c.name, guest: c.guest, role: c.role,
+      relationship: fill(c.relationship), tieIn: fill(c.tieIn),
+      publicBlurb: fill(c.publicBlurb), claimed: !!S.claims[c.id],
+      isGhost: !!c.ghost && ri + 1 >= c.ghost.fromRound,
+    })),
     me: ch ? ch.id : null,
   };
   if (inGame && ri >= 0 && ri < st.rounds.length) {
     const r = st.rounds[ri];
-    v.currentRound = { index: ri, title: fill(r.title), publicText: fill(r.publicText), narration: fill(r.narration) };
+    const chain = r.chain || accusationChain(st, ri);
+    v.currentRound = {
+      index: ri,
+      title: fill(r.title),
+      publicText: fill(r.publicText),
+      narration: fill(r.narration),
+      chain: chain.map(id => {
+        const character = st.characters.find(candidate => candidate.id === id);
+        return { id, name: fill(`{${id}}`), guest: character?.guest || '' };
+      }),
+      chainIndex: Number.isInteger(S.chainIndex) ? S.chainIndex : 0,
+      currentReaderId: chain[S.chainIndex || 0] || null,
+    };
+  }
+  if (phase === 'deliberation') {
+    v.deliberation = {
+      prompt: fill(st.finale.votePrompt),
+      finalNarration: ri === st.rounds.length - 1 ? fill(st.finale.narration) : '',
+    };
   }
   // Current scripts stay in their owner's packet until the discussion closes for voting.
   const publicCount = inGame ? Math.max(0, Math.min(st.rounds.length, phase === 'round' ? ri : ri + 1)) : 0;
@@ -200,9 +281,15 @@ export function buildView(S, charId) {
     })),
   }));
   if (ch) {
-    const last = inGame ? ri : -1;
+    const currentChain = phase === 'round' ? st.rounds[ri]?.chain || accusationChain(st, ri) : [];
+    const chainComplete = phase === 'round' && Number.isInteger(S.chainIndex) && S.chainIndex >= currentChain.length;
+    const isCurrentReader = phase === 'round' && currentChain[S.chainIndex || 0] === ch.id;
+    const last = inGame
+      ? phase === 'round' && !chainComplete && !isCurrentReader ? ri - 1 : ri
+      : -1;
     v.packet = {
-      name: ch.name, role: ch.role, guest: ch.guest, guestNote: ch.guestNote,
+      name: ch.name, role: ch.role, relationship: fill(ch.relationship), tieIn: fill(ch.tieIn),
+      guest: ch.guest, guestNote: ch.guestNote,
       publicBlurb: fill(ch.publicBlurb),
       ...(st.discloseKiller || phase === 'reveal' ? { isKiller: st.solution.killerId === ch.id } : {}),
       rounds: st.rounds.slice(0, last + 1).map((r, i) => ({
@@ -211,6 +298,8 @@ export function buildView(S, charId) {
           accuses: ch.rounds[i]?.readAloud?.accuses || '',
           targetName: fill(`{${ch.rounds[i]?.readAloud?.accuses || ''}}`),
           text: fill(ch.rounds[i]?.readAloud?.text || ''),
+          ghostPart: fill(ch.ghost?.parts?.[i] || ''),
+          isGhost: !!ch.ghost && i + 1 >= ch.ghost.fromRound,
         },
       })),
     };

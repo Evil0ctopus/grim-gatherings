@@ -136,7 +136,7 @@ export function startPlayer(room) {
     const html = !view ? connectingHtml() : !view.me ? pickerHtml() : packetHtml();
     if (html === lastHtml) return;
     const open = new Set([...body.querySelectorAll('details[data-k]')].filter(d => d.open).map(d => d.dataset.k));
-    const key = view ? `${view.me}|${view.phase}|${view.roundIndex}` : '';
+    const key = view ? `${view.me}|${view.phase}|${view.roundIndex}|${view.currentRound?.currentReaderId || ''}` : '';
     const isNewRound = view && view.me && prevKey !== null && key !== prevKey;
     body.innerHTML = html;
     body.querySelectorAll('details[data-k]').forEach(d => { if (open.has(d.dataset.k)) d.open = true; });
@@ -169,8 +169,10 @@ export function startPlayer(room) {
 
   function cluesBlock(r) {
     return `<div class="card gold read-aloud-clue"><div class="label">Read aloud to everyone</div>
+      ${r.readAloud.isGhost ? '<p class="small muted"><b>Your character has returned as a ghost.</b> Read this short story-specific part along with your clue.</p>' : ''}
       <h3>Evidence against ${esc(r.readAloud.targetName)}</h3>
       ${paras(r.readAloud.text)}
+      ${r.readAloud.ghostPart ? `<div class="card"><div class="label">Ghost part</div>${paras(r.readAloud.ghostPart)}</div>` : ''}
       <p class="small muted">Read this clue in full on your turn. This is evidence to discuss, not your vote.</p></div>`;
   }
 
@@ -179,10 +181,21 @@ export function startPlayer(room) {
     let phaseCard = '';
     if (v.phase === 'round' && v.currentRound) {
       const r = p.rounds[v.roundIndex];
+      const chain = v.currentRound.chain || [];
+      const currentReader = chain[v.currentRound.chainIndex];
       phaseCard = `<div class="card blood" id="phase-card"><div class="label">Round ${v.roundIndex + 1} of ${v.roundsTotal}</div>
         <h2 id="round-title">${esc(v.currentRound.title)}</h2>${paras(v.currentRound.publicText)}
         <details data-k="narration"><summary>The host's narration</summary>${paras(v.currentRound.narration)}</details>
+        <div class="card"><div class="label">Clue chain</div><ol>${chain.map((reader, index) => `<li ${index === v.currentRound.chainIndex ? 'aria-current="step"' : ''}>${esc(reader.name)}${reader.guest ? ` (${esc(reader.guest)})` : ''}</li>`).join('')}</ol>
+        <p class="small muted">${currentReader?.id === v.me ? 'You are next to read.' : currentReader ? `Waiting for ${esc(currentReader.name)} to read.` : 'The clue chain is complete.'}</p></div>
         <hr><div id="my-clues">${r ? cluesBlock(r) : ''}</div></div>`;
+    } else if (v.phase === 'deliberation' && v.currentRound) {
+      const last = v.roundIndex === v.roundsTotal - 1;
+      phaseCard = `<div class="card blood" id="phase-card"><div class="label">${last ? 'Final accusations' : `Round ${v.roundIndex + 1} · Deliberation`}</div>
+        <h2>${last ? 'Discuss before the final vote' : 'Discuss the evidence'}</h2>
+        ${last ? paras(v.deliberation.finalNarration) : '<p>Compare the observations with the physical details. Discuss what the group believes before voting opens.</p>'}
+        <p><b>${esc(v.deliberation.prompt)}</b></p>
+        <p class="small muted">The host will open the vote after deliberation.</p></div>`;
     } else if (v.phase === 'vote') {
       phaseCard = `<div class="card blood" id="phase-card"><div class="label">Round ${v.roundIndex + 1} · The accusation</div><h2>${esc(v.vote.prompt)}</h2>
         <p>Tap the person you accuse. You can change your mind until the host closes this round's voting. Every round counts equally in the running vote share.</p>
@@ -197,7 +210,7 @@ export function startPlayer(room) {
         ${paras(rv.revealNarration)}<hr><div class="label">What really happened</div>${paras(rv.explanation)}</div>`;
     } else {
       phaseCard = `<div class="card" id="phase-card"><div class="label">Before the game begins</div>
-        <p>Meet your character below. All story evidence comes from the host's narration and clues read to the room. Everyone gets a turn and everyone receives one accusation each round. Use the released evidence to discuss and vote.</p>
+        <p>When the host begins the read-around, read your character’s name, role, relationship, tie-in and public introduction aloud. The group may discuss or make accusations based only on the setup and character cards before Round 1. All story evidence comes from the host’s narration and clues read to the room.</p>
         <details data-k="intro" open><summary>The story so far</summary>${paras(v.intro)}<p class="muted small">${esc(v.setting)}</p></details></div>`;
     }
     const earlier = p.rounds.filter(r => v.phase !== 'round' || r.index < v.roundIndex);
@@ -206,6 +219,8 @@ export function startPlayer(room) {
     return `
       <div class="card gold character-envelope" id="character-envelope"><div class="wax-seal" aria-hidden="true">GG</div><div class="label">Your character · You are</div><h2 id="packet-name" style="font-size:1.8rem;margin:.1em 0">${esc(p.name)}</h2>
         <p style="margin:0"><i>${esc(p.role)}</i></p>
+        ${p.relationship ? `<p class="small" style="margin:.2em 0"><b>Relationship:</b> ${esc(p.relationship)}</p>` : ''}
+        ${p.tieIn ? `<p class="small" style="margin:.2em 0"><b>Tie to the event:</b> ${esc(p.tieIn)}</p>` : ''}
         ${p.guest ? `<p class="small muted" style="margin-bottom:0">Played by ${esc(p.guest)}${p.guestNote ? ` — lean into it: <i>${esc(p.guestNote)}</i>` : ''}</p>` : ''}</div>
       ${phaseCard}
       ${history.length ? `<details data-k="my-case" id="my-case" open><summary>How the evidence against you has changed (${history.length} rounds)</summary>
@@ -223,7 +238,7 @@ export function startPlayer(room) {
       </div>
       <details data-k="cast"><summary>Who's who (public)</summary>
         ${v.victim.name ? `<p><b>The victim:</b> ${esc(v.victim.name)}${v.victim.description ? ` — ${esc(v.victim.description)}` : ''}</p>` : ''}
-        <ul class="clean">${v.roster.map(c => `<li style="margin:10px 0"><b>${esc(c.name)}</b>${c.guest ? ` <span class="muted">(${esc(c.guest)})</span>` : ''} — <i>${esc(c.role)}</i><br><span class="small">${esc(c.publicBlurb)}</span></li>`).join('')}</ul></details>
+        <ul class="clean">        ${v.roster.map(c => `<li style="margin:10px 0"><b>${esc(c.name)}</b>${c.isGhost ? ' <span class="pill">Ghost</span>' : ''}${c.guest ? ` <span class="muted">(${esc(c.guest)})</span>` : ''} — <i>${esc(c.role)}</i>${c.relationship ? `<br><span class="small"><b>Relationship:</b> ${esc(c.relationship)}</span>` : ''}${c.tieIn ? `<br><span class="small"><b>Tie to the event:</b> ${esc(c.tieIn)}</span>` : ''}<br><span class="small">${esc(c.publicBlurb)}</span></li>`).join('')}</ul></details>
       <p class="footer">Wrong character? <button class="secondary small" data-unclaim="1">Switch</button></p>`;
   }
 

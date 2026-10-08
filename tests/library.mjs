@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import { adaptStoryForPlayers, getPlayerRange, makeStoryTemplate, readStoryLibrary, upsertStory } from '../js/library.js';
 import { normalizeStory } from '../js/story.js';
 import { buildSampleStory } from '../js/sample.js';
-import { assignAccusationCircles } from '../js/accusations.js';
 
 const story = {
   title: 'The Old House',
@@ -38,63 +37,32 @@ test('reading an empty or valid library succeeds and damaged data reports a usef
   assert.throws(() => readStoryLibrary('{}'), /expected format/);
 });
 
-test('optional characters expand the player range and are omitted when attendance is lower', () => {
-  const template = {
-    title: 'The Old House',
-    characters: [
-      { id: 'keeper', name: 'The Keeper' },
-      { id: 'doctor', name: 'The Doctor' },
-      { id: 'visitor', name: 'The Visitor', optional: true },
-      { id: 'neighbor', name: 'The Neighbor', optional: true },
-    ],
-    rounds: Array.from({ length: 5 }, (_, i) => ({ title: `Round ${i + 1}`, narration: 'Ask {visitor} what they saw.' })),
-    solution: { killerId: 'keeper' },
-  };
-  for (const c of template.characters) c.rounds = Array.from({ length: 5 }, () => ({ clues: [] }));
-  assignAccusationCircles(template, Object.fromEntries(template.characters.map(c => [c.id, Array.from({ length: 5 }, (_, i) => `{${c.id}} had a key to the house. Evidence ${i + 1}.`)])));
-  assert.deepEqual(getPlayerRange(template), { minPlayers: 2, maxPlayers: 4 });
-  const threePlayerStory = adaptStoryForPlayers(template, [{ name: 'Sarah' }, { name: 'Mike' }, { name: 'Priya' }]);
-  assert.deepEqual(threePlayerStory.characters.map(character => character.id), ['keeper', 'doctor', 'visitor']);
-  assert.equal(threePlayerStory.characters[0].guest, 'Sarah');
-  assert.ok(normalizeStory(threePlayerStory).story);
-  assert.throws(() => adaptStoryForPlayers(template, [{ name: 'Sarah' }]), /works for 2–4 players/);
+test('fixed editions keep one player count and reject every other attendance size', () => {
+  const template = buildSampleStory(Array.from({ length: 5 }, (_, index) => ({ name: `Original ${index}` })));
+  assert.deepEqual(getPlayerRange(template), { minPlayers: 5, maxPlayers: 5 });
+  const selected = adaptStoryForPlayers(template, Array.from({ length: 5 }, (_, index) => ({ name: `Guest ${index}` })));
+  assert.deepEqual(selected.characters.map(character => character.guest), ['Guest 0', 'Guest 1', 'Guest 2', 'Guest 3', 'Guest 4']);
+  assert.ok(normalizeStory(selected).story);
+  for (const count of [2, 3, 4, 6]) {
+    assert.throws(() => adaptStoryForPlayers(template, Array.from({ length: count }, (_, i) => ({ name: `Player ${i}` }))),
+      /written for exactly 5 players/);
+  }
 });
 
-test('references to omitted roles become their names', () => {
-  const template = {
-    title: 'The Old House',
-    characters: [
-      { id: 'keeper', name: 'The Keeper' },
-      { id: 'doctor', name: 'The Doctor' },
-      { id: 'visitor', name: 'The Visitor', optional: true },
-    ],
-    rounds: [{ title: 'The clue', narration: 'The clue came from {visitor}.' }],
-  };
-  const onePlayerStory = adaptStoryForPlayers(template, [{ name: 'Sarah' }, { name: 'Mike' }]);
-  assert.equal(onePlayerStory.rounds[0].narration, 'The clue came from The Visitor.');
+test('an edition cannot omit a character and rewrite story references to fit attendance', () => {
+  const template = buildSampleStory(Array.from({ length: 5 }, (_, index) => ({ name: `Original ${index}` })));
+  assert.throws(() => adaptStoryForPlayers(template, Array.from({ length: 4 }, (_, index) => ({ name: `Player ${index}` }))), /written for exactly 5 players/);
 });
 
-test('optional characters cannot include the killer or leave fewer than two required roles', () => {
-  const base = {
-    title: 'The Old House',
-    rounds: [{ title: 'The clue', narration: 'A clue.' }],
-    characters: [
-      { id: 'keeper', name: 'The Keeper' },
-      { id: 'doctor', name: 'The Doctor' },
-    ],
-    solution: { killerId: 'keeper' },
-  };
-  const optionalKiller = structuredClone(base);
-  optionalKiller.characters[0].optional = true;
-  assert.match(normalizeStory(optionalKiller).errors.join(' '), /killer character cannot be optional/);
-
-  const oneRequired = structuredClone(base);
-  oneRequired.characters[1].optional = true;
-  assert.match(normalizeStory(oneRequired).errors.join(' '), /At least two characters must remain required/);
+test('fixed editions reject optional characters', () => {
+  const base = buildSampleStory(Array.from({ length: 5 }, (_, index) => ({ name: `Original ${index}` })));
+  const optional = structuredClone(base);
+  optional.characters[0].optional = true;
+  assert.equal(normalizeStory(optional).story, null);
 });
 
-test('the built-in story remains valid at small and large supported party sizes', () => {
-  for (const count of [3, 4, 12]) {
+test('the built-in story remains valid at each separately authored player count', () => {
+  for (const count of [5]) {
     const guests = Array.from({ length: count }, (_, index) => ({ name: `Guest ${index + 1}`, desc: '' }));
     const result = normalizeStory(buildSampleStory(guests));
     assert.ok(result.story, `${count} guests: ${result.errors.join('; ')}`);

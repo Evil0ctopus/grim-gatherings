@@ -5,7 +5,7 @@ import { normalizeStory, buildView } from '../js/story.js';
 import { assignAccusationCircles, validateAccusationCircles } from '../js/accusations.js';
 import { STARTER_MYSTERIES } from '../js/starters.js';
 import { buildSampleStory } from '../js/sample.js';
-import { adaptStoryForPlayers, getPlayerRange, makeStoryTemplate } from '../js/library.js';
+import { adaptStoryForPlayers, makeStoryTemplate } from '../js/library.js';
 import { generateStory } from '../js/ai.js';
 
 const guests = n => Array.from({ length: n }, (_, i) => ({ name: `Player ${i + 1}`, desc: '' }));
@@ -26,56 +26,57 @@ function checkCircle(story) {
     }
     const texts = new Set();
     const incoming = new Set();
-    const visited = new Set();
-    let current = story.characters[0];
-    for (let i = 0; i < story.characters.length; i++) {
-      assert.ok(!visited.has(current.id), 'One circle must visit every player');
-      visited.add(current.id);
-      const clue = current.rounds[ri].readAloud;
-      assert.notEqual(clue.accuses, current.id);
+    for (const reader of story.characters) {
+      const clue = reader.rounds[ri].readAloud;
+      assert.notEqual(clue.accuses, reader.id);
       assert.ok(clue.text.includes(`{${clue.accuses}}`), 'Evidence must explicitly identify its target');
-      assert.ok(!incoming.has(clue.accuses));
+      assert.ok(story.characters.some(c => c.id === clue.accuses));
+      assert.ok(!incoming.has(clue.accuses), 'Each player is talked about once per round');
       assert.ok(!texts.has(clue.text));
       incoming.add(clue.accuses); texts.add(clue.text);
-      current = story.characters.find(c => c.id === clue.accuses);
-      assert.ok(current);
     }
-    assert.equal(current.id, story.characters[0].id);
-    assert.equal(incoming.size, story.characters.length);
+    assert.equal(story.rounds[ri].chain.length, story.characters.length, 'Read order includes every player');
   }
 }
 
-test('every built-in cast size has one unique public accusation per player per round', () => {
+test('every fixed-count built-in story has a valid chain and complete directed coverage', () => {
   for (const entry of STARTER_MYSTERIES) {
-    const { minPlayers, maxPlayers } = getPlayerRange(entry.story);
-    for (let n = minPlayers; n <= maxPlayers; n++) {
-      const result = normalizeStory(adaptStoryForPlayers(entry.story, guests(n)));
-      assert.deepEqual(result.errors, []);
-      checkCircle(result.story);
-    }
+    const result = normalizeStory(entry.story);
+    assert.deepEqual(result.errors, []);
+    checkCircle(result.story);
   }
-  for (let n = 3; n <= 24; n++) checkCircle(normalizeStory(buildSampleStory(guests(n))).story);
+  checkCircle(normalizeStory(buildSampleStory(guests(5))).story);
   checkCircle(normalizeStory(example).story);
 });
 
-test('circles change each round, retaining exactly one cycle even for composite cast sizes', () => {
-  for (const n of [2, 3, 4, 6, 8, 9, 12]) {
+test('precomputed chains complete coverage before any scheduled repeats', () => {
+  for (const n of [3, 4, 5, 6, 7, 8, 9, 10, 12]) {
+    const roundCount = Math.max(5, n - 1);
     const story = {
-      rounds: Array.from({ length: 4 }, () => ({})),
-      characters: guests(n).map((g, i) => ({ id: `c${i}`, name: g.name, rounds: Array.from({ length: 4 }, () => ({})) })),
+      coverageRepeatNote: roundCount > n - 1 ? 'The test story has five chapters and needs repeated pairs after full coverage.' : '',
+      rounds: Array.from({ length: roundCount }, () => ({})),
+      characters: guests(n).map((g, i) => ({ id: `c${i}`, name: g.name, rounds: Array.from({ length: roundCount }, () => ({})) })),
     };
     assignAccusationCircles(story, Object.fromEntries(story.characters.map(c => [c.id, story.rounds.map((_, ri) => `{${c.id}} evidence ${ri}`)])));
     checkCircle(story);
-    if (n > 2) {
-      for (const c of story.characters) {
-        for (let ri = 1; ri < story.rounds.length; ri++) assert.notEqual(c.rounds[ri].readAloud.accuses, c.rounds[ri - 1].readAloud.accuses);
+    const coverage = new Set();
+    story.rounds.forEach((round, ri) => {
+      assert.equal(round.coverageRepeat, ri >= n - 1);
+      if (ri < n - 1) {
+        for (const character of story.characters) {
+          const pair = `${character.id}>${character.rounds[ri].readAloud.accuses}`;
+          assert.ok(!coverage.has(pair));
+          coverage.add(pair);
+        }
       }
     }
+    );
+    assert.equal(coverage.size, n * (n - 1));
   }
 });
 
 test('validation rejects missing, self, unknown, duplicate and disjoint accusations', () => {
-  const base = normalizeStory(adaptStoryForPlayers(STARTER_MYSTERIES[0].story, guests(4))).story;
+  const base = normalizeStory(STARTER_MYSTERIES[0].story).story;
   for (const [mutate, pattern] of [
     [s => delete s.characters[0].rounds[0].readAloud, /add a "readAloud"/],
     [s => s.characters[0].rounds[0].readAloud.text = ' ', /add a "readAloud"/],
@@ -83,7 +84,7 @@ test('validation rejects missing, self, unknown, duplicate and disjoint accusati
     [s => s.characters[0].rounds[0].readAloud.accuses = 'absent', /must name a character id/],
     [s => s.characters[0].rounds[0].readAloud.accuses = s.characters[1].rounds[0].readAloud.accuses, /accused twice/],
     [s => s.characters[0].rounds[0].readAloud.text = s.characters[1].rounds[0].readAloud.text, /text must be unique/],
-    [s => s.characters.forEach((c, i) => c.rounds[0].readAloud.accuses = s.characters[i ^ 1].id), /one complete circle/],
+    [s => s.characters.forEach(c => c.rounds[0].readAloud.accuses = s.characters[0].id), /accused twice|cannot accuse themselves/],
   ]) {
     const story = structuredClone(base);
     mutate(story);
@@ -95,10 +96,11 @@ test('validation rejects missing, self, unknown, duplicate and disjoint accusati
 
 test('exact edition selection preserves the authored target evidence without rebuilding the circle', () => {
   for (const entry of STARTER_MYSTERIES) {
-    const story = adaptStoryForPlayers(entry.story, guests(4));
+    const story = adaptStoryForPlayers(entry.story, guests(entry.story.fixedPlayerCount));
     const killer = story.solution.killerId;
-    const original = entry.story.editions[4].characters.find(c => c.rounds[4].readAloud.accuses === killer).rounds[4].readAloud.text;
-    const adapted = story.characters.find(c => c.rounds[4].readAloud.accuses === killer).rounds[4].readAloud.text;
+    const roundIndex = story.rounds.length - 1;
+    const original = entry.story.characters.find(c => c.rounds[roundIndex].readAloud.accuses === killer).rounds[roundIndex].readAloud.text;
+    const adapted = story.characters.find(c => c.rounds[roundIndex].readAloud.accuses === killer).rounds[roundIndex].readAloud.text;
     assert.equal(adapted, original);
     assert.ok(adapted.includes(`{${killer}}`));
     checkCircle(normalizeStory(makeStoryTemplate(story)).story);
@@ -145,16 +147,16 @@ test('AI generation requests public-only event evidence and rotating target cove
   const content = await generateStory({ base: 'https://example.invalid', model: 'test', key: 'test-only' }, 'Lighthouse', guests(3));
   const prompt = request.messages[0].content;
   assert.match(prompt, /"readAloud": \{"accuses"/);
-  assert.match(prompt, /Each character must also receive exactly one accusation/);
+  assert.match(prompt, /coverageRepeatNote/);
+  assert.match(prompt, /first N-1 rounds every reader must target every other character exactly once/);
   assert.match(prompt, /"clueRouting": "rotating"/);
-  assert.match(prompt, /rotating targets, allowing reciprocal pairs/);
+  assert.match(prompt, /the character talked about reads next, and if a loop closes early the next unread character starts a new loop/);
   assert.match(prompt, /ownership was recognized/);
   assert.match(prompt, /repeated finale.votePrompt must be neutral/);
   assert.match(prompt, /NO secret clues/);
   assert.match(prompt, /event-related/);
   assert.match(prompt, /ages 13-50/);
-  assert.match(prompt, /never fewer than 5 or more than 6/);
-  assert.match(prompt, /round 4 corrects earlier suspicions/);
+  assert.match(prompt, /do not assume a fixed five- or six-round story/);
   assert.match(prompt, /no newly invented culprits/);
   assert.doesNotMatch(prompt, /"instructions":/);
   assert.ok(normalizeStory(content).story);

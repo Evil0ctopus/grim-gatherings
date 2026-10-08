@@ -1,4 +1,4 @@
-import { DeveloperGameError, developerCatalog, createDeveloperGame, stepDeveloperGame, nextDeveloperPlayer, developerTargets } from './developer-games.js';
+import { DeveloperGameError, developerCatalog, developerGameView, developerCurrentContent, createDeveloperGame, stepDeveloperGame, nextDeveloperPlayer, developerTargets } from './developer-games.js';
 
 export function createDeveloperLab(secret, { namespace = 'developer', resume = false } = {}) {
   const key = crypto.subtle.importKey('raw', new TextEncoder().encode(`gg-${namespace}-v1:${secret}`),
@@ -11,8 +11,7 @@ export function createDeveloperLab(secret, { namespace = 'developer', resume = f
     catalog: () => ({ games: developerCatalog() }),
     async act(body, owner) {
       let state;
-      if (body.command?.type === 'create') state = createDeveloperGame(body.gameId, body.names, () =>
-        crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296);
+      if (body.command?.type === 'create') state = createDeveloperGame(body.gameId, body.names);
       else {
         if (!body.state || typeof body.seal !== 'string' || !/^[0-9a-f]{64}$/.test(body.seal)) {
           throw new DeveloperGameError('Restart this developer session; its snapshot is invalid.');
@@ -24,8 +23,10 @@ export function createDeveloperLab(secret, { namespace = 'developer', resume = f
         state = resume && body.command?.type === 'resume' ? body.state : stepDeveloperGame(body.state, body.command);
       }
       const turn = nextDeveloperPlayer(state);
-      return { state, seal: await seal(state, owner), turn,
-        targets: turn ? developerTargets(state, turn) : [] };
+      return {
+        state, seal: await seal(state, owner), game: developerGameView(state.gameId, ['reveal', 'finished'].includes(state.phase)),
+        turn, current: developerCurrentContent(state), targets: turn ? developerTargets(state, turn) : [],
+      };
     },
   };
 }

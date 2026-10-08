@@ -29,7 +29,7 @@ async function review(p) {
 }
 async function create(p) {
   await click(p, 'create'); await click(p, 'next');
-  await p.fill('#idea', 'A mysterious town with four neighbors.');
+  await p.fill('#idea', 'A mysterious town with three neighbors.');
   await click(p, 'next'); await click(p, 'make-draft');
 }
 try {
@@ -113,13 +113,13 @@ try {
   await click(creator, 'community-save');
   await creator.goto(base);
   await creator.click('#btn-new');
-  for (const name of ['One', 'Two', 'Three', 'Four']) { await creator.fill('#guest-name', name); await creator.click('#add-guest'); }
+  for (const name of ['One', 'Two', 'Three']) { await creator.fill('#guest-name', name); await creator.click('#add-guest'); }
   await creator.click('[data-act="load-community"]');
   await creator.waitForSelector('[data-act="use-community"]');
   await creator.click('[data-act="use-community"]');
   await creator.waitForSelector('#open-lobby');
   const state = await creator.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')));
-  check('published community story enters the normal game with exact cast and approval version', state.story.provenance.kind === 'community' && state.story.characters.length === 4 && state.story.title === 'Changed draft only');
+  check('published community story enters the normal game with exact cast and approval version', state.story.provenance.kind === 'community' && state.story.characters.length === 3 && state.story.title === 'Changed draft only');
   await creator.click('#open-lobby');
   await creator.waitForFunction(() => document.querySelector('#net')?.textContent === 'Live', null, { timeout: 45000 });
   const room = (await creator.innerText('#room-code')).trim();
@@ -133,23 +133,41 @@ try {
   }
   await creator.click('#start-game');
   for (let ri = 0; ri < 5; ri++) {
-    for (const [i, player] of players.entries()) {
-      await player.waitForFunction(round => window.__gg?.view.phase === 'round' && window.__gg.view.roundIndex === round, ri, { timeout: 45000 });
-      const target = await player.evaluate(() => window.__gg.view.packet.rounds.at(-1).readAloud.accuses);
-      assert.equal(target, state.story.characters[i].rounds[ri].readAloud.accuses);
+    const chain = state.story.rounds[ri].chain;
+    for (let chainIndex = 0; chainIndex < chain.length; chainIndex++) {
+      const reader = chain[chainIndex];
+      for (const [i, player] of players.entries()) {
+        await player.waitForFunction(({ chainIndex, reader }) =>
+          window.__gg.view.currentRound.chainIndex === chainIndex &&
+          window.__gg.view.currentRound.currentReaderId === reader,
+        { chainIndex, reader }, { timeout: 45000 });
+        const packet = await player.evaluate(() => window.__gg.view.packet.rounds);
+        assert.equal(packet.length, ri + Number(state.story.characters[i].id === reader));
+        if (state.story.characters[i].id === reader) {
+          assert.equal(packet.at(-1).readAloud.accuses, state.story.characters[i].rounds[ri].readAloud.accuses);
+        }
+      }
+      await creator.click('#next-reader');
     }
     await creator.click('#next-round');
+    await Promise.all(players.map(player =>
+      player.waitForFunction(() => window.__gg.view.phase === 'deliberation', null, { timeout: 45000 })));
+    await creator.click('#open-vote');
     for (const [i, player] of players.entries()) {
-      const target = state.story.characters[i].id === state.story.solution.killerId ? 'marla' : state.story.solution.killerId;
+      const character = state.story.characters[i];
+      const target = character.id === state.story.solution.killerId
+        ? state.story.characters.find(other => other.id !== character.id).id
+        : state.story.solution.killerId;
       await player.click(`[data-vote="${target}"]`);
       await player.waitForFunction(id => window.__gg?.view.vote?.myVote === id, target);
     }
-    check(`approved user-created story delivers all four cards and ballots in Round ${ri + 1}`, true);
+    check(`approved user-created story completes the clue chain and vote in Round ${ri + 1}`, true);
     if (ri < 4) await creator.click('#next-round');
   }
   await creator.click('#reveal-btn');
   for (const player of players) await player.waitForSelector('#reveal-killer');
-  check('approved user-created story plays through the final reveal on every phone', await players[0].innerText('#reveal-killer') === 'Xander Hale');
+  const killerName = state.story.characters.find(character => character.id === state.story.solution.killerId).name;
+  check('approved user-created story plays through the final reveal on every phone', await players[0].innerText('#reveal-killer') === killerName);
   await creator.locator('[data-act="end"]').first().click();
   for (const player of players) await player.context().close();
   await creator.goto(base + 'workshop.html'); await click(creator, 'home'); await click(creator, 'open');

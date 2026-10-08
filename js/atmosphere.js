@@ -28,7 +28,7 @@ export function createTransitionTracker() {
     if (previous && previous.room === state.room) {
       if (state.me && state.me !== previous.me) events.push('character');
       if ((state.phase !== previous.phase || state.roundIndex !== previous.roundIndex) &&
-          !seen.has(key) && ['lobby', 'round', 'vote', 'reveal'].includes(state.phase)) {
+          !seen.has(key) && ['lobby', 'round', 'deliberation', 'vote', 'reveal'].includes(state.phase)) {
         events.push(state.phase);
       }
       if (state.phase === 'vote' && state.myVote && state.myVote !== previous.myVote) events.push('sealed');

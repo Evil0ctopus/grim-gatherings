@@ -1,21 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import sampleEditions from '../js/editions/sample.js';
 import { buildSampleStory } from '../js/sample.js';
 import { STARTER_MYSTERIES } from '../js/starters.js';
 import { normalizeStory, buildView, makeFill } from '../js/story.js';
-import { adaptStoryForPlayers, getPlayerRange, makeStoryTemplate } from '../js/library.js';
+import { makeStoryTemplate } from '../js/library.js';
 
 const guests = n => Array.from({ length: n }, (_, i) => ({ name: `Player ${i + 1}`, desc: '' }));
 const example = JSON.parse(fs.readFileSync(new URL('../examples/example-story.json', import.meta.url)));
-const stories = [buildSampleStory(guests(12)), ...STARTER_MYSTERIES.map(entry => entry.story), example];
+const stories = [
+  ...Object.keys(sampleEditions).map(Number).map(count => buildSampleStory(guests(count))),
+  ...STARTER_MYSTERIES.map(entry => entry.story),
+  example,
+];
 const forbidden = ['backstory', 'secrets', 'motive', 'clues', 'instructions'];
 const state = story => ({ story, room: 'AUDIT', claims: {}, votes: {}, roundVotes: {}, phase: 'lobby', roundIndex: 0 });
-const castsFor = template => {
-  if (template === stories[0]) return Array.from({ length: 22 }, (_, i) => buildSampleStory(guests(i + 3)));
-  const { minPlayers, maxPlayers } = getPlayerRange(template);
-  return Array.from({ length: maxPlayers - minPlayers + 1 }, (_, i) => adaptStoryForPlayers(template, guests(minPlayers + i)));
-};
+const castsFor = template => [template];
 
 function noPrivate(value) {
   if (!value || typeof value !== 'object') return;
@@ -26,7 +27,7 @@ function noPrivate(value) {
 }
 
 for (const template of stories) {
-  test(`${template.title}: host and every character receive only spoken evidence at every cast size and phase`, () => {
+  test(`${template.title}: host and every character receive only spoken evidence at each chain step and phase`, () => {
     const casts = castsFor(template);
     assert.ok(casts.length);
     for (const adapted of casts) {
@@ -42,10 +43,16 @@ for (const template of stories) {
         assert.equal(normalizeStory(saved).story.discloseKiller, discloseKiller);
         assert.equal(makeStoryTemplate(story).discloseKiller, discloseKiller);
         const S = state(story);
-        for (const phase of ['lobby', 'round', 'vote', 'reveal']) {
+        for (const phase of ['lobby', 'round', 'deliberation', 'vote', 'reveal']) {
           S.phase = phase;
           for (let ri = 0; ri < story.rounds.length; ri++) {
             S.roundIndex = ri;
+            const chainLength = story.rounds[ri].chain.length;
+            const chainIndices = phase === 'round'
+              ? Array.from({ length: chainLength + 1 }, (_, index) => index)
+              : [0];
+            for (const chainIndex of chainIndices) {
+            S.chainIndex = chainIndex;
             const released = phase === 'lobby' ? 0 : phase === 'round' ? ri : ri + 1;
             const host = buildView(S, null);
             assert.equal(host.evidenceHistory.length, released);
@@ -53,12 +60,17 @@ for (const template of stories) {
               const v = buildView(S, character.id);
               noPrivate(v);
               assert.deepEqual(v.evidenceHistory, host.evidenceHistory);
-              assert.equal(v.packet.rounds.length, phase === 'lobby' ? 0 : ri + 1);
+              const clueIsAvailable = phase !== 'round' ||
+                chainIndex === chainLength || story.rounds[ri].chain[chainIndex] === character.id;
+              assert.equal(v.packet.rounds.length,
+                phase === 'lobby' ? 0 : ri + Number(clueIsAvailable));
               if (discloseKiller || phase === 'reveal') assert.equal(v.packet.isKiller, character.id === story.solution.killerId);
               else assert.ok(!('isKiller' in v.packet));
               if (phase !== 'lobby') {
                 assert.equal(v.currentRound.narration, fill(story.rounds[ri].narration));
-                assert.equal(v.packet.rounds[ri].readAloud.text, fill(character.rounds[ri].readAloud.text));
+                if (clueIsAvailable) {
+                  assert.equal(v.packet.rounds[ri].readAloud.text, fill(character.rounds[ri].readAloud.text));
+                }
               }
               v.evidenceHistory.forEach((r, index) => {
                 assert.equal(r.narration, fill(story.rounds[index].narration));
@@ -75,6 +87,7 @@ for (const template of stories) {
                   assert.ok(!json.includes(JSON.stringify(fill(story.rounds[future].narration)).slice(1, -1)));
                 }
               }
+              }
             }
           }
         }
@@ -84,7 +97,7 @@ for (const template of stories) {
 }
 
 test('legacy private information is rejected, never silently republished as evidence', () => {
-  const base = buildSampleStory(guests(4));
+  const base = buildSampleStory(guests(5));
   for (const field of ['backstory', 'secrets', 'motive', 'clues']) {
     const input = structuredClone(base);
     if (field === 'clues') input.characters[0].rounds[0].clues = ['PRIVATE SENTINEL'];
@@ -99,23 +112,25 @@ test('legacy private information is rejected, never silently republished as evid
 });
 
 test('required public chapters establish each solution chain before reveal at smallest and largest casts', () => {
-  const proofByRound = [
-    [/chair scrapes|chair.*scrapes/, /bottle.*S\.A\./, /false prescriptions.*two patients/, /rim.*wolfsbane|wolfsbane.*rim/, /removed his gloves/],
-    [/Pike.*enter/, /half-burned deed/, /draft.*Pike.s handwriting/, /fragment.*broken clasp/, /missing star.*impressions/],
-    [/coat.*side door/, /stair.*Adler.*request/, /(?:Adler.*signed.*boundary|boundary.*Adler.*signature)/i, /cap.*(?:before supper|spare-clothes basket)/, /button.*Adler.s coat/],
-    [/Pell leave.*folded/, /removed as trustee/, /bell mechanism.*continues/, /appointment note.*study/, /transfers.*private practice/],
-    [/page.*torn.*delivery log/, /scrap bearing receipt 47/, /index cites receipt 47/, /route notebook.*surviving index/is, /BENJAMIN BARKER.*false delivery entry/is],
-    [/Nell saw Wick climb/, /push.*oil line/, /logbook.*coast guard/, /key.*only other copy/, /Wick.s father.*insurance/],
-  ];
-  stories.forEach((story, si) => {
+  const proofByRound = {
+    sample: [/chair scrapes|chair.*scrapes/, /bottle.*S\.A\./, /false prescriptions.*two patients/, /rim.*wolfsbane|wolfsbane.*rim/, /removed his gloves/],
+    'mercy-hollow': [/Pike.*enter/, /half-burned deed/, /draft.*Pike.s handwriting/, /fragment.*broken clasp/, /missing star.*impressions/],
+    'blackthorn-farm': [/coat.*side door/, /stair.*Adler.*request/, /(?:Adler.*signed.*boundary|boundary.*Adler.*signature)/i, /cap.*(?:before supper|spare-clothes basket)/, /button.*Adler.s coat/],
+    'briar-house': [/Pell leave.*folded/, /removed as trustee/, /bell mechanism.*continues/, /appointment note.*study/, /transfers.*private practice/],
+    'blackwater-row': [/crescent-shaped gap/, /amber smear/, /chalk smear.*drag line/, /perfect circle/, /BENJAMIN BARKER/],
+    example: [/Nell saw Wick climb/, /push.*oil line/, /logbook.*coast guard/, /key.*only other copy/, /Wick.s father.*insurance/],
+  };
+  stories.forEach(story => {
     const casts = castsFor(story);
+    const family = story.edition?.family || 'example';
+    const proofs = proofByRound[family];
     for (const adapted of [casts[0], casts.at(-1)]) {
       const fill = makeFill(adapted);
       adapted.rounds.forEach((chapter, ri) => {
-        const spokenContent = si === 2 && adapted.edition.playerCount === 3
+        const spokenContent = family === 'blackthorn-farm' && adapted.edition.playerCount === 3
           ? [chapter.narration, ...adapted.characters.map(character => fill(character.rounds[ri].readAloud.text))].join('\n')
           : chapter.narration;
-        assert.match(spokenContent, proofByRound[si][ri], `${story.title}, round ${ri + 1}, ${adapted.characters.length} players`);
+        assert.match(spokenContent, proofs[ri], `${story.title}, round ${ri + 1}, ${adapted.characters.length} players`);
       });
     }
   });

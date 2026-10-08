@@ -12,12 +12,15 @@ let draft = null, user = null, view = new URLSearchParams(location.search).get('
 let message = '', error = '', drafts = [], accountDrafts = [], submissions = [], community = [], versions = [];
 let serviceNotice = '';
 let adminEntry = null, adminQueue = [], adminHistory = [];
-let brief = { count: 4, rounds: 5, setting: '', idea: '', characters: '', tone: 'Suspenseful, clear, non-graphic' };
+let brief = { count: 5, rounds: 5, setting: '', idea: '', characters: '', tone: 'Suspenseful, clear, non-graphic' };
 let persistence = Promise.resolve();
 const action = (name, text, secondary = true) => `<button type="button" data-action="${name}" ${secondary ? 'class="secondary"' : ''}>${text}</button>`;
-const input = (label, field, value, big = false) => `<label for="w-${field.replaceAll('.', '-')}">${esc(label)}</label>${big
-  ? `<textarea id="w-${field.replaceAll('.', '-')}" data-field="${field}">${esc(value || '')}</textarea>`
-  : `<input id="w-${field.replaceAll('.', '-')}" data-field="${field}" value="${esc(value || '')}">`}`;
+const input = (label, field, value, big = false) => {
+  const text = Array.isArray(value) ? value.join('\n') : value || '';
+  return `<label for="w-${field.replaceAll('.', '-')}">${esc(label)}</label>${big
+    ? `<textarea id="w-${field.replaceAll('.', '-')}" data-field="${field}">${esc(text)}</textarea>`
+    : `<input id="w-${field.replaceAll('.', '-')}" data-field="${field}" value="${esc(text)}">`}`;
+};
 
 function render() {
   const headings = { home: 'Build my mystery', create: 'Make your mystery', edit: 'Your story workshop', account: 'Your account', community: 'Community stories', admin: 'Story approval', developer: 'Developer playroom' };
@@ -42,10 +45,13 @@ function homeHtml() {
 }
 
 function createHtml() {
+  const minimumRounds = Math.max(2, brief.count - 1);
+  const roundCount = Math.max(brief.rounds, minimumRounds);
   const pages = [
-    `<h2>Step 1 of 3: Who is playing?</h2><p>Count the people who will read clues. A separate host does not count.</p>
-      <label for="player-count">Players</label><input id="player-count" type="number" min="3" max="24" data-brief="count" value="${brief.count}">
-      <label for="round-count">Rounds</label><select id="round-count" data-brief="rounds"><option value="5" ${brief.rounds === 5 ? 'selected' : ''}>5 rounds (recommended)</option><option value="6" ${brief.rounds === 6 ? 'selected' : ''}>6 rounds</option></select>`,
+    `<h2>Step 1 of 3: Who is playing?</h2><p>Count the people who will read clues. A separate host does not count. Each player reads one clue about another player every round; the builder precomputes and validates the schedule.</p>
+      <label for="player-count">Players</label><input id="player-count" type="number" min="3" max="23" step="1" data-brief="count" value="${brief.count}">
+      <label for="round-count">Clue rounds</label><input id="round-count" type="number" min="${minimumRounds}" max="22" data-brief="rounds" value="${roundCount}">
+      <p class="small muted">At least ${minimumRounds} rounds are required to cover every other player once. Add more only when the story needs more event beats.</p>`,
     `<h2>Step 2 of 3: What is your idea?</h2><label for="setting">Where and when?</label><input id="setting" data-brief="setting" value="${esc(brief.setting)}" placeholder="A snowy lodge in 1920">
       <label for="idea">Tell us your story idea</label><textarea id="idea" data-brief="idea" placeholder="Paste your story, or write a few sentences.">${esc(brief.idea)}</textarea>
       <label for="tone">How should it feel?</label><input id="tone" data-brief="tone" value="${esc(brief.tone)}">`,
@@ -62,18 +68,28 @@ function storyFields(story, editable = true) {
     ${field('Introduction - read before Round 1', 'intro', story.intro)}
     ${field('First victim (not a player)', 'victim.name', story.victim.name, false)}
     ${field('Victim introduction', 'victim.description', story.victim.description)}
+    ${field('Story-specific hidden thread', 'hiddenThread', story.hiddenThread)}
+    ${field('Special mechanics derived from this story (one per line)', 'specialMechanics', story.specialMechanics)}
     <h2>Characters</h2>${story.characters.map((c, i) => `<details><summary>${esc(c.name)} - ordinary public introduction</summary>
-      ${field('Name', `characters.${i}.name`, c.name, false)}${field('Job', `characters.${i}.role`, c.role, false)}${field('Public introduction - no secrets', `characters.${i}.publicBlurb`, c.publicBlurb)}</details>`).join('')}
+      ${field('Name', `characters.${i}.name`, c.name, false)}${field('Job', `characters.${i}.role`, c.role, false)}
+      ${field('Relationship to event or victim', `characters.${i}.relationship`, c.relationship, false)}
+      ${field('Tie-in to the event', `characters.${i}.tieIn`, c.tieIn)}
+      ${field('Public introduction - no secrets', `characters.${i}.publicBlurb`, c.publicBlurb)}
+      ${field('First round as a ghost (leave blank unless the event map calls for it)', `characters.${i}.ghost.fromRound`, c.ghost?.fromRound || '', false)}
+      ${field('Ghost part from that round onward (one short, plot-advancing line per round)', `characters.${i}.ghost.parts`, c.ghost?.parts || [])}</details>`).join('')}
     <h2>Chapters - open only what you want to inspect</h2>
     ${story.rounds.map((r, ri) => `<details data-chapter="${ri}"><summary>Round ${ri + 1}: ${esc(r.title)}</summary>
       ${field('Chapter title', `rounds.${ri}.title`, r.title, false)}
       ${field('Host reads this aloud', `rounds.${ri}.narration`, r.narration)}
       ${field('Phone summary - same discoveries only', `rounds.${ri}.publicText`, r.publicText)}
+      ${field('Event-map beats in order (one per line)', `rounds.${ri}.events`, r.events)}
       <details><summary>Hosting instructions - do not read aloud</summary>${field('Instructions only', `rounds.${ri}.hostNotes`, r.hostNotes)}</details>
       ${story.characters.map((c, ci) => {
         const card = c.rounds[ri].readAloud;
         const target = story.characters.find(t => t.id === card.accuses);
         return `<h3>${esc(c.name)} reads about ${esc(target?.name || card.accuses)}</h3><p class="small muted">Source + recognition + observation + relevance + limits. Use {${esc(card.accuses)}} for the target.</p>
+          ${field('Observable fact about the target', `characters.${ci}.rounds.${ri}.readAloud.observation`, card.observation)}
+          ${field('Physical detail contradicting the target’s explanation', `characters.${ci}.rounds.${ri}.readAloud.contradictingDetail`, card.contradictingDetail)}
           ${field('Read-aloud clue', `characters.${ci}.rounds.${ri}.readAloud.text`, card.text)}`;
       }).join('')}</details>`).join('')}
     <details><summary>Final vote and solution - spoilers</summary>
@@ -421,6 +437,19 @@ for (const [name, decision] of Object.entries({ approve: 'approved', 'request-ch
 app.addEventListener('input', event => {
   const el = event.target;
   if (el.dataset.brief) brief[el.dataset.brief] = ['count', 'rounds'].includes(el.dataset.brief) ? Number(el.value) : el.value;
+  if (el.dataset.brief === 'count' && Number.isInteger(brief.count) && brief.count >= 3 && brief.count <= 23) {
+    const minimumRounds = brief.count - 1;
+    brief.rounds = Math.max(brief.rounds, minimumRounds);
+    const rounds = app.querySelector('#round-count');
+    if (rounds) {
+      rounds.min = String(minimumRounds);
+      rounds.value = String(brief.rounds);
+    }
+  }
+  if (el.dataset.brief === 'rounds' && Number.isInteger(brief.count) && brief.count >= 3) {
+    brief.rounds = Math.max(brief.rounds, brief.count - 1);
+    el.value = String(brief.rounds);
+  }
   if (el.id === 'draft-json' && draft) draft.rawJson = el.value;
 });
 app.addEventListener('change', async event => {

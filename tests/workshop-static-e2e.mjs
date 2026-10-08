@@ -31,7 +31,7 @@ try {
   await page.click('#btn-new');
   assert.match(await page.innerText('#app'), /Private workshop verification/);
   assert.match(await page.innerText('#app'), /User-created/);
-  for (const name of ['One', 'Two', 'Three', 'Four']) {
+  for (const name of ['One', 'Two', 'Three']) {
     await page.fill('#guest-name', name); await page.click('#add-guest');
   }
   await page.locator('[data-act="use-saved"]').click();
@@ -39,7 +39,7 @@ try {
   const story = await page.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story);
   assert.equal(story.title, draft.story.title);
   assert.equal(story.provenance.kind, 'user');
-  assert.equal(story.characters.length, 4);
+  assert.equal(story.characters.length, 3);
   assert.equal(errors.length, 0, errors.join('\n'));
   console.log('PASS static workshop creation, import, private save, reload, badge and playable game selection');
 } finally { await browser.close(); }

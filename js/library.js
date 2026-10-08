@@ -1,6 +1,3 @@
-import { accusationEvidence, assignAccusationCircles, validateAccusationCircles } from './accusations.js?v=rotating-clues-v1';
-import { selectEdition } from './edition-selection.js?v=count-editions-v1';
-
 export const STORY_LIBRARY_KEY = 'gg-story-library-v1';
 
 export function readStoryLibrary(raw) {
@@ -29,55 +26,24 @@ export function makeStoryTemplate(story) {
 }
 
 export function getPlayerRange(story) {
-  if (story.editions) {
-    const counts = Object.keys(story.editions).map(Number);
-    return { minPlayers: Math.min(...counts), maxPlayers: Math.max(...counts) };
-  }
-  const optionalCount = (story.characters || []).filter(character => character.optional).length;
-  const maxPlayers = (story.characters || []).length;
-  return { minPlayers: maxPlayers - optionalCount, maxPlayers };
+  const count = Number.isInteger(story.fixedPlayerCount) ? story.fixedPlayerCount : (story.characters || []).length;
+  return { minPlayers: count, maxPlayers: count };
 }
 
 export function adaptStoryForPlayers(template, guests, assignedGuests = guests) {
-  if (template.editions) return selectEdition(template, guests, assignedGuests);
-  if (template.edition && guests.length !== template.edition.playerCount) {
-    throw new Error(`This saved edition works for ${template.edition.playerCount} players. You listed ${guests.length}. Select the original mystery for a different edition.`);
+  const playerCount = Number.isInteger(template.fixedPlayerCount) ? template.fixedPlayerCount : (template.characters || []).length;
+  if (guests.length !== playerCount || assignedGuests.length !== playerCount) {
+    throw new Error(`This story is written for exactly ${playerCount} players. Provide exactly ${playerCount} player assignments.`);
   }
   const story = JSON.parse(JSON.stringify(template));
-  const characters = story.characters || [];
-  const required = characters.filter(character => !character.optional);
-  const optional = characters.filter(character => character.optional);
-  if (guests.length < required.length || guests.length > characters.length) {
-    throw new Error(`This mystery works for ${required.length === characters.length ? `${characters.length}` : `${required.length}–${characters.length}`} players. You listed ${guests.length}.`);
+  if (story.characters?.some(character => character.optional)) {
+    throw new Error('This story contains optional characters. Create a separate fixed-count story instead of scaling this one.');
   }
-
-  const selected = [...required, ...optional.slice(0, guests.length - required.length)];
-  if (selected.length !== characters.length && characters.some(c => c.rounds?.some(r => r.readAloud))) {
-    const errors = validateAccusationCircles(story);
-    if (errors.length) throw new Error(errors.join(' '));
-    const evidence = accusationEvidence(story);
-    story.characters = selected;
-    assignAccusationCircles(story, evidence);
-  }
-  const selectedIds = new Set(selected.map(character => character.id));
-  const omittedNames = Object.fromEntries(characters.filter(character => !selectedIds.has(character.id)).map(character => [character.id, character.name]));
-  story.characters = selected;
-
-  const replaceOmittedReferences = value => {
-    if (typeof value === 'string') {
-      return value.replace(/\{([A-Za-z0-9_-]+)\}/g, (match, id) => Object.hasOwn(omittedNames, id) ? omittedNames[id] : match);
-    }
-    if (Array.isArray(value)) return value.map(replaceOmittedReferences);
-    if (value && typeof value === 'object') {
-      for (const key of Object.keys(value)) value[key] = replaceOmittedReferences(value[key]);
-    }
-    return value;
-  };
-  replaceOmittedReferences(story);
   story.characters.forEach((character, index) => {
     character.guest = assignedGuests[index]?.name || '';
     character.guestNote = assignedGuests[index]?.desc || '';
   });
+  story.fixedPlayerCount = playerCount;
   return story;
 }
 

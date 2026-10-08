@@ -1,38 +1,46 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { blankStory, routingPlan, createPrompt, checkDraft, editedDraft, isEditableStory, REVIEW_ITEMS } from '../js/workshop-core.js';
-import blackwater from '../js/editions/blackwater-row.js';
 import { normalizeStory } from '../js/story.js';
 import { upsertStory, readStoryLibrary, adaptStoryForPlayers } from '../js/library.js';
 import { readyDraft } from './workshop-fixture.mjs';
 import { isOutdatedStory } from '../js/saved-content.js';
 
-test('every supported workshop count has deterministic unique rotating targets with maximal coverage', () => {
-  for (let count = 3; count <= 24; count++) {
-    for (const rounds of [5, 6]) {
-      const story = blankStory({ count, rounds });
-      assert.ok(isEditableStory(story));
-      for (let ri = 0; ri < rounds; ri++) {
-        assert.equal(new Set(story.characters.map(c => c.rounds[ri].readAloud.accuses)).size, count);
+test('every player count from 3 to 23 derives complete unique coverage', () => {
+  for (const count of Array.from({ length: 21 }, (_, i) => i + 3)) {
+    const story = blankStory({ count });
+    assert.ok(isEditableStory(story));
+    assert.ok(story.rounds.length >= count - 1);
+    const coverage = new Set();
+    story.rounds.forEach((round, ri) => {
+      assert.equal(new Set(round.chain).size, count);
+      assert.equal(round.chain.length, count);
+      assert.equal(round.coverageRepeat, ri >= count - 1);
+      const targets = story.characters.map(c => c.rounds[ri].readAloud.accuses);
+      assert.equal(new Set(targets).size, count, 'nobody is targeted twice in one round');
+      for (const character of story.characters) {
+        const reader = character.id;
+        const target = character.rounds[ri].readAloud.accuses;
+        assert.notEqual(reader, target);
+        if (ri < count - 1) {
+          assert.ok(!coverage.has(`${reader}>${target}`));
+          coverage.add(`${reader}>${target}`);
+        }
       }
-      for (const c of story.characters) {
-        const targets = c.rounds.map(r => r.readAloud.accuses);
-        assert.ok(!targets.includes(c.id));
-        assert.equal(new Set(targets).size, Math.min(rounds, count - 1));
-        assert.ok(targets.every((id, i) => i === 0 || id !== targets[i - 1]));
-      }
-      assert.match(routingPlan(story), /Round 1 -> c2/);
-    }
+    });
+    assert.equal(coverage.size, count * (count - 1));
+    assert.match(routingPlan(story), /Round 1 -> c2/);
   }
-  assert.throws(() => blankStory({ count: 2 }), /3 and 24/);
-  assert.throws(() => blankStory({ rounds: 4 }), /five or six/);
-  assert.throws(() => blankStory({ characters: 'Only one' }), /exactly 4/);
+  assert.throws(() => blankStory({ count: 2 }), /fixed player count/);
+  assert.throws(() => blankStory({ count: 5, rounds: 3 }), /at least 4 rounds/);
+  assert.equal(blankStory({ count: 3, rounds: 2 }).rounds.length, 2);
+  assert.throws(() => blankStory({ characters: 'Only one' }), /exactly 5/);
 });
 
 test('prompt includes exact assignments, immutable schema, concrete evidence and staged spoiler rules', () => {
   const draft = readyDraft();
   const prompt = createPrompt(draft, 'Make the evidence clearer');
-  for (const pattern of [/MANDATORY READER ASSIGNMENTS/, /Round 3 -> lydia/, /Benjamin Barker: Round 5/, /witness or record/, /ownership was recognized/, /limits of the inference/, /EVERY round/, /private backstory/, /before using them as proof/, /REQUESTED EDIT/, /unaffected facts/]) assert.match(prompt, pattern);
+  for (const pattern of [/MANDATORY READER ASSIGNMENTS/, /Round 3 -> c2/, /Benjamin Barker: Round 5/, /witness or record/, /ownership was recognized/, /limits of the inference/, /EVERY round/, /private backstory/, /before using them as proof/, /REQUESTED EDIT/, /unaffected facts/]) assert.match(prompt, pattern);
 });
 
 test('playable saves require both format checks and a creator narrative review', () => {
@@ -59,10 +67,12 @@ test('hidden phrases are checked in introductions, every early spoken surface an
 
 test('unknown references, wrong card targets and incomplete chapters block saves', () => {
   const draft = readyDraft();
+  const validClue = draft.story.characters[0].rounds[0].readAloud.text;
   draft.story.characters[0].rounds[0].readAloud.text += ' {unknown}';
   draft.story.rounds[1].publicText = '';
-  assert.match(checkDraft(draft).errors.join(' '), /unknown character reference/);
-  assert.match(checkDraft(draft).errors.join(' '), /only the assigned target/);
+  assert.match(checkDraft(draft).errors.join(' '), /unknown character reference|clue must be about its assigned target/);
+  assert.match(checkDraft(draft).errors.join(' '), /clue must be about its assigned target|only the assigned target/);
+  draft.story.characters[0].rounds[0].readAloud.text = validClue;
   assert.match(checkDraft(draft).errors.join(' '), /phone summary/);
 });
 
@@ -71,7 +81,7 @@ test('edits reset creator approval while preserving draft identity and source st
   copy.title = 'New title';
   const revised = editedDraft(draft, copy);
   assert.equal(revised.id, draft.id);
-  assert.equal(draft.story.title, blackwater[4].title);
+  assert.equal(draft.story.title, 'A test mystery');
   assert.deepEqual(revised.review, {});
 });
 
@@ -80,7 +90,7 @@ test('user-created provenance survives saves, import, normalization and guest as
   story.provenance = { kind: 'community', author: 'A creator', revision: 3, submissionId: 'submission' };
   const saved = upsertStory([], story, 'community-story');
   const restored = readStoryLibrary(JSON.stringify(saved.entries))[0].story;
-  const normalized = normalizeStory(adaptStoryForPlayers(restored, Array.from({ length: 4 }, (_, i) => ({ name: `Guest ${i}`, desc: '' }))));
+  const normalized = normalizeStory(adaptStoryForPlayers(restored, Array.from({ length: 3 }, (_, i) => ({ name: `Guest ${i}`, desc: '' }))));
   assert.deepEqual(normalized.story.provenance, story.provenance);
   assert.ok(normalizeStory({ ...story, provenance: { ...story.provenance, revision: -1 } }).errors.length);
   story.title = 'The Last Will at Briar House';

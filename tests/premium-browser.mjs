@@ -47,7 +47,8 @@ async function pageFor(user = null) {
 }
 async function click(page, selector) {
   await page.locator(selector).first().click();
-  await page.waitForFunction(() => !document.querySelector('#shop [data-shop]:disabled:not([data-shop^="buy-"]):not([data-shop="capture-return"])'));
+  await page.waitForFunction(() => !document.querySelector(
+    '#shop [data-action]:disabled, #shop [data-shop]:disabled:not([data-shop^="buy-"]):not([data-shop="capture-return"])'));
 }
 async function loaded(page) { await page.getByRole('heading', { name: 'Shadow Societies: Two-Game Bundle', exact: true }).waitFor(); }
 try {
@@ -79,45 +80,55 @@ try {
   check('purchased game selector includes both games', await anonymous.locator('#lab-game option').count() === 2);
   await anonymous.fill('#lab-names', 'One');
   await click(anonymous, '[data-action="lab-create"]');
-  check('invalid player count is surfaced', (await anonymous.locator('#shop-error').innerText()).includes('3-10'));
+  check('invalid player count is surfaced', (await anonymous.locator('#shop-error').innerText()).includes('exactly 5'));
   let finalSealed;
-  for (const gameId of ['lanternfall', 'ledger']) for (const count of [3, 10]) {
+  for (const gameId of ['lanternfall', 'ledger']) {
     await anonymous.selectOption('#lab-game', gameId);
-    await anonymous.fill('#lab-names', Array.from({ length: count }, (_, index) => `Guest ${index + 1}`).join('\n'));
+    await anonymous.fill('#lab-names', Array.from({ length: 5 }, (_, index) => `Guest ${index + 1}`).join('\n'));
     await click(anonymous, '[data-action="lab-create"]');
-    check(`${gameId}/${count}: private roles hidden before handoff`, !(await anonymous.locator('#shop').innerText()).includes('Secret allies:'));
-    for (let i = 0; i < count; i++) {
+    check(`${gameId}: pass-and-play starts with setup`, snapshot.state.phase === 'setup' &&
+      (await anonymous.locator('#shop').innerText()).includes('Read the story setup aloud'));
+    await click(anonymous, '[data-action="lab-start-introduction"]');
+    for (let i = 0; i < 5; i++) {
       await click(anonymous, '[data-action="lab-reveal"]');
-      await click(anonymous, '[data-action="lab-next-card"]');
+      check(`${gameId}: character card ${i + 1} appears for read-around`,
+        (await anonymous.locator('#shop').innerText()).includes('Character card'));
+      await click(anonymous, '[data-action="lab-read-card"]');
     }
-    await click(anonymous, '[data-action="lab-reveal"]');
-    const roundBeforeReload = snapshot.state.round;
-    await anonymous.reload(); await loaded(anonymous);
-    await click(anonymous, '[data-shop="play-pass"]');
-    check(`${gameId}/${count}: refresh retains saved match but conceals private turn`, snapshot.state.round === roundBeforeReload &&
-      await anonymous.locator('[data-action="lab-reveal"]').count() === 1 && await anonymous.locator('#lab-target').count() === 0);
+    await click(anonymous, '[data-action="lab-start-rounds"]');
+    await anonymous.reload(); await loaded(anonymous); await click(anonymous, '[data-shop="play-pass"]');
+    check(`${gameId}: refresh retains the story phase`, snapshot.state.phase === 'round-intro');
     let steps = 0;
     while (snapshot.state.phase !== 'finished') {
       assert.ok(steps++ < 100, 'premium match should terminate');
-      if (snapshot.state.phase === 'discussion') {
-        await click(anonymous, '[data-action="lab-notes"]');
-        for (const player of snapshot.state.players.filter(player => !player.detained)) {
-          await click(anonymous, '[data-action="lab-reveal"]');
-          check(`${gameId}/${count}: private dawn note ${player.id}`, (await anonymous.locator('#shop').innerText()).includes('Private note:'));
-          await click(anonymous, '[data-action="lab-next-card"]');
-        }
-        await click(anonymous, '[data-action="lab-council"]');
-      } else {
+      const phase = snapshot.state.phase;
+      if (phase === 'round-intro') await click(anonymous, '[data-action="lab-start-clues"]');
+      else if (phase === 'round') {
         await click(anonymous, '[data-action="lab-reveal"]');
-        if (snapshot.state.phase === 'vote') await anonymous.selectOption('#lab-target', '');
-        await click(anonymous, '[data-action="lab-submit"]');
-      }
+        await click(anonymous, '[data-action="lab-read-clue"]');
+      } else if (phase === 'deliberation') await click(anonymous, '[data-action="lab-open-vote"]');
+      else if (phase === 'vote' || phase === 'final-vote') {
+        await click(anonymous, '[data-action="lab-reveal"]');
+        await click(anonymous, '[data-action="lab-vote"]');
+      } else if (phase === 'final-accusation') {
+        check(`${gameId}: final accusation precedes final vote`,
+          await anonymous.locator('[data-action="lab-open-final-vote"]').count() === 1);
+        await click(anonymous, '[data-action="lab-open-final-vote"]');
+      } else if (phase === 'reveal') {
+        check(`${gameId}: fixed full-story reveal shown`, (await anonymous.locator('#shop').innerText()).includes('Fixed story reveal'));
+        finalSealed = snapshot;
+        await click(anonymous, '[data-action="lab-finish-reveal"]');
+      } else if (phase === 'setup') await click(anonymous, '[data-action="lab-start-introduction"]');
+      else if (phase === 'introduction') {
+          await click(anonymous, '[data-action="lab-reveal"]');
+          await click(anonymous, '[data-action="lab-read-card"]');
+      } else if (phase === 'intro-discussion') await click(anonymous, '[data-action="lab-start-rounds"]');
+      else assert.fail(`Unexpected premium story phase: ${phase}`);
     }
-    finalSealed = snapshot;
-    check(`${gameId}/${count}: full purchased match reaches final reveal`, (await anonymous.locator('#shop').innerText()).includes('Final reveal'));
+    check(`${gameId}: pass-and-play finishes the fixed story`, snapshot.state.phase === 'finished');
     for (const width of [320, 390, 768]) {
       await anonymous.setViewportSize({ width, height: 844 });
-      check(`${gameId}/${count}: ${width}px no overflow`, await anonymous.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      check(`${gameId}: ${width}px no overflow`, await anonymous.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
     }
     await anonymous.setViewportSize({ width: 390, height: 844 });
     await click(anonymous, '[data-action="lab-restart"]');

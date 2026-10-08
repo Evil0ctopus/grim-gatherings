@@ -13,8 +13,13 @@ const concurrency = Number(process.argv[4] || 3);
 if (!logDirectory || !path.isAbsolute(logDirectory)) throw new Error('Provide an absolute directory for browser test logs.');
 if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 3) throw new Error('Concurrency must be 1, 2 or 3.');
 fs.mkdirSync(logDirectory, { recursive: true });
-const cases = [{ id: 'sample', editions: sample }, ...STARTER_MYSTERIES.map(e => ({ id: e.id, editions: e.story.editions }))]
-  .flatMap(family => Object.keys(family.editions).map(Number).map(count => ({ id: family.id, count })));
+const cases = [
+  ...Object.keys(sample).map(Number).map(count => ({ id: 'sample', count })),
+  ...STARTER_MYSTERIES.map(entry => ({
+    id: entry.story.edition.family,
+    count: entry.story.fixedPlayerCount,
+  })),
+];
 const completed = [];
 let next = 0;
 let contextsInUse = 0;

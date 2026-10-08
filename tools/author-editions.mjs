@@ -18,13 +18,6 @@ const plans = {
     questions: ['Who moved when the light failed?', 'Which dispute connects to the medicine?', 'Why did Ambrose arrange this gathering?', 'Which accusation survives the clean decanter?', 'Whose account explains both deaths?'],
   },
   'mercy-hollow': {
-    clueOpeners: [
-      '{source} asks the room to consider {target}: ',
-      '{source} turns attention to {target}: ',
-      'One detail about {target}, noted by {source}, deserves a closer look: ',
-      '{source} questions how {target} fits the evidence: ',
-      'As the final comparison begins, {source} returns to {target}: ',
-    ],
     investigations: [
       ['the records-room entry', 'the missing packet', 'the warning at the body'],
       ['the false confession', 'the payment column', 'the purpose of the retraction'],
@@ -54,6 +47,20 @@ const plans = {
     ],
     questions: ['Which statement conflicts with the study exit?', 'Who actually loses under the will?', 'Can a sound establish an alibi?', 'What independently checks the corridor account?', 'Who needed these specific records gone?'],
   },
+};
+
+const storyThreads = {
+  sample: 'A staged séance and Ambrose’s prepared instructions conceal a poisoning plan inside the blackout.',
+  'mercy-hollow': 'The missing packet, false confession and payment record connect a profitable forgery behind the village’s witch-trial panic.',
+  'blackthorn-farm': 'The attic haunting is staged to hide a boundary alteration and the payment attached to the north spring.',
+  'briar-house': 'A continuing bell and selectively missing legal papers conceal a chain of trust transfers behind the inheritance rumors.',
+};
+
+const specialMechanics = {
+  sample: 'Blackout reconstruction: compare each movement account with the lamp sequence; darkness explains concealment but does not identify who acted.',
+  'mercy-hollow': 'Forgery comparison: keep the confession, signed retraction and payment record distinct until the physical and timeline evidence connects them.',
+  'blackthorn-farm': 'Staged-haunting test: do not treat an unexplained sound or footprint as supernatural proof; compare its age, source and physical corroboration.',
+  'briar-house': 'Bell-timing test: the bell can establish that a mechanism sounded, not who was present; compare it with independent corridor records.',
 };
 
 // Each delivery is part of the written scene. A smaller edition consolidates the work
@@ -98,27 +105,53 @@ function resolveAbsent(value, names, present) {
   return value;
 }
 
+function prepareClue(clue, targetId, names) {
+  const body = clue.text
+    .replace(/^\{[^}]+\}\s*(?:asks the room to consider|turns attention to|questions how)\s+\{[^}]+\}:\s*/i, '')
+    .replace(/^One detail about \{[^}]+\}, noted by \{[^}]+\}, deserves a closer look:\s*/, '')
+    .replace(/^At the evidence table, \{[^}]+\} brings the case against \{[^}]+\} into the discussion\.\s*/, '')
+    .replace(/\{([A-Za-z0-9_-]+)\}/g, (reference, id) => id === targetId ? reference : names[id] || reference)
+    .trim();
+  const sentences = body.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map(sentence => sentence.trim()).filter(Boolean) || [];
+  if (sentences.length < 2) throw new Error(`Clue about ${names[targetId] || targetId} needs both an observation and a contradicting detail.`);
+  clue.observation = sentences[0];
+  clue.contradictingDetail = sentences.slice(1).join(' ');
+  clue.text = `About {${targetId}}: ${body}`;
+}
+
 function authorEdition(source, family, count) {
   let story = structuredClone(source);
   const names = Object.fromEntries(story.characters.map(c => [c.id, c.name]));
   const evidence = accusationEvidence(story);
   story.characters = story.characters.slice(0, count);
-  story.characters.forEach(c => { c.optional = false; c.guest = ''; c.guestNote = ''; });
+  story.characters.forEach(c => {
+    c.optional = false; c.guest = ''; c.guestNote = '';
+    c.relationship = c.role;
+    c.tieIn = c.publicBlurb;
+    c.ghost ??= null;
+  });
   assignAccusationCircles(story, evidence);
   story = resolveAbsent(story, names, new Set(story.characters.map(c => c.id)));
+  story.fixedPlayerCount = count;
+  story.clueRouting = 'rotating';
   story.edition = { family, playerCount: count, id: `${family}-${count}-players`, revision: 1 };
   story.discloseKiller = false;
   const plan = plans[family];
+  story.hiddenThread = storyThreads[family];
+  if (story.rounds.length > count - 1) {
+    const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+    const ordinals = ['', 'first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth'];
+    const word = n => words[n] || String(n);
+    const extra = story.rounds.length - (count - 1);
+    story.coverageRepeatNote = `The story has ${word(story.rounds.length)} event chapters, but ${word(count)} players complete clue coverage in ${word(count - 1)} rounds; ${extra === 1 ? `the ${ordinals[story.rounds.length] || 'final'} chapter needs one round` : `the last ${word(extra)} chapters need rounds`} of repeated reader-to-target pairs.`;
+  }
+  story.specialMechanics = [specialMechanics[family]];
   story.intro += `\n\nTonight's ${count} guests carry the investigation themselves. Their observations and the records read at the table are public; nobody needs a hidden packet or an extra actor.`;
   story.rounds.forEach((chapter, ri) => {
-    const assignments = story.characters.map((c, sourceIndex) => {
+    chapter.events = [...plan.investigations[ri]];
+    const assignments = story.characters.map(c => {
       const target = story.characters.find(t => t.id === c.rounds[ri].readAloud.accuses);
-      const customOpeners = plan.clueOpeners;
-      const customOpener = customOpeners?.[(ri + sourceIndex) % customOpeners.length];
-      const opener = customOpener
-        ? customOpener.replaceAll('{source}', `{${c.id}}`).replaceAll('{target}', `{${target.id}}`)
-        : `At the evidence table, {${c.id}} brings the case against {${target.id}} into the discussion. `;
-      c.rounds[ri].readAloud.text = `${opener}${c.rounds[ri].readAloud.text}`;
+      prepareClue(c.rounds[ri].readAloud, target.id, names);
       return `{${c.id}} leads the comparison concerning {${target.id}}.`;
     });
     const present = new Set(story.characters.map(c => c.id));
@@ -165,11 +198,13 @@ function authorEdition(source, family, count) {
 const output = new URL('../js/editions/', import.meta.url);
 fs.mkdirSync(output, { recursive: true });
 const sample = {};
-for (let n = 3; n <= 24; n++) sample[n] = authorEdition(buildSampleStory(guests(n)), 'sample', n);
+for (const n of [5]) sample[n] = authorEdition(buildSampleStory(guests(n)), 'sample', n);
 const families = { sample };
 for (const entry of STARTER_MYSTERIES) {
   families[entry.id] = {};
-  for (let n = 3; n <= entry.story.characters.length; n++) families[entry.id][n] = authorEdition(entry.story, entry.id, n);
+  for (const n of [5]) {
+    if (n <= entry.story.characters.length) families[entry.id][n] = authorEdition(entry.story, entry.id, n);
+  }
 }
 for (const [family, editions] of Object.entries(families)) {
   fs.writeFileSync(new URL(`${family}.js`, output), `// Committed, standalone count-specific editions. Rebuild only with tools/author-editions.mjs.\nexport default ${JSON.stringify(editions, null, 2)};\n`);

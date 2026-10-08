@@ -42,12 +42,12 @@ function loginHtml() {
 }
 function bundleHtml(bundle) {
   return `<section class="card gold"><h2>${esc(bundle.title)}</h2><p><b>$${esc(bundle.amount)} ${esc(bundle.currency)} once for BOTH games.</b> No subscription. Replay for personal, non-commercial game nights while the service operates.</p>
-    <h3>The Lanternfall Covenant</h3><p>Protect a fog-bound village's boundary lanterns while hidden Hollow sabotage the covenant. Secret roles, nightly wards and investigations, discussion and majority ballots.</p>
-    <h3>The Black Ledger Society</h3><p>Expose counterfeiters at a midnight auction. Secret roles, debt attacks, escrow shields, private receipt reports and influence-weighted ballots.</p>
-    <ul><li>Each game supports 3-10 players and up to four night/council rounds, followed by a final reveal.</li>
-    <li><b>One host buys; everyone joins free on their own phone.</b> The host creates an eight-character room code. Guests receive only their own private roles, actions and ballots; no guest account is required.</li>
-    <li>Purchases stay with your account across devices. Phone rooms persist for 24 hours; reconnect on the same browser to keep your seat. Optional pass-and-play saves only in this browser. Do not share your password.</li>
-    <li>Mature fictional threats, deception and detention. These are social-deduction games, not the free five-chapter narrated mysteries. The free game catalog remains free.</li></ul>
+    <h3>The Lanternfall Covenant</h3><p>Investigate Orren’s death and a boundary scheme through public lantern records, physical traces and a fixed, target-chained clue story.</p>
+    <h3>The Black Ledger Society</h3><p>Investigate Ivo’s death and a forged-debt scheme through public auction records, counterfoils and a fixed, target-chained clue story.</p>
+    <ul><li>Each story is written for exactly five players and follows the same setup, read-aloud character cards, precomputed clue chains, deliberation and vote after every round, final accusation, final vote and fixed full-story reveal as the free stories.</li>
+    <li><b>One host buys; everyone joins free on their own phone.</b> The host creates an eight-character room code. Guests join the story on their own phones; no guest account is required.</li>
+    <li>Purchases stay with your account across devices. Phone rooms persist for 24 hours; reconnect on the same browser to keep your seat. Optional pass-and-play uses the same story flow on one trusted device and saves only in this browser. Do not share your password.</li>
+    <li>The lantern and counterfeit-ledger evidence are story-specific mechanics layered on the universal flow. The free game catalog remains free.</li></ul>
     ${catalog.environment === 'sandbox' ? '<p class="err"><b>TEST MODE:</b> sandbox funds only; these purchases never unlock live purchases.</p>' : ''}
     ${catalog.checkoutNotice ? `<p class="card" role="status">${esc(catalog.checkoutNotice)}</p>` : ''}
     ${catalog.owned ? `<p class="pill ok">Owned by this account</p><button data-shop="play">Host a room - play my purchased games</button><button class="secondary" data-shop="play-pass">Optional pass-and-play</button><button class="secondary" data-shop="discard">Discard saved pass-and-play match</button>` : `
@@ -102,7 +102,7 @@ const actions = {
   async 'play-pass'() {
     room = createGameRoom({ endpoint: '/api/premium/games',
       storageKey: `gg-premium-${catalog.environment}-${user.id}`,
-      noticeHtml: '<div class="card"><b>Purchased pass-and-play games</b><p>One trusted device, 3-10 players. Everyone looks away during private turns. No remote phone room. Your match saves in this browser; your purchase stays in your account.</p></div>',
+      noticeHtml: '<div class="card"><b>Purchased pass-and-play stories</b><p>One trusted device, exactly five players. The fixed setup, character read-around, clue chains, deliberation and votes, final accusation and reveal apply here too. Your match saves in this browser; your purchase stays in your account.</p></div>',
     });
     await room.open(); playing = true;
   },

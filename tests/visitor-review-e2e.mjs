@@ -57,7 +57,7 @@ try {
       await page.setViewportSize({ width: 390, height: 844 });
       await page.goto(base);
       await page.click('#btn-new');
-      for (const guest of ['Avery', 'Blake', 'Casey', 'Drew']) {
+      for (const guest of ['Avery', 'Blake', 'Casey', 'Drew', 'Elliot']) {
         await page.fill('#guest-name', guest);
         await page.click('#add-guest');
       }
@@ -65,10 +65,8 @@ try {
       check(`${name}: séance description normalized`, description.includes('séance'));
       const tree = await page.locator('#app').ariaSnapshot();
       check(`${name}: first story description occurs once in accessibility tree`, tree.split(description).length === 2);
-      check(`${name}: Blackwater has no personal-name credit`, !(await page.locator('#app').innerText()).includes("Melissa's"));
       await fits(page, `${name}: setup`);
-      await page.click('[data-act="use-starter"][data-id="blackwater-row"]');
-      const original = await page.evaluate(() => localStorage.getItem('gg-host-v1'));
+      await page.click('[data-act="use-starter"][data-id="mercy-hollow-5"]');
       await page.click('[data-act="back-setup"]');
       const beforeReplacement = await page.evaluate(() => localStorage.getItem('gg-host-v1'));
       await confirmClick(page, '#use-sample', false);
@@ -81,26 +79,33 @@ try {
       await confirmClick(page, '#use-sample', true);
       check(`${name}: confirmed story replacement resets progress`, await page.evaluate(() => {
         const state = JSON.parse(localStorage.getItem('gg-host-v1'));
-        return state.story.title === 'The Last Séance at Ravenmoor' && state.roundIndex === -1 && !state.wasLive && Object.keys(state.votes).length === 0;
+        return state.story.title.startsWith('The Last Séance at Ravenmoor') && state.roundIndex === -1 && !state.wasLive && Object.keys(state.votes).length === 0;
       }));
-      // Restore the reviewed Blackwater fixture to exercise the exact reported finale.
-      await page.evaluate(value => localStorage.setItem('gg-host-v1', value), original);
-      await page.reload();
       await page.click('#open-lobby');
       await page.waitForFunction(() => document.querySelector('#host-awake-help')?.textContent.includes('is active'));
       check(`${name}: live host requests screen sleep prevention`, await page.evaluate(() => wakeRequests === 1));
       await fits(page, `${name}: lobby`);
       await page.click('#start-game');
+      const story = await page.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story);
       for (let round = 0; round < 5; round++) {
         await fits(page, `${name}: round ${round + 1}`);
+        for (const _reader of story.rounds[round].chain) await page.click('#next-reader');
         await page.click('#next-round');
+        await fits(page, `${name}: deliberation ${round + 1}`);
+        await page.click('#open-vote');
         await fits(page, `${name}: vote ${round + 1}`);
         if (round < 4) await page.click('#next-round');
       }
       await confirmClick(page, '#reveal-btn', false);
       check(`${name}: cancelling no-vote reveal keeps final voting`, await page.locator('#reveal-btn').count() === 1);
       await confirmClick(page, '#reveal-btn', true);
-      check(`${name}: killer reveal and solution reachable`, (await page.locator('#killer-name').innerText()) === 'Xander Hale' && (await page.locator('#app').innerText()).includes('Benjamin Barker'));
+      const killer = story.characters.find(character => character.id === story.solution.killerId);
+      const names = Object.fromEntries(story.characters.map(character => [character.id, character.name]));
+      names.victim = story.victim.name;
+      const explanation = story.solution.explanation.replace(/\{([A-Za-z0-9_-]+)\}/g, (match, id) => names[id] || match);
+      check(`${name}: killer reveal and solution reachable`,
+        (await page.locator('#killer-name').innerText()) === killer.name &&
+        (await page.locator('#app').innerText()).includes(explanation));
       await fits(page, `${name}: reveal`);
       await confirmClick(page, '[data-act="end"]', false);
       check(`${name}: cancelling end preserves finale and room`, await page.locator('#killer-name').count() === 1 && await page.evaluate(() => !!localStorage.getItem('gg-host-v1')));

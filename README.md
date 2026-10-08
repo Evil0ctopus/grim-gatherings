@@ -1,6 +1,6 @@
 # 🕯️ Grim Gatherings
 
-A murder-mystery party web app. In the free narrated mysteries, the host reads the current chapter's narration; every guest joins on their phone and reads one event-related clue aloud each round. **All free-mystery evidence is spoken to the group: no secret clues, private backstories or hidden motives.** Everyone reads about one other character and receives exactly one read-aloud clue about them, discusses the evidence, and votes. Assignments use complete circles or explicitly authored rotating routes. Separate premium social-deduction games use private roles delivered to each player's phone through a room code; one host buys and guests join free.
+A murder-mystery party web app. Every story, including premium stories, follows the same fixed-count flow: read-aloud setup and character cards, precomputed target-chained clue rounds, discussion and a vote after every round, final accusations and vote, then a fixed full-story reveal. Clues are public evidence about another character; story-specific mechanics come from that story's events. One host buys premium access and guests join free.
 
 **Production:** https://grimgatherings.com/ (new DNS may take time to propagate)
 
@@ -57,7 +57,7 @@ and verify actual collection before claiming the counter is live.
 
 - The existing game and private workshop need no server, account or build step: plain HTML/CSS/vanilla JS (ES modules) on GitHub Pages. Shared drafts, submissions and approval use Supabase (the preferred free hosting route) or the optional Node community service.
 - Real-time sync over WebRTC using [PeerJS](https://peerjs.com/) and its free public broker; the host's browser is the hub.
-- Includes five ready-to-play mystery families with fixed player-count editions, including **The Last Séance at Ravenmoor** (5 evidence rounds + reveal, 3–24 guests) and **The Barber of Blackwater Row** (exactly 4 guests). Zero AI setup needed.
+- Includes four ready-to-play mystery families, each with one fixed five-player story. Zero AI setup needed.
 - Import/export story JSON (format below), so stories can be written by hand or by any AI assistant.
 - Optional: generate a story with Google Gemini's free API tier (requires your own API key; stored only in your browser). Other OpenAI-compatible services can be configured in advanced settings.
 - Save authored mysteries in **My Stories** and reuse them later in the same browser.
@@ -100,26 +100,25 @@ The home screen has **My account**, opening [the account screen](workshop.html?a
 ### Owner developer playroom
 
 After signing into the workshop with the trusted administrator account, choose
-**Developer playroom**. Two original social-deduction prototypes are available
-there, not in the free game selector or community catalog. The premium shop
-offers the same two games separately through account-bound purchase access:
+**Developer playroom**. The two premium stories are available there for owner
+testing and in the shop through account-bound purchase access:
 
-- **The Lanternfall Covenant**: occult hidden factions, three boundary lanterns,
-  rotating wards, anonymous visitor observations, and secret council ballots.
-- **The Black Ledger Society**: underworld hidden factions, counterfeit debts,
-  escrow shields, credit restoration, and influence-weighted secret ballots.
+- **The Lanternfall Covenant**: occult evidence involving three boundary
+  lanterns, rotating wards and visitor observations.
+- **The Black Ledger Society**: underworld evidence involving counterfeit
+  debts, escrow shields and credit restoration.
 
-Both support **3-10 players**, randomized private roles, simultaneous night
-resolution, dawn discussion, detention, and complete win/reveal states. A
-four-night objective limit replaces automatic parity wins, including at three
-players. Read the full rules in the playroom before testing.
+Each is written for exactly **five players** and follows the universal story
+flow. The lantern and counterfeit-ledger evidence remain story-specific
+mechanics layered on that flow; randomized secret factions, night actions,
+detention and separate faction win conditions were removed because they formed
+a separate gameplay loop.
 
-This version is **pass-and-play on one trusted owner device**, or solo testing
-by controlling all seats. It does not create phone rooms or remote multiplayer
-sessions. Cards are concealed between handoffs; nobody needs the owner password.
+The owner playroom is **pass-and-play on one trusted owner device**, or solo
+testing by controlling all seats. The shop additionally supports phone rooms.
 The owner account/device is trusted and can inspect all test data. Refreshing,
-closing the page, or logging out discards the in-memory test. Do not enter real
-financial or personal information.
+closing the page, or logging out discards the in-memory playroom test. Do not
+enter real financial or personal information.
 
 The backend checks the database admin role for every catalog and action request.
 Rules, roles and game resolution stay in server modules, excluded from the static
@@ -130,20 +129,22 @@ source is still visible in this project's GitHub repository; authenticated play
 access does not make repository source confidential.
 
 Run `npm run test:developer` and `npm run test:developer-browser` for engine
-and complete 3-10 player browser coverage. Human balance/fun playtesting remains
-important; automation does not certify it.
+and complete five-player browser coverage. Human balance/fun playtesting
+remains important; automation does not certify it.
 
 ### One-time premium bundle
 
 [Premium games](shop.html) offers **Shadow Societies: Two-Game Bundle**:
 The Lanternfall Covenant and The Black Ledger Society, **$9.99 USD once for both**.
-One host buys; guests play free. These are 3-10-player social-deduction games,
-not the free five-chapter format. Choose **Host a room** in the shop, select a
-game/player count, and share the eight-character code or guest link. Guests use
+One host buys; guests play free. Both stories are written for exactly five
+players and use the same setup, read-around, target-chain, discussion/vote,
+final-accusation, final-vote and reveal phases as the free stories. Choose
+**Host a room** in the shop and share the eight-character code or guest link. Guests use
 [premium room joining](premium-room.html) without accounts or purchases. The
-host verifies lobby names and deals roles; each phone receives only its own
-role, private reports and eligible actions. The host opens ballots after
-discussion, and the server resolves all committed actions together.
+host verifies lobby names and advances public phases; each phone presents its
+assigned read-aloud card or clue and the current player's vote controls. The
+server validates the scheduled reader and voter and protects the fixed reveal
+until its phase.
 Purchases belong to the signed-in game account across devices, not the PayPal
 email. Rooms last 24 hours with up to three active rooms per host. Reconnect
 using the same browser's private seat token. Refunds/disputes stop hosted-room
@@ -173,11 +174,11 @@ merchant checks. Run `npm run test:payments`, `npm run test:payments-browser`
 and `npm run check:edge`. The optional SQLite community server does not sell
 premium access; payments use the hosted Supabase service.
 
-1. Choose **3-24 players**, five or six rounds, a setting and an idea. Optional characters are entered one per line as `Name | job`. Instructions are simple; story content is intended for teens and adults, not young children.
-2. Open the draft. Its reader assignments are preplanned: every round has unique targets, no self-targets, and every reader changes targets. Readers cover all other characters before repeating when rounds permit; a five-round story cannot cover 23 other characters for each reader.
+1. Choose a supported fixed player count, a setting and an idea. The workshop derives at least N−1 rounds; add more only when the event arc needs them. Enter exactly one character per player. The player count equals the story's playable characters. In every round each player reads one clue about another player and nobody is talked about twice; the character talked about reads next, and if a loop closes early the next unread player starts a new loop, so every count from 3 upward (odd or even) works. Across the first N−1 rounds every reader clues every other player exactly once. A reader may repeat a target only in extra rounds after full coverage, and only when the story requires it: the submitter must explain why in `coverageRepeatNote`. Story content is intended for teens and adults, not young children.
+2. Open the draft. Its complete target chain is preplanned for every round. During the first N−1 rounds, every reader covers every other character exactly once; any later repeated pairs are explicitly marked.
 3. Write directly, **Copy story prompt** to a preferred AI, or use a configured AI service. A copy-prompt workflow needs no API key. Import the returned complete JSON. Explicit AI calls send the idea/draft to the chosen provider; provider costs, data policies and limits apply. No other workshop action calls AI. A generation makes one initial call and at most two format-repair calls; unrepaired output is retained for manual correction, not declared ready. **Ask my AI to review the story** is a separate optional narrative-review call; it reports specific suggestions without modifying the story, checking the human-review boxes or granting approval.
 4. Edit as many times as needed. Field changes save when focus leaves the field. **Earlier versions** restores a previous snapshot without deleting history. If two workshop tabs edit the same device draft, a stale save reports a conflict instead of overwriting the newer draft; its text is retained in Earlier versions. Reopen the latest draft before continuing, or download a backup. Chapter previews and the solution are collapsed. No fixed revision limit is imposed, but device storage, backend disk space and request-size limits still apply. Download a draft backup for safekeeping; private browsing, browser cleanup or changing origins can lose device-only drafts.
-5. Use **Keep these facts hidden until...** for exact-phrase release checks. These check introductions, public blurbs, early narration/cards/phone summaries and the repeated voting prompt. They cannot detect paraphrased or implied spoilers. **Check my story** verifies game structure, routing, references and release rules. The creator must also review evidence sources/recognition/limits, narrative pacing, already-spoken solution proof and content. Changes reset that review. Human review is necessary; automated checks do not certify narrative quality.
+5. Use **Keep these facts hidden until...** for exact-phrase release checks. These check introductions, public blurbs, early narration/cards/phone summaries and the repeated voting prompt. They cannot detect paraphrased or implied spoilers. **Check my story** verifies fixed count, event map, character ties, target chains, coverage, clue components and release rules. The creator must also review evidence sources/recognition/limits, narrative pacing, already-spoken solution proof and content. Changes reset that review. Human review is necessary; automated checks do not certify narrative quality.
 6. **Save playable story** creates/updates a private game in My Stories with **User-created** and an author credit. It does not publish. A draft edit does not alter the saved playable copy or an active game. To play, go home, create a game, add the matching player count and choose the saved story.
 7. Optionally log in and **Back up to my account** for cross-device drafts and account revision history. Account backups retain incomplete drafts too. Downloads from account history can be imported using the workshop backup format. Concurrent saves use revision checks rather than overwriting another device's work.
 8. **Submit for approval** requires a complete reviewed story and explicit permission to publish an original fictional work with account author credit. It saves and submits an immutable version. Later edits need another submission. The author sees pending, requested changes, rejection and publication feedback in Account.
@@ -308,7 +309,13 @@ Guests who refresh, lock their phone, or lose signal just reopen the same link �
 - If the host **releases** a character, the old phone returns to the name picker; the same phone or a replacement can select it again, even mid-round. Releasing or switching characters does **not** erase any character's submitted ballots. The next holder can change that character's current-round vote while voting is open.
 - For persistent failures, confirm the **room code** and that the host shows **Live**, then try Wi-Fi or mobile data. Unsupported browsers display a specific WebRTC error rather than retrying indefinitely; use an up-to-date Safari or Chrome browser instead of an embedded app browser. A broker outage or network that blocks WebRTC cannot be repaired by resetting characters.
 
-Every mystery must have **5 or 6 rounds**; all built-in editions have five. Their read-aloud assignments are written and stored in advance and never rebuilt during play. Blackwater Row rotates each reader through all three other characters by Round 3, then continues changing targets. Clues progress from initial circumstances and suspicion, through linked documents and timelines, to round 4 corrections and round 5 conclusions. Later evidence explains earlier behavior rather than inventing convenient alibis. Story events are spoken in evidence and narration; no acting is required.
+## Universal story flow
+
+Every story, free or premium, uses the same phases: introduction and read-around; clue rounds; deliberation and a vote after every round; final accusations and a final vote; then the complete fixed reveal. The host reads the setup and each player's character card aloud. In every clue round, a reader reads one clue about another character, then that target reads next; the chain continues until everyone has read once. Player-specific clues remain locked until their scheduled turn.
+
+Rounds are derived from the fixed cast: at least **N−1** rounds are required for each player to read about every other player exactly once. Complete target chains and the full reader-to-target coverage matrix are precomputed into the story. Extra event beats may add rounds only after coverage is complete; any repeated pairs are explicitly marked. Nothing about the chain is generated during play.
+
+Ghosts are story-specific, not automatic: a character returns as a ghost only when that story's events call for it. A returning player keeps their chain turn; their short ghost line must advance the story. Other special mechanics likewise come from that story's event map. Clues are target-focused and include an observation plus a physical detail that contradicts the target's explanation. No acting or improvised story facts are needed.
 
 Player screens grow with the investigation. **How the evidence against you has changed** collects released clues about the character. **The room's evidence notebook** retains the **complete spoken narration** and every read-aloud clue at voting. The current narrator text is also available on phones; each current script stays with its reader until voting. Future chapters remain locked. Corrections are evidence to assess, not automatic innocent/guilty badges. Refresh and rewind reconstruct the released history. PeerJS binary chunking supports the larger notebooks.
 
@@ -316,39 +323,26 @@ Vote share is the percentage of all ballots cast across the released rounds, not
 
 Players can use **Leave game → Home** at any stage, including the reveal. Connected players release their character before returning home; if disconnected, the host may need to release it manually. Leaving does not end the gathering for others. Hosts have **End game → Home**, with confirmation, to end the gathering for everyone. After the host ends it, players see **Return home**.
 
-**My Stories** is stored in this browser, not a shared account. A saved catalog edition retains its exact count and all its required characters. Custom stories without edition metadata may still mark supporting roles optional, with the killer and essential evidence required. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
+**My Stories** is stored in this browser, not a shared account. Every narrative story has one fixed player count and all of its characters are required. Gemini's free API tier has limits and is separate from ChatGPT; review Google's [pricing](https://ai.google.dev/gemini-api/docs/pricing) and [data terms](https://ai.google.dev/gemini-api/terms) before using it.
 
 ## History-inspired starter mysteries
 
 | Mystery | Players | Atmosphere |
 |---|---|---|
-| **The Ashes of Mercy Hollow** | 3–8 (6 editions) | Salem-style witch-trial panic, forged confessions and village secrets |
-| **Footsteps Above Blackthorn Farm** | 3–9 (7 editions) | An isolated farm, an attic intruder and a suspicious land sale; loosely inspired by Hinterkaifeck |
-| **The Last Will at Briar House** | 3–10 (8 editions) | Victorian New England family tension, missing legal papers and a false alibi; loosely inspired by the Borden case |
-
-The 3-player **Footsteps Above Blackthorn Farm** edition is the clue-format pilot: player clues rotate between the other guests, narrator chapters introduce events separately, and the existing discussion and vote flow stays in place. Other stories and player-count editions are unchanged for this test.
+| **The Last Séance at Ravenmoor** | Exactly 5 (one story) | A staged séance, poisoning and a doctor's hidden connection |
+| **The Ashes of Mercy Hollow** | Exactly 5 (one story) | Salem-style witch-trial panic, forged confessions and village secrets |
+| **Footsteps Above Blackthorn Farm** | Exactly 5 (one story) | An isolated farm, an attic intruder and a suspicious land sale; loosely inspired by Hinterkaifeck |
+| **The Last Will at Briar House** | Exactly 5 (one story) | Victorian New England family tension, missing legal papers and a false alibi; loosely inspired by the Borden case |
 
 These are original fictional mysteries, not reconstructions of real murders or claims about real suspects. Deaths occur off-screen; there is no graphic violence. The witch-trial story treats persecution and false accusations as injustices, not proof of witchcraft.
 
-Each has five narrated event rounds, public clues, evolving suspicion, voting and a reveal based on evidence already spoken. **There is one committed, standalone edition for each exact player count**, not a larger story trimmed at runtime. Each edition specifies its entire cast, narration, investigation handoffs and five complete clue assignments (single circles by default; Blackwater Row uses the explicit rotating mode described below). Everyone is required and reads a unique clue and receives an accusation each round. The central crime remains the same, while the involvement and evidence presentation are written for that edition. Three-player editions explicitly introduce the recorded accounts of absent witnesses; no absent player or secret packet supplies essential evidence. Tone is suspenseful, clear and PG-13 for mixed-age groups (13-50).
+Each edition has a fixed cast and its own authored event map, clues, target chain, complete coverage schedule, deliberation/vote phases and fixed reveal. There are no scaled-down casts or alternate counts for one script. Every player is required, reads one clue each round and reads about every other character exactly once before any pair repeats. No absent player or secret packet supplies essential evidence. Tone is suspenseful, clear and PG-13 for mixed-age groups.
 
-Add your players and choose **Play this mystery**. The assigned roster count selects the exact edition; review shows its identity. Phone connections, refresh and votes never reselect or alter it. Save/export retains only that edition and its exact count. For a different count, start from the original catalog; a saved four-player edition cannot be resized to five. Host edits remain possible without changing the catalog.
+Add exactly the listed number of players and choose **Play this mystery**. The roster count selects the matching standalone edition; review shows its identity. Phone connections, refresh and votes never reselect or alter it. Save/export retains only that edition and its exact count.
 
-Ravenmoor also has fixed editions for **3–24 players (22 editions)**, preserving its previously supported larger parties rather than removing them. The lighthouse JSON example remains a standalone three-player mystery.
+The lighthouse JSON example is a standalone three-player mystery. The four-player **The Barber of Blackwater Row** is a playable starter: rounds 1–3 cover all 12 reader-target pairs exactly once (round 2 reads as two linked pairs), and its five-death event arc needs two further rounds, which repeat pairs as explained in its `coverageRepeatNote`.
 
-### Melissa's mystery: The Barber of Blackwater Row
-
-Add **exactly four players**, then select **The Barber of Blackwater Row** under **Ready-to-play mysteries**. A separate narrator does not count as a player. The required cast is Xander Hale (woodworker), Marla Quinn (baker's assistant), Jasper Crowe (tavern musician) and Lydia Vance (schoolteacher).
-
-The five rounds investigate the baker, barkeep, senior teacher, lamplighter and Mayor, followed by the final vote and reveal. Each death is described as a slashed throat, without graphic detail. **Revision 2** rotates targets every round: Xander reads about Marla, Jasper, Lydia, Marla, Jasper; the other readers follow the same offsets. Everyone reads about each of the other three characters by Round 3, and every character is discussed once each round. Rounds 2 and 5 use reciprocal pairs rather than a single circle to make complete four-player coverage possible. All player clues concern other players.
-
-The adaptation includes named witnesses, recognizable possessions, timed observations and records explaining how a trace is tied to its owner. For example, the flour print is compared with an identified repaired boot and later with its documented closing chore; an amber smear has two possible work-related sources rather than proving guilt by color alone. Xander's true identity and the Mayor's connection first appear in **Round 5**, never in introductions or early packets. Host scene narration does not preview the deductions in player clues; those arrive in their assigned readings. During play, hosting instructions are collapsed and labeled **do not read aloud**, and the full solution is absent from round screens. Story review is preparation only and contains future chapters and spoilers. Leave murderer notification off for a fully unspoiled investigation; turning it on tells the killer their status, but does not reveal the hidden identity or history early. The final reveal includes an optional host-read monologue. Themes include wrongful imprisonment, coercion and revenge.
-
-Review, reassign, save and export it using the existing controls. Saved copies retain the exact four-player edition. This hand-authored script is maintained directly in `js/editions/blackwater-row.js`; the offline authoring command for the other families does not regenerate it.
-
-Existing saved or active games are not silently rewritten. To play revision 2, start a new game from the ready-to-play catalog; a previously saved revision 1 keeps its old script and assignments.
-
-The browser imports committed scripts from `js/editions/`. `node tools/author-editions.mjs` is an **offline authoring step**, not game-time generation. It uses the curated public story sources and count-specific staging to write standalone edition files. Review narrative changes and run all edition audits before committing regenerated files. The app never imports the historical authoring sources or invokes circle generation for built-in selections. Custom JSON without edition metadata retains the existing optional-cast support; it is not represented as an authored catalog edition.
+The browser imports committed scripts from `js/editions/`. `node tools/author-editions.mjs` is an **offline authoring step**, not game-time generation. It uses curated public story sources and fixed-count staging to write standalone edition files. Review narrative changes and run all edition audits before committing regenerated files. The app never imports the historical authoring sources or generates chains during play.
 
 Old adaptive saves bearing the original built-in titles are retired when the updated site loads, so they do not reappear instead of the fixed editions. Fixed-edition saves and unrelated public custom stories remain available.
 
@@ -358,9 +352,9 @@ Connection recovery regression: `node tests/reconnect.mjs [url] [chromium|webkit
 
 Unsupported-browser regression: `node tests/browser-support.mjs [url] [chromium|webkit]` verifies that hosts and players get actionable errors, without automatic retry loops, when WebRTC is unavailable.
 
-Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample] [discloseKiller=false]`. Mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm`, `briar-house`, `blackwater-row` (exactly four players) and `example` (the three-player lighthouse import). For example, `node tests/e2e.mjs http://127.0.0.1:8128/ 10 briar-house false` connects a separate phone for **every** listed player through all five rounds, refresh/reconnection and the reveal. Tests also exercise the live host notification toggle and complete narrated notebooks. Unit audits check both notification settings for every included character at every supported count; browser tests exercise four-player and full named casts.
+Browser integration (requires Playwright): `node tests/e2e.mjs [url] [playerCount=3] [mysteryId=sample] [discloseKiller=false]`. Playable mystery IDs are `sample`, `mercy-hollow`, `blackthorn-farm` and `briar-house`, each fixed at five players; `example` is the three-player lighthouse import. Choose only a committed count, such as `node tests/e2e.mjs http://127.0.0.1:8128/ 5 briar-house false`. The test connects a separate phone for every player through target-chained clue release, deliberation, voting, refresh/reconnection and the reveal. It also exercises the live host notification toggle and complete narrated notebooks.
 
-Full edition browser matrix: `node tests/editions-e2e.mjs [url] [absolute-log-directory] [concurrency=3]`. It plays all 44 committed editions through all five rounds with every character connected. Use concurrency `1` on machines with limited memory; the largest Ravenmoor editions open up to 25 browser contexts per game.
+Full edition browser matrix: `node tests/editions-e2e.mjs [url] [absolute-log-directory] [concurrency=3]`. It plays all eight committed fixed-count editions through all five rounds with every character connected. Use concurrency `1` on machines with limited memory; a five-player edition opens six browser contexts per game.
 
 ## Atmosphere and event effects
 
@@ -386,17 +380,20 @@ A story is one JSON object. Paste it in **Setup → Paste story JSON** (or uploa
 | Field | Type | Notes |
 |---|---|---|
 | `schemaVersion` | number | `2` (public-only stories) |
-| `clueRouting` | string | optional: `circle` (default) or `rotating`. Both require one unique clue per target per round and no self-targets. `rotating` allows reciprocal pairs, changes targets every round and covers each other character before repeating (or as many as fit the chapter count). |
+| `fixedPlayerCount` | number | **required**; must exactly match the required character cards |
+| `hiddenThread` | string | **required**; the story's one event-specific hidden thread |
+| `specialMechanics` | string array | **required**; at least one mechanic derived from this story's event map |
+| `clueRouting` | string | required: `"rotating"`; target chains are precomputed and validated |
 | `discloseKiller` | boolean | optional, default `false`; host's murderer notification toggle |
 | `edition` | object | fixed editions use `{family, id, playerCount, revision}`; exact count must match the cast and all characters are required |
 | `title` | string | **required** |
 | `setting` | string | where/when |
-| `atmosphere` | string | optional: `manor`, `witch`, `farm` or `victorian`; inferred for built-in titles when absent |
-| `intro` | string | shown to everyone in the lobby, before round 1 (before the murder) |
+| `atmosphere` | string | optional presentation choice |
+| `intro` | string | setup read aloud before the character-card read-around |
 | `victim` | object | `{"name", "description"}` — the victim is not played by a guest |
-| `rounds` | array | **required**, 5 or 6 entries. Each: `title`, `narration` (host reads aloud), `publicText` (shown on every phone), `hostNotes` (host only) |
-| `characters` | array | **required**, ≥2, ideally one per guest. See below |
-| `finale` | object | `narration` (host reads before voting), `votePrompt` (shown on phones) |
+| `rounds` | array | **required**, at least `fixedPlayerCount - 1` entries. Each has `title`, `narration`, `publicText`, `hostNotes`, ordered `events`, a full `chain` of character IDs and boolean `coverageRepeat` |
+| `characters` | array | **required**; exactly `fixedPlayerCount` required characters |
+| `finale` | object | final accusation narration and neutral `votePrompt` |
 | `solution` | object | `killerId` (**required**, must match a character `id`), `explanation`, `revealNarration` |
 
 Each character:
@@ -406,22 +403,23 @@ Each character:
 | `id` | string | short unique slug, e.g. `"nell"` (auto-generated if missing) |
 | `guest` | string | the guest's real name. If empty, guests from the setup list are assigned in order |
 | `guestNote` | string | the guest's description; shown to them as "lean into it" |
-| `optional` | boolean | mark supporting characters that can be omitted when fewer guests attend; at least two characters and the killer must remain required |
-| `name`, `role` | string | character name (**required**) and role/title |
+| `optional` | boolean | must be `false`; every character is required for the fixed cast |
+| `name`, `role`, `relationship`, `tieIn` | string | character identity, relationship to the event/person and connection to the story |
 | `publicBlurb` | string | what everyone knows — visible to all players |
-| `rounds` | array | one entry per story round: `{"readAloud": {"accuses": "otherId", "text": "Observed event about {otherId}..."}}` — unlocked when the round starts |
+| `rounds` | array | one entry per story round: `{"readAloud": {"accuses": "otherId", "observation": "...", "contradictingDetail": "...", "text": "..."}}` |
+| `ghost` | object | optional, only when this story's events call for the character to return after death; `fromRound` plus one position-aligned `parts` slot per round (empty before return) |
 
-Placeholders: in any text, `{someId}` becomes that character's name plus guest, e.g. `{wick}` → "Jonah Wick (Mike)"; `{victim}` becomes the victim's name.
+Placeholders in clue text must refer only to that clue's assigned target; `{victim}` or other references should be written as literal names there. In other story text, `{someId}` becomes that character's name plus guest, e.g. `{wick}` → "Jonah Wick (Mike)"; `{victim}` becomes the victim's name.
 
-`readAloud` is mandatory. Each target must receive exactly one clue per round, with no self-targets or repeated text. By default, targets form one complete circle. With `clueRouting: "rotating"`, reciprocal pairs are allowed to support full reader coverage; each reader changes targets every round and covers the available other characters before repeating. Evidence must describe concrete events, sightings, objects or documents, not generic suspicion. Private `clues`, `backstory`, `secrets` and `motive` content is rejected on import: author that information into the spoken chapters or scripts and remove the private fields. The app never guesses how to merge a private confession into public evidence.
+Each clue round is one complete target chain: a reader's target is the next reader, and the final reader's target returns to the chain's start. The first `N−1` rounds must cover every directed reader-target pair exactly once. Further rounds may repeat only after that complete matrix is covered and must flag `coverageRepeat: true`. No round can skip a player. The site validates the full schedule before play.
 
-Write evidence with `{targetId}` and establish its source aloud. In fixed editions, the assigned reader and clue circle stay exactly as authored. For custom optional-cast imports only, objective evidence can move between readers when the cast is reduced; avoid reader-specific eyewitness claims in those custom stories.
+Every clue names its target, gives an observation, then a physical detail that contradicts the target's explanation; establish the source aloud. `events` record the ordered beats for that round. Character-card read-around, deliberation and vote after every round, final accusations/final vote, and the full reveal are required phases. The complete chain is stored in the story; no schedule is generated during play. Private `clues`, `backstory`, `secrets` and `motive` content is rejected on import.
 
 On loading the update, pre-version-2 saves and saves containing private story fields are removed from this browser, with a notice. Version-2 public-only stories, drafts, player preferences and AI settings are retained. Cleanup runs when each device opens the updated site; downloaded files and offline devices cannot be erased remotely. Start a fresh game from the rewritten catalog. Old imports require an authored public rewrite before validation will accept them.
 
-Authoring tips: plan the full timeline first; give each new fact a spoken source and discovery; distinguish witness claims from established findings; revisit early suspicions without inventing alibis; make the final reveal interpret already released evidence. Never put a confession in character text: the app alone supplies the optional murderer notification. Everyone reads their script exactly, with one character per guest.
+Authoring tips: plan the full event map first; give each new fact a spoken source and discovery; derive any special mechanic from this story's events; distinguish witness claims from established findings; revisit early suspicions without inventing alibis; make the final reveal interpret already released evidence. Add ghosts only when the story calls for a dead player character to return. Never put a confession in character text: the app alone supplies the optional murderer notification. Everyone reads their script exactly, with one character per guest.
 
-Full five-round example: [`examples/example-story.json`](examples/example-story.json), **Death at the Lighthouse**. The land argument implicates the niece early; the logbook later distinguishes that dispute from the shipwreck disclosure. The doctor's silence gains context in round 4, while the key, oil and stair sighting build the final chain. Import this file to inspect the complete narration and each character's five read-aloud clues.
+Full five-round, three-player example: [`examples/example-story.json`](examples/example-story.json), **Death at the Lighthouse**. The land argument implicates the niece early; the logbook later distinguishes that dispute from the shipwreck disclosure. The doctor's silence gains context in round 4, while the key, oil and stair sighting build the final chain. Import this file to inspect the complete narration and each character's read-aloud clues.
 
 ## Deploy notes
 

@@ -6,7 +6,7 @@ import { STARTER_MYSTERIES } from '../js/starters.js';
 import { normalizeStory } from '../js/story.js';
 
 const current = STARTER_MYSTERIES[0].story;
-const old = { ...structuredClone(current), rounds: current.rounds.slice(0, 3) };
+const old = { ...structuredClone(current), schemaVersion: 1, rounds: current.rounds.slice(0, 3) };
 const store = entries => {
   const data = new Map(Object.entries(entries));
   return {
@@ -43,13 +43,20 @@ test('current games and current-format drafts including a sixth chapter are pres
   }
 });
 
-test('old public-clue formats are obsolete even if they contain five rounds; old imports remain rejected', () => {
+test('old public-clue and schema formats are obsolete; short complete coverage schedules remain valid', () => {
   const legacy = structuredClone(current);
   legacy.characters.forEach(c => c.rounds.forEach(r => delete r.readAloud));
   assert.equal(isOutdatedStory(legacy), true);
   assert.equal(isOutdatedStory(current), false);
   assert.equal(normalizeStory(old).story, null);
   assert.equal(normalizeStory(legacy).story, null);
+  const completeMinimum = structuredClone(current);
+  completeMinimum.rounds = completeMinimum.rounds.slice(0, completeMinimum.fixedPlayerCount - 1);
+  completeMinimum.characters.forEach(character => {
+    character.rounds = character.rounds.slice(0, completeMinimum.fixedPlayerCount - 1);
+  });
+  assert.equal(isOutdatedStory(completeMinimum), false);
+  assert.ok(normalizeStory(completeMinimum).story);
 });
 
 test('unreadable storage reports an error without erasing data', () => {
@@ -72,19 +79,21 @@ test('five-round version-1 saves and private-format saves cannot reappear after 
     [HOST_SAVE_KEY]: JSON.stringify({ phase: 'round', story: privateFormat }),
   });
 
-  test('old adaptive built-in saves are retired, while fixed editions and unrelated public custom stories remain', () => {
-    const adaptive = structuredClone(current);
-    delete adaptive.edition;
-    delete adaptive.editions;
-    const custom = { ...structuredClone(adaptive), title: 'Our Custom Public Mystery' };
-    const storage = store({
-      [STORY_LIBRARY_KEY]: JSON.stringify([{ id: 'adaptive', story: adaptive }, { id: 'edition', story: current }, { id: 'custom', story: custom }]),
-      [HOST_SAVE_KEY]: JSON.stringify({ phase: 'round', story: adaptive }),
-    });
-    assert.deepEqual(removeOutdatedSavedContent(storage), { removedStories: 1, removedGame: true });
-    assert.deepEqual(JSON.parse(storage.getItem(STORY_LIBRARY_KEY)).map(entry => entry.id), ['edition', 'custom']);
-  });
   assert.deepEqual(removeOutdatedSavedContent(storage), { removedStories: 2, removedGame: true });
   assert.deepEqual(JSON.parse(storage.getItem(STORY_LIBRARY_KEY)).map(entry => entry.id), ['current']);
   assert.equal(storage.getItem(HOST_SAVE_KEY), null);
+});
+
+test('old adaptive built-in saves are retired, while fixed editions and unrelated public custom stories remain', () => {
+  const adaptive = structuredClone(current);
+  adaptive.title = adaptive.title.replace(/ \(\d+ players\)$/, '');
+  delete adaptive.edition;
+  delete adaptive.editions;
+  const custom = { ...structuredClone(adaptive), title: 'Our Custom Public Mystery' };
+  const storage = store({
+    [STORY_LIBRARY_KEY]: JSON.stringify([{ id: 'adaptive', story: adaptive }, { id: 'edition', story: current }, { id: 'custom', story: custom }]),
+    [HOST_SAVE_KEY]: JSON.stringify({ phase: 'round', story: adaptive }),
+  });
+  assert.deepEqual(removeOutdatedSavedContent(storage), { removedStories: 1, removedGame: true });
+  assert.deepEqual(JSON.parse(storage.getItem(STORY_LIBRARY_KEY)).map(entry => entry.id), ['edition', 'custom']);
 });

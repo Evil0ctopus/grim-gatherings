@@ -119,7 +119,7 @@ try {
   check('admin approval publishes to the hosted catalog', await author.locator('[data-action="community-save"]').count() === 1);
   await click(author, 'community-save');
   await author.goto(base); await author.click('#btn-new');
-  for (const name of ['One', 'Two', 'Three', 'Four']) { await author.fill('#guest-name', name); await author.click('#add-guest'); }
+  for (const name of ['One', 'Two', 'Three']) { await author.fill('#guest-name', name); await author.click('#add-guest'); }
   await author.click('[data-act="load-community"]'); await author.waitForSelector('[data-act="use-community"]'); await author.click('[data-act="use-community"]');
   await author.waitForSelector('#open-lobby');
   check('Supabase-approved story enters the normal playable game', await author.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.provenance.kind === 'community'));

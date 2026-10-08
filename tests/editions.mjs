@@ -7,7 +7,13 @@ import { selectEdition } from '../js/edition-selection.js';
 import { adaptStoryForPlayers, makeStoryTemplate, getPlayerRange } from '../js/library.js';
 import { normalizeStory, buildView } from '../js/story.js';
 
-const families = [{ id: 'sample', editions: sample }, ...STARTER_MYSTERIES.map(entry => ({ id: entry.id, editions: entry.story.editions }))];
+const starterFamilies = [...new Set(STARTER_MYSTERIES.map(entry => entry.story.edition.family))].map(id => ({
+  id,
+  editions: Object.fromEntries(STARTER_MYSTERIES
+    .filter(entry => entry.story.edition.family === id)
+    .map(entry => [entry.story.fixedPlayerCount, entry.story])),
+}));
+const families = [{ id: 'sample', editions: sample }, ...starterFamilies];
 const players = n => Array.from({ length: n }, (_, i) => ({ name: `Player ${i}`, desc: `Description ${i}` }));
 const script = story => ({
   ...(story.clueRouting ? { clueRouting: story.clueRouting } : {}),
@@ -19,7 +25,7 @@ for (const family of families) {
   test(`${family.id}: every count selects its committed script without changing events or clue assignments`, () => {
     const before = JSON.stringify(family.editions);
     const counts = Object.keys(family.editions).map(Number);
-    assert.equal(counts.length, Math.max(...counts) - Math.min(...counts) + 1);
+    assert.deepEqual(counts, [family.id === 'blackwater-row' ? 4 : 5]);
     const narrations = new Set();
     for (const count of counts) {
       const canonical = family.editions[count];
@@ -35,22 +41,15 @@ for (const family of families) {
       narrations.add(JSON.stringify(selected.rounds.map(r => r.narration)));
       for (const character of selected.characters) {
         selected.rounds.forEach((round, ri) => {
-          if (family.id === 'blackthorn-farm' && count === 3) {
-            assert.doesNotMatch(round.narration, /\bleads the comparison\b/);
-          } else {
-            assert.ok(round.narration.includes(`{${character.id}} leads the comparison`), `${character.name} needs an investigation handoff`);
-          }
+          assert.ok(round.narration.includes(`{${character.id}} leads the comparison`), `${character.name} needs an investigation handoff`);
           const clue = character.rounds[ri].readAloud;
-          const reference = family.id === 'blackwater-row' || (family.id === 'blackthorn-farm' && count === 3)
-            ? clue.accuses
-            : character.id;
-          assert.ok(clue.text.includes(`{${reference}}`));
+          assert.ok(clue.text.includes(`{${clue.accuses}}`));
         });
       }
       const saved = makeStoryTemplate(normalizeStory(selected).story);
       assert.deepEqual(script(saved), script(canonical));
       assert.deepEqual(getPlayerRange(saved), { minPlayers: count, maxPlayers: count });
-      assert.throws(() => adaptStoryForPlayers(saved, players(count + 1)), /saved edition works for/);
+      assert.throws(() => adaptStoryForPlayers(saved, players(count + 1)), /written for exactly/);
       const S = { story: saved, phase: 'round', roundIndex: 2, claims: {}, votes: {} };
       const beforeDisconnect = buildView(S, saved.characters[0].id);
       S.claims[saved.characters[1].id] = 'disconnected-token';
@@ -73,10 +72,10 @@ test('live entry modules never import the offline authoring or rebuild built-in 
 });
 
 test('edition metadata rejects a cast mismatch instead of silently selecting another version', () => {
-  const bad = structuredClone(sample[4]);
+  const bad = structuredClone(sample[5]);
   bad.edition.playerCount = 3;
   assert.equal(normalizeStory(bad).story, null);
-  const optional = structuredClone(sample[4]);
+  const optional = structuredClone(sample[5]);
   optional.characters[1].optional = true;
   assert.equal(normalizeStory(optional).story, null);
 });

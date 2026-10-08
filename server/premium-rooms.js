@@ -1,4 +1,7 @@
-import { developerCatalog, createDeveloperGame, stepDeveloperGame, developerTargets } from './developer-games.js';
+import {
+  developerCatalog, developerCurrentContent, developerTargets, nextDeveloperPlayer,
+  createDeveloperGame, stepDeveloperGame,
+} from './developer-games.js';
 
 class RoomError extends Error {
   constructor(status, message) { super(message); this.status = status; }
@@ -17,29 +20,35 @@ export function createPremiumRooms({ rpc, environment }) {
   const read = code => rpc('gg_room_access', { p_code: validCode(code), p_environment: environment });
   function view(room, seat = null, host = false) {
     const data = room.data, state = data.state;
-    const game = developerCatalog().find(g => g.id === data.gameId);
-    const player = seat && state?.players.find(p => p.id === seat.id);
-    const submitted = player && ['night', 'vote'].includes(state.phase) &&
-      Object.hasOwn(state.phase === 'night' ? state.actions : state.ballots, player.id);
+    const game = developerCatalog().find(item => item.id === data.gameId);
+    const player = seat && state?.players.find(item => item.id === seat.id);
+    const turn = state && nextDeveloperPlayer(state);
+    const isCurrentTurn = !!player && turn?.id === player.id;
+    const current = state && developerCurrentContent(state);
+    const setup = game && {
+      title: game.title, premise: game.premise, playerCount: game.playerCount,
+      specialMechanics: game.specialMechanics, setting: game.setting, intro: game.intro,
+      victim: game.victim, finale: game.finale,
+    };
     return {
       code: room.code, revision: room.revision, expiresAt: room.expires_at,
-      game, phase: data.phase, capacity: data.capacity, host,
+      game, setup, phase: data.phase, capacity: data.capacity, host,
       players: data.seats.map(s => {
         const p = state?.players.find(item => item.id === s.id);
-        return { id: s.id, name: s.name, detained: p?.detained || false, influence: p?.influence ?? 3,
-          ...(state?.phase === 'finished' ? { role: game.roles[p.role][0] } : {}) };
+        return { id: s.id, name: s.name, characterId: p?.characterId || null, characterName: p?.characterName || null };
       }),
-      round: state?.round || 0, log: state?.log || [], winner: state?.winner || null,
-      submitted: !!submitted,
-      waiting: state && ['night', 'vote'].includes(state.phase)
-        ? state.players.filter(p => !p.detained && !Object.hasOwn(state.phase === 'night' ? state.actions : state.ballots, p.id)).length : 0,
-      private: player && !player.detained ? {
-        id: player.id, name: player.name, role: game.roles[player.role][0], description: game.roles[player.role][1],
-        report: player.report,
-        allies: player.role === 'enemy' ? state.players.filter(p => p.role === 'enemy' && p.id !== player.id).map(p => p.name) : [],
-        targets: !submitted && ['night', 'vote'].includes(state.phase) ? developerTargets(state, player) : [],
-        weight: state.gameId === 'ledger' ? Math.max(1, player.influence) : 1,
+      round: state?.round || 0, current, roundVoteTallies: state?.roundVoteTallies || [],
+      roundVoteTally: state?.roundVoteTallies?.[state.round - 1] || null,
+      finalVoteTally: state?.finalVoteTally || null,
+      finalPrompt: setup?.finale.votePrompt || '',
+      stateStarted: !!state,
+      submitted: !!player && ['round', 'vote', 'final-vote'].includes(state?.phase) && !isCurrentTurn,
+      currentPlayer: turn?.name || null,
+      private: player ? {
+        id: player.id, name: player.name, isCurrentTurn,
+        targets: isCurrentTurn && ['vote', 'final-vote'].includes(state.phase) ? developerTargets(state, player) : [],
       } : null,
+      waiting: turn ? 1 : 0,
     };
   }
   async function mutate(code, transform) {
@@ -56,17 +65,20 @@ export function createPremiumRooms({ rpc, environment }) {
   async function seatFor(room, token) {
     requireRoom(typeof token === 'string' && /^[0-9a-f]{64}$/.test(token), 401, 'Rejoin on the phone used to claim your seat.');
     const digest = await hash(token);
-    const seat = room.data.seats.find(s => s.tokenHash === digest);
+    const seat = room.data.seats.find(item => item.tokenHash === digest);
     requireRoom(seat, 401, 'Your seat is no longer in this room. Check with the host.');
     return seat;
   }
   return {
-    async list(user) { return { games: developerCatalog(), rooms: await rpc('gg_room_list', { p_user: user.id, p_environment: environment }) }; },
+    async list(user) {
+      return { games: developerCatalog(), rooms: await rpc('gg_room_list', { p_user: user.id, p_environment: environment }) };
+    },
     async create(user, body) {
-      requireRoom(developerCatalog().some(g => g.id === body.gameId), 400, 'Choose a bundle game.');
-      requireRoom(Number.isInteger(body.capacity) && body.capacity >= 3 && body.capacity <= 10, 400, 'Choose 3-10 player seats.');
+      const game = developerCatalog().find(item => item.id === body.gameId);
+      requireRoom(game, 400, 'Choose a bundle story.');
+      requireRoom(body.capacity === game.playerCount, 400, `This story is written for exactly ${game.playerCount} players.`);
       const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-      const code = Array.from(crypto.getRandomValues(new Uint8Array(8)), b => alphabet[b % alphabet.length]).join('');
+      const code = Array.from(crypto.getRandomValues(new Uint8Array(8)), byte => alphabet[byte % alphabet.length]).join('');
       const room = await rpc('gg_room_create', { p_code: code, p_user: user.id, p_environment: environment,
         p_data: { gameId: body.gameId, capacity: body.capacity, phase: 'lobby', seats: [], state: null } });
       return view(room, null, true);
@@ -83,18 +95,17 @@ export function createPremiumRooms({ rpc, environment }) {
         requireRoom(body.revision === room.revision, 409, 'The room changed. Refresh before managing it.');
         const data = room.data;
         if (body.command === 'start') {
-          requireRoom(data.phase === 'lobby' && data.seats.length === data.capacity, 409, 'Wait for every player to join before dealing roles.');
-          data.state = createDeveloperGame(data.gameId, data.seats.map(s => s.name),
-            () => crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296);
-          data.state.players.forEach((p, i) => { p.id = data.seats[i].id; });
+          requireRoom(data.phase === 'lobby' && data.seats.length === data.capacity, 409, 'Wait for every player to join before reading the story.');
+          data.state = createDeveloperGame(data.gameId, data.seats.map(item => item.name));
+          data.state.players.forEach((player, index) => { player.id = data.seats[index].id; });
           data.phase = data.state.phase;
-        } else if (body.command === 'council') {
-          requireRoom(data.phase === 'discussion', 409, 'Open ballots only after dawn discussion.');
-          data.state = stepDeveloperGame(data.state, { type: 'council' });
+        } else if (['start-introduction', 'start-rounds', 'start-clues', 'open-vote', 'open-final-vote', 'finish-reveal'].includes(body.command)) {
+          requireRoom(data.state, 409, 'Start the story before advancing its phases.');
+          data.state = stepDeveloperGame(data.state, { type: body.command });
           data.phase = data.state.phase;
         } else if (body.command === 'remove') {
-          requireRoom(data.phase === 'lobby' && data.seats.some(s => s.id === body.playerId), 400, 'Remove a joined player only before roles are dealt.');
-          data.seats = data.seats.filter(s => s.id !== body.playerId);
+          requireRoom(data.phase === 'lobby' && data.seats.some(item => item.id === body.playerId), 400, 'Remove a joined player only before the story starts.');
+          data.seats = data.seats.filter(item => item.id !== body.playerId);
         } else if (body.command === 'close') data.phase = 'closed';
         else throw new RoomError(400, 'Choose a host room action.');
         return {};
@@ -109,11 +120,11 @@ export function createPremiumRooms({ rpc, environment }) {
         const token = body.token, digest = await hash(token);
         const { room, seat } = await mutate(code, room => {
           const data = room.data, name = body.name.trim();
-          const existing = data.seats.find(s => s.tokenHash === digest);
+          const existing = data.seats.find(item => item.tokenHash === digest);
           if (existing) return { seat: existing };
-          requireRoom(data.phase === 'lobby', 409, 'Roles have already been dealt. Resume on your original phone.');
+          requireRoom(data.phase === 'lobby', 409, 'The story has started. Resume on your original phone.');
           requireRoom(data.seats.length < data.capacity, 409, 'This room is full.');
-          requireRoom(!data.seats.some(s => s.name.toLowerCase() === name.toLowerCase()), 409, 'That name is already taken. Use your own unique name.');
+          requireRoom(!data.seats.some(item => item.name.toLowerCase() === name.toLowerCase()), 409, 'That name is already taken. Use your own unique name.');
           const seat = { id: crypto.randomUUID(), name, tokenHash: digest };
           data.seats.push(seat);
           return { seat };
@@ -127,16 +138,11 @@ export function createPremiumRooms({ rpc, environment }) {
       }
       const { room, seat } = await mutate(code, async room => {
         const seat = await seatFor(room, body.token), state = room.data.state;
-        requireRoom(state && body.round === state.round && body.command === state.phase &&
-          ['night', 'vote'].includes(body.command), 409, 'This turn has changed. Refresh before acting.');
-        const player = state.players.find(p => p.id === seat.id);
-        requireRoom(!player.detained, 403, 'Detained players participate only in public discussion.');
-        const choices = state.phase === 'night' ? state.actions : state.ballots;
-        if (Object.hasOwn(choices, seat.id)) {
-          requireRoom(choices[seat.id] === body.target, 409, 'Your choice is already committed and cannot be changed.');
-          return { seat };
-        }
-        room.data.state = stepDeveloperGame(state, { type: body.command, playerId: seat.id, target: body.target }, { simultaneous: true });
+        const expected = state && nextDeveloperPlayer(state);
+        requireRoom(state && body.round === state.round &&
+          ['read-card', 'read-clue', 'vote'].includes(body.command), 409, 'This turn has changed. Refresh before acting.');
+        requireRoom(expected?.id === seat.id, 409, 'Wait for your turn in the story.');
+        room.data.state = stepDeveloperGame(state, { type: body.command, playerId: seat.id, target: body.target });
         room.data.phase = room.data.state.phase;
         return { seat };
       });

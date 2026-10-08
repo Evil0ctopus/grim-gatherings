@@ -1,10 +1,11 @@
 // End-to-end test: host and every selected player in separate browser contexts.
-// Usage: node tests/e2e.mjs [url] [playerCount=4] [mysteryId=sample] [discloseKiller=false]
+// Usage: node tests/e2e.mjs [url] [playerCount=3] [mysteryId=sample] [discloseKiller=false]
 import { chromium, devices } from 'playwright';
 import fs from 'node:fs';
+import { STARTER_MYSTERIES } from '../js/starters.js';
 
 const URL = process.argv[2] || 'https://evil0ctopus.github.io/grim-gatherings/';
-const playerCount = Number(process.argv[3] || 4);
+const playerCount = Number(process.argv[3] || 3);
 const mysteryId = process.argv[4] || 'sample';
 let discloseKiller = process.argv[5] === 'true';
 if (!Number.isInteger(playerCount) || playerCount < 3) throw new Error('Use at least three players for this integration test.');
@@ -54,10 +55,13 @@ try {
     await host.fill('#json', JSON.stringify(example));
     await host.click('#load-json');
   } else {
-    await host.click(mysteryId === 'sample' ? '#use-sample' : `[data-act="use-starter"][data-id="${mysteryId}"]`);
+    const edition = STARTER_MYSTERIES.find(entry =>
+      entry.story.edition?.family === mysteryId && entry.story.fixedPlayerCount === playerCount);
+    if (mysteryId !== 'sample' && !edition) throw new Error(`No ${playerCount}-player edition for ${mysteryId}.`);
+    await host.click(mysteryId === 'sample' ? '#use-sample' : `[data-act="use-starter"][data-id="${edition.id}"]`);
   }
   await host.waitForSelector('#open-lobby');
-  if (mysteryId !== 'example') ok('review displays the selected count-specific edition', (await host.textContent('#selected-edition')).includes(`${playerCount}-player edition`));
+  if (mysteryId !== 'example') ok('review displays the selected fixed-count story', (await host.textContent('#selected-edition')).includes(`${playerCount}-player fixed story`));
   await host.locator('[data-path="discloseKiller"]').setChecked(discloseKiller);
   ok('host built selected story & reached review', true, el());
   const initialAssignments = await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story.characters.map(c => c.guest));
@@ -110,16 +114,6 @@ try {
       ok(`${label}: ${g} has no private story fields`, !['backstory','secrets','motive'].some(key => key in packet));
       ok(`${label}: ${g} murderer notification matches host setting`,
         discloseKiller ? packet.isKiller === (me.id === killer.id) : !('isKiller' in packet));
-      if (mysteryId === 'blackwater-row') {
-        const view = await p.evaluate(() => window.__gg.view);
-        if (view.phase === 'lobby' || view.roundIndex < 4) {
-          ok(`${label}: ${g} has no early identity or Mayor spoilers`,
-            !/Benjamin|Barker|Mayor|Aldric|Thorne|imprison|wife/i.test(JSON.stringify(view)));
-        } else {
-          ok(`${label}: ${g} receives the final court document`,
-            view.currentRound.narration.includes('BENJAMIN BARKER'));
-        }
-      }
     }
   }
   await checkFiltering('lobby');
@@ -144,44 +138,40 @@ try {
   const barHeights = Object.fromEntries(await Promise.all(PLAYERS.map(async g => [g, await players[g].locator('.statusbar').evaluate(el => el.getBoundingClientRect().height)])));
 
   async function expectRound(ri) {
-    const title = story.rounds[ri].title;
     ok(`round ${ri + 1}: host narration resolves character names and matches the spoken chapter`,
       await host.locator('.card.blood .narration').innerText() === fill(story.rounds[ri].narration));
-    if (mysteryId === 'blackwater-row') {
-      ok(`round ${ri + 1}: hosting notes are separate and collapsed`,
-        await host.locator('#hosting-notes').getAttribute('open') === null &&
-        (await host.locator('#hosting-notes summary').innerText()).includes('do not read aloud'));
-      ok(`round ${ri + 1}: full solution is absent from the host round screen`,
-        !(await host.locator('#app').textContent()).includes(fill(story.solution.explanation)));
-      if (ri < 4) {
-        ok(`round ${ri + 1}: host read-aloud narration has no future identity or Mayor spoilers`,
-          !/Benjamin|Barker|Mayor|Aldric|Thorne|imprison|wife/i.test(await host.locator('.card.blood .narration').innerText()));
+    const chain = story.rounds[ri].chain;
+    for (let chainIndex = 0; chainIndex < chain.length; chainIndex++) {
+      const reader = chain[chainIndex];
+      for (const g of PLAYERS) {
+        const p = players[g], me = byGuest[g];
+        await p.waitForFunction(({ chainIndex, reader }) =>
+          window.__gg.view.currentRound.chainIndex === chainIndex &&
+          window.__gg.view.currentRound.currentReaderId === reader,
+        { chainIndex, reader }, { timeout: T });
+        const view = await p.evaluate(() => window.__gg.view);
+        const validRelease = view.currentRound.narration === fill(story.rounds[ri].narration) &&
+          view.packet.rounds.length === ri + Number(me.id === reader) &&
+          (me.id !== reader || view.packet.rounds.at(-1).readAloud.text === fill(me.rounds[ri].readAloud.text));
+        ok(`round ${ri + 1}, chain ${chainIndex + 1}: ${g} receives narration and only the active reader's clue`,
+          validRelease, validRelease ? '' : JSON.stringify({ reader, me: me.id, narrationMatches: view.currentRound.narration === fill(story.rounds[ri].narration), packetRounds: view.packet.rounds.length, expectedPacketRounds: ri + Number(me.id === reader), currentReaderId: view.currentRound.currentReaderId, chainIndex: view.currentRound.chainIndex }));
+        ok(`round ${ri + 1}: ${g} sees no secret clue UI`,
+          !(await p.textContent('#my-clues')).includes('private clues') && await p.locator('#my-secrets').count() === 0);
       }
+      await host.click('#next-reader');
     }
     for (const g of PLAYERS) {
       const p = players[g], me = byGuest[g];
-      await p.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, title, { timeout: T });
-      const clues = await p.textContent('#my-clues');
-      const raw = await p.evaluate(() => JSON.stringify(window.__gg.view));
-      ok(`round ${ri + 1}: ${g} has only previously released public evidence`,
-        await p.evaluate(n => window.__gg.view.evidenceHistory.length === n, ri));
-      ok(`round ${ri + 1}: ${g} receives the spoken host narration`,
-        await p.evaluate(text => window.__gg.view.currentRound.narration === text, fill(story.rounds[ri].narration)));
-      const publicClue = await p.locator('#my-clues .read-aloud-clue').textContent();
-      const readAloud = await p.evaluate(() => window.__gg.view.packet.rounds.at(-1).readAloud);
-      ok(`round ${ri + 1}: ${g} sees their unique read-aloud accusation`, readAloud.accuses === me.rounds[ri].readAloud.accuses && publicClue.includes(readAloud.text) && publicClue.includes(readAloud.targetName));
-      if (mysteryId === 'blackwater-row' && ri > 0) {
-        ok(`round ${ri + 1}: ${g} reads about a different character`,
-          readAloud.accuses !== me.rounds[ri - 1].readAloud.accuses);
-      }
-      if (mysteryId === 'blackwater-row' && ri === 2) {
-        ok(`${g} has read about all three other characters by Round 3`,
-          new Set(me.rounds.slice(0, 3).map(round => round.readAloud.accuses)).size === 3);
-      }
-      ok(`round ${ri + 1}: ${g} sees no secret clue UI`, !clues.includes('private clues') && await p.locator('#my-secrets').count() === 0);
-      const futureLeak = ri < story.rounds.length - 1 && raw.includes(JSON.stringify(fill(me.rounds[ri + 1].readAloud.text)).slice(1,-1));
-      ok(`round ${ri + 1}: ${g} did not get future-round clues`, !futureLeak);
+      await p.waitForFunction(ri => window.__gg.view.packet.rounds.length === ri + 1, ri, { timeout: T });
+      const readAloud = await p.evaluate(ri => window.__gg.view.packet.rounds[ri].readAloud, ri);
+      ok(`round ${ri + 1}: ${g} gets their clue after the chain completes`,
+        readAloud.accuses === me.rounds[ri].readAloud.accuses &&
+        readAloud.text === fill(me.rounds[ri].readAloud.text));
     }
+    await host.click('#next-round');
+    await Promise.all(PLAYERS.map(g =>
+      players[g].waitForFunction(() => window.__gg.view.phase === 'deliberation', null, { timeout: T })));
+    ok(`round ${ri + 1}: deliberation opens after the complete clue chain`, true);
     await checkFiltering(`round ${ri + 1}`);
   }
 
@@ -196,12 +186,13 @@ try {
   // Player refresh / rejoin
   const rp = players['Mike'];
   await rp.reload({ waitUntil: 'load' });
-  await rp.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, story.rounds[0].title, { timeout: T });
-  ok('Mike refreshed and rejoined straight into his packet + round 1', (await rp.textContent('#packet-name')).trim() === byGuest['Mike'].name, el());
+  await rp.waitForSelector('#phase-card', { timeout: T });
+  ok('Mike refreshed and rejoined straight into his packet + round 1 deliberation',
+    (await rp.textContent('#packet-name')).trim() === byGuest['Mike'].name, el());
   ok('refresh did not replay character or chapter effects', await rp.evaluate(() => window.effectLog.length === 0));
 
   async function voteBetweenRounds(ri) {
-    await host.click('#next-round');
+    await host.click('#open-vote');
     for (const g of PLAYERS) {
       const p = players[g], me = byGuest[g];
       await p.waitForSelector('#vote-list', { timeout: T });
@@ -210,10 +201,6 @@ try {
         await p.locator('#evidence-history section').count() === ri + 1);
       ok(`round ${ri + 1}: ${g} notebook retains the full spoken narration`,
         await p.evaluate(({ri, text}) => window.__gg.view.evidenceHistory[ri].narration === text, {ri, text: fill(story.rounds[ri].narration)}));
-      if (mysteryId === 'blackwater-row' && ri < 4) {
-        ok(`round ${ri + 1}: ${g} voting notebook has no early identity or Mayor spoilers`,
-          !/Benjamin|Barker|Mayor|Aldric|Thorne|imprison|wife/i.test(await p.evaluate(() => JSON.stringify(window.__gg.view))));
-      }
       if (ri === 3 && mysteryId === 'sample') {
         ok(`round 4: ${g} receives the correction to Constance's earlier suspicion`,
           (await p.locator('#evidence-history').textContent()).includes('same decanter and survived'));
@@ -239,8 +226,9 @@ try {
 
   // Host refresh — state must survive and players must reconnect
   await host.reload({ waitUntil: 'load' });
-  await host.waitForFunction(t => document.querySelector('#round-title')?.textContent === t, story.rounds[1].title, { timeout: T });
-  ok('host refresh kept game state (still round 2)', true, el());
+  await host.waitForFunction(t => document.querySelector('#app h1')?.textContent === t,
+    `Round 2 · Deliberation`, { timeout: T });
+  ok('host refresh kept game state (round 2 deliberation)', true, el());
   if (mysteryId !== 'example') {
     ok('refresh keeps the same locked edition and scripts',
       await host.evaluate(story => {
@@ -259,13 +247,9 @@ try {
   for (let ri = 2; ri < story.rounds.length - 1; ri++) {
     await voteBetweenRounds(ri);
     await expectRound(ri + 1);
-    for (const g of PLAYERS) {
-      ok(`round ${ri + 2}: ${g} has a growing personal evidence history`,
-        await players[g].locator('#my-case .personal-evidence').count() === ri + 1);
-    }
   }
 
-  await host.click('#next-round'); // -> vote
+  await host.click('#open-vote');
   for (const g of PLAYERS) await players[g].waitForSelector('#vote-list', { timeout: T });
   ok('voting opened on all phones', true, el());
   const votes = {};

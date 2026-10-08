@@ -50,8 +50,8 @@ try {
     await host.selectOption('#room-game', gameId); await click(host, 'create');
     const code = await host.locator('#room-code-display').innerText();
     check(`${gameId}: secure room code and guest link shown`, /^[A-Z2-9]{8}$/.test(code) && !(await host.locator('#room-link').inputValue()).includes('token'));
-    const guests = await Promise.all(Array.from({ length: 3 }, () => phone()));
-    for (let i = 0; i < 3; i++) {
+    const guests = await Promise.all(Array.from({ length: 5 }, () => phone()));
+    for (let i = 0; i < 5; i++) {
       await guests[i].goto(base + (i === 0 ? '/?room=' : '/premium-room.html?room=') + code);
       await guests[i].locator('#room-name').waitFor();
       if (i === 0) check(`${gameId}: homepage room code routes to premium joining`, guests[i].url().includes('premium-room.html'));
@@ -59,31 +59,40 @@ try {
       check(`${gameId}: guest ${i + 1} joins without login or purchase`, await guests[i].evaluate(() => !sessionStorage.getItem('gg-community-session-v1')));
     }
     await reload(host); await click(host, 'start');
-    check(`${gameId}: moderator has no private card`, await host.locator('[data-room="reveal"]').count() === 0);
-    for (const guest of guests) {
-      await reload(guest);
-      check(`${gameId}: refresh/reconnect hides roles`, await guest.locator('[data-room="reveal"]').count() === 1 && await guest.locator('#room-target').count() === 0);
-      await click(guest, 'reveal');
-      check(`${gameId}: phone has one private role only`, await guest.locator('.gold h3').count() === 1);
-    }
-    await guests[0].reload(); await guests[0].locator('[data-room="reveal"]').waitFor();
-    check(`${gameId}: reopened seat never auto-reveals`, await guests[0].locator('#room-target').count() === 0);
+    check(`${gameId}: room begins with narrator setup`, await host.locator('#premium-room').innerText().then(text => text.includes('Story setup')));
+    await click(host, 'start-introduction');
     let steps = 0;
     while (true) {
-      await reload(host);
-      const view = await f.request('/api/premium/rooms/host', { method: 'POST', body: { code, command: 'view' } });
-      assert.equal(view.status, 200);
-      if (view.body.phase === 'finished') break;
-      assert.ok(++steps < 15);
-      if (view.body.phase === 'discussion') { await click(host, 'council'); continue; }
-      for (const guest of guests) {
-        await reload(guest); await click(guest, 'reveal');
-        if (view.body.phase === 'vote') await guest.selectOption('#room-target', '');
+      const response = await f.request('/api/premium/rooms/host', { method: 'POST', body: { code, command: 'view' } });
+      assert.equal(response.status, 200);
+      const view = response.body;
+      if (view.phase === 'finished') break;
+      assert.ok(++steps < 100, 'universal phone-room flow terminates');
+      if (['setup', 'intro-discussion', 'round-intro', 'deliberation', 'final-accusation', 'reveal'].includes(view.phase)) {
+        const action = ({
+          setup: 'start-introduction', 'intro-discussion': 'start-rounds', 'round-intro': 'start-clues',
+          deliberation: 'open-vote', 'final-accusation': 'open-final-vote', reveal: 'finish-reveal',
+        })[view.phase];
+        if (view.phase === 'reveal') check(`${gameId}: fixed full-story reveal is available`, view.current.type === 'reveal' && !!view.current.solution);
+        await reload(host); await click(host, action); continue;
+      }
+      const index = view.players.findIndex(player => player.name === view.currentPlayer);
+      assert.notEqual(index, -1, 'current turn has a joined phone');
+      const guest = guests[index];
+      await reload(guest);
+      if (view.phase === 'vote' || view.phase === 'final-vote') {
+        check(`${gameId}: private vote offers only other characters`,
+          await guest.locator('[data-room="reveal"]').count() === 1);
+        await click(guest, 'reveal');
+        assert.equal(await guest.locator('#room-target option').count(), 4);
         await click(guest, 'submit');
-        check(`${gameId}: committing hides private card`, await guest.locator('#room-target').count() === 0);
+      } else {
+        const action = view.phase === 'introduction' ? 'read-card' : 'read-clue';
+        check(`${gameId}: ${action} is available only to the current reader`, await guest.locator(`[data-room="${action}"]`).count() === 1);
+        await click(guest, action);
       }
     }
-    check(`${gameId}: full phone match reaches public finale`, (await host.locator('#premium-room').innerText()).includes('win'));
+    check(`${gameId}: final vote and reveal complete the story`, (await host.locator('#premium-room').innerText()).includes('Story complete'));
     for (const guest of guests) await reload(guest);
     for (const width of [320, 390, 768]) {
       await guests[0].setViewportSize({ width, height: 844 });
