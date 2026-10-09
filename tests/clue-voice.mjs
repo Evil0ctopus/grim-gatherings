@@ -43,8 +43,9 @@ test('the narrative import path refreshes cached clue content without touching M
   const read = file => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
   const version = 'clue-voice-v1';
   for (const [file, dependency, dependencyVersion = version] of [
-    ['index.html', 'js/main.js', 'blackwater-master-v1'],
-    ['js/main.js', './host.js', 'blackwater-master-v1'],
+    ['index.html', 'js/main.js', 'briar-playtest-v1'],
+    ['js/main.js', './host.js', 'briar-playtest-v1'],
+    ['js/host.js', './briar-catalog.js', 'briar-playtest-v1'],
     ['js/host.js', './blackwater-catalog.js', 'blackwater-master-v1'],
     ['js/host.js', './ravenmoor-catalog.js', 'ravenmoor-master-v1'],
     ['js/host.js', './starters.js', 'blackwater-voice-v1'],

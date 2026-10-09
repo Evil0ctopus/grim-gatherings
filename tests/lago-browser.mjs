@@ -7,9 +7,10 @@ import { acceptDialogs } from './dialog-helper.mjs';
 const server = await createCommunityServer({ database: ':memory:' });
 const ravenmoor = process.argv.includes('--ravenmoor');
 const blackwater = process.argv.includes('--blackwater');
-const family = blackwater ? 'Blackwater' : ravenmoor ? 'Ravenmoor' : 'Lago';
-const button = blackwater ? '#use-blackwater' : ravenmoor ? '#use-sample' : '#use-lago';
-const card = blackwater ? '#blackwater-card' : ravenmoor ? '#ravenmoor-card' : '#lago-card';
+const briar = process.argv.includes('--briar');
+const family = briar ? 'Briar' : blackwater ? 'Blackwater' : ravenmoor ? 'Ravenmoor' : 'Lago';
+const button = briar ? '#use-briar' : blackwater ? '#use-blackwater' : ravenmoor ? '#use-sample' : '#use-lago';
+const card = briar ? '#briar-card' : blackwater ? '#blackwater-card' : ravenmoor ? '#ravenmoor-card' : '#lago-card';
 server.listen(0, '127.0.0.1');
 await once(server, 'listening');
 let browser;
@@ -46,6 +47,7 @@ try {
     await page.locator('#open-lobby').waitFor();
     assert.equal(await page.locator('[data-assign-character]').count(), count);
     assert.match(await page.locator('#app').innerText(), /original trio.*preserved/);
+    if (briar) assert.match(await page.locator('#app').innerText(), /does not specify the physical murder method/);
     await page.reload();
     await page.locator('#open-lobby').waitFor();
     await page.locator('#open-lobby').click();
@@ -68,7 +70,7 @@ try {
       await page.locator(ri === 6 ? '#reveal-btn' : '#next-round').click();
     }
     await page.locator('#killer-name').waitFor();
-    assert.equal(await page.locator('#killer-name').textContent(), blackwater ? 'Xander Hale' : ravenmoor ? 'Dr. Silas Ashgrove' : 'Charles Jolly Jr.');
+    assert.equal(await page.locator('#killer-name').textContent(), briar ? 'Edmund Pell' : blackwater ? 'Xander Hale' : ravenmoor ? 'Dr. Silas Ashgrove' : 'Charles Jolly Jr.');
     console.log(`PASS ${family} ${count} players: selection, saved-game reload, seven rounds, votes and reveal`);
   }
   await context.close();

@@ -152,7 +152,7 @@ export function syncAccusationSchedules(story) {
 }
 
 export function usesMasterReadingGroups(story) {
-  return story.masterPreserving === true && ['lago-cabin', 'ravenmoor', 'blackwater-scalable'].includes(story.edition?.family);
+  return story.masterPreserving === true && ['lago-cabin', 'ravenmoor', 'blackwater-scalable', 'briar-playtest'].includes(story.edition?.family);
 }
 
 export function accusationChain(story, roundIndex) {
@@ -201,7 +201,9 @@ export function validateAccusationCircles(story) {
   const repeatNote = String(story.coverageRepeatNote || '').trim();
   const playtest = story.authorPlaytest === true && story.edition?.family === 'lockdown';
   const masterGroups = usesMasterReadingGroups(story);
-  const core = new Set(story.edition?.family === 'blackwater-scalable'
+  const core = new Set(story.edition?.family === 'briar-playtest'
+    ? ['solicitor', 'housekeeper', 'secretary']
+    : story.edition?.family === 'blackwater-scalable'
     ? ['xander', 'marla', 'jasper']
     : story.edition?.family === 'ravenmoor'
       ? ['ashgrove', 'crane', 'constance']

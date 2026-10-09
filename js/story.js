@@ -1,7 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
-import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=blackwater-master-v1';
+import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=briar-playtest-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -54,8 +54,10 @@ export function normalizeStory(input, guests = []) {
     solution: { killerId: '', explanation: '', revealNarration: '' },
   };
   if (obj.authorPlaytest === true) {
-    if (obj.edition?.family !== 'lockdown' || !asStr(obj.playtestNotice).trim()) {
-      errors.push('An author playtest must identify the approved LOCKDOWN family and its unfinished-content notice.');
+    if (!['lockdown', 'briar-playtest'].includes(obj.edition?.family) ||
+        (obj.edition?.family === 'briar-playtest' && !usesMasterReadingGroups(obj)) ||
+        !asStr(obj.playtestNotice).trim()) {
+      errors.push('An author playtest must identify an approved family and its unfinished-content notice; Briar also requires master-preserving groups.');
     } else {
       s.authorPlaytest = true;
       s.playtestNotice = asStr(obj.playtestNotice).trim();
@@ -201,7 +203,7 @@ export function normalizeStory(input, guests = []) {
   for (const character of s.characters) {
     character.rounds.forEach((round, ri) => {
       const clue = round.readAloud;
-      if (!s.authorPlaytest && (!clue.observation || !clue.contradictingDetail)) {
+      if (!(s.authorPlaytest && s.edition?.family === 'lockdown') && (!clue.observation || !clue.contradictingDetail)) {
         errors.push(`${character.name || character.id}, Round ${ri + 1}: add the target observation and contradicting physical detail.`);
       }
     });
@@ -221,7 +223,7 @@ export function normalizeStory(input, guests = []) {
   }
   if (!s.finale.votePrompt) s.finale.votePrompt = `Who killed ${s.victim.name || 'the victim'}?`;
   if (s.characters.length >= 2) errors.push(...validateAccusationCircles(s));
-  if (s.authorPlaytest && s.rounds.length !== 7) errors.push('LOCKDOWN playtest editions require exactly seven rounds.');
+  if (s.authorPlaytest && s.rounds.length !== 7) errors.push('Author playtest editions require exactly seven rounds.');
   if (usesMasterReadingGroups(s) && s.rounds.length !== 7) errors.push('Master-preserving editions require exactly seven rounds.');
   if (s.authorPlaytest) s.rounds.forEach((_, ri) => {
     const texts = new Set();

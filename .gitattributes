@@ -2,3 +2,5 @@ tools/story-sources/ravenmoor-master.json text eol=lf
 tools/story-sources/blackwater-master.json text eol=lf
 js/editions/ravenmoor.js text eol=lf
 js/editions/blackwater-scalable.js text eol=lf
+tools/story-sources/briar-master.json text eol=lf
+js/editions/briar-playtest.js text eol=lf

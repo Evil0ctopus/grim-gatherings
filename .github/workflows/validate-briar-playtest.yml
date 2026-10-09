@@ -1,0 +1,71 @@
+name: Validate Briar House playtest
+
+on:
+  push:
+    branches: [playtest/briar-house, main]
+    paths:
+      - '.github/workflows/validate-briar-playtest.yml'
+      - 'tools/author-briar.mjs'
+      - 'tools/story-sources/briar-master.json'
+      - 'js/briar-catalog.js'
+      - 'js/editions/briar-playtest.js'
+      - 'tests/briar*.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: briar-playtest-validation
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Check immutable master and reproducible editions
+        run: node --max-old-space-size=128 tools/author-briar.mjs --check
+      - name: Run unit suite serially
+        run: |
+          node --input-type=module <<'JS'
+          import { readdirSync, readFileSync } from 'node:fs';
+          import { spawnSync } from 'node:child_process';
+          const tests = readdirSync('tests').filter(name =>
+            name.endsWith('.mjs') && readFileSync(`tests/${name}`, 'utf8').includes('node:test'));
+          if (!tests.length) throw new Error('No unit tests discovered.');
+          const result = spawnSync(process.execPath,
+            ['--max-old-space-size=1024', '--test', '--test-concurrency=1', ...tests.map(name => `tests/${name}`)],
+            { stdio: 'inherit' });
+          if (result.error) throw result.error;
+          process.exit(result.status ?? 1);
+          JS
+      - name: Build both website variants
+        run: |
+          node tools/build-site.mjs --production
+          npm run build:site
+      - name: Install one test browser
+        run: npx playwright install --with-deps chromium
+      - name: Play all ten editions serially and verify production selection
+        run: node --max-old-space-size=256 tests/lago-browser.mjs --briar
+  live:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Verify committed assets and all ten count selections on both live sites
+        run: node --max-old-space-size=256 tests/briar-live.mjs

@@ -96,6 +96,65 @@ only when the story calls for a dead player character to return.
 For the replacement chain-ends exception and repeat-gap requirements, see
 [`RULESETS.md`](RULESETS.md), sections 5–7.
 
+### Briar House 3–12-player testing editions
+
+The owner requested all ten fixed-count editions of Briar House for testing,
+with unfinished-canon disclosure like LOCKDOWN. The source does not specify
+the physical murder method; the supplied killer, motive, opportunity and ending
+remain unchanged. These editions are **unfinished author playtests**, not a
+completed rules-compliant release. The notice appears in selection, host review,
+the lobby and player views.
+
+The locked three-player playtest master is
+[`tools/story-sources/briar-master.json`](tools/story-sources/briar-master.json).
+Edmund Pell, Ada March and Iris Shaw retain exactly the same cards, seven clues,
+targets and reading loop across every count. Five original discovery sequences
+remain in rounds 1, 2, 4, 5 and 7; rounds 3 and 6 compare already released
+records without introducing new discoveries. All 25 original five-player
+responses are spoken by the host in their corresponding discovery chapters.
+The larger source's existing supporting observations are also spoken in shared
+chapters before supplemental readers use them.
+
+The nested twelve-seat order is Pell, Ada, Iris, Beatrice, Felix, Sylvia, Rowan,
+Nora, Julian, Marian, Julian's Bank Contact and Ada's Brother. The first ten are
+the original named characters. The final two are explicitly **source-linked
+comparison readers**, based on unnamed people already referenced in the source.
+They are not new suspects placed in the study, and their cards and clues do not
+invent names, firsthand observations, travel, attendance or alibis. Treat those
+seats as record-comparison roles during the eleven- and twelve-player playtests.
+They cannot establish a new opportunity or replace the original evidence.
+
+Run `node tools/author-briar.mjs` to reproduce the editions from the hashed
+master. It validates the twelve-player endpoint before producing editions 4–11.
+`--check` is read-only; `--create-master` refuses to overwrite the master.
+LF checkout attributes protect the master and generated asset on Windows.
+Run `node --test --test-concurrency=1 tests/briar-playtest.mjs` and
+`node tests/lago-browser.mjs --briar` for validation. Use one browser and one
+heavy job at a time, only with at least 4 GB free RAM and 8 GB free virtual memory.
+When local headroom is insufficient, the Briar validation workflow runs the
+full serial unit suite and all ten complete browser games on GitHub-hosted
+runners from the nondeploying `playtest/briar-house` branch. After publication
+on `main`, its live job checks exact assets, every count, disclosure and saved
+game reload on both websites. Run `node tests/briar-live.mjs --assets-only`
+for a lightweight HTTP-only check; the full live command launches one browser.
+
+Unlike LOCKDOWN's legacy draft exceptions, Briar still requires nonempty
+two-part clues, distinct text, target-only references, complete target coverage
+before repeats, legal reading groups and no consecutive repeated targets.
+All 525 clues across ten editions are tested, along with chapter equality,
+canon preservation, count selection, saved-game restoration and packet secrecy.
+Its incomplete murder method is a disclosed authoring gap, not permission
+to relax gameplay validation or invent a physical cause of death.
+
+Each count needs its own human playtest feedback: 3 tests the base loop; 4–10
+test supporting readers and discussion pace; 11–12 additionally test the
+role-labelled comparison seats. Automated passes do not certify voice,
+suspicion balance, historical authenticity or complete canon. Record whether
+the long shared accounts and analytical supplemental voice are comfortable
+to read aloud, whether the bell sequence is understood and whether the
+two account types stay distinct. Final canon decisions remain with the author.
+The historical five-player asset is unchanged; start a new game for these editions.
+
 ### Blackwater Row master and count-selected editions
 
 Blackwater Row has ten fixed-count editions for 3 through 12 players on both
@@ -271,8 +330,8 @@ still requires valid targets, a complete group partition, consistent reader
 order, seven rounds, flagged repeats and no consecutive repeated pairs. Normal
 stories retain their existing validation requirements.
 
-- **grimgatherings.com:** Blackwater Row, Ravenmoor, The Lago Cabin and LOCKDOWN. Other game pages point to development.
-- **GitHub Pages:** all existing games plus LOCKDOWN, The Lago Cabin and the scalable Ravenmoor and Blackwater Row editions.
+- **grimgatherings.com:** Blackwater Row, Ravenmoor, The Lago Cabin, LOCKDOWN and the Briar House playtest. Other game pages point to development.
+- **GitHub Pages:** all existing games plus LOCKDOWN, The Lago Cabin and the scalable Ravenmoor, Blackwater Row and Briar House testing editions.
 - Cloudflare's `production` branch builds automatically set the release-only
   policy, retire other game entry pages and exclude old story assets. Run
   `npm run build:site -- --production` to reproduce this build locally.
