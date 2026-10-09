@@ -1,0 +1,3519 @@
+// Imported author drafts; playable editions restore the immutable three-player master.
+export default {
+  "title": "LOCKDOWN",
+  "status": "author-review",
+  "sourceHash": "b440243a0a32d5b471a081dbc7604192b38c3a7955408f8899f0cd9ae268a584",
+  "sourceNote": "Supplied unfinished drafts. Not eligible for a public playable release.",
+  "editions": [
+    {
+      "count": 3,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis seemed distracted all day. He kept checking the clock during his shift."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "I saw Mason near the laundry hallway before lockdown, even though he wasn't assigned there."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek stopped by the laundry area twice that day, even though his assignment was in another wing."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason was unaccounted for during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis knew Victor's work schedule better than anyone."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek and Victor had an argument earlier this week."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis asked to switch part of his work assignment the day before the murder."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason stayed near the laundry hallway after count even though his shift responsibilities were finished there."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek seemed unusually interested in what Victor was telling other inmates."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "A few days before the murder, I caught Mason searching through incident reports that had nothing to do with his assigned housing unit."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "I saw Travis carrying a piece of cardboard during his shift that day."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek seemed more interested than usual in where Victor was spending his time."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis keeps checking the clock because he's waiting on his court report. Or that's what he wants you to think."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason's been asking questions about everyone since the day he got here. Maybe he's not just curious."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Another inmate saw Derek talking to Victor the day before. He said Victor was smiling, and Derek looked like he was barely holding it together."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason asked me who brings packages into the laundry. Not visitors. Packages."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis switched his shift to be in that laundry room all afternoon. That wasn't an accident."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek's been asking inmates who owes who money."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis was in that laundry room all afternoon. The cardboard, Victor's schedule, the shift change. Add it up."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was missing during lockdown, lingered by the hallway, and read reports that weren't his. It all lines up."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek argued with Victor, asked around about him, and was all over that laundry area. Add it up."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 4,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason was missing from his post for part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula doubled back past the laundry twice during her rounds."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Travis kept leaving the laundry floor that afternoon without signing out."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was seen near the laundry hallway before lockdown, off his assignment."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula was the last officer to check Victor's cell before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Mason was asking about Victor's cell checks, outside his duties."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek stopped by the laundry area twice, assigned to another wing."
+            },
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis seemed distracted all day, checking the clock on his shift."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis knew Victor's work schedule better than anyone."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek and Victor argued earlier in the week."
+            },
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Paula's cell-check log has a gap that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Derek was in the east wing twice that week, off his own wing."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Nobody saw Mason at his post when the lockdown started."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula's rounds took her past the laundry more than once."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Travis was off the laundry floor twice without logging out."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason lingered by the laundry hallway before lockdown, unassigned."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula checked Victor's cell last, right before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Mason keeps asking about things outside his assignment."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek was around the laundry twice, though posted elsewhere."
+            },
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis watched the clock all through his shift, distracted."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Nobody knew Victor's schedule like Travis did."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek had words with Victor earlier that week."
+            },
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "There's a gap in Paula's cell-check log that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Derek turned up in the east wing twice, not his post."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason's whereabouts during the lockdown are still unclear."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula passed the laundry twice on her rounds."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Travis left the laundry floor unsigned-out more than once."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was by the laundry hallway, not his assignment."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 5,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Paula's cell-check log has an unexplained gap that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Nobody could account for Mason during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Nobody knew Victor's work schedule the way Travis did."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Tom had been asking questions about the lockdown schedule beforehand."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Derek had been asking where Victor spent his time lately."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom left his post unattended for twenty minutes that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "Travis seemed distracted all day, constantly checking the clock on his shift."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was seen near the laundry hallway before lockdown, though not assigned there."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula performed the last cell check on Victor before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Derek had been asking inmates who owed money to whom."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis was distracted all day, repeatedly checking the clock during his shift."
+            },
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula was the last officer to check Victor's cell before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom was meant to shadow Mason but was seen alone near the laundry hallway."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Mason lingered by the laundry hallway after count, though his duties there were done."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek stopped by the laundry area twice, though his assignment was in another wing."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason could not be accounted for during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom was assigned to shadow Mason that day but vanished for an hour."
+            },
+            {
+              "reader": "tom",
+              "target": "paula",
+              "text": "Paula checked cells twice, skipped chapel, and her log shows a gap."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Travis requested a change to his work assignment the day before the murder."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek and Victor had a heated argument earlier that week."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "The gap in Paula's cell-check log still has no explanation."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Mason still cannot account for his time during the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis's knowledge of Victor's schedule keeps coming up in every account."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Tom's questions about the lockdown schedule look worse the more they surface."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Derek's interest in Victor's movements went beyond normal officer attention."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom's twenty missing minutes from his post are still unexplained."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "Travis's constant clock-watching that day pointed to something he was waiting for."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason had no business near the laundry hallway before lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula was the last officer to see Victor alive in his cell."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Inmates say Derek was pressing them about debts all week."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis spent the afternoon in the laundry room. The schedule, the cardboard, the shift change."
+            },
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula checked Victor's cell last, and her log still doesn't add up."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom never explained his hour alone by the laundry hallway."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Mason's habit of lingering where he isn't assigned keeps repeating."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek's trips to the laundry area had nothing to do with his assignment."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 6,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        },
+        {
+          "id": "alan",
+          "name": "Warden Alan Price",
+          "card": "The warden, in charge of the prison for six years. He demands answers fast and doesn't tolerate loose ends."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis was distracted through his whole shift, checking the clock every few minutes."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was spotted near the laundry hallway before lockdown, nowhere near his post."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom was supposed to shadow Mason that day but disappeared for a full hour."
+            },
+            {
+              "reader": "tom",
+              "target": "paula",
+              "text": "Paula checked cells twice that night, skipped chapel, and her log shows a gap."
+            },
+            {
+              "reader": "paula",
+              "target": "alan",
+              "text": "Alan kept his office door closed all week, with muffled voices inside."
+            },
+            {
+              "reader": "alan",
+              "target": "derek",
+              "text": "Another inmate saw Derek with Victor the day before. Victor smiled; Derek looked strained."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Paula's cell-check log shows a gap that afternoon, with nothing entered to explain it."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom was supposed to shadow Mason but was seen alone near the laundry hallway."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Mason has been questioning inmates in cellblocks far from his own."
+            },
+            {
+              "reader": "mason",
+              "target": "alan",
+              "text": "Alan was spotted in the east wing during count. Wardens don't do counts."
+            },
+            {
+              "reader": "alan",
+              "target": "travis",
+              "text": "Travis knew Victor's daily movements better than the duty roster did."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek and Victor had a heated argument earlier in the week, loud enough to draw attention."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom was missing from his post for twenty minutes that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "Travis carried a folded piece of cardboard under his arm during his shift."
+            },
+            {
+              "reader": "travis",
+              "target": "alan",
+              "text": "Alan walked the laundry corridor that morning. Wardens never inspect laundry."
+            },
+            {
+              "reader": "alan",
+              "target": "mason",
+              "text": "Mason was reading incident reports from a housing unit he's never worked."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula's cell-check log skips a full hour that afternoon, unexplained."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Derek kept pressing inmates about what Victor had been telling people."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "alan",
+              "text": "Alan's office door stayed closed all week, with constant phone calls inside."
+            },
+            {
+              "reader": "alan",
+              "target": "paula",
+              "text": "Paula skipped chapel that morning, then doubled her cell checks that night."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Mason lingered by the laundry hallway long after his shift there ended."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis knew Victor's work schedule better than anyone else in the building."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Tom slipped away from his shadow shift with Mason for a full hour."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Derek was seen around the laundry wing, far from his assigned post."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "All shift, Travis kept glancing at the clock like he was waiting on something."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Before lockdown, Mason was seen by the laundry hallway, off his assignment."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom left Mason's side for an hour during what should have been a shadow shift."
+            },
+            {
+              "reader": "tom",
+              "target": "paula",
+              "text": "Paula doubled her cell checks, missed chapel, and left a gap in her log."
+            },
+            {
+              "reader": "paula",
+              "target": "alan",
+              "text": "Voices came from Alan's closed office all week, off every schedule."
+            },
+            {
+              "reader": "alan",
+              "target": "derek",
+              "text": "An inmate spotted Derek talking with Victor the day before it happened."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "That afternoon is missing from Paula's cell-check log entirely."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Instead of shadowing Mason, Tom wandered the laundry hallway alone."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Inmates say Mason keeps asking questions outside his own blocks."
+            },
+            {
+              "reader": "mason",
+              "target": "alan",
+              "text": "The warden was doing cell counts in the east wing himself."
+            },
+            {
+              "reader": "alan",
+              "target": "travis",
+              "text": "Travis seemed to track Victor's daily routine better than the duty roster."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Earlier that week, Derek and Victor argued loudly enough for others to hear."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom abandoned his post for twenty minutes that afternoon, no explanation given."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "During his shift, Travis was carrying folded cardboard under one arm."
+            },
+            {
+              "reader": "travis",
+              "target": "alan",
+              "text": "The warden strolled the laundry corridor that morning, which he never does."
+            },
+            {
+              "reader": "alan",
+              "target": "mason",
+              "text": "Mason had incident reports open from a unit where he's never served."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "An hour is simply missing from Paula's cell-check log that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Derek was pumping inmates for whatever Victor had been saying."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 7,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        },
+        {
+          "id": "alan",
+          "name": "Warden Alan Price",
+          "card": "The warden, in charge of the prison for six years. He demands answers fast and doesn't tolerate loose ends."
+        },
+        {
+          "id": "elena",
+          "name": "Nurse Elena Ruiz",
+          "card": "The prison nurse for nearly a decade. She treats everyone who comes through her door and asks no questions about how they got hurt."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "alan",
+              "text": "Alan kept his office door closed all week, taking phone calls."
+            },
+            {
+              "reader": "alan",
+              "target": "mason",
+              "text": "Mason was reading incident reports from units he doesn't cover."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom was supposed to shadow Mason that day, but vanished for an hour."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "Travis stood by the laundry machines for twenty minutes, not working."
+            },
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula was the last officer to check Victor's cell before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "elena",
+              "text": "Elena asked which inmates are assigned to laundry detail."
+            },
+            {
+              "reader": "elena",
+              "target": "derek",
+              "text": "Derek has been asking inmates who owes money to whom."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "elena",
+              "text": "Elena was seen talking to Victor in the infirmary line, looking serious."
+            },
+            {
+              "reader": "elena",
+              "target": "paula",
+              "text": "Paula stopped by the infirmary asking about Victor's injuries."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Travis asked what time the laundry block gets checked."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Tom asked when the next lockdown drill is scheduled."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Mason asked who was seen near the laundry that day."
+            },
+            {
+              "reader": "mason",
+              "target": "alan",
+              "text": "Alan was in the east wing during count, which wardens never do."
+            },
+            {
+              "reader": "alan",
+              "target": "derek",
+              "text": "An inmate saw Derek with Victor the day before. Victor smiled; Derek looked strained."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis seemed distracted all day, checking the clock during his shift."
+            },
+            {
+              "reader": "travis",
+              "target": "alan",
+              "text": "Alan was walking the laundry corridor that morning; wardens never inspect laundry."
+            },
+            {
+              "reader": "alan",
+              "target": "paula",
+              "text": "Paula asked for the duty roster covering that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom was shadowing Mason but was seen alone near the laundry hallway."
+            },
+            {
+              "reader": "tom",
+              "target": "elena",
+              "text": "Elena brought her medical bag to the laundry hallway."
+            },
+            {
+              "reader": "elena",
+              "target": "mason",
+              "text": "Mason has asked questions about everyone since arriving; it may not be curiosity."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek stopped by the laundry area twice despite his assignment elsewhere."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason was unaccounted for during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "elena",
+              "text": "Elena asked where the laundry keeps spare bandages, claiming restocking."
+            },
+            {
+              "reader": "elena",
+              "target": "tom",
+              "text": "Tom went missing, got lost, and asked about the lockdown schedule."
+            },
+            {
+              "reader": "tom",
+              "target": "paula",
+              "text": "Paula checked cells twice, skipped chapel, and her log has a gap."
+            },
+            {
+              "reader": "paula",
+              "target": "alan",
+              "text": "Alan canceled the morning staff briefing without explanation."
+            },
+            {
+              "reader": "alan",
+              "target": "travis",
+              "text": "Travis requested extra laundry shifts twice this month."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek and Victor argued earlier in the week."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom was missing from his post for twenty minutes that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "alan",
+              "text": "Alan held closed-door meetings all week; nobody knows the subject."
+            },
+            {
+              "reader": "alan",
+              "target": "elena",
+              "text": "Elena requested Victor's medical file the day before he died."
+            },
+            {
+              "reader": "elena",
+              "target": "travis",
+              "text": "Travis was waiting outside the infirmary that morning."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was seen near the laundry hallway before lockdown, unassigned there."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula spent an extra twenty minutes on cell checks."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Derek asked who had the laundry room key that day."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Paula's cell-check log has a gap that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Mason asked about the laundry's package deliveries."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis knew Victor's work schedule better than anyone."
+            },
+            {
+              "reader": "travis",
+              "target": "elena",
+              "text": "Elena was seen carrying a cardboard box from the laundry room."
+            },
+            {
+              "reader": "elena",
+              "target": "alan",
+              "text": "Alan wanted to know who pulled Victor's medical file."
+            },
+            {
+              "reader": "alan",
+              "target": "tom",
+              "text": "Tom got lost on his rounds twice this week."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Derek said the laundry room was off-limits that day."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "alan",
+              "text": "Alan's office stayed closed all week with constant phone calls."
+            },
+            {
+              "reader": "alan",
+              "target": "mason",
+              "text": "Mason was digging through reports from other housing units."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom disappeared for an hour instead of shadowing Mason."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "Travis lingered by the laundry machines instead of working."
+            },
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula checked Victor's cell last before the lockdown started."
+            },
+            {
+              "reader": "paula",
+              "target": "elena",
+              "text": "Elena wanted the names on the laundry detail roster."
+            },
+            {
+              "reader": "elena",
+              "target": "derek",
+              "text": "Derek keeps asking inmates about debts owed."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 8,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        },
+        {
+          "id": "alan",
+          "name": "Warden Alan Price",
+          "card": "The warden, in charge of the prison for six years. He demands answers fast and doesn't tolerate loose ends."
+        },
+        {
+          "id": "elena",
+          "name": "Nurse Elena Ruiz",
+          "card": "The prison nurse for nearly a decade. She treats everyone who comes through her door and asks no questions about how they got hurt."
+        },
+        {
+          "id": "marcus",
+          "name": "Inmate Marcus Webb",
+          "card": "An inmate sharing a cell with Victor Ross. He keeps to himself and hears more than he lets on."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason was missing from his post for part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis knew Victor's work schedule better than anyone on the detail."
+            },
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula made the last cell check on Victor before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom was meant to shadow Mason but was seen alone by the laundry hallway."
+            },
+            {
+              "reader": "tom",
+              "target": "alan",
+              "text": "Alan held closed-door meetings all week. Nobody knows what they were about."
+            },
+            {
+              "reader": "alan",
+              "target": "elena",
+              "text": "Elena pulled Victor's medical file the day before he died."
+            },
+            {
+              "reader": "elena",
+              "target": "marcus",
+              "text": "Marcus asked for a sleep aid, saying his cellmate kept him up writing."
+            },
+            {
+              "reader": "marcus",
+              "target": "derek",
+              "text": "Derek showed unusual interest in what Victor was telling other inmates."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis was distracted all day, checking the clock through his whole shift."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was seen near the laundry hallway before lockdown, off his assignment."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula had a heated exchange with Victor two days before the murder."
+            },
+            {
+              "reader": "paula",
+              "target": "alan",
+              "text": "Alan made three personal calls from his office during the lockdown."
+            },
+            {
+              "reader": "alan",
+              "target": "tom",
+              "text": "Tom filed his round logs late three nights in a row."
+            },
+            {
+              "reader": "tom",
+              "target": "marcus",
+              "text": "Marcus was missing from his cell at afternoon count."
+            },
+            {
+              "reader": "marcus",
+              "target": "elena",
+              "text": "Elena pulled Victor's file, asked after the laundry detail, and carried a box out."
+            },
+            {
+              "reader": "elena",
+              "target": "derek",
+              "text": "Derek has been asking inmates around about who owes money to whom."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "There is a gap in Paula's cell-check log from that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Paula saw Mason reading files from a unit he doesn't cover."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom was assigned to shadow Mason and vanished for an hour."
+            },
+            {
+              "reader": "tom",
+              "target": "elena",
+              "text": "Elena restocked the infirmary twice that day, which is unusual for her."
+            },
+            {
+              "reader": "elena",
+              "target": "travis",
+              "text": "Travis came to the infirmary asking when his court report would arrive."
+            },
+            {
+              "reader": "travis",
+              "target": "marcus",
+              "text": "Marcus spent dinner in the chapel, away from everyone."
+            },
+            {
+              "reader": "marcus",
+              "target": "alan",
+              "text": "Alan took a call about a surprise inspection and went pale."
+            },
+            {
+              "reader": "alan",
+              "target": "derek",
+              "text": "An inmate saw Derek with Victor the day before: Victor smiling, Derek barely holding together."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom left his post unattended for twenty minutes that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Mason asked Tom what he saw near the laundry, then wrote it down."
+            },
+            {
+              "reader": "mason",
+              "target": "alan",
+              "text": "Alan walked the east wing during count. Wardens never do counts."
+            },
+            {
+              "reader": "alan",
+              "target": "marcus",
+              "text": "Marcus is Victor's cellmate, missed count, and now points fingers elsewhere."
+            },
+            {
+              "reader": "marcus",
+              "target": "travis",
+              "text": "Travis says the clock-watching is about his court report. Convenient explanation."
+            },
+            {
+              "reader": "travis",
+              "target": "elena",
+              "text": "Elena carried a cardboard box out of the laundry room that day."
+            },
+            {
+              "reader": "elena",
+              "target": "paula",
+              "text": "Paula's hands were shaking during the lockdown announcement."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Paula saw Derek lock something in his locker before the shift."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "alan",
+              "text": "Alan kept his office door closed all week, taking call after call."
+            },
+            {
+              "reader": "alan",
+              "target": "paula",
+              "text": "Alan noted Paula's report was filed a full day late."
+            },
+            {
+              "reader": "paula",
+              "target": "elena",
+              "text": "Elena asked which inmates work the laundry detail."
+            },
+            {
+              "reader": "elena",
+              "target": "mason",
+              "text": "Mason has questioned everyone since arriving. Curiosity, or something else."
+            },
+            {
+              "reader": "mason",
+              "target": "marcus",
+              "text": "Marcus and Victor were arguing by the rec yard. The words didn't carry."
+            },
+            {
+              "reader": "marcus",
+              "target": "tom",
+              "text": "Marcus saw Tom trying a utility door with the wrong key."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "Tom saw Travis slip something into his pocket in the laundry."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek and Victor argued earlier in the week."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "elena",
+              "text": "Elena spoke with Victor in the infirmary line. It looked serious."
+            },
+            {
+              "reader": "elena",
+              "target": "alan",
+              "text": "Alan asked Elena for something to help him sleep. He looked exhausted."
+            },
+            {
+              "reader": "alan",
+              "target": "travis",
+              "text": "Travis's trustee status is up for review next month."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Tom was digging through the lost-and-found box in the laundry."
+            },
+            {
+              "reader": "tom",
+              "target": "paula",
+              "text": "Paula checked cells twice, skipped chapel, and her log has a gap."
+            },
+            {
+              "reader": "paula",
+              "target": "marcus",
+              "text": "Marcus missed dinner. Nobody saw him for an hour."
+            },
+            {
+              "reader": "marcus",
+              "target": "mason",
+              "text": "Mason asked who brings packages into the laundry. Not visitors — packages."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek visited the laundry area twice, though assigned to another wing."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "marcus",
+              "text": "Marcus's cellmate wrote in that notebook for a week. What's in it?"
+            },
+            {
+              "reader": "marcus",
+              "target": "paula",
+              "text": "Paula's missing log entries are the hole in this whole case."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Paula says Travis's story about the lockdown hour keeps changing."
+            },
+            {
+              "reader": "travis",
+              "target": "alan",
+              "text": "Alan walked the laundry corridor that morning. Wardens don't inspect laundry."
+            },
+            {
+              "reader": "alan",
+              "target": "mason",
+              "text": "Mason's file has a commendation and a warning. Interesting combination."
+            },
+            {
+              "reader": "mason",
+              "target": "elena",
+              "text": "Elena asked where the laundry keeps spare bandages, claiming restocking."
+            },
+            {
+              "reader": "elena",
+              "target": "tom",
+              "text": "Tom went missing, got lost, and asked about the lockdown schedule."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Tom saw Derek by the laundry baskets the morning after the murder."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 9,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        },
+        {
+          "id": "alan",
+          "name": "Warden Alan Price",
+          "card": "The warden, in charge of the prison for six years. He demands answers fast and doesn't tolerate loose ends."
+        },
+        {
+          "id": "elena",
+          "name": "Nurse Elena Ruiz",
+          "card": "The prison nurse for nearly a decade. She treats everyone who comes through her door and asks no questions about how they got hurt."
+        },
+        {
+          "id": "marcus",
+          "name": "Inmate Marcus Webb",
+          "card": "An inmate sharing a cell with Victor Ross. He keeps to himself and hears more than he lets on."
+        },
+        {
+          "id": "deshawn",
+          "name": "Inmate DeShawn Carter",
+          "card": "A trustee assigned to the laundry detail with Travis Cole. He's been on the detail for two years and knows every machine by sound."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "marcus",
+              "text": "Victor filled a notebook for a week straight, and Marcus shared his cell."
+            },
+            {
+              "reader": "marcus",
+              "target": "mason",
+              "text": "Mason keeps asking who brings packages into the laundry room."
+            },
+            {
+              "reader": "mason",
+              "target": "elena",
+              "text": "Elena asked where the laundry keeps spare bandages for restocking."
+            },
+            {
+              "reader": "elena",
+              "target": "travis",
+              "text": "Travis stopped by the infirmary that morning complaining he hadn't slept."
+            },
+            {
+              "reader": "travis",
+              "target": "alan",
+              "text": "The warden walked the laundry corridor that morning doing his own inspection."
+            },
+            {
+              "reader": "alan",
+              "target": "paula",
+              "text": "Paula requested the east wing camera footage pulled for review yesterday."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom was meant to shadow Mason but was seen alone near the laundry."
+            },
+            {
+              "reader": "tom",
+              "target": "deshawn",
+              "text": "DeShawn pushed a cart full of cardboard past the laundry that day."
+            },
+            {
+              "reader": "deshawn",
+              "target": "derek",
+              "text": "Derek kept asking around about where Victor spent his time lately."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "deshawn",
+              "text": "DeShawn ran the big washers alone long after his shift ended."
+            },
+            {
+              "reader": "deshawn",
+              "target": "tom",
+              "text": "Tom kept asking which machines Victor used on laundry days."
+            },
+            {
+              "reader": "tom",
+              "target": "paula",
+              "text": "Paula checked cells twice, skipped chapel, and her log shows a gap."
+            },
+            {
+              "reader": "paula",
+              "target": "alan",
+              "text": "Alan took a personal call in the laundry office with the door closed."
+            },
+            {
+              "reader": "alan",
+              "target": "travis",
+              "text": "Travis asked the front desk about Victor's visitor list twice."
+            },
+            {
+              "reader": "travis",
+              "target": "elena",
+              "text": "Elena carried a cardboard box out of the laundry room herself."
+            },
+            {
+              "reader": "elena",
+              "target": "mason",
+              "text": "Mason has questioned everyone here since the day he arrived."
+            },
+            {
+              "reader": "mason",
+              "target": "marcus",
+              "text": "Marcus argued with Victor by the rec yard, though the words were lost."
+            },
+            {
+              "reader": "marcus",
+              "target": "derek",
+              "text": "Derek pressed inmates about what Victor had been telling them."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis watched the clock all shift, distracted through the whole day."
+            },
+            {
+              "reader": "travis",
+              "target": "marcus",
+              "text": "Marcus spent dinner hour in the chapel instead of the mess."
+            },
+            {
+              "reader": "marcus",
+              "target": "paula",
+              "text": "Paula made a second walk-through of the cellblock after lights-out."
+            },
+            {
+              "reader": "paula",
+              "target": "elena",
+              "text": "Elena asked which inmates work the laundry detail this month."
+            },
+            {
+              "reader": "elena",
+              "target": "tom",
+              "text": "Tom got lost on rounds and asked about the lockdown schedule."
+            },
+            {
+              "reader": "tom",
+              "target": "alan",
+              "text": "Alan held closed-door meetings all week about nobody knows what."
+            },
+            {
+              "reader": "alan",
+              "target": "deshawn",
+              "text": "DeShawn signed out extra cleaning supplies on the day it happened."
+            },
+            {
+              "reader": "deshawn",
+              "target": "mason",
+              "text": "Mason lingered by the laundry hallway after count with no duties left."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek visited the laundry area twice despite his other-wing assignment."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason could not be found during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "deshawn",
+              "text": "DeShawn signed out extra laundry supplies under Mason's watch."
+            },
+            {
+              "reader": "deshawn",
+              "target": "alan",
+              "text": "Alan turned up in odd places with his office door shut all week."
+            },
+            {
+              "reader": "alan",
+              "target": "tom",
+              "text": "Tom filed a maintenance request for the laundry room door last week."
+            },
+            {
+              "reader": "tom",
+              "target": "elena",
+              "text": "Elena restocked the laundry first-aid kit twice that same day."
+            },
+            {
+              "reader": "elena",
+              "target": "paula",
+              "text": "Paula asked if Victor had any recent medical complaints on file."
+            },
+            {
+              "reader": "paula",
+              "target": "marcus",
+              "text": "Marcus missed dinner and went unseen for a full hour."
+            },
+            {
+              "reader": "marcus",
+              "target": "travis",
+              "text": "Travis claims the clock-watching is about his coming court report."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Derek and Victor had a heated argument earlier in the week."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom left his post unmanned for twenty minutes that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "marcus",
+              "text": "Marcus was absent from his cell at afternoon count."
+            },
+            {
+              "reader": "marcus",
+              "target": "alan",
+              "text": "Alan pulled Marcus aside to question him about Victor's visitors."
+            },
+            {
+              "reader": "alan",
+              "target": "elena",
+              "text": "Elena pulled Victor's medical file the day before he died."
+            },
+            {
+              "reader": "elena",
+              "target": "deshawn",
+              "text": "DeShawn asked the infirmary for extra bandages for the laundry crew."
+            },
+            {
+              "reader": "deshawn",
+              "target": "travis",
+              "text": "Travis moved his shift to cover the laundry room all afternoon."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason stood near the laundry hallway before lockdown, unassigned there."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Paula's night-shift reports have been arriving late all week."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Derek signed out a master key for the east wing that morning."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Paula's cell-check log shows an unexplained gap that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Mason was reading incident reports from the east wing again."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Nobody knew Victor's work schedule better than Travis did."
+            },
+            {
+              "reader": "travis",
+              "target": "deshawn",
+              "text": "DeShawn restocked laundry shelves all afternoon near Travis's station."
+            },
+            {
+              "reader": "deshawn",
+              "target": "elena",
+              "text": "Elena was seen speaking with Victor near the infirmary yesterday."
+            },
+            {
+              "reader": "elena",
+              "target": "alan",
+              "text": "Alan asked that Victor's file stay where he could see it."
+            },
+            {
+              "reader": "alan",
+              "target": "marcus",
+              "text": "Victor's cellmate Marcus missed count and now points fingers elsewhere."
+            },
+            {
+              "reader": "marcus",
+              "target": "tom",
+              "text": "Tom asked Marcus whether Victor had enemies on the block."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Derek studied the laundry sign-in sheet right after count ended."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "elena",
+              "text": "Elena spoke with Victor in the infirmary line, and it looked serious."
+            },
+            {
+              "reader": "elena",
+              "target": "marcus",
+              "text": "Marcus requested a sleep aid, blaming his cellmate's late-night writing."
+            },
+            {
+              "reader": "marcus",
+              "target": "deshawn",
+              "text": "DeShawn spent that afternoon in the laundry room helping Travis."
+            },
+            {
+              "reader": "deshawn",
+              "target": "paula",
+              "text": "Paula's log showed a gap that afternoon with no explanation."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Travis was seen near Victor's cell an hour before lockdown."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Tom asked around about what Victor had been writing lately."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Mason took detailed notes through the entire investigation briefing."
+            },
+            {
+              "reader": "mason",
+              "target": "alan",
+              "text": "Alan walked the east wing during count, which wardens never do."
+            },
+            {
+              "reader": "alan",
+              "target": "derek",
+              "text": "An inmate saw Derek with Victor yesterday; Victor smiled while Derek seemed strained."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 10,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        },
+        {
+          "id": "alan",
+          "name": "Warden Alan Price",
+          "card": "The warden, in charge of the prison for six years. He demands answers fast and doesn't tolerate loose ends."
+        },
+        {
+          "id": "elena",
+          "name": "Nurse Elena Ruiz",
+          "card": "The prison nurse for nearly a decade. She treats everyone who comes through her door and asks no questions about how they got hurt."
+        },
+        {
+          "id": "marcus",
+          "name": "Inmate Marcus Webb",
+          "card": "An inmate sharing a cell with Victor Ross. He keeps to himself and hears more than he lets on."
+        },
+        {
+          "id": "deshawn",
+          "name": "Inmate DeShawn Carter",
+          "card": "A trustee assigned to the laundry detail with Travis Cole. He's been on the detail for two years and knows every machine by sound."
+        },
+        {
+          "id": "eddie",
+          "name": "Inmate Eddie Lark",
+          "card": "A kitchen worker serving the last three years of his sentence. He trades gossip like currency and always seems to know something."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason was unaccounted for during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis knew Victor's work schedule better than anyone."
+            },
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula was the last one to check Victor's cell before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom was assigned to shadow Mason but was seen alone near the laundry hallway."
+            },
+            {
+              "reader": "tom",
+              "target": "alan",
+              "text": "Alan has been holding closed-door meetings all week. Nobody knows what about."
+            },
+            {
+              "reader": "alan",
+              "target": "elena",
+              "text": "Elena requested Victor's medical file the day before he died."
+            },
+            {
+              "reader": "elena",
+              "target": "marcus",
+              "text": "Marcus asked Elena for something to help him sleep; his cellmate kept him up writing."
+            },
+            {
+              "reader": "marcus",
+              "target": "deshawn",
+              "text": "DeShawn was in the laundry room that afternoon. Said he was helping Travis."
+            },
+            {
+              "reader": "deshawn",
+              "target": "eddie",
+              "text": "Eddie kept asking who Victor was meeting that night."
+            },
+            {
+              "reader": "eddie",
+              "target": "derek",
+              "text": "Derek stopped by the laundry area twice that day, even though his assignment was in another wing."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis seemed distracted all day. He kept checking the clock during his shift."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Mason was seen near the laundry hallway before lockdown, though not assigned there."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Mason was asking Paula about her cell-check route that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "alan",
+              "text": "Paula saw Alan coming out of the laundry corridor that morning."
+            },
+            {
+              "reader": "alan",
+              "target": "tom",
+              "text": "Alan assigned Tom to shadow Mason. Tom never reported back."
+            },
+            {
+              "reader": "tom",
+              "target": "elena",
+              "text": "Tom saw Elena leaving the laundry room carrying supplies."
+            },
+            {
+              "reader": "elena",
+              "target": "eddie",
+              "text": "Eddie came to the infirmary with a cut hand that afternoon."
+            },
+            {
+              "reader": "eddie",
+              "target": "deshawn",
+              "text": "DeShawn was in the laundry all afternoon with cardboard in his cart."
+            },
+            {
+              "reader": "deshawn",
+              "target": "marcus",
+              "text": "DeShawn heard Marcus arguing with Victor the day before."
+            },
+            {
+              "reader": "marcus",
+              "target": "derek",
+              "text": "Derek seemed unusually interested in what Victor was telling other inmates."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Paula's cell-check log has a gap in it that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Paula caught Mason going through the duty roster after his shift."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom was supposed to shadow Mason that day. He vanished for an hour."
+            },
+            {
+              "reader": "tom",
+              "target": "travis",
+              "text": "Tom heard Travis asking about Victor's work detail that morning."
+            },
+            {
+              "reader": "travis",
+              "target": "alan",
+              "text": "Alan was walking the laundry corridor that morning. Since when do wardens inspect laundry?"
+            },
+            {
+              "reader": "alan",
+              "target": "marcus",
+              "text": "Marcus is Victor's cellmate. He missed count and now points fingers at everyone else."
+            },
+            {
+              "reader": "marcus",
+              "target": "eddie",
+              "text": "Marcus saw Eddie in the laundry with his hand wrapped up."
+            },
+            {
+              "reader": "eddie",
+              "target": "elena",
+              "text": "Eddie saw Elena take Victor's file from the records office."
+            },
+            {
+              "reader": "elena",
+              "target": "deshawn",
+              "text": "Elena saw DeShawn loading extra sheets onto his cart."
+            },
+            {
+              "reader": "deshawn",
+              "target": "derek",
+              "text": "Derek seemed more interested than usual in where Victor was spending his time."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Tom was missing from his post for twenty minutes that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Tom saw Mason copying names from the incident board."
+            },
+            {
+              "reader": "mason",
+              "target": "alan",
+              "text": "Alan was in the east wing during count. Wardens don't do counts."
+            },
+            {
+              "reader": "alan",
+              "target": "travis",
+              "text": "Alan saw Travis's name added to the laundry detail in different handwriting."
+            },
+            {
+              "reader": "travis",
+              "target": "deshawn",
+              "text": "DeShawn restocked the laundry shelves all afternoon, talking about Travis's court report."
+            },
+            {
+              "reader": "deshawn",
+              "target": "paula",
+              "text": "Paula's log had a gap that afternoon. Nobody has explained it."
+            },
+            {
+              "reader": "paula",
+              "target": "eddie",
+              "text": "Eddie was hauling trash bags out back during his kitchen shift."
+            },
+            {
+              "reader": "eddie",
+              "target": "marcus",
+              "text": "Eddie heard Marcus asking about Victor's notebook."
+            },
+            {
+              "reader": "marcus",
+              "target": "elena",
+              "text": "Elena pulled Victor's file, asked about the laundry detail, and carried a box out of there."
+            },
+            {
+              "reader": "elena",
+              "target": "derek",
+              "text": "Derek's been asking inmates who owes who money."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "alan",
+              "text": "Alan's had his office door closed all week. Lots of phone calls."
+            },
+            {
+              "reader": "alan",
+              "target": "mason",
+              "text": "Alan saw Mason in the records room after lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "marcus",
+              "text": "Mason saw Marcus and Victor arguing by the rec yard."
+            },
+            {
+              "reader": "marcus",
+              "target": "travis",
+              "text": "Travis keeps checking the clock because he's waiting on his court report. Or that's what he wants you to think."
+            },
+            {
+              "reader": "travis",
+              "target": "eddie",
+              "text": "Eddie keeps asking who Victor was meeting that night."
+            },
+            {
+              "reader": "eddie",
+              "target": "paula",
+              "text": "Paula was covering cell checks for the sick officer."
+            },
+            {
+              "reader": "paula",
+              "target": "deshawn",
+              "text": "DeShawn's been jumpy. Keeps looking over his shoulder on the laundry floor."
+            },
+            {
+              "reader": "deshawn",
+              "target": "elena",
+              "text": "DeShawn saw Elena drop off bandages at the laundry."
+            },
+            {
+              "reader": "elena",
+              "target": "tom",
+              "text": "Tom went missing, got lost, and asked about the lockdown schedule."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Tom overheard Derek arguing on the phone about money owed."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "elena",
+              "text": "Derek saw Elena talking to Victor in the infirmary line. It looked serious."
+            },
+            {
+              "reader": "elena",
+              "target": "mason",
+              "text": "Mason's been asking questions about everyone since the day he got here. Maybe he's not just curious."
+            },
+            {
+              "reader": "mason",
+              "target": "deshawn",
+              "text": "Mason watched DeShawn sign out extra supplies for the laundry."
+            },
+            {
+              "reader": "deshawn",
+              "target": "travis",
+              "text": "Travis switched his shift to be in that laundry room all afternoon. That wasn't an accident."
+            },
+            {
+              "reader": "travis",
+              "target": "marcus",
+              "text": "Travis saw Marcus in the chapel during dinner."
+            },
+            {
+              "reader": "marcus",
+              "target": "tom",
+              "text": "Marcus saw Tom near Victor's cell during lockdown."
+            },
+            {
+              "reader": "tom",
+              "target": "eddie",
+              "text": "Eddie asked Tom about the lockdown schedule. Strange for a kitchen worker."
+            },
+            {
+              "reader": "eddie",
+              "target": "alan",
+              "text": "Eddie served Alan's lunch in his office. The door was locked from inside."
+            },
+            {
+              "reader": "alan",
+              "target": "paula",
+              "text": "Alan noted Paula's overtime request for that night shift."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Paula saw Derek leaving the east wing long after his shift ended."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "marcus",
+              "text": "Victor was writing in that notebook for a week. Marcus never said what was in it."
+            },
+            {
+              "reader": "marcus",
+              "target": "paula",
+              "text": "Marcus heard Paula arguing with someone on the block that night."
+            },
+            {
+              "reader": "paula",
+              "target": "elena",
+              "text": "Elena asked Paula which inmates are on laundry detail."
+            },
+            {
+              "reader": "elena",
+              "target": "travis",
+              "text": "Elena saw Travis pacing outside the laundry before lockdown."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Travis saw Tom lingering by the utility corridor after his round."
+            },
+            {
+              "reader": "tom",
+              "target": "deshawn",
+              "text": "DeShawn had cardboard in his cart that day."
+            },
+            {
+              "reader": "deshawn",
+              "target": "alan",
+              "text": "DeShawn saw Alan's office light on well past midnight."
+            },
+            {
+              "reader": "alan",
+              "target": "eddie",
+              "text": "Eddie left the kitchen twice during his shift."
+            },
+            {
+              "reader": "eddie",
+              "target": "mason",
+              "text": "Days before the murder, Eddie caught Mason searching incident reports outside his housing unit."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek argued with Victor, asked around about him, and was all over that laundry area."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 11,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        },
+        {
+          "id": "alan",
+          "name": "Warden Alan Price",
+          "card": "The warden, in charge of the prison for six years. He demands answers fast and doesn't tolerate loose ends."
+        },
+        {
+          "id": "elena",
+          "name": "Nurse Elena Ruiz",
+          "card": "The prison nurse for nearly a decade. She treats everyone who comes through her door and asks no questions about how they got hurt."
+        },
+        {
+          "id": "marcus",
+          "name": "Inmate Marcus Webb",
+          "card": "An inmate sharing a cell with Victor Ross. He keeps to himself and hears more than he lets on."
+        },
+        {
+          "id": "deshawn",
+          "name": "Inmate DeShawn Carter",
+          "card": "A trustee assigned to the laundry detail with Travis Cole. He's been on the detail for two years and knows every machine by sound."
+        },
+        {
+          "id": "eddie",
+          "name": "Inmate Eddie Lark",
+          "card": "A kitchen worker serving the last three years of his sentence. He trades gossip like currency and always seems to know something."
+        },
+        {
+          "id": "roy",
+          "name": "Inmate Roy Delgado",
+          "card": "A janitor trustee with access to the utility corridors. He's quiet, reliable, and goes places most inmates never see."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "eddie",
+              "text": "Derek says Eddie trades gossip like currency. If anyone heard Victor's secret, he did."
+            },
+            {
+              "reader": "eddie",
+              "target": "mason",
+              "text": "Eddie caught Mason digging through incident reports from a housing unit that isn't his."
+            },
+            {
+              "reader": "mason",
+              "target": "deshawn",
+              "text": "Mason watched DeShawn sign out extra supplies for the laundry that morning."
+            },
+            {
+              "reader": "deshawn",
+              "target": "travis",
+              "text": "DeShawn says Travis moved his whole shift into the laundry room that afternoon. Deliberate."
+            },
+            {
+              "reader": "travis",
+              "target": "marcus",
+              "text": "Travis saw Marcus in the chapel during dinner instead of the mess hall."
+            },
+            {
+              "reader": "marcus",
+              "target": "paula",
+              "text": "Marcus says Paula checked their block twice that night. Officers don't double back for nothing."
+            },
+            {
+              "reader": "paula",
+              "target": "elena",
+              "text": "Paula says Elena asked which inmates work the laundry detail."
+            },
+            {
+              "reader": "elena",
+              "target": "tom",
+              "text": "Elena saw Tom off his post, lost, asking about the lockdown schedule."
+            },
+            {
+              "reader": "tom",
+              "target": "alan",
+              "text": "Tom says Alan's been in closed-door meetings all week. Nobody knows the subject."
+            },
+            {
+              "reader": "alan",
+              "target": "roy",
+              "text": "Alan had Roy breaking down boxes in storage all afternoon, on his orders."
+            },
+            {
+              "reader": "roy",
+              "target": "derek",
+              "text": "Roy says Derek had Victor pulled from rec early twice this week. Nobody knows why."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "roy",
+              "text": "Derek saw Roy by the laundry hallway, key ring out. Utility corridors, most likely."
+            },
+            {
+              "reader": "roy",
+              "target": "alan",
+              "text": "Roy says Alan personally assigned Mason to read reports from other units."
+            },
+            {
+              "reader": "alan",
+              "target": "tom",
+              "text": "Alan says Tom's been asking questions above his rank. Somebody's coaching the rookie."
+            },
+            {
+              "reader": "tom",
+              "target": "elena",
+              "text": "Tom heard Elena signed out extra sedatives this week. The logbook says so."
+            },
+            {
+              "reader": "elena",
+              "target": "paula",
+              "text": "Elena says Paula asked for Victor's work detail sheet yesterday. Called it routine."
+            },
+            {
+              "reader": "paula",
+              "target": "marcus",
+              "text": "Paula says Marcus wasn't at dinner. Nobody saw him for an hour."
+            },
+            {
+              "reader": "marcus",
+              "target": "travis",
+              "text": "Marcus says Travis keeps checking the clock. Claims it's his court report coming."
+            },
+            {
+              "reader": "travis",
+              "target": "deshawn",
+              "text": "Travis says DeShawn restocked the laundry shelves all afternoon, chatting about court reports."
+            },
+            {
+              "reader": "deshawn",
+              "target": "mason",
+              "text": "DeShawn says Mason lingered by the laundry hallway after count, his duties done."
+            },
+            {
+              "reader": "mason",
+              "target": "eddie",
+              "text": "Mason says Eddie was pressing inmates about Victor's meetings. Gossip or something else?"
+            },
+            {
+              "reader": "eddie",
+              "target": "derek",
+              "text": "Eddie saw Derek by the laundry area twice that day, far from his assigned wing."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Derek says Travis was distracted all day, checking the clock through his shift."
+            },
+            {
+              "reader": "travis",
+              "target": "eddie",
+              "text": "Travis wants to know why Eddie keeps asking who Victor was meeting that night."
+            },
+            {
+              "reader": "eddie",
+              "target": "paula",
+              "text": "Eddie says Paula covered cell checks for the sick officer. She told him so."
+            },
+            {
+              "reader": "paula",
+              "target": "deshawn",
+              "text": "Paula says DeShawn's been jumpy on the laundry floor, always looking over his shoulder."
+            },
+            {
+              "reader": "deshawn",
+              "target": "tom",
+              "text": "DeShawn says Tom asked to borrow his laundry cart. Never said what for."
+            },
+            {
+              "reader": "tom",
+              "target": "marcus",
+              "text": "Tom says Marcus wasn't in his cell during afternoon count."
+            },
+            {
+              "reader": "marcus",
+              "target": "alan",
+              "text": "Marcus says the warden had Victor in his office twice this month. Door closed both times."
+            },
+            {
+              "reader": "alan",
+              "target": "elena",
+              "text": "Alan says Elena requested Victor's medical file the day before he died."
+            },
+            {
+              "reader": "elena",
+              "target": "roy",
+              "text": "Elena saw Roy's cart loaded with broken-down boxes."
+            },
+            {
+              "reader": "roy",
+              "target": "mason",
+              "text": "Roy saw Mason near the laundry hallway before lockdown, off his assignment."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Mason says Derek stopped by the laundry area twice, though his wing was elsewhere."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Derek says Mason was unaccounted for during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "roy",
+              "text": "Mason saw Roy by the laundry door at shift change. Just standing there."
+            },
+            {
+              "reader": "roy",
+              "target": "elena",
+              "text": "Roy says Elena's infirmary log shows Victor visited twice this week, both off-schedule."
+            },
+            {
+              "reader": "elena",
+              "target": "alan",
+              "text": "Elena says Alan ordered extra incident reports from the east wing. Wouldn't say why."
+            },
+            {
+              "reader": "alan",
+              "target": "marcus",
+              "text": "Alan says Marcus is Victor's cellmate, missed count, and now points fingers. What's he hiding?"
+            },
+            {
+              "reader": "marcus",
+              "target": "tom",
+              "text": "Marcus says Tom was asking inmates about Victor's schedule. Rookie doing a veteran's job."
+            },
+            {
+              "reader": "tom",
+              "target": "deshawn",
+              "text": "Tom saw cardboard in DeShawn's laundry cart that day."
+            },
+            {
+              "reader": "deshawn",
+              "target": "paula",
+              "text": "DeShawn says Paula's log has a gap that afternoon. He asked where she was."
+            },
+            {
+              "reader": "paula",
+              "target": "eddie",
+              "text": "Paula saw Eddie hauling trash bags out back. Kitchen runs, she says."
+            },
+            {
+              "reader": "eddie",
+              "target": "travis",
+              "text": "Eddie says Travis asked to switch part of his work assignment the day before."
+            },
+            {
+              "reader": "travis",
+              "target": "derek",
+              "text": "Travis says Derek and Victor had an argument earlier this week."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "tom",
+              "text": "Derek says Tom was missing from his post for twenty minutes that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "eddie",
+              "text": "Tom says Eddie was asking about the lockdown schedule. Odd for kitchen staff."
+            },
+            {
+              "reader": "eddie",
+              "target": "alan",
+              "text": "Eddie saw Alan in the kitchen hallway during lockdown prep. Wardens don't do prep."
+            },
+            {
+              "reader": "alan",
+              "target": "deshawn",
+              "text": "Alan says DeShawn signed out extra cleaning supplies that day."
+            },
+            {
+              "reader": "deshawn",
+              "target": "elena",
+              "text": "DeShawn says Elena restocked the laundry first-aid kit. Took twice as long as usual."
+            },
+            {
+              "reader": "elena",
+              "target": "marcus",
+              "text": "Elena says Marcus asked her for something to sleep. His cellmate's writing kept him up."
+            },
+            {
+              "reader": "marcus",
+              "target": "roy",
+              "text": "Marcus says Roy was in their cellblock when the lockdown was announced."
+            },
+            {
+              "reader": "roy",
+              "target": "travis",
+              "text": "Roy saw Travis carrying cardboard during his shift that day."
+            },
+            {
+              "reader": "travis",
+              "target": "mason",
+              "text": "Travis saw Mason near the laundry hallway before lockdown, off assignment."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Mason says Paula re-checked Victor's cell an hour after her first round. That means worry."
+            },
+            {
+              "reader": "paula",
+              "target": "derek",
+              "text": "Paula says Derek's been watching Victor for weeks. Closer than his job requires."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Derek says Paula's cell-check log has a gap in it that afternoon."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Paula saw Mason reading reports from units that aren't his. She saw the stack."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Mason says Travis knew Victor's work schedule better than anyone."
+            },
+            {
+              "reader": "travis",
+              "target": "roy",
+              "text": "Travis says Roy once let him into the utility corridor. Roy opens doors for people he likes."
+            },
+            {
+              "reader": "roy",
+              "target": "marcus",
+              "text": "Roy says Marcus has gone quiet since Victor died. Quieter than usual."
+            },
+            {
+              "reader": "marcus",
+              "target": "elena",
+              "text": "Marcus says Elena pulled Victor's file, asked about laundry detail, carried a box out."
+            },
+            {
+              "reader": "elena",
+              "target": "deshawn",
+              "text": "Elena says DeShawn asked for burn cream. Wouldn't say how he got hurt."
+            },
+            {
+              "reader": "deshawn",
+              "target": "alan",
+              "text": "DeShawn says Alan's been where he shouldn't be, office door closed all week."
+            },
+            {
+              "reader": "alan",
+              "target": "eddie",
+              "text": "Alan says Eddie left the kitchen twice during his shift."
+            },
+            {
+              "reader": "eddie",
+              "target": "tom",
+              "text": "Eddie wants to know why Tom was asking about the lockdown schedule."
+            },
+            {
+              "reader": "tom",
+              "target": "derek",
+              "text": "Tom says Derek tore into him for leaving his post. Derek's been wound tight all week."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "elena",
+              "text": "Derek saw Elena talking with Victor in the infirmary line. It looked serious."
+            },
+            {
+              "reader": "elena",
+              "target": "eddie",
+              "text": "Elena treated Eddie for a cut hand at the infirmary that afternoon."
+            },
+            {
+              "reader": "eddie",
+              "target": "marcus",
+              "text": "Eddie says Marcus hasn't touched his meals since Victor died. Grief or guilt."
+            },
+            {
+              "reader": "marcus",
+              "target": "deshawn",
+              "text": "Marcus says DeShawn was in the laundry that afternoon, claiming he helped Travis."
+            },
+            {
+              "reader": "deshawn",
+              "target": "roy",
+              "text": "DeShawn says Roy's keys were on the laundry hook that night. He never leaves them."
+            },
+            {
+              "reader": "roy",
+              "target": "paula",
+              "text": "Roy says Paula checked their block twice that night. She never doubles up."
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Paula says Travis knew Victor's schedule better than anyone on the block. Better than her."
+            },
+            {
+              "reader": "travis",
+              "target": "tom",
+              "text": "Travis saw Tom solo by the laundry twice, after ditching his shadow assignment."
+            },
+            {
+              "reader": "tom",
+              "target": "mason",
+              "text": "Tom says Mason was in the records room after hours. The sign-in log proves it."
+            },
+            {
+              "reader": "mason",
+              "target": "alan",
+              "text": "Mason says Alan was in the east wing during count. Wardens don't do counts."
+            },
+            {
+              "reader": "alan",
+              "target": "derek",
+              "text": "Alan says another inmate saw Derek with Victor the day before. Victor smiled; Derek looked strained."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    },
+    {
+      "count": 12,
+      "characters": [
+        {
+          "id": "derek",
+          "name": "Officer Derek Hayes",
+          "card": "A veteran correctional officer with 15 years of experience. He's known for keeping a close eye on inmates who cause trouble and isn't afraid to confront them."
+        },
+        {
+          "id": "mason",
+          "name": "Officer Mason Reed",
+          "card": "A newer officer who transferred to the prison less than a year ago. Quiet, observant, and often asking questions that don't seem related to his assigned duties."
+        },
+        {
+          "id": "travis",
+          "name": "Inmate Travis Cole",
+          "card": "A trustee assigned to the laundry detail. He has more freedom than most inmates and knows the prison's routines better than almost anyone."
+        },
+        {
+          "id": "paula",
+          "name": "Officer Paula Reyes",
+          "card": "A senior officer with 12 years running the night shift on the east wing. She's thorough with her cell checks and remembers every face on her block."
+        },
+        {
+          "id": "tom",
+          "name": "Officer Tom Becker",
+          "card": "A rookie officer, only three months out of the academy. He's eager to prove himself and sticks close to whoever will teach him."
+        },
+        {
+          "id": "alan",
+          "name": "Warden Alan Price",
+          "card": "The warden, in charge of the prison for six years. He demands answers fast and doesn't tolerate loose ends."
+        },
+        {
+          "id": "elena",
+          "name": "Nurse Elena Ruiz",
+          "card": "The prison nurse for nearly a decade. She treats everyone who comes through her door and asks no questions about how they got hurt."
+        },
+        {
+          "id": "marcus",
+          "name": "Inmate Marcus Webb",
+          "card": "An inmate sharing a cell with Victor Ross. He keeps to himself and hears more than he lets on."
+        },
+        {
+          "id": "deshawn",
+          "name": "Inmate DeShawn Carter",
+          "card": "A trustee assigned to the laundry detail with Travis Cole. He's been on the detail for two years and knows every machine by sound."
+        },
+        {
+          "id": "eddie",
+          "name": "Inmate Eddie Lark",
+          "card": "A kitchen worker serving the last three years of his sentence. He trades gossip like currency and always seems to know something."
+        },
+        {
+          "id": "roy",
+          "name": "Inmate Roy Delgado",
+          "card": "A janitor trustee with access to the utility corridors. He's quiet, reliable, and goes places most inmates never see."
+        },
+        {
+          "id": "james",
+          "name": "Chaplain James Okafor",
+          "card": "The prison chaplain for four years. Inmates trust him with their confessions, and he keeps every one of them."
+        }
+      ],
+      "victim": "Victor Ross\nAn inmate known for collecting information, rumors, and secrets. Recently, Victor hinted he had discovered something important.",
+      "rounds": [
+        {
+          "title": "LOCKDOWN",
+          "narration": "At 8:15 PM, Victor Ross is found dead in the laundry room during a prison lockdown.\nSecurity footage shows Victor entering the laundry room at 8:02 PM.\nTwo minutes later, a second figure is seen entering the hallway leading toward the laundry room. The image is too blurry to identify the person.\nVictor does not appear frightened.\nInvestigators believe he was expecting to meet someone.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "mason",
+              "text": "Mason was unaccounted for during part of the lockdown."
+            },
+            {
+              "reader": "mason",
+              "target": "travis",
+              "text": "Travis knew Victor's work schedule better than anyone."
+            },
+            {
+              "reader": "travis",
+              "target": "paula",
+              "text": "Paula was the last one to check Victor's cell before lockdown."
+            },
+            {
+              "reader": "paula",
+              "target": "tom",
+              "text": "Tom was supposed to be shadowing Mason, but I saw him alone near the laundry hallway."
+            },
+            {
+              "reader": "tom",
+              "target": "alan",
+              "text": "Alan has been holding closed-door meetings all week. Nobody knows what about."
+            },
+            {
+              "reader": "alan",
+              "target": "elena",
+              "text": "Elena requested Victor's medical file the day before he died."
+            },
+            {
+              "reader": "elena",
+              "target": "marcus",
+              "text": "Marcus asked me for something to help him sleep. Said his cellmate kept him up writing."
+            },
+            {
+              "reader": "marcus",
+              "target": "deshawn",
+              "text": "DeShawn was in the laundry room that afternoon. Said he was helping Travis."
+            },
+            {
+              "reader": "deshawn",
+              "target": "eddie",
+              "text": "Eddie kept asking who Victor was meeting that night."
+            },
+            {
+              "reader": "eddie",
+              "target": "roy",
+              "text": "Roy's got keys to every utility corridor in this place."
+            },
+            {
+              "reader": "roy",
+              "target": "james",
+              "text": "James met with Victor twice this week. Closed door."
+            },
+            {
+              "reader": "james",
+              "target": "derek",
+              "text": "Derek and Victor had an argument earlier this week."
+            }
+          ]
+        },
+        {
+          "title": "The Door",
+          "narration": "Investigators discover the laundry room door had been jammed open with a folded piece of cardboard.\nThe door normally locks automatically when it closes.\nThe cardboard appears to have been placed there hours before Victor's death.\nThis means someone may have planned access to the room long before the murder occurred.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "paula",
+              "text": "Paula's cell-check log has a gap in it that afternoon."
+            },
+            {
+              "reader": "mason",
+              "target": "tom",
+              "text": "Tom was supposed to shadow me that day. He vanished for an hour."
+            },
+            {
+              "reader": "travis",
+              "target": "alan",
+              "text": "Alan was walking the laundry corridor that morning. Since when do wardens inspect laundry?"
+            },
+            {
+              "reader": "paula",
+              "target": "travis",
+              "text": "Paula saw Travis near the laundry office during her rounds that afternoon."
+            },
+            {
+              "reader": "tom",
+              "target": "marcus",
+              "text": "Marcus wasn't in his cell during afternoon count."
+            },
+            {
+              "reader": "alan",
+              "target": "deshawn",
+              "text": "DeShawn signed out extra cleaning supplies that day."
+            },
+            {
+              "reader": "elena",
+              "target": "eddie",
+              "text": "Eddie came to the infirmary with a cut hand that afternoon."
+            },
+            {
+              "reader": "marcus",
+              "target": "roy",
+              "text": "Roy was in our cellblock during the lockdown announcement."
+            },
+            {
+              "reader": "deshawn",
+              "target": "james",
+              "text": "James asked me if Victor had seemed troubled lately."
+            },
+            {
+              "reader": "eddie",
+              "target": "derek",
+              "text": "Derek stopped by the laundry area twice that day, even though his assignment was in another wing."
+            },
+            {
+              "reader": "roy",
+              "target": "elena",
+              "text": "Roy saw Elena carrying a folder toward the laundry area that morning."
+            },
+            {
+              "reader": "james",
+              "target": "mason",
+              "text": "James passed Mason in the hallway twice that day, both times near the laundry wing."
+            }
+          ]
+        },
+        {
+          "title": "The Cardboard",
+          "narration": "Investigators searching the prison laundry area discover that the piece of cardboard used to jam the door appears to have been torn from a larger box used in the laundry department.\nThe cardboard isn't unique enough to identify who used it.\nHowever, it confirms the person responsible likely had access to the laundry area before the murder.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "roy",
+              "text": "Derek had warned Roy twice that week about hanging around the laundry room."
+            },
+            {
+              "reader": "mason",
+              "target": "james",
+              "text": "Mason noticed James spending extra time with Victor the week before."
+            },
+            {
+              "reader": "travis",
+              "target": "elena",
+              "text": "Elena was seen carrying a cardboard box out of the laundry room."
+            },
+            {
+              "reader": "paula",
+              "target": "marcus",
+              "text": "Marcus wasn't at dinner. Nobody saw him for an hour."
+            },
+            {
+              "reader": "tom",
+              "target": "deshawn",
+              "text": "DeShawn had cardboard in his cart that day."
+            },
+            {
+              "reader": "alan",
+              "target": "eddie",
+              "text": "Eddie left the kitchen twice during his shift."
+            },
+            {
+              "reader": "elena",
+              "target": "alan",
+              "text": "Elena overheard Alan on the phone about Victor, and he did not sound pleased."
+            },
+            {
+              "reader": "marcus",
+              "target": "tom",
+              "text": "Marcus heard Tom asking other inmates about Victor's routine."
+            },
+            {
+              "reader": "james",
+              "target": "paula",
+              "text": "Paula skipped the chapel service that morning. She never misses."
+            },
+            {
+              "reader": "eddie",
+              "target": "mason",
+              "text": "A few days before the murder, I caught Mason searching through incident reports that had nothing to do with his assigned housing unit."
+            },
+            {
+              "reader": "roy",
+              "target": "travis",
+              "text": "I saw Travis carrying a piece of cardboard during his shift that day."
+            },
+            {
+              "reader": "deshawn",
+              "target": "derek",
+              "text": "Derek seemed more interested than usual in where Victor was spending his time."
+            }
+          ]
+        },
+        {
+          "title": "The Interview",
+          "narration": "Investigators interview several inmates who were in nearby cellblocks during the lockdown.\nMost report hearing nothing unusual.\nHowever, one inmate remembers seeing an officer speaking with Victor right before lockdown near the recreation yard.\nThe inmate is confident it was one of the two officers, but cannot remember which one.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "alan",
+              "text": "Alan's had his office door closed all week. Lots of phone calls."
+            },
+            {
+              "reader": "mason",
+              "target": "elena",
+              "text": "Elena asked me where the laundry keeps the spare bandages. Said she was restocking it."
+            },
+            {
+              "reader": "travis",
+              "target": "marcus",
+              "text": "Marcus was in the chapel during dinner. I saw him."
+            },
+            {
+              "reader": "paula",
+              "target": "deshawn",
+              "text": "DeShawn's been jumpy. Keeps looking over his shoulder on the laundry floor."
+            },
+            {
+              "reader": "tom",
+              "target": "eddie",
+              "text": "Eddie was asking me about the lockdown schedule. Kind of weird for a kitchen guy."
+            },
+            {
+              "reader": "alan",
+              "target": "roy",
+              "text": "Roy? I had him breaking down boxes in storage all afternoon. My orders."
+            },
+            {
+              "reader": "elena",
+              "target": "james",
+              "text": "James asked me for something for his nerves. Wouldn't say why."
+            },
+            {
+              "reader": "marcus",
+              "target": "derek",
+              "text": "Derek seemed unusually interested in what Victor was telling other inmates."
+            },
+            {
+              "reader": "deshawn",
+              "target": "mason",
+              "text": "Mason stayed near the laundry hallway after count even though his shift responsibilities were finished there."
+            },
+            {
+              "reader": "eddie",
+              "target": "travis",
+              "text": "Travis asked to switch part of his work assignment the day before the murder."
+            },
+            {
+              "reader": "roy",
+              "target": "paula",
+              "text": "Paula checked our block twice that night. She never does it twice."
+            },
+            {
+              "reader": "james",
+              "target": "tom",
+              "text": "Poor Tom got turned around on his first solo round. I found him by the laundry and pointed him back."
+            }
+          ]
+        },
+        {
+          "title": "The Table",
+          "narration": "Investigators go back over the laundry room where Victor's body was found.\nNext to the body, under a folding table, they find a piece of folded-up cardboard.\nIt had been wedged under one of the table's legs to keep it balanced.\nThere is dried blood on it.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "elena",
+              "text": "I saw Elena talking to Victor in the infirmary line. Looked serious."
+            },
+            {
+              "reader": "mason",
+              "target": "paula",
+              "text": "Mason asked Paula about the east wing camera blind spots."
+            },
+            {
+              "reader": "travis",
+              "target": "deshawn",
+              "text": "DeShawn was restocking the laundry shelves all afternoon. He said my court report was coming any day."
+            },
+            {
+              "reader": "paula",
+              "target": "eddie",
+              "text": "Eddie's trash runs? I saw him hauling bags out back. Kitchen stuff."
+            },
+            {
+              "reader": "tom",
+              "target": "roy",
+              "text": "Roy was talking to Victor near the utility corridor. Victor looked upset."
+            },
+            {
+              "reader": "alan",
+              "target": "tom",
+              "text": "Alan reassigned Tom's work detail twice that month without explanation."
+            },
+            {
+              "reader": "elena",
+              "target": "travis",
+              "text": "Elena treated Travis for a cut that morning; he said he got it in the laundry room."
+            },
+            {
+              "reader": "marcus",
+              "target": "mason",
+              "text": "Mason asked me who brings packages into the laundry. Not visitors. Packages."
+            },
+            {
+              "reader": "deshawn",
+              "target": "marcus",
+              "text": "DeShawn saw Marcus slip something into his pocket near the laundry machines."
+            },
+            {
+              "reader": "eddie",
+              "target": "james",
+              "text": "Eddie saw James leaving the laundry area just before lockdown."
+            },
+            {
+              "reader": "roy",
+              "target": "derek",
+              "text": "Roy watched Derek pocket something small outside the laundry room."
+            },
+            {
+              "reader": "james",
+              "target": "alan",
+              "text": "Alan walks the wings every morning. I've seen him myself."
+            }
+          ]
+        },
+        {
+          "title": "The Cellmate",
+          "narration": "Investigators interview Victor's cellmate.\nThe cellmate says Victor had been writing in a small notebook for about a week.\nTwo nights before the murder, Victor told him he had \"found something big.\"\nVictor wouldn't say what it was, or who it was about.\nThe notebook has not been found.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "marcus",
+              "text": "Marcus, your cellmate was writing in that notebook for a week. What was in it?"
+            },
+            {
+              "reader": "mason",
+              "target": "deshawn",
+              "text": "DeShawn signed out extra supplies for the laundry. I watched him do it."
+            },
+            {
+              "reader": "travis",
+              "target": "eddie",
+              "text": "Eddie, you keep asking who Victor was meeting that night. Why do you want to know?"
+            },
+            {
+              "reader": "paula",
+              "target": "roy",
+              "text": "Roy was locking down the cellblock when the announcement hit. Those are his keys."
+            },
+            {
+              "reader": "tom",
+              "target": "james",
+              "text": "James, you met with Victor twice that week. What did he tell you?"
+            },
+            {
+              "reader": "alan",
+              "target": "derek",
+              "text": "Another inmate saw Derek talking to Victor the day before. He said Victor was smiling, and Derek looked like he was barely holding it together."
+            },
+            {
+              "reader": "elena",
+              "target": "mason",
+              "text": "Mason's been asking questions about everyone since the day he got here. Maybe he's not just curious."
+            },
+            {
+              "reader": "marcus",
+              "target": "travis",
+              "text": "Travis keeps checking the clock because he's waiting on his court report. Or that's what he wants you to think."
+            },
+            {
+              "reader": "deshawn",
+              "target": "paula",
+              "text": "Paula, your log had a gap that afternoon. Where were you?"
+            },
+            {
+              "reader": "eddie",
+              "target": "tom",
+              "text": "Tom, you asked me about the lockdown schedule. Why'd you want to know?"
+            },
+            {
+              "reader": "roy",
+              "target": "alan",
+              "text": "Alan, you had Mason reading reports from other units. That was your call, right?"
+            },
+            {
+              "reader": "james",
+              "target": "elena",
+              "text": "Elena pulls files on every inmate who comes through the infirmary. That's her job."
+            }
+          ]
+        },
+        {
+          "title": "The Missing Pages",
+          "narration": "Investigators search the laundry room one final time.\nHidden inside a laundry basket, they find pages torn from a notebook.\nThe handwriting is not Victor's.\nThe pages are covered in initials, dates, and amounts.\nOne set of initials appears more than any other: ODH.",
+          "clues": [
+            {
+              "reader": "derek",
+              "target": "travis",
+              "text": "Travis was in that laundry room all afternoon. The cardboard, Victor's schedule, the shift change. You do the math."
+            },
+            {
+              "reader": "mason",
+              "target": "derek",
+              "text": "Derek argued with Victor, asked around about him, and was all over that laundry area. Look closer."
+            },
+            {
+              "reader": "travis",
+              "target": "james",
+              "text": "Travis saw James near the laundry room that whole week, chapel duties or not. Add it up."
+            },
+            {
+              "reader": "paula",
+              "target": "mason",
+              "text": "Paula checked the logs: Mason's movements that day don't add up. Add it up."
+            },
+            {
+              "reader": "tom",
+              "target": "paula",
+              "text": "Paula checked cells twice, skipped chapel, and her log has a gap. That's not nothing, right?"
+            },
+            {
+              "reader": "alan",
+              "target": "marcus",
+              "text": "Marcus is Victor's cellmate, he missed count, and now he's pointing fingers. What's he hiding?"
+            },
+            {
+              "reader": "elena",
+              "target": "tom",
+              "text": "Tom was missing, got lost, and asked about the lockdown schedule. I'm just saying what I saw."
+            },
+            {
+              "reader": "marcus",
+              "target": "elena",
+              "text": "Elena pulled Victor's file, asked about the laundry detail, carried a box out of there. Think about it."
+            },
+            {
+              "reader": "deshawn",
+              "target": "alan",
+              "text": "Alan's been everywhere he shouldn't be and his door's been closed all week. Something ain't right."
+            },
+            {
+              "reader": "eddie",
+              "target": "deshawn",
+              "text": "DeShawn was in the laundry all afternoon with cardboard in his cart. Connect the dots."
+            },
+            {
+              "reader": "roy",
+              "target": "eddie",
+              "text": "Eddie kept asking who Victor was meeting, and he left the kitchen twice. That's all I know."
+            },
+            {
+              "reader": "james",
+              "target": "roy",
+              "text": "Roy's got the keys to go anywhere, and he was everywhere that day. The truth always comes out."
+            }
+          ]
+        }
+      ],
+      "reveal": "Required by the rule set: name the killer, explain motive, method, and opportunity, connect evidence already heard, explain red herrings, resolve the story. Author calls needed:  Method — cause of death was never established in the drafts. Mason's absences — what was he actually doing (his own investigation? something else?). Victor's notebook — did it survive, and where is it? The ledger — what exactly was Derek tracking (debts, packages, both)?  Working shape (for the author to confirm or replace): The murderer was Officer Derek Hayes (ODH). He ran a ledger out of the laundry — debts and kickbacks, initialed ODH. Victor, who collected secrets, found it (\"found something big\") and was writing it in his notebook. Derek argued with him early in the week, then tore cardboard from a laundry box, jammed the laundry room door hours before lockdown, and waited. Victor arrived expecting a meeting — the footage shows he wasn't afraid. The hidden pages were Derek's ledger, which is why the handwriting wasn't Victor's. Travis's cardboard was under the table leg, never the door."
+    }
+  ]
+};

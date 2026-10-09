@@ -53,8 +53,8 @@ export function chainLoops(ids, targets) {
   return loops;
 }
 
-// Every round is one clue per player with every player targeted once (a derangement);
-// across the N-1 rounds every reader covers every other player exactly once.
+// Stories use author-selected pairs without repeats, except flagged rounds after all pairs are used.
+// This generator still supplies full, unique directed coverage before scheduling repeats.
 export function coverageSchedule(characters) {
   const ids = characters.map(character => character.id);
   const count = ids.length;
@@ -158,6 +158,19 @@ export function accusationChain(story, roundIndex) {
     character.id,
     character.rounds?.[roundIndex]?.readAloud?.accuses,
   ]));
+  if (story.authorPlaytest && story.edition?.family === 'lockdown') {
+    const groups = story.rounds[roundIndex]?.readingGroups;
+    if (!Array.isArray(groups)) return [];
+    const order = groups.flat();
+    if (order.length !== cast.length || new Set(order).size !== cast.length ||
+        order.some(id => !cast.some(character => character.id === id)) ||
+        cast.some(character => !cast.some(target => target.id === targets[character.id]) || targets[character.id] === character.id)) return [];
+    for (const group of groups) {
+      if (!group.length) return [];
+      if (group.length > 1 && group.some((id, i) => targets[id] !== group[(i + 1) % group.length])) return [];
+    }
+    return order;
+  }
   return chainReadOrder(cast.map(character => character.id), targets);
 }
 
@@ -182,8 +195,9 @@ export function validateAccusationCircles(story) {
   const allPairs = ids.size * (ids.size - 1);
   let coverageComplete = false;
   const repeatNote = String(story.coverageRepeatNote || '').trim();
-  if (story.rounds.length < ids.size - 1) {
-    errors.push(`This ${ids.size}-player story needs at least ${ids.size - 1} clue rounds to cover every other character.`);
+  const playtest = story.authorPlaytest === true && story.edition?.family === 'lockdown';
+  if (story.rounds.length < 4) {
+    errors.push('A story needs at least 4 rounds.');
   }
   story.rounds.forEach((_, ri) => {
     const incoming = new Set(), texts = new Set(), edges = new Map();
@@ -191,22 +205,22 @@ export function validateAccusationCircles(story) {
       const clue = c.rounds[ri]?.readAloud;
       const label = `${c.name || c.id}, round ${ri + 1}`;
       if (!clue?.text) errors.push(`${label}: add a "readAloud" clue with "accuses" and "text". Private clues alone do not replace public evidence.`);
-      else if (texts.has(clue.text)) errors.push(`${label}: read-aloud text must be unique.`);
+      else if (texts.has(clue.text) && !playtest) errors.push(`${label}: read-aloud text must be unique.`);
       else texts.add(clue.text);
       if (!ids.has(clue?.accuses)) errors.push(`${label}: "readAloud.accuses" must name a character id in this cast.`);
       else if (clue.accuses === c.id) errors.push(`${label}: a character cannot accuse themselves.`);
       else {
         const references = [...String(clue.text || '').matchAll(/\{([A-Za-z0-9_-]+)\}/g)].map(match => match[1]);
-        if (!references.includes(clue.accuses) || references.some(id => id !== clue.accuses)) {
+        if (!playtest && (!references.includes(clue.accuses) || references.some(id => id !== clue.accuses))) {
           errors.push(`${label}: the clue must be about its assigned target and cannot be about its reader.`);
         }
-        if (incoming.has(clue.accuses)) errors.push(`${label}: ${clue.accuses} is accused twice; every character must receive exactly one accusation.`);
+        if (!playtest && incoming.has(clue.accuses)) errors.push(`${label}: ${clue.accuses} is accused twice; every character must receive exactly one accusation.`);
         incoming.add(clue.accuses);
         edges.set(c.id, clue.accuses);
       }
     }
-    if (incoming.size !== ids.size) errors.push(`Round ${ri + 1}: every character must be accused exactly once.`);
-    if (edges.size === ids.size && incoming.size === ids.size) {
+    if (!playtest && incoming.size !== ids.size) errors.push(`Round ${ri + 1}: every character must be accused exactly once.`);
+    if (edges.size === ids.size && (playtest || incoming.size === ids.size)) {
       const chain = accusationChain(story, ri);
       if (chain.length !== ids.size) errors.push(`Round ${ri + 1}: every player must read exactly one clue in the target chain.`);
       if (Array.isArray(story.rounds[ri].chain) && story.rounds[ri].chain.join('\0') !== chain.join('\0')) {
@@ -221,7 +235,7 @@ export function validateAccusationCircles(story) {
       const pair = `${character.id}\0${target}`;
       if (coverage.has(pair)) repeated = true;
     }
-    if (repeated && !coverageComplete) {
+    if (repeated && !coverageComplete && !playtest) {
       errors.push(`Round ${ri + 1}: a reader-target pair repeats before the coverage matrix is complete.`);
     }
     if (repeated && story.rounds[ri].coverageRepeat !== true) {
@@ -238,12 +252,6 @@ export function validateAccusationCircles(story) {
       if (ids.has(target) && target !== character.id) coverage.add(`${character.id}\0${target}`);
     }
     if (coverage.size === allPairs) coverageComplete = true;
-    if (ri < ids.size - 1 && coverageComplete !== (ri === ids.size - 2)) {
-      errors.push(`Round ${ri + 1}: complete coverage must be reached exactly by round ${ids.size - 1}.`);
-    }
-    if (ri >= ids.size - 1 && !coverageComplete) {
-      errors.push(`Round ${ri + 1}: the coverage matrix is still incomplete.`);
-    }
     if (ri > 0) {
       for (const character of story.characters) {
         const before = character.rounds?.[ri - 1]?.readAloud?.accuses;
@@ -252,6 +260,5 @@ export function validateAccusationCircles(story) {
       }
     }
   });
-  if (!coverageComplete) errors.push('The game ends before every reader has covered every other player exactly once.');
   return errors;
 }

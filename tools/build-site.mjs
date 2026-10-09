@@ -1,4 +1,4 @@
-import { cp, lstat, mkdir, readdir, rm } from 'node:fs/promises';
+import { cp, lstat, mkdir, readdir, rm, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -18,7 +18,7 @@ async function checkTree(path) {
   }
 }
 
-export async function buildSite(root = resolve(dirname(fileURLToPath(import.meta.url)), '..')) {
+export async function buildSite(root = resolve(dirname(fileURLToPath(import.meta.url)), '..'), { production = false } = {}) {
   root = resolve(root);
   const output = join(root, 'dist');
   for (const entry of SITE_FILES) {
@@ -45,9 +45,23 @@ export async function buildSite(root = resolve(dirname(fileURLToPath(import.meta
   for (const entry of [...SITE_FILES, ...SITE_DIRECTORIES]) {
     await cp(join(root, entry), join(output, entry), { recursive: true });
   }
+  if (production) {
+    const policyPath = join(output, 'js', 'site-policy.js');
+    const policy = await readFile(policyPath, 'utf8');
+    if (!policy.includes('export const BUILD_RELEASE_ONLY = false;')) throw new Error('Missing release catalog policy.');
+    await writeFile(policyPath, policy.replace('export const BUILD_RELEASE_ONLY = false;', 'export const BUILD_RELEASE_ONLY = true;'));
+    const retired = ['workshop.html', 'shop.html', 'premium-room.html', 'mafia.html'];
+    const notice = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Development games - Grim Gatherings</title><link rel="stylesheet" href="css/style.css"></head><body><main><h1>Development games</h1><p>This website currently offers only the LOCKDOWN author playtest. Other games remain on the GitHub development website until approved.</p><p><a href="index.html">Play LOCKDOWN</a></p><p><a href="https://evil0ctopus.github.io/grim-gatherings/">Open the development website</a></p></main></body></html>';
+    for (const file of retired) await writeFile(join(output, file), notice);
+    for (const file of ['sample.js', 'starters.js', 'premium-stories.js']) await rm(join(output, 'js', file), { force: true });
+    for (const file of await readdir(join(output, 'js', 'editions'))) {
+      if (file !== 'lockdown.js') await rm(join(output, 'js', 'editions', file));
+    }
+  }
   return output;
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  console.log(`Static website built at ${await buildSite()}`);
+  const production = process.env.CF_PAGES_BRANCH === 'production' || process.argv.includes('--production');
+  console.log(`Static ${production ? 'LOCKDOWN-only release' : 'development'} website built at ${await buildSite(undefined, { production })}`);
 }

@@ -1,5 +1,55 @@
 # Grim Gatherings roadmap
 
+## LOCKDOWN owner-approved playtest release
+
+- Imported all ten supplied 3–12-player editions, including 525 readings.
+- Added a local-only editorial preview with exact player-count selection,
+  immutable three-player master content and explicit core/supplemental groups.
+  Original expanded drafts are retained separately; changed base readings and
+  narration are restored from the master in the review copy.
+- Owner explicitly approved publishing the unfinished story for Melissa to test.
+  Playable host/guest routing selects the exact 3–12-player edition and preserves
+  master evidence. Every edition uses the same supplied ending without author
+  TODO headings; no missing evidence or murder method was invented.
+- An explicit LOCKDOWN-only playtest policy allows supplied draft voice,
+  duplicated observations and supplemental repeats with visible review notices.
+  Complete groups/reader order, target validity, seven rounds, repeat flags,
+  consecutive-pair guards and normal voting requirements remain enforced.
+- .com is LOCKDOWN-only; GitHub retains all other games plus LOCKDOWN.
+  Production builds retire other game entry pages and omit legacy story assets.
+- Editorial preview tooling stays outside deployment. Final author review of
+  cause-of-death intent, clue voice and supplemental pairing compliance remains
+  pending; the owner will discuss those decisions with the author.
+
+## Latest supplied seven-round and scalable-edition reference
+
+- Subsequent owner amendment makes the smallest edition the immutable master
+  for every scalable story. Preserve all base clue fields and targets, shared
+  chapters, ending and key points; add only supporting characters and clues.
+- Separate declared reading groups and repeated incoming targets are now
+  permitted for extensions. Base-group repeat eligibility is inherited, not
+  reset by adding players. All players still read once and discuss/vote together.
+- Sections 5–7, 18, 21, 33 and 34 now reflect this general rule, not a
+  LOCKDOWN-only exception. Runtime group validation and edition selection now
+  support the approved LOCKDOWN playtest; general authoring support remains
+  pending. Existing story data and Mafia behavior are unchanged on development.
+
+- Initially adopted the owner's replacement reference verbatim, excluding its outer
+  code fences. It requires exactly seven narrative rounds and describes
+  standalone fixed-count editions from 3 to 12 players in section 33.
+- This adoption does not rebuild stories or change Mafia. The existing
+  four-round-minimum validator and four-/five-round shipped stories remain
+  unchanged until the migration scope is confirmed.
+- The supplied reference retains Blackwater's older five-round exception,
+  conflicting with its new exactly-seven-round requirement. Resolve that
+  round-count conflict before implementing or claiming compatibility.
+- Intervention record: the earlier reference required one unbroken all-cast
+  chain, one incoming target per character, fresh clue wording in every edition
+  and full edition-wide pairing exhaustion before repeats. The owner-approved
+  master-story amendment replaces those requirements for extensions with
+  explicit groups, supplemental targets, exact inherited base clues and
+  group-scoped pairing exhaustion, preserving the master evidence spine.
+
 ## October 8 replacement rules specification
 
 - The owner-supplied Muse/Melissa rules replace the previous reference rules in

@@ -71,3 +71,25 @@ test('GitHub Pages uploads only the built output, not the repository root', asyn
   assert.ok(workflow.indexOf('run: npm run build:site') < workflow.indexOf('uses: actions/upload-pages-artifact@v4'));
   assert.doesNotMatch(workflow, /path: \.\s*(?:\r?\n|$)/);
 });
+
+test('production build retires other game routes and removes legacy story assets while source stays intact', async t => {
+  const root = await fixture(t);
+  const policy = await readFile(new URL('../js/site-policy.js', import.meta.url), 'utf8');
+  await writeFile(join(root, 'js', 'site-policy.js'), policy);
+  await mkdir(join(root, 'js', 'editions'));
+  for (const name of ['lockdown.js', 'sample.js', 'mercy-hollow.js']) await writeFile(join(root, 'js', 'editions', name), name);
+  for (const name of ['sample.js', 'starters.js', 'premium-stories.js']) await writeFile(join(root, 'js', name), name);
+  const output = await buildSite(root, { production: true });
+  assert.match(await readFile(join(output, 'js', 'site-policy.js'), 'utf8'), /BUILD_RELEASE_ONLY = true/);
+  assert.deepEqual(await readdir(join(output, 'js', 'editions')), ['lockdown.js']);
+  assert.ok(!(await readdir(join(output, 'js'))).includes('premium-stories.js'));
+  for (const page of ['mafia.html', 'shop.html', 'workshop.html', 'premium-room.html']) {
+    const html = await readFile(join(output, page), 'utf8');
+    assert.match(html, /only the LOCKDOWN author playtest/);
+    assert.doesNotMatch(html, /<script/);
+    assert.equal(await readFile(join(root, page), 'utf8'), `fixture ${page}`);
+  }
+  await buildSite(root);
+  assert.equal(await readFile(join(output, 'shop.html'), 'utf8'), 'fixture shop.html');
+  assert.ok((await readdir(join(output, 'js'))).includes('premium-stories.js'));
+});

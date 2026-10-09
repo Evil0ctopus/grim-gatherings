@@ -4,6 +4,7 @@ import { createAtmosphere } from './atmosphere.js?v=ui-refresh-v1';
 import { voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { createPlayerConnection } from './player-connection.js?v=visitor-review-v1';
 import { confirmAction } from './dialog.js?v=ui-refresh-v1';
+import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();
@@ -99,6 +100,10 @@ export function startPlayer(room) {
   function onMsg(msg) {
     if (!msg || typeof msg !== 'object') return;
     if (msg.t === 'state') {
+      if (RELEASE_ONLY && msg.view?.edition?.family !== 'lockdown') {
+        toast('This game is available only on the development website.', 6000);
+        return;
+      }
       view = msg.view;
       if (pendingAction) { pendingAction = false; lastHtml = ''; }
       if (leaving && !view.me) return returnHome();
@@ -134,7 +139,8 @@ export function startPlayer(room) {
   // ---------- rendering ----------
   function render() {
     if (ended) return;
-    const html = !view ? connectingHtml() : !view.me ? pickerHtml() : packetHtml();
+    const html = (!view ? connectingHtml() : !view.me ? pickerHtml() : packetHtml()) +
+      (view?.playtestNotice ? `<p class="small muted" role="note">${esc(view.playtestNotice)}</p>` : '');
     if (html === lastHtml) return;
     const open = new Set([...body.querySelectorAll('details[data-k]')].filter(d => d.open).map(d => d.dataset.k));
     const key = view ? `${view.me}|${view.phase}|${view.roundIndex}|${view.currentRound?.currentReaderId || ''}` : '';
@@ -188,6 +194,7 @@ export function startPlayer(room) {
         <h2 id="round-title">${esc(v.currentRound.title)}</h2>${paras(v.currentRound.publicText)}
         <details data-k="narration"><summary>The host's narration</summary>${paras(v.currentRound.narration)}</details>
         <div class="card"><div class="label">Who's reading</div>
+        ${v.currentRound.readingGroup && currentReader ? `<p class="small muted">${esc(v.currentRound.readingGroup)}</p>` : ''}
         <p class="turn-indicator${currentReader?.id === v.me ? ' your-turn' : !currentReader ? ' complete' : ''}" id="current-reader" role="status" aria-live="polite" aria-atomic="true">${currentReader?.id === v.me ? 'You are next to read.' : currentReader ? `Waiting for ${esc(currentReader.name)}${currentReader.guest ? ` (${esc(currentReader.guest)})` : ''} to read.` : 'Everyone has read this round’s clue.'}</p></div>
         <hr><div id="my-clues">${r ? cluesBlock(r) : ''}</div></div>`;
     } else if (v.phase === 'deliberation' && v.currentRound) {

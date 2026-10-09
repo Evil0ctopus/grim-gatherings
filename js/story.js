@@ -1,7 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
-import { accusationChain, validateAccusationCircles } from './accusations.js?v=universal-game-flow-v2';
+import { accusationChain, validateAccusationCircles } from './accusations.js?v=lockdown-release-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -53,6 +53,15 @@ export function normalizeStory(input, guests = []) {
     finale: { narration: asStr(obj.finale?.narration).trim(), votePrompt: asStr(obj.finale?.votePrompt).trim() },
     solution: { killerId: '', explanation: '', revealNarration: '' },
   };
+  if (obj.authorPlaytest === true) {
+    if (obj.edition?.family !== 'lockdown' || !asStr(obj.playtestNotice).trim()) {
+      errors.push('An author playtest must identify the approved LOCKDOWN family and its unfinished-content notice.');
+    } else {
+      s.authorPlaytest = true;
+      s.playtestNotice = asStr(obj.playtestNotice).trim();
+      warnings.push(s.playtestNotice);
+    }
+  }
   if (!Number.isInteger(s.fixedPlayerCount) || s.fixedPlayerCount < 2) {
     errors.push('"fixedPlayerCount" must declare one fixed player count of at least 2.');
   }
@@ -96,6 +105,11 @@ export function normalizeStory(input, guests = []) {
       coverageRepeat: r?.coverageRepeat === true,
     };
     if (!Array.isArray(r?.chain)) errors.push(`rounds[${i}].chain must store the complete precomputed reader order.`);
+    if (s.authorPlaytest) {
+      if (!Array.isArray(r?.readingGroups) || r.readingGroups.some(group => !Array.isArray(group))) {
+        errors.push(`rounds[${i}].readingGroups must explicitly partition every reader.`);
+      } else rr.readingGroups = r.readingGroups.map(group => group.map(asStr));
+    }
     if (typeof r?.coverageRepeat !== 'boolean') errors.push(`rounds[${i}].coverageRepeat must explicitly record whether reader-target pairs repeat.`);
     if (!rr.narration) errors.push(`rounds[${i}] needs spoken host narration. Put all story discoveries in narration or read-aloud clues.`);
     if (!rr.events.length) errors.push(`rounds[${i}].events must list this round's ordered story-event beats.`);
@@ -159,8 +173,8 @@ export function normalizeStory(input, guests = []) {
     if (s.fixedPlayerCount !== null && s.fixedPlayerCount !== s.characters.length) {
       errors.push(`This story declares ${s.fixedPlayerCount} players but contains ${s.characters.length} character cards.`);
     }
-    if (s.rounds.length < s.characters.length - 1) {
-      errors.push(`A ${s.characters.length}-player story needs at least ${s.characters.length - 1} rounds for complete clue coverage.`);
+    if (s.rounds.length < 4) {
+      errors.push('A story needs at least 4 rounds.');
     }
   }
 
@@ -183,7 +197,7 @@ export function normalizeStory(input, guests = []) {
   for (const character of s.characters) {
     character.rounds.forEach((round, ri) => {
       const clue = round.readAloud;
-      if (!clue.observation || !clue.contradictingDetail) {
+      if (!s.authorPlaytest && (!clue.observation || !clue.contradictingDetail)) {
         errors.push(`${character.name || character.id}, Round ${ri + 1}: add the target observation and contradicting physical detail.`);
       }
     });
@@ -203,6 +217,15 @@ export function normalizeStory(input, guests = []) {
   }
   if (!s.finale.votePrompt) s.finale.votePrompt = `Who killed ${s.victim.name || 'the victim'}?`;
   if (s.characters.length >= 2) errors.push(...validateAccusationCircles(s));
+  if (s.authorPlaytest && s.rounds.length !== 7) errors.push('LOCKDOWN playtest editions require exactly seven rounds.');
+  if (s.authorPlaytest) s.rounds.forEach((_, ri) => {
+    const texts = new Set();
+    for (const character of s.characters) {
+      const text = character.rounds[ri].readAloud.text;
+      if (texts.has(text)) warnings.push(`Round ${ri + 1}: ${character.name} repeats another reader's supplied observation; retained for author review.`);
+      texts.add(text);
+    }
+  });
 
   return { story: errors.length ? null : s, errors, warnings };
 }
@@ -237,6 +260,7 @@ export function buildView(S, charId) {
     atmosphere: storyTheme(st),
     victim: { name: st.victim?.name || '', description: fill(st.victim?.description || '') },
     phase, roundIndex: ri, roundsTotal: st.rounds.length,
+    ...(st.authorPlaytest ? { playtestNotice: st.playtestNotice } : {}),
     ...(st.edition ? { edition: { ...st.edition } } : {}),
     voteSummary: voteSummary(S),
     roster: st.characters.map(c => ({
@@ -261,6 +285,7 @@ export function buildView(S, charId) {
       }),
       chainIndex: Number.isInteger(S.chainIndex) ? S.chainIndex : 0,
       currentReaderId: chain[S.chainIndex || 0] || null,
+      ...(r.readingGroups ? { readingGroup: r.readingGroups[0].includes(chain[S.chainIndex || 0]) ? 'Original trio' : 'Supplemental readings' } : {}),
     };
   }
   if (phase === 'deliberation') {

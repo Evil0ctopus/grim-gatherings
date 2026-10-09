@@ -6,6 +6,7 @@ import { assignAccusationCircles, validateAccusationCircles } from '../js/accusa
 import { STARTER_MYSTERIES } from '../js/starters.js';
 import { buildSampleStory } from '../js/sample.js';
 import { adaptStoryForPlayers, makeStoryTemplate } from '../js/library.js';
+import { PREMIUM_STORIES } from '../js/premium-stories.js';
 
 const guests = n => Array.from({ length: n }, (_, i) => ({ name: `Player ${i + 1}`, desc: '' }));
 const example = JSON.parse(fs.readFileSync(new URL('../examples/example-story.json', import.meta.url), 'utf8'));
@@ -38,14 +39,66 @@ function checkCircle(story) {
   }
 }
 
-test('every fixed-count built-in story has a valid chain and complete directed coverage', () => {
-  for (const entry of STARTER_MYSTERIES) {
-    const result = normalizeStory(entry.story);
+test('every fixed-count built-in story has valid chains, at least four rounds and no unflagged repeated pairs', () => {
+  const stories = [
+    ...STARTER_MYSTERIES.map(entry => entry.story),
+    buildSampleStory(guests(5)),
+    ...PREMIUM_STORIES.map(entry => entry.story),
+    example,
+  ];
+  for (const authored of stories) {
+    const result = normalizeStory(authored);
     assert.deepEqual(result.errors, []);
-    checkCircle(result.story);
+    const story = result.story;
+    checkCircle(story);
+    assert.ok(story.rounds.length >= 4);
+    const pairs = new Set();
+    story.rounds.forEach((round, ri) => {
+      assert.equal(round.chain.length, story.characters.length);
+      assert.equal(new Set(round.chain).size, story.characters.length);
+      for (const character of story.characters) {
+        assert.ok(round.chain.includes(character.id));
+        const pair = `${character.id}>${character.rounds[ri].readAloud.accuses}`;
+        assert.ok(!pairs.has(pair) || round.coverageRepeat === true, `${story.title}, round ${ri + 1}: ${pair}`);
+        pairs.add(pair);
+      }
+    });
   }
-  checkCircle(normalizeStory(buildSampleStory(guests(5))).story);
-  checkCircle(normalizeStory(example).story);
+});
+
+test('four-round author-selected schedules need not use every possible pair', () => {
+  const story = structuredClone(buildSampleStory(guests(5)));
+  const extra = structuredClone(story.characters[0]);
+  extra.id = 'extra';
+  extra.name = 'Extra character';
+  story.characters.push(extra);
+  story.fixedPlayerCount = 6;
+  delete story.edition;
+  story.rounds = story.rounds.slice(0, 4);
+  story.characters.forEach(character => { character.rounds = character.rounds.slice(0, 4); });
+  assignAccusationCircles(story, Object.fromEntries(story.characters.map(c => [
+    c.id, story.rounds.map((_, ri) => `I read {${c.id}}'s entry for chapter ${ri + 1}. I doubt that explanation.`),
+  ])));
+  story.characters.forEach(character => character.rounds.forEach(round => {
+    const [observation, contradictingDetail] = round.readAloud.text.split('. ');
+    round.readAloud.observation = `${observation}.`;
+    round.readAloud.contradictingDetail = contradictingDetail;
+  }));
+  assert.deepEqual(normalizeStory(story).errors, []);
+  assert.equal(new Set(story.characters.flatMap(c => c.rounds.map(r => `${c.id}>${r.readAloud.accuses}`))).size, 24);
+  const tooShort = structuredClone(story);
+  tooShort.rounds.pop();
+  tooShort.characters.forEach(character => character.rounds.pop());
+  assert.match(normalizeStory(tooShort).errors.join(' '), /at least 4 rounds/);
+  const earlyRepeat = structuredClone(story);
+  earlyRepeat.rounds[3] = structuredClone(story.rounds[0]);
+  earlyRepeat.rounds[3].coverageRepeat = true;
+  earlyRepeat.coverageRepeatNote = 'Extra evidence chapter.';
+  earlyRepeat.characters.forEach(character => {
+    character.rounds[3] = structuredClone(character.rounds[0]);
+    character.rounds[3].readAloud.text += ' More evidence.';
+  });
+  assert.match(normalizeStory(earlyRepeat).errors.join(' '), /repeats before the coverage matrix is complete/);
 });
 
 test('precomputed chains complete coverage before any scheduled repeats', () => {

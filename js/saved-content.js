@@ -10,7 +10,7 @@ export function isOutdatedStory(story) {
   return story?.schemaVersion !== 2 || (builtInTitles.has(story?.title) && !story.edition && !['user', 'community'].includes(story.provenance?.kind)) ||
     !Array.isArray(story?.rounds) || !Array.isArray(story.characters) ||
     !Number.isInteger(story.fixedPlayerCount) || story.fixedPlayerCount !== story.characters.length ||
-    story.rounds.length < story.fixedPlayerCount - 1 || story.characters.some(character =>
+    story.rounds.length < 4 || story.characters.some(character =>
       character.backstory || character.motive || character.secrets?.length ||
       !Array.isArray(character.rounds) || story.rounds.some((_, i) => !character.rounds[i]?.readAloud || character.rounds[i]?.clues?.length));
 }

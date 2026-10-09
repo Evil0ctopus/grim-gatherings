@@ -77,11 +77,70 @@ updating static pages alone does not change an already deployed function.
 
 In the current implementation, removing the chain diagram does not change the authored reading order or clue
 coverage. Everyone still reads one clue about another character per round.
-The first N-1 rounds cover every other character exactly once; extra beats can
-repeat only after coverage and with an authored explanation. Ghost parts exist
+The current validator requires at least four rounds. The latest supplied
+reference in [`RULESETS.md`](RULESETS.md) instead requires exactly seven rounds
+and describes scalable fixed-count editions. LOCKDOWN implements seven-round
+count-selected editions; existing stories retain their authored round counts.
+The owner-approved scalable design preserves the smallest edition as the
+master: unchanged base clues and targets, shared chapters, ending and key
+evidence. Larger editions add supporting characters and clues, with explicit
+reading groups rather than forcing changes to the base loop. Group-aware
+validation and automatic count selection are implemented for LOCKDOWN's
+owner-approved unfinished playtest. General authoring support remains pending.
+Authors choose reader-to-target pairs from
+story events; full directed coverage is not mandatory. Pairs can repeat only in
+flagged §6 rounds after all possible pairings have been used, with an authored
+explanation. The workshop generator still produces full coverage. Ghost parts exist
 only when the story calls for a dead player character to return.
 For the replacement chain-ends exception and repeat-gap requirements, see
 [`RULESETS.md`](RULESETS.md), sections 5–7.
+
+### LOCKDOWN playtest and separate website catalogs
+
+The owner requested publication of the unfinished LOCKDOWN story for Melissa's
+testing. The host chooses the exact authored 3–12-player edition from the player
+list; unsupported counts fail explicitly. All editions have seven rounds, preserve
+the three-player master cards, clues/targets and chapters, and use the same
+supplied Derek Hayes ending. Author TODO labels are removed from the playable
+reveal, but no cause of death or missing facts are invented.
+
+The original trio reads in its fixed loop, followed by supplemental readers;
+everyone discusses and votes together. Host/guest screens identify this as an
+unfinished author playtest. Its explicit `authorPlaytest` policy permits the
+supplied clue voice, duplicated observations and supplemental repeats pending
+author review; it is not a claim of full rule compliance. Structural validation
+still requires valid targets, a complete group partition, consistent reader
+order, seven rounds, flagged repeats and no consecutive repeated pairs. Normal
+stories retain their existing validation requirements.
+
+- **grimgatherings.com:** LOCKDOWN only. Other game pages point to development.
+- **GitHub Pages:** all existing games plus LOCKDOWN for development/testing.
+- Cloudflare's `production` branch builds automatically set the release-only
+  policy, retire other game entry pages and exclude old story assets. Run
+  `npm run build:site -- --production` to reproduce this build locally.
+- The default/GitHub build preserves the complete development catalog. Domain
+  policy also prevents older saved mysteries from resuming on the .com host.
+
+### Local editorial comparison preview
+
+The ten supplied editions (3–12 players, seven rounds each) are retained in
+[`tools/lockdown-drafts.json`](tools/lockdown-drafts.json). Start the local-only
+preview with `node tools/lockdown-preview-server.mjs`, then open
+`http://127.0.0.1:8786/tools/lockdown-preview.html`.
+Entering a player count selects that exact authored edition; unsupported counts
+show an error instead of resizing a story.
+
+The preview restores the three-player master cards, clues/targets, chapters and
+shared ending across every edition, displaying core and supplemental reading
+groups separately. The original expanded drafts remain preserved for comparison.
+This separate editorial preview is not a playable room or an approved pairing
+schedule. It explicitly reports unresolved repeat assignments,
+the pending clue-voice pass, and the supplied reveal's missing author decisions.
+No murder method or other missing facts have been invented.
+
+All editorial preview tools remain outside the website build allowlist. The
+separate playable catalog is bundled in [`js/editions/lockdown.js`](js/editions/lockdown.js).
+Existing story content and Mafia behavior remain unchanged on development.
 
 The free mysteries use short, first-person player clues: what the speaker
 witnessed or found, followed by their own doubt or reaction. Each clue keeps its

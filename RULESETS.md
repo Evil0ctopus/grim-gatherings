@@ -14,7 +14,8 @@ These rules apply to ALL narrative mysteries, free and premium.
 This version replaces the previous rule set in full.
 
 **What changed in this version:**
-- §5: added minimum round count (N−1) and the chain-ends exception for player counts where no closing chain exists (proven for 4 players).
+- Owner-approved master-story rule: scalable editions preserve the base cast's exact clues and targets, shared chapters, ending and key evidence. Added players supply supplemental clues; separate reading groups and repeated incoming targets are permitted without changing the base.
+- §5: coverage mandate replaced — no ordered pair may repeat (except §6); target variety is the author's choice from story events; minimum 4 rounds (replaces the N−1 rule); chain-ends exception kept for player counts where no closing chain exists (proven for 4 players).
 - §6: added the repeat-gap rule (no pairing in consecutive rounds); repeat rounds should be framed as closing-evidence chapters.
 - §7: added the chain-consistency rule (a reader's clue target must be the next reader).
 - §11: added the beat-ledger check for major rewrites (recommended).
@@ -24,6 +25,8 @@ This version replaces the previous rule set in full.
 - §21 (new): story completion grade — rule-compatibility score from the §18 checklist, with critical gates; 85% minimum to submit for testing and to publish.
 - Restructured into two categories with a game-type choice at submission: CATEGORY 1 narrative mysteries (§§1–21), CATEGORY 2 social deduction games (§§22–32, genre-general with room for creative variants).
 - §34 (new): least-invasive repair doctrine — rearrange before rewriting, small additions before restructuring; never change solution or evidence spine for compliance; document every intervention.
+- §5: round count is now exactly 7 rounds for every narrative mystery (replaces the 4-round minimum); rounds follow the evidence spine, with repeat rounds as closing-evidence chapters. All shipped stories must be rebuilt to 7 rounds.
+- §33 (new): scalable editions — one story may ship multiple fixed-count editions (3–12 players); editions share one canon (victim, killer, motive, method, opportunity, evidence spine); solution-critical characters in every edition; each edition independently tested and graded; site offers a player-count picker. §2 rewritten as "one fixed player count per edition." Includes the BUILD METHOD: endpoints (3p/12p) first with cross-check, nested cast, rotations-before-words, shared observation pool, voice, canon lock, independent testing.
 
 1. STORY OWNERSHIP
 
@@ -35,12 +38,14 @@ Visitors cannot:
 - Import or export story JSON.
 - Submit community stories.
 
-2. ONE FIXED PLAYER COUNT PER STORY
+2. ONE FIXED PLAYER COUNT PER EDITION
 
-Each story has ONE edition at ONE fixed player count.
+Each edition of a story has ONE fixed player count. A story may ship
+multiple editions at different player counts (see §33); every edition
+is a complete, standalone game.
 
 The number of players is dictated by the playable characters in the
-authored story.
+authored edition.
 
 Every playable character is required and assigned to exactly one player.
 Do not add, remove or make characters optional to fit the code.
@@ -112,23 +117,25 @@ Every player reads one clue about ANOTHER playable character each round.
 Within a round:
 - Nobody targets themselves.
 - Every player reads exactly once.
-- Every character is targeted exactly once.
-- No target is repeated.
+- Every character is targeted exactly once in a single-chain base round
+  (chain-ends rounds excepted). Expanded editions may have repeated incoming
+  targets or untargeted added characters to preserve the master story.
 - No player is omitted.
 - Every assigned clue is read exactly once.
 
-Across the first N-1 rounds, where N is the player count:
-- Every reader targets every other character exactly once.
-- No ordered reader-to-target pair repeats.
-- Total required coverage is N × (N-1) ordered pairs.
-
-A reading about B is different from B reading about A.
+Across the whole game:
+- No ordered reader-to-target pair may occur twice, except under the §6 repeat exception.
+- A reading about B is different from B reading about A.
+- Which pairs occur is the author's choice, assigned from story events.
 
 Never reuse the same clue in another round.
 
 ROUND COUNT
-- A story must contain at least N-1 rounds, where N is the player count.
-- Rounds beyond coverage use the §6 repeat exception.
+- Every narrative mystery has exactly 7 rounds.
+- Rounds follow the story's evidence spine; repeat rounds after a reading group's pairings are used are closing-evidence chapters under the §6 repeat exception.
+- When all possible pairings in the authored reading group have been used,
+  further rounds in that group use the §6 repeat exception. Adding characters
+  does not reset the base group's pair history or repeat eligibility.
 
 CHAIN-ENDS EXCEPTION
 - For player counts where a closing chain is impossible (proven for
@@ -137,14 +144,16 @@ CHAIN-ENDS EXCEPTION
   and the chain ends.
 - In such rounds one character may be targeted twice and another not
   at all; the per-round uniformity rules above are relaxed accordingly.
-- Every player still reads exactly once per round, and full N×(N-1)
-  coverage across N-1 rounds is still required.
+- Every player still reads exactly once per round.
 
 6. STORY-REQUIRED REPEAT EXCEPTION
 
 Additional rounds may repeat reader-to-target pairs ONLY when:
 - The story requires those additional rounds.
-- Complete coverage has already occurred.
+- All possible ordered pairings within the authored reading group have been
+  used. In a base edition containing the whole cast, this is N(N-1).
+- A larger edition inherits the base group's authored repeats unchanged;
+  it need not exhaust all pairings involving supplemental characters first.
 - The author explicitly documents the reason.
 - The extra rounds are marked as coverage repeats.
 - Every repeated pair receives new evidence or a meaningful correction.
@@ -158,9 +167,10 @@ FINALE FRAMING
 - The final repeat round should leave the table holding the complete evidence picture before final accusations.
 
 This exception does not permit:
-- Repeated targets within one round.
+- Repeated targets within a single-chain base round except under §5.
+  Expanded editions may repeat incoming targets under the master-story rule;
+  this is distinct from repeating an ordered reader-to-target pair.
 - Missing readers.
-- Incomplete coverage.
 - Reused clue text.
 - Changing the cast during play.
 
@@ -174,16 +184,23 @@ Blackwater Row's approved exception:
 
 Clue targets, chains and coverage are authored before play.
 
-Each round has one complete, unbroken reader sequence containing
-every playable character.
+Each round has one complete precomputed reading order containing every
+playable character exactly once. It may contain separate reading groups.
+The host finishes the base group's readings, then calls on supplemental
+readers in their authored order. All players deliberate and vote together.
 
 CHAIN CONSISTENCY
-- For every reader except the last in a round's sequence, that reader's
+- For every reader except the last in a round's reading group, that reader's
   clue target MUST be the next reader in the sequence.
 - The final reader's clue may target an already-read player; the chain
   then ends instead of looping.
-- A round whose targets do not match its reader sequence is broken.
-  This is never a valid exception.
+- The transition between reading groups is explicitly authored, not required
+  to follow the previous reader's target. A supplemental reader may target
+  a base character or another added character, including an already-targeted
+  character; a singleton supplemental reading group is permitted.
+- Group boundaries must be documented. A broken link within a declared
+  multi-reader group is a defect; do not disguise it as an incidental boundary.
+- Never change a base clue or target merely to insert an additional reader.
 
 Do not regenerate assignments during the game.
 Do not change the cast or order when a phone disconnects.
@@ -408,7 +425,7 @@ They cannot bypass:
 - Read-aloud introduction.
 - Character cards.
 - Ordered two-part clues.
-- Complete coverage.
+- The no-repeat pairing rule.
 - Deliberation and voting.
 - Final accusations.
 - Fixed reveal.
@@ -451,17 +468,19 @@ CONTENT
 [ ] Spoken spot-checks sound like people, not reports.
 
 GAMEPLAY
-[ ] One fixed player count per story.
+[ ] One fixed player count per edition; multi-edition stories share one canon (§33).
 [ ] Odd and even counts work.
 [ ] No self-targets.
 [ ] Every player reads once per round.
-[ ] Every character is targeted once per round (chain-ends rounds excepted — see §5).
-[ ] Every reader's clue target is the next reader in the sequence (final reader exempt).
-[ ] Story has at least N-1 rounds.
-[ ] Complete ordered-pair coverage precedes repeats.
+[ ] Target uniformity follows §5; expanded editions may repeat incoming targets.
+[ ] Targets follow the next reader within each declared reading group (last reader exempt).
+[ ] Story has exactly 7 rounds.
+[ ] No pairing repeats except under a documented §6 exception.
 [ ] No pairing repeats in consecutive rounds.
 [ ] Extra-round exceptions are explicitly documented.
-[ ] Reader sequences are complete and unbroken.
+[ ] Reading order includes everyone once; group boundaries are explicit.
+[ ] Base characters, clue fields and targets are unchanged across editions.
+[ ] Shared chapters, ending and key evidence remain unchanged across editions.
 [ ] Narrator callouts match the actual order.
 [ ] Disconnections do not change assignments.
 [ ] Every round includes deliberation and voting.
@@ -489,6 +508,9 @@ RELEASE
 [ ] Tell testers to start a new game rather than resume old story text.
 
 19. CURRENT STORY COUNTS
+
+Each listing is an edition. A story may carry multiple editions at
+different player counts (see §33).
 
 FIVE PLAYERS
 - The Last Seance at Ravenmoor.
@@ -526,18 +548,19 @@ satisfies this rule set. The grade is computed from the category's
 checklist (§18 for narrative mysteries, §32 for social deduction games).
 
 CRITICAL ITEMS — all must pass; any failure caps the grade at D:
-[ ] Every reader's clue target is the next reader in the sequence (final reader exempt).
-[ ] Complete ordered-pair coverage precedes repeats.
-[ ] Story has at least N-1 rounds.
+[ ] Targets follow the next reader within each declared reading group (last reader exempt).
+[ ] Expanded editions preserve all base clue fields, targets and master-story canon.
+[ ] No pairing repeats except under a documented §6 exception.
+[ ] Story has exactly 7 rounds.
 [ ] No self-targets; every player reads exactly once per round.
 [ ] Every placeholder resolves to a valid character.
 [ ] The reveal exists, names the killer, and explains motive, method, and opportunity.
 
 SCORED ITEMS — weighted percentage satisfied:
-- Structure & flow — 25%: one fixed player count; deliberation and voting every round; final accusations and final vote before the reveal; character cards read aloud.
+- Structure & flow — 25%: one fixed player count per edition; deliberation and voting every round; final accusations and final vote before the reveal; character cards read aloud.
 - Clue craft — 30%: every clue has observation + complicating detail; first-person lived voice; at most 35 words.
 - Content integrity — 25%: facts, sources, and suspicion balance preserved; evidence in its correct round; no invented facts; essential evidence spoken aloud.
-- Repeat discipline — 20%: repeats only after complete coverage; no pairing in consecutive rounds; new evidence or meaningful correction per repeat; exceptions documented.
+- Repeat discipline — 20%: repeats only after the reading group's pairings are used; inherited base repeats remain valid in expanded editions; no pairing in consecutive rounds; new evidence or meaningful correction per repeat; groups and exceptions documented.
 
 Grades: A 95–100, B 90–94, C 80–89, D 70–79, F below 70.
 Any critical failure caps the grade at D until fixed.
@@ -687,6 +710,76 @@ Scored under §21 against this checklist; the same 85% thresholds apply.
 
 ---
 
+### 33. SCALABLE EDITIONS
+
+A story may ship multiple editions at different player counts, from 3
+to 12 players. Each edition is a complete, standalone game — one story,
+many doors in.
+
+- Each edition declares exactly one fixed player count (§2). Never
+  flexible lobbies; the count selects the edition.
+- All editions of a story share one canon: the same victim, killer,
+  motive, method, opportunity, and evidence spine. An edition may not
+  contradict facts established in another edition.
+- The smallest authored edition is the master story. For a 3–12-player
+  family, the 3-player edition is the master.
+- Every base character appears in every edition. Their character identities,
+  per-round clue text, observation, contradictingDetail and accuses targets
+  remain unchanged. Do not rewrite or reassign them to fit a larger cast.
+- The seven master narration chapters, their order, victim, killer, motive,
+  method, opportunity, final accusation setup, ending and key evidence remain
+  unchanged. Every edition reaches the same key points in the same rounds.
+- Additional players are drawn from the story's wider cast and receive
+  supplemental character cards and clues. Additions support the master
+  evidence; they cannot replace, contradict, advance or invent solution facts.
+- Each edition declares its full reading order and reading-group boundaries
+  under §7. Separate groups preserve closed base loops. Added clues may target
+  a character already targeted that round; nobody targets themselves.
+- Fresh clue wording is required for added readers, not for inherited base
+  clues. First complete and approve the base voice pass, then preserve it
+  exactly in every expanded edition.
+- Each edition is tested and graded independently. One edition's grade
+  never covers another.
+- The site offers a player-count picker per story; choosing a count
+  loads that edition.
+- Entering eight players selects the authored eight-player edition, never a
+  resized edition. Unsupported counts produce a clear supported-count message.
+
+#### BUILD METHOD — from the 3-player base to 12 players
+
+Use this procedure when building a story's editions. It is written for
+LOCKDOWN (3-player base, 12-player maximum) and applies unchanged to any
+story built the same way.
+
+1. MASTER FIRST, THEN ENDPOINTS. Complete and approve the 3-player master,
+   including its full reveal and compliant clue voice. Build the 12-player
+   extension without changing the master.
+   They must match: the same canon (victim, killer, motive, method,
+   opportunity), the same evidence spine (same chapters, same order,
+   same wording), and the exact base clue fields and targets for shared
+   characters. Run a cross-check between the two drafts and resolve
+   every contradiction before building intermediates.
+2. NESTED CAST. The N-player edition uses the first N names of the
+   12-player cast list, in order. Solution-critical characters appear
+   in every edition.
+3. ORDERS BEFORE ADDED WORDS. Lock the base readings and targets first.
+   Author supplemental assignments and explicit group boundaries; verify
+   everyone reads once, no self-targets, valid within-group links, exactly
+   seven rounds, no unapproved ordered-pair repeats and the repeat gap.
+   Do not force a single all-player loop by changing base clues.
+4. OBSERVATION POOL. Use the approved master evidence to draft supplemental
+   clues first: same story facts, added speaker/target pairing, fresh wording.
+   New observations require author review and cannot invent solution facts
+   (§11). Intermediate editions inherit the base clues exactly.
+5. VOICE. Every clue text follows §§8–10: first-person, two-part,
+   35 words maximum.
+6. CANON LOCK. Evidence chapters are shared verbatim across editions.
+   No edition may contradict facts established in another.
+7. INDEPENDENT TESTING. Each edition is validated and graded on its
+   own; one edition's pass never covers another.
+
+---
+
 ## REPAIR DOCTRINE
 
 ### 34. LEAST-INVASIVE REPAIR
@@ -698,7 +791,9 @@ that achieves compliance. Prefer, in order:
    pairings, reorder chains, or shift content between rounds where the
    rules allow. (Example: swapping which pairing set a round uses rather
    than rewriting its clues.)
-2. SMALL ADDITIONS — add the minimum needed: a round to reach N−1, a
+   In an expanded edition, this applies only to supplemental material;
+   the approved master chapters, base clues and targets remain locked.
+2. SMALL ADDITIONS — add the minimum needed: a round to reach 7 rounds, a
    missing reveal, a clarifying narration line. Additions must follow
    the story's existing voice and evidence.
 3. TARGETED REWRITES — rewrite only the failing elements: the broken

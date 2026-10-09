@@ -1,5 +1,6 @@
-import { startPlayer } from './player.js?v=ui-refresh-v1';
-import { removeOutdatedSavedContent } from './saved-content.js?v=workshop-v1';
+import { startPlayer } from './player.js?v=lockdown-release-v1';
+import { removeOutdatedSavedContent } from './saved-content.js?v=lockdown-release-v1';
+import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
 import { toast } from './util.js?v=f1ed522';
 
 let cleanupNotice = '';
@@ -13,11 +14,11 @@ try {
 
 const params = new URLSearchParams(location.search);
 const room = (params.get('room') || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
-if (/^[A-Z2-9]{8}$/.test(room)) location.replace(new URL(`premium-room.html?room=${encodeURIComponent(room)}`, location.href));
+if (!RELEASE_ONLY && /^[A-Z2-9]{8}$/.test(room)) location.replace(new URL(`premium-room.html?room=${encodeURIComponent(room)}`, location.href));
 else if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=rules-repair-v1');
+    const { startHost } = await import('./host.js?v=lockdown-release-v1');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);
