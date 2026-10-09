@@ -37,7 +37,8 @@ test('host ownership, fixed capacity, seat filtering, atomic joins, removal and 
     { playerId: lobby.players[0].id });
   assert.equal(remove.status, 200);
   assert.equal((await f.guest({ code, command: 'view', token: tokens[0] })).status, 401);
-  assert.equal((await f.guest({ code, command: 'join', token: seatToken(), name: 'Replacement' })).status, 200);
+  const replacementToken = seatToken();
+  assert.equal((await f.guest({ code, command: 'join', token: replacementToken, name: 'Replacement' })).status, 200);
   const full = (await f.host(code, 'view')).body;
   assert.equal((await f.host(code, 'start', full.revision)).status, 200);
   let current = (await f.host(code, 'view')).body;
@@ -47,9 +48,12 @@ test('host ownership, fixed capacity, seat filtering, atomic joins, removal and 
   assert.equal(current.private, null);
   assert.equal((await f.guest({ code, token: tokens[1], command: 'read-card', round: 0 })).status, 409);
   current = (await f.host(code, 'start-introduction', current.revision)).body;
-  const firstSeat = tokens[names.indexOf(current.currentPlayer)];
+  const firstSeat = current.currentPlayer === 'Replacement'
+    ? replacementToken : tokens[names.indexOf(current.currentPlayer)];
+  assert.ok(firstSeat, 'current reader has an active seat token');
+  const otherSeat = tokens.slice(1).find(token => token !== firstSeat);
   const cardRead = { code, command: 'read-card', token: firstSeat, round: 0 };
-  assert.equal((await f.guest({ ...cardRead, token: tokens[2] })).status, 409);
+  assert.equal((await f.guest({ ...cardRead, token: otherSeat })).status, 409);
   assert.equal((await f.guest(cardRead)).status, 200);
   await f.db.query("update public.gg_purchases set status='refunded' where user_id=$1", ['11111111-1111-4111-8111-111111111111']);
   assert.equal((await f.guest({ code, command: 'view', token: tokens[1] })).status, 403);

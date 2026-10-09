@@ -10,6 +10,7 @@ on:
       - 'js/briar-catalog.js'
       - 'js/editions/briar-playtest.js'
       - 'tests/briar*.mjs'
+      - 'tests/premium-rooms.mjs'
   workflow_dispatch:
 
 permissions:
