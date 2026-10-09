@@ -14,6 +14,21 @@ let checks = 0;
 const check = (label, value) => { assert.ok(value, label); checks++; console.log(`PASS ${label}`); };
 const retiredControls = '[data-act="tab"], [data-act="save-story"], [data-act="load-json"], [data-act="gen-ai"], [data-act="use-saved"], [data-act="load-community"], [data-path], #json-file, #raw-json';
 
+async function castTestBallots(host) {
+  await host.evaluate(() => {
+    const state = JSON.parse(localStorage.getItem('gg-host-v1'));
+    const ballots = Object.fromEntries(state.story.characters.map(character => [
+      character.id,
+      state.story.characters.find(target => target.id !== character.id).id,
+    ]));
+    state.roundVotes[state.roundIndex] = ballots;
+    state.votes = ballots;
+    localStorage.setItem('gg-host-v1', JSON.stringify(state));
+  });
+  await host.reload();
+  await host.locator('#tally').waitFor();
+}
+
 try {
   for (const [name, engine] of [['Chromium', chromium], ['mobile WebKit', webkit]]) {
     const browser = await engine.launch();
@@ -51,7 +66,9 @@ try {
       });
       const host = await context.newPage();
       await host.goto(base);
+      await host.locator('#btn-new').waitFor();
       check(`${name}: homepage has no story builder`, await host.getByRole('link', { name: /Build a mystery/i }).count() === 0);
+      await host.locator('nav.site-nav a[href="workshop.html?account=1"]').waitFor();
       check(`${name}: accounts, shop and Mafia links remain`, await host.locator('a[href="workshop.html?account=1"], a[href="shop.html"], a[href="mafia.html"]').count() >= 3);
       await host.click('#btn-new');
       for (const player of ['Avery', 'Blake', 'Casey', 'Drew']) {
@@ -115,6 +132,7 @@ try {
           (await guest.locator('#current-reader').innerText()).includes('Everyone has read'));
         await host.click('#next-round');
         await host.click('#open-vote');
+        await castTestBallots(host);
         if (ri < state.story.rounds.length - 1) await host.click('#next-round');
       }
       await host.click('#reveal-btn');
@@ -137,8 +155,10 @@ try {
         localStorage.setItem('gg-host-v1', JSON.stringify(state));
       });
       await host.reload();
-      check(`${name}: non-catalog saved stories still cannot resume`, await host.locator('#guest-name').count() === 1 &&
-        await host.locator('.guest-item').count() === 5 && (await host.locator('#toast').innerText()).includes('no longer available'));
+      await host.locator('#guest-name').waitFor();
+      check(`${name}: non-catalog saved story is removed`, await host.evaluate(() => JSON.parse(localStorage.getItem('gg-host-v1')).story === null));
+      check(`${name}: non-catalog story rejection preserves the guest list`, await host.locator('.guest-item').count() === 5);
+      check(`${name}: non-catalog story rejection explains why`, (await host.locator('#toast').innerText()).includes('no longer available'));
       await host.click('#use-sample');
       await host.evaluate(() => {
         const state = JSON.parse(localStorage.getItem('gg-host-v1'));
@@ -146,6 +166,7 @@ try {
         localStorage.setItem('gg-host-v1', JSON.stringify(state));
       });
       await host.reload();
+      await host.locator('#guest-name').waitFor();
       check(`${name}: old user-created editions cannot resume`, await host.locator('#guest-name').count() === 1 &&
         await host.locator('.guest-item').count() === 5);
       const account = await context.newPage();
