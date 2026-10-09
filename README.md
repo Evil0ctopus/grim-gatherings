@@ -96,6 +96,72 @@ only when the story calls for a dead player character to return.
 For the replacement chain-ends exception and repeat-gap requirements, see
 [`RULESETS.md`](RULESETS.md), sections 5–7.
 
+### Ravenmoor master and count-selected editions
+
+Both website catalogs offer Ravenmoor's ten editions for 3 through 12 players. The three-player
+master is stored in
+[`tools/story-sources/ravenmoor-master.json`](tools/story-sources/ravenmoor-master.json).
+The physician, butler and sister's cards, clue fields and targets, victim,
+shared chapters, finale and solution are identical in every edition. The
+twelve-player cast comes from the original source, not invented supporting roles.
+
+The five original discovery chapters remain in order. Two inserted comparison
+chapters introduce no new discoveries. All five original character accounts are
+spoken verbatim by the host in their original discovery chapter, so evidence never
+depends on an absent player. Named sources remain named; supplemental readers
+explicitly respond to the accounts just read instead of claiming to witness them.
+The conversion record retains the original clues and reasons for the changes.
+
+Run `node tools/author-ravenmoor.mjs` to regenerate the expansions from the
+established master. The compiler validates the twelve-player endpoint before
+emitting the intermediate editions. `--create-master` is only for initial authoring:
+it refuses to overwrite an existing master. The unit suite pins the master hash
+and checks all 525 clues, all ten editions, evidence timing and pre-reveal secrecy.
+The compiler also checks the master hash and refuses an altered master before
+writing output. It rejects supplemental evidence not already spoken in the master.
+Run `node tools/author-ravenmoor.mjs --check` to verify reproducibility without
+overwriting either the master or the generated editions.
+Use `node --test --test-concurrency=1 tests/ravenmoor.mjs` followed by
+`node tests/lago-browser.mjs --ravenmoor` for sequential, single-browser validation.
+
+The owner approved publication of the corrected editions on October 9, 2026,
+following the AI-assisted evidence, voice, canon and repeat review. Automated
+passing checks alone are not editorial approval. Start a new Ravenmoor game
+when using the new editions; the historical five-player source asset remains
+unchanged for editorial comparisons and regression tests.
+
+**Pre-approval draft repair:** the Round 4 clue now asks why Eleanor's death was
+"certified as fever" rather than why her medicine was "called harmless."
+The certificate is released public evidence; the harmless-tonic claim occurs
+only in private source acting instructions. Original and replacement wording
+and the reason are retained in the conversion record. The corrected master is
+identical across all ten editions and pinned by the updated hash. Supplemental readings use
+distinct spoken introductions and evidence-specific complications; the two
+comparison rounds explicitly correct unsupported earlier accusations. Passing
+first-person and word-count checks does not establish natural spoken voice.
+
+Independent release review under section 21:
+
+| Players | Structure /25 | Clue craft /30 | Content integrity /25 | Repeat discipline /20 | Total |
+| --- | --- | --- | --- | --- | --- |
+| 3 | 25 | 27 | 23 | 20 | 95 |
+| 4 | 25 | 25 | 23 | 20 | 93 |
+| 5 | 25 | 25 | 23 | 20 | 93 |
+| 6 | 25 | 25 | 23 | 20 | 93 |
+| 7 | 25 | 25 | 23 | 20 | 93 |
+| 8 | 25 | 25 | 23 | 20 | 93 |
+| 9 | 25 | 25 | 23 | 20 | 93 |
+| 10 | 25 | 25 | 23 | 20 | 93 |
+| 11 | 25 | 25 | 23 | 20 | 93 |
+| 12 | 25 | 25 | 23 | 20 | 93 |
+
+All critical items pass in each edition. Scores combine mechanical checks with
+editorial judgment, not an automated quality metric: core spoken clues sometimes
+sound analytical; supplemental accounts are intentionally indirect, with repeated
+reading introductions. The long host accounts and increasing incoming accusations
+leave room for pacing and suspicion-balance improvements. These deductions do not
+waive canon, source, timing, coverage or master-preservation requirements.
+
 ### The Lago Cabin editions
 
 Both website catalogs include **The Lago Cabin**, supplied as ten
@@ -142,8 +208,8 @@ still requires valid targets, a complete group partition, consistent reader
 order, seven rounds, flagged repeats and no consecutive repeated pairs. Normal
 stories retain their existing validation requirements.
 
-- **grimgatherings.com:** The Lago Cabin and LOCKDOWN. Other game pages point to development.
-- **GitHub Pages:** all existing games plus LOCKDOWN and The Lago Cabin.
+- **grimgatherings.com:** Ravenmoor, The Lago Cabin and LOCKDOWN. Other game pages point to development.
+- **GitHub Pages:** all existing games plus LOCKDOWN, The Lago Cabin and the scalable Ravenmoor editions.
 - Cloudflare's `production` branch builds automatically set the release-only
   policy, retire other game entry pages and exclude old story assets. Run
   `npm run build:site -- --production` to reproduce this build locally.

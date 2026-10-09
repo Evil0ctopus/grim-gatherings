@@ -5,6 +5,10 @@ import { createCommunityServer } from '../server/community.mjs';
 import { acceptDialogs } from './dialog-helper.mjs';
 
 const server = await createCommunityServer({ database: ':memory:' });
+const ravenmoor = process.argv.includes('--ravenmoor');
+const family = ravenmoor ? 'Ravenmoor' : 'Lago';
+const button = ravenmoor ? '#use-sample' : '#use-lago';
+const card = ravenmoor ? '#ravenmoor-card' : '#lago-card';
 server.listen(0, '127.0.0.1');
 await once(server, 'listening');
 let browser;
@@ -36,8 +40,8 @@ try {
       await page.locator('#guest-name').fill(`Player ${i + 1}`);
       await page.locator('#add-guest').click();
     }
-    assert.equal(await page.locator('#use-lago').isDisabled(), false);
-    await page.locator('#use-lago').click();
+    assert.equal(await page.locator(button).isDisabled(), false);
+    await page.locator(button).click();
     await page.locator('#open-lobby').waitFor();
     assert.equal(await page.locator('[data-assign-character]').count(), count);
     assert.match(await page.locator('#app').innerText(), /original trio.*preserved/);
@@ -63,8 +67,8 @@ try {
       await page.locator(ri === 6 ? '#reveal-btn' : '#next-round').click();
     }
     await page.locator('#killer-name').waitFor();
-    assert.equal(await page.locator('#killer-name').textContent(), 'Charles Jolly Jr.');
-    console.log(`PASS Lago ${count} players: selection, saved-game reload, seven rounds, votes and reveal`);
+    assert.equal(await page.locator('#killer-name').textContent(), ravenmoor ? 'Dr. Silas Ashgrove' : 'Charles Jolly Jr.');
+    console.log(`PASS ${family} ${count} players: selection, saved-game reload, seven rounds, votes and reveal`);
   }
   await context.close();
   const release = await browser.newContext();
@@ -76,16 +80,18 @@ try {
   releasePage.on('pageerror', error => errors.push(error.message));
   await releasePage.goto(base);
   await releasePage.locator('#btn-new').click();
-  assert.equal(await releasePage.locator('#lago-card').count(), 1);
+  assert.equal(await releasePage.locator(card).count(), 1);
   assert.equal(await releasePage.locator('#use-lockdown').count(), 1);
   assert.deepEqual(errors, []);
   for (let i = 0; i < 4; i++) {
     await releasePage.locator('#guest-name').fill(`Guest ${i + 1}`);
     await releasePage.locator('#add-guest').click();
   }
-  await releasePage.locator('#use-lago').click();
+  await releasePage.locator(button).click();
   await releasePage.locator('#open-lobby').waitFor();
-  console.log('PASS production policy: repaired Lago is selectable alongside LOCKDOWN');
+  await releasePage.reload();
+  await releasePage.locator('#open-lobby').waitFor();
+  console.log(`PASS production policy: ${family} is selectable and restores alongside LOCKDOWN`);
   await release.close();
 } finally {
   if (browser) await browser.close();

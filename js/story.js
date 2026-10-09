@@ -1,7 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
-import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=lago-repaired-v1';
+import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=ravenmoor-master-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -63,7 +63,7 @@ export function normalizeStory(input, guests = []) {
     }
   }
   if (obj.masterPreserving === true) {
-    if (obj.edition?.family !== 'lago-cabin') errors.push('Master-preserving reading groups are supported only for Lago editions.');
+    if (!usesMasterReadingGroups(obj)) errors.push('Master-preserving reading groups require an approved edition family.');
     else s.masterPreserving = true;
   }
   if (!Number.isInteger(s.fixedPlayerCount) || s.fixedPlayerCount < 2) {
@@ -222,7 +222,7 @@ export function normalizeStory(input, guests = []) {
   if (!s.finale.votePrompt) s.finale.votePrompt = `Who killed ${s.victim.name || 'the victim'}?`;
   if (s.characters.length >= 2) errors.push(...validateAccusationCircles(s));
   if (s.authorPlaytest && s.rounds.length !== 7) errors.push('LOCKDOWN playtest editions require exactly seven rounds.');
-  if (usesMasterReadingGroups(s) && s.rounds.length !== 7) errors.push('Lago editions require exactly seven rounds.');
+  if (usesMasterReadingGroups(s) && s.rounds.length !== 7) errors.push('Master-preserving editions require exactly seven rounds.');
   if (s.authorPlaytest) s.rounds.forEach((_, ri) => {
     const texts = new Set();
     for (const character of s.characters) {
