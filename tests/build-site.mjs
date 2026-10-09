@@ -77,11 +77,11 @@ test('production build retires other game routes and removes legacy story assets
   const policy = await readFile(new URL('../js/site-policy.js', import.meta.url), 'utf8');
   await writeFile(join(root, 'js', 'site-policy.js'), policy);
   await mkdir(join(root, 'js', 'editions'));
-  for (const name of   ['lockdown.js', 'sample.js', 'mercy-hollow.js', 'lago-cabin.js', 'ravenmoor.js']) await writeFile(join(root, 'js', 'editions', name), name);
+  for (const name of   ['lockdown.js', 'sample.js', 'mercy-hollow.js', 'lago-cabin.js', 'ravenmoor.js', 'blackwater-scalable.js']) await writeFile(join(root, 'js', 'editions', name), name);
   for (const name of ['sample.js', 'starters.js', 'premium-stories.js', 'lago-catalog.js']) await writeFile(join(root, 'js', name), name);
   const output = await buildSite(root, { production: true });
   assert.match(await readFile(join(output, 'js', 'site-policy.js'), 'utf8'), /BUILD_RELEASE_ONLY = true/);
-  assert.deepEqual((await readdir(join(output, 'js', 'editions'))).sort(),   ['lago-cabin.js', 'lockdown.js', 'ravenmoor.js']);
+  assert.deepEqual((await readdir(join(output, 'js', 'editions'))).sort(),   ['blackwater-scalable.js', 'lago-cabin.js', 'lockdown.js', 'ravenmoor.js']);
   assert.ok(!(await readdir(join(output, 'js'))).includes('premium-stories.js'));
   assert.ok((await readdir(join(output, 'js'))).includes('lago-catalog.js'));
   for (const page of ['mafia.html', 'shop.html', 'workshop.html', 'premium-room.html']) {

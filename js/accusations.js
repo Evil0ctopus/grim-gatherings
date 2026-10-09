@@ -152,7 +152,7 @@ export function syncAccusationSchedules(story) {
 }
 
 export function usesMasterReadingGroups(story) {
-  return story.masterPreserving === true && ['lago-cabin', 'ravenmoor'].includes(story.edition?.family);
+  return story.masterPreserving === true && ['lago-cabin', 'ravenmoor', 'blackwater-scalable'].includes(story.edition?.family);
 }
 
 export function accusationChain(story, roundIndex) {
@@ -201,9 +201,11 @@ export function validateAccusationCircles(story) {
   const repeatNote = String(story.coverageRepeatNote || '').trim();
   const playtest = story.authorPlaytest === true && story.edition?.family === 'lockdown';
   const masterGroups = usesMasterReadingGroups(story);
-  const core = new Set(story.edition?.family === 'ravenmoor'
-    ? ['ashgrove', 'crane', 'constance']
-    : ['charles-jolly-jr', 'john-armstrong', 'sheriff-clark']);
+  const core = new Set(story.edition?.family === 'blackwater-scalable'
+    ? ['xander', 'marla', 'jasper']
+    : story.edition?.family === 'ravenmoor'
+      ? ['ashgrove', 'crane', 'constance']
+      : ['charles-jolly-jr', 'john-armstrong', 'sheriff-clark']);
   if (masterGroups && [...core].some(id => !ids.has(id))) errors.push('Master-preserving editions must preserve all three master characters.');
   if (story.rounds.length < 4) {
     errors.push('A story needs at least 4 rounds.');

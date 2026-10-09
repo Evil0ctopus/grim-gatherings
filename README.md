@@ -96,6 +96,69 @@ only when the story calls for a dead player character to return.
 For the replacement chain-ends exception and repeat-gap requirements, see
 [`RULESETS.md`](RULESETS.md), sections 5–7.
 
+### Blackwater Row master and count-selected editions
+
+Blackwater Row has ten fixed-count editions for 3 through 12 players on both
+websites. Xander, Marla and Jasper form the finalized three-player master in
+[`tools/story-sources/blackwater-master.json`](tools/story-sources/blackwater-master.json).
+Their cards, seven clues and targets, all evidence chapters and the ending are
+unchanged in every expansion. The twelve-player endpoint is validated before
+the intermediate editions are emitted.
+
+The five original discoveries remain in order, in rounds 1, 2, 3, 5 and 7.
+Rounds 4 and 6 compare already released evidence and correct unsupported
+inferences. The identifiable razor remains in the fourth discovery; Barker's
+identity, trade and the Mayor's old documents remain in the last discovery.
+Every original witness background and all twenty original short responses
+are read aloud in their corresponding discovery chapter, even when a named
+neighbor is not playable. Conversion records retain the original clue fields
+and the reason for each intervention. No new murders, suspects' actions or
+solution facts were added.
+
+Supporting seats come from existing people: Lydia, Nell, Della, Finn, Ada,
+Owen, Edith, the unnamed town investigator and Della's unnamed granddaughter.
+The last two use role labels, not invented personal identities. A player
+assigned the investigator still reads only their supplied clue; the actual host
+reads shared narration. The pupil only responds to public accounts and is
+never assigned new firsthand murder evidence. All supporting observations are
+already spoken by the host. All ordered pairs are covered before repeats,
+and repeat comparison clues explicitly correct unsupported conclusions.
+
+Regenerate with `node tools/author-blackwater.mjs`; use `--check` for a
+read-only reproducibility check. `--create-master` refuses to overwrite the
+finalized master, whose hash is checked before any expansion. Narrow LF
+attributes also protect the Ravenmoor and Blackwater fingerprinted masters
+and generated assets on Windows checkouts without changing their content.
+Validate serially with
+`node --test --test-concurrency=1 tests/blackwater-scalable.mjs tests/blackwater-row.mjs`
+and `node tests/lago-browser.mjs --blackwater`. The historical four-player
+asset remains unchanged for regression and source comparisons; new selection
+uses the separate scalable catalog. Saved historical games are not resized.
+
+The owner approved continuing the conversion and publication. The following
+per-edition AI-assisted editorial assessment accompanies the mechanical checks;
+it is not a claim of an independent human playtest:
+
+| Players | Structure /25 | Clue craft /30 | Content integrity /25 | Repeat discipline /20 | Total |
+| --- | --- | --- | --- | --- | --- |
+| 3 | 25 | 27 | 23 | 20 | 95 |
+| 4 | 25 | 24 | 23 | 20 | 92 |
+| 5 | 25 | 24 | 23 | 20 | 92 |
+| 6 | 25 | 24 | 23 | 20 | 92 |
+| 7 | 25 | 24 | 23 | 20 | 92 |
+| 8 | 25 | 24 | 23 | 20 | 92 |
+| 9 | 25 | 24 | 23 | 20 | 92 |
+| 10 | 25 | 24 | 23 | 20 | 92 |
+| 11 | 25 | 23 | 23 | 20 | 91 |
+| 12 | 25 | 22 | 22 | 20 | 89 |
+
+Critical checks pass separately for every count. Deductions reflect analytical
+reaction voice, repeated indirect account introductions, long host passages,
+and lighter suspicion against supporting witnesses. The final role-labelled
+seats need particularly clear hosting and content notes. Every edition exceeds
+the 85% release threshold, but live games may still benefit from pacing revisions
+that leave the finalized master intact.
+
 ### Ravenmoor master and count-selected editions
 
 Both website catalogs offer Ravenmoor's ten editions for 3 through 12 players. The three-player
@@ -208,8 +271,8 @@ still requires valid targets, a complete group partition, consistent reader
 order, seven rounds, flagged repeats and no consecutive repeated pairs. Normal
 stories retain their existing validation requirements.
 
-- **grimgatherings.com:** Ravenmoor, The Lago Cabin and LOCKDOWN. Other game pages point to development.
-- **GitHub Pages:** all existing games plus LOCKDOWN, The Lago Cabin and the scalable Ravenmoor editions.
+- **grimgatherings.com:** Blackwater Row, Ravenmoor, The Lago Cabin and LOCKDOWN. Other game pages point to development.
+- **GitHub Pages:** all existing games plus LOCKDOWN, The Lago Cabin and the scalable Ravenmoor and Blackwater Row editions.
 - Cloudflare's `production` branch builds automatically set the release-only
   policy, retire other game entry pages and exclude old story assets. Run
   `npm run build:site -- --production` to reproduce this build locally.

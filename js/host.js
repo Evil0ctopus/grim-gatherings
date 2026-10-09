@@ -1,6 +1,6 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=ravenmoor-master-v1';
+import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=blackwater-master-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
 import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
@@ -8,6 +8,7 @@ import lockdownCatalog from './editions/lockdown.js?v=lockdown-release-v1';
 import { buildLockdownStory } from './lockdown-catalog.js?v=lockdown-release-v1';
 const { STARTER_MYSTERIES } = RELEASE_ONLY ? { STARTER_MYSTERIES: [] } : await import('./starters.js?v=blackwater-voice-v1');
 import { buildRavenmoorStory, RAVENMOOR_INFO as SAMPLE_INFO } from './ravenmoor-catalog.js?v=ravenmoor-master-v1';
+import { buildBlackwaterStory, BLACKWATER_INFO } from './blackwater-catalog.js?v=blackwater-master-v1';
 import { buildLagoStory, reviewLagoEdition, LAGO_NOTICE } from './lago-catalog.js?v=lago-repaired-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=ui-refresh-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
@@ -31,7 +32,7 @@ const app = () => document.getElementById('app');
 
 function restoreGame() {
   S = load();
-  if (S?.story && (S.story.provenance || !['lockdown', 'lago-cabin', 'ravenmoor', ...(!RELEASE_ONLY ? ['sample'] : []), ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
+  if (S?.story && (S.story.provenance || !['lockdown', 'lago-cabin', 'ravenmoor', 'blackwater-scalable', ...(!RELEASE_ONLY ? ['sample'] : []), ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
     S.story = null; S.phase = 'setup'; S.roundIndex = -1; S.chainIndex = 0;
     S.claims = {}; S.votes = {}; S.roundVotes = {}; S.wasLive = false;
     save();
@@ -205,7 +206,17 @@ function renderSetup() {
       <p class="small muted">Players are assigned to characters at random — even the murderer. You can change each assignment on the next screen.</p>
       <button class="block" data-act="use-sample" id="use-sample" ${guests.length < 3 || guests.length > 12 ? 'disabled' : ''}>Play Ravenmoor →</button>
     </div>
-    ${STARTER_MYSTERIES.map(entry => `<div class="card gold stack">
+    <div class="card gold stack" id="blackwater-card">
+      <h2>${esc(BLACKWATER_INFO.title)}</h2>
+      <p>${esc(BLACKWATER_INFO.blurb)}</p>
+      <p class="story-meta"><span class="pill">3–12 players · count-selected editions</span> <span class="small muted">7 rounds + shared reveal</span></p>
+      <details><summary>Content &amp; hosting notes</summary><p class="small">${esc(BLACKWATER_INFO.contentNote)}</p>
+        <p class="small muted">The host reads all recorded witness accounts. The investigator seat is a player character, not an extra hosting obligation. Supporting readers do not invent new eyewitness evidence.</p>
+      </details>
+      <p class="small muted">Add 3 through 12 players. The original trio reads first, followed by supporting characters. Assignments can be changed on the next screen.</p>
+      <button class="block" data-act="use-blackwater" id="use-blackwater" ${guests.length < 3 || guests.length > 12 ? 'disabled' : ''}>Play Blackwater Row →</button>
+    </div>
+    ${STARTER_MYSTERIES.filter(entry => entry.story.edition?.family !== 'blackwater-row').map(entry => `<div class="card gold stack">
       <h2>${esc(entry.title)}</h2>
       <p>${esc(entry.blurb)}</p>
       <p class="story-meta"><span class="pill">${formatPlayerRange(entry.story)}</span> <span class="small muted">${entry.story.rounds.length} evidence rounds + reveal</span></p>
@@ -251,6 +262,7 @@ function renderReview() {
     ${st.authorPlaytest ? `<p class="card" role="note">${esc(st.playtestNotice)}</p>` : ''}
     ${st.edition?.family === 'lago-cabin' ? `<p class="card" role="note">${esc(LAGO_NOTICE)}</p>` : ''}
     ${st.edition?.family === 'ravenmoor' ? `<p class="card" role="note">The original trio, seven chapters and ending are preserved in every edition. Supporting readers use only the supplied evidence, read aloud by the host. ${esc(SAMPLE_INFO.reviewNotice)}</p>` : ''}
+    ${st.edition?.family === 'blackwater-scalable' ? '<p class="card" role="note">The original trio is preserved in every edition, with seven shared chapters and the same ending. The five discovery sequences retain all recorded accounts; two comparison chapters introduce no new evidence. Start a new game for this edition.</p>' : ''}
     <div class="row"><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
       <label class="check-row"><input type="checkbox" data-disclose-killer ${st.discloseKiller ? 'checked' : ''}>Tell the murderer they are the murderer</label>
@@ -526,6 +538,16 @@ const actions = {
     const guests = getGuests();
     try {
       await acceptStory(buildRavenmoorStory(guests, shuffle(guests)), []);
+    } catch (error) {
+      ui.errors = [error.message];
+      ui.warnings = [];
+      renderSetup();
+    }
+  },
+  async 'use-blackwater'() {
+    const guests = getGuests();
+    try {
+      await acceptStory(buildBlackwaterStory(guests, shuffle(guests)), []);
     } catch (error) {
       ui.errors = [error.message];
       ui.warnings = [];

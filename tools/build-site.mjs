@@ -51,11 +51,11 @@ export async function buildSite(root = resolve(dirname(fileURLToPath(import.meta
     if (!policy.includes('export const BUILD_RELEASE_ONLY = false;')) throw new Error('Missing release catalog policy.');
     await writeFile(policyPath, policy.replace('export const BUILD_RELEASE_ONLY = false;', 'export const BUILD_RELEASE_ONLY = true;'));
     const retired = ['workshop.html', 'shop.html', 'premium-room.html', 'mafia.html'];
-    const notice = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Development games - Grim Gatherings</title><link rel="stylesheet" href="css/style.css"></head><body><main><h1>Development games</h1><p>This website offers Ravenmoor, The Lago Cabin and the LOCKDOWN author playtest. Other games remain on the GitHub development website until approved.</p><p><a href="index.html">Choose a mystery</a></p><p><a href="https://evil0ctopus.github.io/grim-gatherings/">Open the development website</a></p></main></body></html>';
+    const notice = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Development games - Grim Gatherings</title><link rel="stylesheet" href="css/style.css"></head><body><main><h1>Development games</h1><p>This website offers Blackwater Row, Ravenmoor, The Lago Cabin and the LOCKDOWN author playtest. Other games remain on the GitHub development website until approved.</p><p><a href="index.html">Choose a mystery</a></p><p><a href="https://evil0ctopus.github.io/grim-gatherings/">Open the development website</a></p></main></body></html>';
     for (const file of retired) await writeFile(join(output, file), notice);
     for (const file of ['sample.js', 'starters.js', 'premium-stories.js']) await rm(join(output, 'js', file), { force: true });
     for (const file of await readdir(join(output, 'js', 'editions'))) {
-      if (!['lockdown.js', 'lago-cabin.js', 'ravenmoor.js'].includes(file)) await rm(join(output, 'js', 'editions', file));
+      if (!['lockdown.js', 'lago-cabin.js', 'ravenmoor.js', 'blackwater-scalable.js'].includes(file)) await rm(join(output, 'js', 'editions', file));
     }
   }
   return output;

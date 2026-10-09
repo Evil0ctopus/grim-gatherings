@@ -1,7 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
-import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=ravenmoor-master-v1';
+import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=blackwater-master-v1';
 
 export function parseGuests(text) {
   return String(text || '')
