@@ -151,6 +151,10 @@ export function syncAccusationSchedules(story) {
   return story;
 }
 
+export function usesMasterReadingGroups(story) {
+  return story.masterPreserving === true && story.edition?.family === 'lago-cabin';
+}
+
 export function accusationChain(story, roundIndex) {
   const cast = story.characters || [];
   if (!cast.length) return [];
@@ -158,7 +162,7 @@ export function accusationChain(story, roundIndex) {
     character.id,
     character.rounds?.[roundIndex]?.readAloud?.accuses,
   ]));
-  if (story.authorPlaytest && story.edition?.family === 'lockdown') {
+  if ((story.authorPlaytest && story.edition?.family === 'lockdown') || usesMasterReadingGroups(story)) {
     const groups = story.rounds[roundIndex]?.readingGroups;
     if (!Array.isArray(groups)) return [];
     const order = groups.flat();
@@ -196,6 +200,9 @@ export function validateAccusationCircles(story) {
   let coverageComplete = false;
   const repeatNote = String(story.coverageRepeatNote || '').trim();
   const playtest = story.authorPlaytest === true && story.edition?.family === 'lockdown';
+  const masterGroups = usesMasterReadingGroups(story);
+  const core = new Set(['charles-jolly-jr', 'john-armstrong', 'sheriff-clark']);
+  if (masterGroups && [...core].some(id => !ids.has(id))) errors.push('Lago editions must preserve all three master characters.');
   if (story.rounds.length < 4) {
     errors.push('A story needs at least 4 rounds.');
   }
@@ -214,13 +221,13 @@ export function validateAccusationCircles(story) {
         if (!playtest && (!references.includes(clue.accuses) || references.some(id => id !== clue.accuses))) {
           errors.push(`${label}: the clue must be about its assigned target and cannot be about its reader.`);
         }
-        if (!playtest && incoming.has(clue.accuses)) errors.push(`${label}: ${clue.accuses} is accused twice; every character must receive exactly one accusation.`);
+        if (!playtest && !masterGroups && incoming.has(clue.accuses)) errors.push(`${label}: ${clue.accuses} is accused twice; every character must receive exactly one accusation.`);
         incoming.add(clue.accuses);
         edges.set(c.id, clue.accuses);
       }
     }
-    if (!playtest && incoming.size !== ids.size) errors.push(`Round ${ri + 1}: every character must be accused exactly once.`);
-    if (edges.size === ids.size && (playtest || incoming.size === ids.size)) {
+    if (!playtest && !masterGroups && incoming.size !== ids.size) errors.push(`Round ${ri + 1}: every character must be accused exactly once.`);
+    if (edges.size === ids.size && (playtest || masterGroups || incoming.size === ids.size)) {
       const chain = accusationChain(story, ri);
       if (chain.length !== ids.size) errors.push(`Round ${ri + 1}: every player must read exactly one clue in the target chain.`);
       if (Array.isArray(story.rounds[ri].chain) && story.rounds[ri].chain.join('\0') !== chain.join('\0')) {
@@ -235,7 +242,21 @@ export function validateAccusationCircles(story) {
       const pair = `${character.id}\0${target}`;
       if (coverage.has(pair)) repeated = true;
     }
-    if (repeated && !coverageComplete && !playtest) {
+    if (masterGroups) {
+      const groups = story.rounds[ri].readingGroups;
+      if (!Array.isArray(groups) || groups[0]?.length !== 3 || groups[0].some(id => !core.has(id)) ||
+          groups.slice(1).some(group => group.length !== 1 || core.has(group[0]))) {
+        errors.push(`Round ${ri + 1}: preserve the trio loop followed by supplemental readers.`);
+      }
+      for (const [reader, target] of edges) {
+        if (!coverage.has(`${reader}\0${target}`)) continue;
+        const eligible = core.has(reader) ? [...core] : [...ids];
+        if (eligible.some(id => id !== reader && !coverage.has(`${reader}\0${id}`))) {
+          errors.push(`Round ${ri + 1}: ${reader} repeats before its authored target group is covered.`);
+        }
+      }
+    }
+    if (repeated && !coverageComplete && !playtest && !masterGroups) {
       errors.push(`Round ${ri + 1}: a reader-target pair repeats before the coverage matrix is complete.`);
     }
     if (repeated && story.rounds[ri].coverageRepeat !== true) {

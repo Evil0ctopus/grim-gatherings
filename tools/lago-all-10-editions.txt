@@ -1,0 +1,1920 @@
+================================================================================
+THE LAGO CABIN — ALL 10 EDITIONS (3 to 12 players)
+Washington County, Missouri, November 1870. Inspired by the true 1870 events
+north of Potosi. For VS Code: build these into the website's edition catalog
+(one edition per player count, selected by player-count picker per rule set v2 §33).
+================================================================================
+BUILD NOTES:
+- Every edition: 7 rounds, shared evidence chapters (verbatim), shared victim,
+  nested cast (edition N = first N of the 12-player cast).
+- Rotations mechanically verified: unbroken chains every round (chain-ends
+  pattern for 4p), no unflagged pair repeats, repeat-gap rule holds.
+- Clue voice is FIRST-PERSON throughout (20-30 words, fact + doubt/reaction)
+  — the voice law is already applied; no rewrite pass needed.
+- THE REVEAL is WRITTEN and locked, identical in all 10 editions: Charles
+  Jolly Jr. killed David Lapine (4 revolver shots); John Armstrong accomplice
+  (ax, arson); motive/method/opportunity; Leon's testimony; hanged Jan 27, 1871.
+- Intermediate editions (4p-11p) adapt the shared observation pool; pairs with
+  no pool entry were invented canon-safe and are flagged for author review —
+  re-check before publishing.
+- The killer is never identified in any clue text. Victims treated without
+  graphic detail. Minor characters (Silas, Thomas, Pierre, Eli, Henry, Ada,
+  Dr. Pryor) are fictionalized; historical figures keep their real names.
+================================================================================
+
+
+================================================================================
+
+================================================================================
+EDITION: 3 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 3-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 3-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Armstrong → Clark. (Charles reads about Armstrong, Armstrong reads about Clark, Clark reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong helped me haul lead Saturday morning, same as always. He's got no quarrel with David — none of us do."</p>
+<p><b>Armstrong's clue about Clark</b><br>"The sheriff's been riding all over town since Monday asking questions. I told him everything I know, which isn't much."</p>
+<p><b>Clark's clue about Charles</b><br>"I watched Charles buy whiskey Saturday afternoon, already swaying by four. A man that drunk by supper is a man I watch."</p>
+<h3>What Players Know</h3>
+<ul>
+<li>The Lapine cabin burned; five bodies in the ruins.</li>
+<li>Charles was drinking heavily Saturday afternoon.</li>
+<li>Armstrong claims no quarrel with David.</li>
+<li>The sheriff is asking questions.</li>
+</ul>
+<h3>Suspicion Board</h3>
+<ul>
+<li>🟡 Charles Jolly Jr. — Drinking hard Saturday. Cousin to David.</li>
+<li>🟡 John Armstrong — With Charles all Saturday. Hot temper.</li>
+<li>🟡 Sheriff John T. Clark — Investigating. (The law — almost certainly not the killer.)</li>
+</ul>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Armstrong → Charles → Clark. (Armstrong reads about Charles, Charles reads about Clark, Clark reads about Armstrong.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Armstrong's clue about Charles</b><br>"Charles sold his share of the lead alongside David that morning. They seemed friendly — cousins usually are, till money's involved."</p>
+<p><b>Charles's clue about Clark</b><br>"Clark's been sheriff five minutes and already struts like he owns the county. He asked me where I was Saturday night."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong was seen cursing a mule driver Saturday morning over nothing at all. A temper like that can turn on a man."</p>
+<h3>What Players Know</h3>
+<ul>
+<li>David and Charles sold lead together Saturday morning; whiskey bought.</li>
+<li>Charles and Armstrong drank together all afternoon.</li>
+<li>Armstrong has a temper.</li>
+<li>The sheriff is asking where people were Saturday night.</li>
+</ul>
+<h3>Suspicion Board</h3>
+<ul>
+<li>🟡 Charles Jolly Jr. — With David Saturday morning. Drinking all day.</li>
+<li>🟡 John Armstrong — Drinking with Charles. Temper.</li>
+<li>🟡 Sheriff John T. Clark — Investigating.</li>
+</ul>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → Armstrong → Clark. (Charles reads about Armstrong, Armstrong reads about Clark, Clark reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong drank beside me till eight Saturday night, and I'll own we were both drunk. But drunk is a long road from murder."</p>
+<p><b>Armstrong's clue about Clark</b><br>"Clark came through the saloon Sunday asking after us. Said he was checking on folks — since when does he check on anyone?"</p>
+<p><b>Clark's clue about Charles</b><br>"Silas watched Charles leave the saloon near eight, heading north toward the Lago cabin. That's a walk I keep thinking about."</p>
+<h3>What Players Know</h3>
+<ul>
+<li>The cousins drank till 8pm, bought a half-gallon, headed north — toward the cabin.</li>
+<li>Both admit being drunk.</li>
+<li>The sheriff is tracing their steps.</li>
+</ul>
+<h3>Suspicion Board</h3>
+<ul>
+<li>🟡 Charles Jolly Jr. — Headed toward the cabin, drunk, at 8pm.</li>
+<li>🟡 John Armstrong — With him. Admits being drunk.</li>
+<li>🟡 Sheriff John T. Clark — Investigating.</li>
+</ul>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Armstrong → Charles → Clark. (Armstrong reads about Charles, Charles reads about Clark, Clark reads about Armstrong.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Armstrong's clue about Charles</b><br>"Charles is kin to David — blood kin. You don't shoot your own blood. Whatever happened in that cabin, it wasn't him."</p>
+<p><b>Charles's clue about Clark</b><br>"Clark keeps staring at my boots like they confessed something. Mud is mud, Sheriff — every miner in this county wears it."</p>
+<p><b>Clark's clue about Armstrong</b><br>"The killer used an ax from David's own woodpile, by the cabin corner. Whoever did this knew that cabin well."</p>
+<h3>What Players Know</h3>
+<ul>
+<li>The cabin's ax is missing; straw was piled on the bodies — the fire was set.</li>
+<li>A chink in the wall: someone could have watched.</li>
+<li>The killer knew the cabin.</li>
+</ul>
+<h3>Suspicion Board</h3>
+<ul>
+<li>🟡 Charles Jolly Jr. — Kin to David. Knows the cabin. Defensive.</li>
+<li>🟡 John Armstrong — Knows the cabin. Insists Charles is innocent.</li>
+<li>🟡 Sheriff John T. Clark — Investigating.</li>
+</ul>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Charles → Armstrong → Clark. (Charles reads about Armstrong, Armstrong reads about Clark, Clark reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong's been jumpy since Monday, I'll grant that. But so is everyone — there's a burned cabin north of town."</p>
+<p><b>Armstrong's clue about Clark</b><br>"Clark's offering six hundred dollars for information about Saturday night. That kind of money makes folks remember things that never happened."</p>
+<p><b>Clark's clue about Charles</b><br>"A boy watched through a chink in the logs Saturday night and saw everything. Charles — if you were in that cabin, pray."</p>
+<h3>What Players Know</h3>
+<ul>
+<li>Leon Jolly, 12, watched through the wall.</li>
+<li>Charles quarreled with Fanny; David intervened; shots were fired.</li>
+<li>$600 reward posted.</li>
+</ul>
+<h3>Suspicion Board</h3>
+<ul>
+<li>🔴 Charles Jolly Jr. — Named by the witness. Quarreled with Fanny. Shots fired.</li>
+<li>🟡 John Armstrong — With Charles. Named by no one — yet.</li>
+<li>🟡 Sheriff John T. Clark — Investigating.</li>
+</ul>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Armstrong → Charles → Clark. (Armstrong reads about Charles, Charles reads about Clark, Clark reads about Armstrong.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Armstrong's clue about Charles</b><br>"There's a posse riding for Rush Tower with Charles's name on every tongue. If he runs now, they'll hang him sure."</p>
+<p><b>Charles's clue about Clark</b><br>"Clark's got deputies on every road and six hundred dollars on our heads. A man can't buy supper without being stared at."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong was seen on the Rush Tower road Sunday, riding hard with his cousin. Two men, riding fast, stopping for nobody."</p>
+<h3>What Players Know</h3>
+<ul>
+<li>The cousins were caught near Rush Tower; jailed in Potosi.</li>
+<li>A mob stormed the jail; a boy was killed; the sheriff held the doors.</li>
+<li>The prisoners were moved to St. Louis.</li>
+</ul>
+<h3>Suspicion Board</h3>
+<ul>
+<li>🔴 Charles Jolly Jr. — In jail. The witness named him.</li>
+<li>🔴 John Armstrong — In jail with him. Fled with him.</li>
+<li>🟡 Sheriff John T. Clark — Held the jail against the mob.</li>
+</ul>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Armstrong → Clark. (Charles reads about Armstrong, Armstrong reads about Clark, Clark reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong says he never went near that cabin Saturday. I say the same. Two cousins, one story — believe it or don't."</p>
+<p><b>Armstrong's clue about Clark</b><br>"Clark's building his whole case on a twelve-year-old peeking through a wall crack. You'd hang a man on a boy's story?"</p>
+<p><b>Clark's clue about Charles</b><br>"Leon saw you through the logs, Charles — the shouting, the shots, all of it. Deny it if you can."</p>
+<h3>What Players Know</h3>
+<ul>
+<li>The trial is underway; Leon has testified.</li>
+<li>Both cousins deny being at the cabin.</li>
+<li>The case rests on the boy's testimony.</li>
+</ul>
+<h3>Suspicion Board</h3>
+<ul>
+<li>🔴 Charles Jolly Jr. — The witness points at him.</li>
+<li>🔴 John Armstrong — Stands with Charles. Denies everything.</li>
+<li>🟡 Sheriff John T. Clark — Brought them in alive.</li>
+</ul>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 4 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 4-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 4-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Armstrong → John → Clark. (Charles reads about Armstrong, Armstrong reads about John, John reads about Clark, Clark reads about Armstrong — chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong hauled lead beside me Saturday morning, same as any day. He's got no quarrel with David — none of us have."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — you poured for us Saturday and saw us laughing. Tell this town we left your table merry, not murderous."</p>
+<p><b>John's clue about Clark</b><br>"Clark asked me Sunday where the cousins went Saturday night. I told him I don't watch every man under my roof — no man can."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong was seen cursing a mule driver Saturday morning over nothing. A temper like that worries me — it can turn on a man."</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Clark → John → Armstrong → Charles. (Clark reads about John, John reads about Armstrong, Armstrong reads about Charles, Charles reads about Clark — chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Clark's clue about John</b><br>"John poured whiskey for his brother-in-law and Armstrong all Saturday afternoon. A man ought to know what his kin get up to under his own roof."</p>
+<p><b>John's clue about Armstrong</b><br>"Armstrong drank at my table Saturday afternoon and left with Charles near dusk. I never asked where they were bound — I wish now I had."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles sold his lead beside David Saturday morning, friendly as cousins get. Though friendly and money don't always ride the same wagon."</p>
+<p><b>Charles's clue about Clark</b><br>"Clark's worn that badge five minutes and struts like he owns the county. He asked where I was Saturday night — I told him drinking."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Armstrong → Clark → Charles → John. (Armstrong reads about Clark, Clark reads about Charles, Charles reads about John, John reads about Charles — chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Armstrong's clue about Clark</b><br>"Clark came sniffing through the saloon Sunday, asking after us by name. Checking on folks, he said — since when does he check on anyone?"</p>
+<p><b>Clark's clue about Charles</b><br>"I watched Charles buy whiskey Saturday, swaying by four in the afternoon. A man that drunk by supper is a man I keep my eye on."</p>
+<p><b>Charles's clue about John</b><br>"John, you poured for us Saturday — you saw we were merry, nothing more. Tell them that, brother-in-law, before gossip hangs us both."</p>
+<p><b>John's clue about Charles</b><br>"Charles, the sheriff keeps asking whose wagon you took Saturday night. My memory's gone soft — but yours had better not be."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Armstrong → John → Clark. (Charles reads about Armstrong, Armstrong reads about John, John reads about Clark, Clark reads about Armstrong — chain ends.)<br>Repeat round — same pairings as Round 1; all clue texts freshly worded.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong and I hauled lead together Saturday morning like always. I swear to you — he's got no quarrel with David, and neither have I."</p>
+<p><b>Armstrong's clue about John</b><br>"John, you married into this family — you know us. We left your table Saturday laughing and merry, and that's the whole of it."</p>
+<p><b>John's clue about Clark</b><br>"Clark, I told you Sunday and I'll tell you now — I can't watch every man under my roof. A man's house isn't a jail."</p>
+<p><b>Clark's clue about Armstrong</b><br>"They tell me Armstrong cursed a mule driver bloody Saturday over nothing. Now there's an ax missing — and I've got a temper to think about."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Clark → John → Armstrong → Charles. (Clark reads about John, John reads about Armstrong, Armstrong reads about Charles, Charles reads about Clark — chain ends.)<br>Repeat round — same pairings as Round 2; all clue texts freshly worded.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Clark's clue about John</b><br>"John, you poured for those cousins all Saturday afternoon. Now a boy says he watched through the wall — what did you see under your own roof?"</p>
+<p><b>John's clue about Armstrong</b><br>"Armstrong, you left my table at dusk with Charles. Leon watched that cabin through the logs — tell me you never went near it."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles, you sold lead beside David that morning, friendly as brothers. Now Leon's pointing at you — and I'm caught between my cousin and a boy."</p>
+<p><b>Charles's clue about Clark</b><br>"Clark, you asked where I was Saturday, and I've told you. Now you're hanging it all on my twelve-year-old brother's eyes — is that justice?"</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Armstrong → Clark → Charles → John. (Armstrong reads about Clark, Clark reads about Charles, Charles reads about John, John reads about Charles — chain ends.)<br>Repeat round — same pairings as Round 3; all clue texts freshly worded.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Armstrong's clue about Clark</b><br>"Clark, you came asking after us at the saloon Sunday. Now there's a posse riding and a mob at your jail — was this your plan all along?"</p>
+<p><b>Clark's clue about Charles</b><br>"I saw you drinking since four Saturday, Charles. Now you're in irons in my jail, and a mob wants you swinging — whiskey bought you this."</p>
+<p><b>Charles's clue about John</b><br>"John, you saw us merry at your table Saturday. Now I'm locked in Potosi jail with a mob outside — tell them what you saw, brother-in-law."</p>
+<p><b>John's clue about Charles</b><br>"Charles, they took you at supper near Rush Tower like a common fugitive. Whose wagon did you ride out on — answer me, for kin's sake."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Armstrong → John → Clark. (Charles reads about Armstrong, Armstrong reads about John, John reads about Clark, Clark reads about Armstrong — chain ends.)<br>Repeat round — same pairings as Round 1; all clue texts freshly worded.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong hauled lead beside me Saturday like always. Whatever Leon thinks he saw, this man never raised a hand to David — I'll swear it."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're family — you poured for us Saturday and watched us laugh. When they vote today, remember the men at your table, not the mob's tale."</p>
+<p><b>John's clue about Clark</b><br>"Clark, I couldn't watch them every minute Saturday — no man could. But I know my kin, Sheriff, and I'll answer for what I saw."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong, the jury heard about your temper Saturday morning — the mule driver, the cursing. Add it up: temper, whiskey, and a missing ax."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 5 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 5-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 5-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li>
+<li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → John → Armstrong → Clark → Silas. (Charles reads about John, John reads about Armstrong, Armstrong reads about Clark, Clark reads about Silas, Silas reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, you poured for us Saturday afternoon and saw we were merry, nothing more. Speak up, brother-in-law, before this town hangs us on gossip."</p>
+<p><b>John's clue about Armstrong</b><br>"They say there was shouting at Fanny before the shots, Armstrong. Were you even there Saturday? Tell me that boy is lying."</p>
+<p><b>Armstrong's clue about Clark</b><br>"Sheriff, you've ridden this town ragged since Monday with your questions. I've told you all I know — which isn't much."</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, Leon says the cousins quarreled with Fanny before the shots rang out. You poured till eight — did you hear any talk of that cabin?"</p>
+<p><b>Silas's clue about Charles</b><br>"Charles drank at my bar Saturday till near eight, then bought a half-gallon to carry. Ten years I've poured whiskey, and I've never seen a man drink like that."</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Charles → Silas → Clark → Armstrong → John. (Charles reads about Silas, Silas reads about Clark, Clark reads about Armstrong, Armstrong reads about John, John reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday night — you'd sell whiskey to the devil himself for coin. Don't play innocent with me now."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, you've had deputies in my bar twice this week asking after Saturday. I poured what I poured — a barkeep can't police every man's drinking."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong, you were seen cursing a mule driver Saturday morning over nothing at all. A temper like that can turn on a man."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured the whiskey yourself and saw us laughing."</p>
+<p><b>John's clue about Charles</b><br>"Charles, whose wagon did you take Saturday night? The sheriff keeps asking me, and my memory's gone soft on the answer."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → Clark → John → Silas → Armstrong. (Charles reads about Clark, Clark reads about John, John reads about Silas, Silas reads about Armstrong, Armstrong reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"Clark, you've been sheriff five minutes and already strut like you own this county. You asked where I was Saturday night — I was drinking."</p>
+<p><b>Clark's clue about John</b><br>"John, you poured whiskey for your brother-in-law and Armstrong all Saturday afternoon. A man ought to know what his own kin get up to under his roof."</p>
+<p><b>John's clue about Silas</b><br>"Silas, my kin drank at your bar till eight Saturday — you saw them closer than I did. Tell me plain: were they quarrelsome, or just drunk?"</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, you drank beside Charles till eight and bought that half-gallon with him. I watched you both walk north — and north is where that cabin sits."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles, you sold your share of the lead alongside David that morning. You seemed friendly — cousins usually are, till money's involved."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Armstrong → Silas → John → Clark. (Charles reads about Armstrong, Armstrong reads about Silas, Silas reads about John, John reads about Clark, Clark reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong, you hauled lead beside me Saturday morning like always. You've got no quarrel with David — tell them that yourself."</p>
+<p><b>Armstrong's clue about Silas</b><br>"Silas, you served us till eight Saturday and never once said slow down. Now you act like you barely know us — a barkeep's memory is a convenient thing."</p>
+<p><b>Silas's clue about John</b><br>"John, you drank with those cousins Saturday afternoon at your own table. Blood's blood — but a man sees things at his own table he'd rather forget."</p>
+<p><b>John's clue about Clark</b><br>"Sheriff, you asked me Sunday where Charles and Armstrong went Saturday night. I said I didn't watch them every minute — a man can't, in his own house."</p>
+<p><b>Clark's clue about Charles</b><br>"Charles, I watched you buy whiskey Saturday afternoon, already swaying by four. A man that drunk by supper is a man I keep watching."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Repeat round — same pairings as Round 1; all clue texts freshly worded.<br>Reading order: Charles → John → Armstrong → Clark → Silas.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, they're saying Leon watched through the wall and saw everything. You were at your table all afternoon — tell them what kind of men we are."</p>
+<p><b>John's clue about Armstrong</b><br>"Armstrong, Leon's told the sheriff there was shouting at Fanny before the shots. If you were in that cabin, God help you — tell me he's wrong."</p>
+<p><b>Armstrong's clue about Clark</b><br>"Sheriff, you're offering six hundred dollars for Saturday-night stories now. That money will buy plenty of remembering — true or otherwise."</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, the boy says the cousins left your bar headed north with whiskey. Did anyone at your bar speak of the Lago cabin that night?"</p>
+<p><b>Silas's clue about Charles</b><br>"Charles, Leon's named you — says you quarreled with Fanny before the shots. I poured your whiskey, but I can't pour you an alibi."</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Repeat round — same pairings as Round 2; all clue texts freshly worded.<br>Reading order: Charles → Silas → Clark → Armstrong → John.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, there's a posse riding and a mob baying, all over your half-gallon of whiskey. I hope that coin was worth it to you."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, your posse took them at supper near Rush Tower — no shots fired. You brought them in breathing, and I'll grant you that much."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong, they took you at supper with your cousin, and you came quiet. A hot-tempered man gone quiet makes me wonder what he's holding back."</p>
+<p><b>Armstrong's clue about John</b><br>"John, I'm in irons in Potosi jail and the mob wants me swinging. You're kin by marriage — will you speak for me, or just watch?"</p>
+<p><b>John's clue about Charles</b><br>"Charles, you're in a cell and Leon's word is against you. Tell me whose wagon you took Saturday — it's the least you owe me now."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Repeat round — same pairings as Round 3; all clue texts freshly worded.<br>Reading order: Charles → Clark → John → Silas → Armstrong.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"Sheriff, the trial's opened and Leon's pointed at me from the stand. You've had your answers — now let the jury do the talking."</p>
+<p><b>Clark's clue about John</b><br>"John, you poured for your kin all Saturday afternoon and watched them leave. The jury's heard it all — what would you have done different?"</p>
+<p><b>John's clue about Silas</b><br>"Silas, it took three days to seat a jury — every man's heard of that cabin. You saw them last at eight — what did their faces tell you?"</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, the boy pointed from the stand and the whole courtroom held its breath. I served you whiskey, not judgment — but I've done my own adding."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles, we go back further than this cell. Whatever the jury decides, I'll say it plain — I never thought it would end at a gallows."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 6 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 6-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 6-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li>
+<li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li>
+<li><b>Thomas Aubuchon</b> — a neighbor; found the burned cabin Monday morning.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Clark → Armstrong → Silas → John → Thomas → Charles.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"I saw you watching me buy whiskey Saturday, Sheriff — yes, I was drinking. But a drinking man ain't a killing man, and you know it."</p>
+<p><b>Clark's clue about Armstrong</b><br>"I saw you cursing that mule driver Saturday morning over nothing at all. A temper like yours, Armstrong — it makes a sheriff wonder."</p>
+<p><b>Armstrong's clue about Silas</b><br>"You poured for us till eight Saturday, Silas, and never once said slow down. Now you look through me like I'm a stranger — convenient memory."</p>
+<p><b>Silas's clue about John</b><br>"You drank with those cousins Saturday afternoon at your own table, John. A man sees things under his own roof he'd rather forget — what did you see?"</p>
+<p><b>John's clue about Thomas</b><br>"You found that cabin Monday, Thomas — but where were you Saturday night? I've seen you eyeing David's timber line, and timber's worth money."</p>
+<p><b>Thomas's clue about Charles</b><br>"Charles, Silas says you left his saloon near eight Saturday, headed north. That's the road to Lago's cabin — and I found what I found Monday."</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin, five dead, and six people with Saturday-night stories.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Charles → John → Silas → Armstrong → Thomas → Clark → Charles.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"You poured for us Saturday afternoon, John — you saw we were merry, nothing more. Tell the sheriff that before this town hangs us on gossip."</p>
+<p><b>John's clue about Silas</b><br>"Silas, they took Charles at his supper, calm as Sunday. Guilty men don't eat easy — but then, what do I know of guilty men?"</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, you drank at my bar till eight Saturday, loud and getting louder. Whiskey makes some men merry — and some men mean."</p>
+<p><b>Armstrong's clue about Thomas</b><br>"Thomas, you found that cabin Monday — but who pointed you down that road? A man doesn't stumble onto a fire like that by accident."</p>
+<p><b>Thomas's clue about Clark</b><br>"Sheriff, I found that cabin Monday and I'll see it till I die. But I was home Saturday night — my wife will swear it, and she will."</p>
+<p><b>Clark's clue about Charles</b><br>"A boy watched through a chink in the logs Saturday night, Charles, and saw everything. If you were inside that cabin — pray."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → Silas → Clark → Thomas → Armstrong → John → Charles.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday — you'd sell whiskey to the devil himself for coin. Don't you go acting innocent now."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, you've asked me three times about Saturday night, and my answer don't change. They drank, they paid, they walked north — that's all."</p>
+<p><b>Clark's clue about Thomas</b><br>"Thomas, you found that cabin Monday morning — tell me again what you touched. A sheriff learns more from what's missing than what's there."</p>
+<p><b>Thomas's clue about Armstrong</b><br>"Armstrong, you and Charles bought a half-gallon at eight and walked north. Silas told the sheriff himself — so don't tell me you went home."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured the whiskey yourself; you saw us laughing."</p>
+<p><b>John's clue about Charles</b><br>"Charles, whose wagon did you take Saturday night? The sheriff keeps asking, and my memory's gone soft on the answer."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Thomas → John → Armstrong → Clark → Silas → Charles.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Thomas</b><br>"Thomas, you were first inside those ruins Monday — what did you move before the sheriff came? A man's boots tell stories in ashes."</p>
+<p><b>Thomas's clue about John</b><br>"John, you drank with those cousins Saturday at your own table. If they talked of Lago's cabin, you'd have heard — wouldn't you?"</p>
+<p><b>John's clue about Armstrong</b><br>"Leon says there was shouting at Fanny before the shots. Were you there Saturday, Armstrong? Tell me that boy is lying."</p>
+<p><b>Armstrong's clue about Clark</b><br>"You've been riding this county ragged since Monday, Sheriff, asking after everyone. I've told you all I know — which isn't much."</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, the boy says the cousins quarreled with Fanny before the shots. You served them till eight — did you hear any talk of the Lago cabin?"</p>
+<p><b>Silas's clue about Charles</b><br>"Charles, you drank at my bar Saturday till near eight, then bought a half-gallon to go. I've poured ten years — never seen a man drink like that."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Charles → Clark → Armstrong → Silas → John → Thomas → Charles. (Repeat round — same pairings as Round 1; all clue texts freshly worded.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"You keep asking about my whiskey, Sheriff, but ask about the boy instead — twelve years old, peeking through logs in the dark. What could he truly see?"</p>
+<p><b>Clark's clue about Armstrong</b><br>"The boy named your cousin, Armstrong — quarreled with Fanny, shots fired. You were with Charles all night. Tell me you saw nothing."</p>
+<p><b>Armstrong's clue about Silas</b><br>"Silas, they're offering six hundred dollars for Saturday-night stories. That money buys remembering — true or otherwise, and you know it."</p>
+<p><b>Silas's clue about John</b><br>"John, the boy says he watched through the wall and saw it all. You drank with those men that afternoon — did you see any meanness in them?"</p>
+<p><b>John's clue about Thomas</b><br>"Thomas, a twelve-year-old is going to swear on all of this — and you found the cabin. If that boy's wrong, you're the one who'd know it."</p>
+<p><b>Thomas's clue about Charles</b><br>"Charles, your little brother watched through those logs and told the sheriff everything. If you weren't in that cabin — prove it to me."</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Charles → John → Silas → Armstrong → Thomas → Clark → Charles. (Repeat round — same pairings as Round 2; all clue texts freshly worded.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, they took us at supper like common thieves — but we sat down hungry, nothing more. Tell them, brother-in-law. Tell them true."</p>
+<p><b>John's clue about Silas</b><br>"Silas, the mob near tore your bar apart on their way to the jail Saturday night. Whiskey and rope — did you ever see such a fever?"</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, my bar's in splinters from that mob Saturday night — they came through like a storm. All this, and you two still say you were home?"</p>
+<p><b>Armstrong's clue about Thomas</b><br>"Thomas, you rode in white as flour Monday with your news — but a mob don't gather on one man's word. Who else talked before you did?"</p>
+<p><b>Thomas's clue about Clark</b><br>"Sheriff, you held those jail doors Saturday night while a boy died in the street. I'd rather face ashes again than carry what you're carrying."</p>
+<p><b>Clark's clue about Charles</b><br>"I held my jail against a mob for you, Charles — so the law could speak, not a rope. The boy on the stand will do the rest."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Silas → Clark → Thomas → Armstrong → John → Charles. (Repeat round — same pairings as Round 3; all clue texts freshly worded.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, the boy pointed at me on that stand — my own little brother. You served us whiskey that night; tell them we were just drinking."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, it took three days to seat a jury — every man here's heard of that cabin. Whatever they decide, this town won't be the same after."</p>
+<p><b>Clark's clue about Thomas</b><br>"Thomas, you found the ashes, and now the boy has spoken. We've all added it up — tonight the town decides, and the law abides."</p>
+<p><b>Thomas's clue about Armstrong</b><br>"Armstrong, Leon swore it plain — the shouting, the shots, all of it. If you've got anything to say before the vote, say it now."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin — stand by me one last time. Tell them we left your table merry, tell them the boy's mistaken. Please."</p>
+<p><b>John's clue about Charles</b><br>"Charles, they're going to hang you — maybe Armstrong too. I've turned it over and over, God help me, and I can't see another way."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 7 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 7-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 7-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li>
+<li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li>
+<li><b>Thomas Aubuchon</b> — a neighbor; found the burned cabin Monday morning.</li>
+<li><b>Pierre Valois</b> — lead miner; worked alongside David.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Thomas → Armstrong → Silas → Clark → John → Pierre. (Charles reads about Thomas, Thomas reads about Armstrong, Armstrong reads about Silas, Silas reads about Clark, Clark reads about John, John reads about Pierre, Pierre reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Thomas</b><br>"Thomas found that cabin Monday morning and came riding in like a ghost. I keep wondering what he was doing on that road so early."</p>
+<p><b>Thomas's clue about Armstrong</b><br>"I found that cabin Monday, Armstrong, and I've heard you and Charles walked north Saturday with a half-gallon. That sits heavy on me."</p>
+<p><b>Armstrong's clue about Silas</b><br>"Silas poured for us till eight Saturday and never once said slow down. Now he squints like we're strangers — a barkeep's memory is a handy thing."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, you want to know what the cousins drank Saturday — whiskey, same as always. I poured it, and I'll swear to it."</p>
+<p><b>Clark's clue about John</b><br>"John Jolly, you poured whiskey for Charles and Armstrong all Saturday afternoon at your own table. A man ought to know what his kin get up to."</p>
+<p><b>John's clue about Pierre</b><br>"Pierre, you worked the diggings beside David for years. If anyone knew his business Saturday morning, it'd be you — so talk."</p>
+<p><b>Pierre's clue about Charles</b><br>"Charles, I dug lead beside David for years, and he never raised his voice to any man. Whatever took him Saturday, it wasn't anything he earned."</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Charles → Pierre → John → Clark → Silas → Armstrong → Thomas. (Charles reads about Pierre, Pierre reads about John, John reads about Clark, Clark reads about Silas, Silas reads about Armstrong, Armstrong reads about Thomas, Thomas reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Pierre</b><br>"Pierre dug beside David for years — if anyone held a grievance against Lago, Pierre would know it. He's gone awful quiet since Monday."</p>
+<p><b>Pierre's clue about John</b><br>"John, you had Charles and Armstrong at your table Saturday afternoon. What were they drinking to — and what were they planning?"</p>
+<p><b>John's clue about Clark</b><br>"The sheriff asked me Sunday where Charles and Armstrong went Saturday night. I told him I don't watch every minute — a man can't, in his own house."</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, David sold his lead Saturday morning and Charles was with him. Did they buy that quart at your bar — and who else was drinking?"</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, you and Charles drank at my bar and at John's table all Saturday. A man would think you'd remember where the night ended."</p>
+<p><b>Armstrong's clue about Thomas</b><br>"Thomas, you found that cabin Monday morning — but who sent you down that road? A man doesn't stumble on a fire without somebody pointing the way."</p>
+<p><b>Thomas's clue about Charles</b><br>"Charles, David sold his lead Saturday morning with you beside him. By Monday he was ashes — and you've been drinking since. That ain't grief."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → Clark → Thomas → John → Silas → Pierre → Armstrong. (Charles reads about Clark, Clark reads about Thomas, Thomas reads about John, John reads about Silas, Silas reads about Pierre, Pierre reads about Armstrong, Armstrong reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"Clark's been sheriff five minutes and struts like he owns the county. He asked me where I was Saturday night — I told him drinking."</p>
+<p><b>Clark's clue about Thomas</b><br>"Thomas, you ride that north road near every day. Saturday night, two drunk men walked it after eight — did you hear anything at all?"</p>
+<p><b>Thomas's clue about John</b><br>"John, Charles and Armstrong drank at your table Saturday afternoon, then drank till eight in town. When did you last see them — and which way did they go?"</p>
+<p><b>John's clue about Silas</b><br>"Silas, you poured for Charles and Armstrong till eight Saturday night. You watched them leave — tell me true, which way did they head?"</p>
+<p><b>Silas's clue about Pierre</b><br>"Pierre, you miners drink together most nights — were the cousins quarrelsome Saturday? Two men don't buy a half-gallon for sipping."</p>
+<p><b>Pierre's clue about Armstrong</b><br>"Armstrong, I work the diggings and I know whiskey talk. What were you and Charles so set on that you needed a half-gallon to go?"</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles sold his lead alongside David Saturday morning, friendly as cousins get. Till money's involved, anyway — that's when kin turn."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Armstrong → Pierre → Silas → John → Thomas → Clark. (Charles reads about Armstrong, Armstrong reads about Pierre, Pierre reads about Silas, Silas reads about John, John reads about Thomas, Thomas reads about Clark, Clark reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong hauled lead beside me Saturday morning, same as always. He's got no quarrel with David — none of us do."</p>
+<p><b>Armstrong's clue about Pierre</b><br>"Pierre, you miners keep your axes sharp as razors. David's ax is gone from his woodpile — who'd know just where it stood?"</p>
+<p><b>Pierre's clue about Silas</b><br>"Silas, straw was piled over the bodies to make it burn hot. That's laid by hands that knew fire — not an accident."</p>
+<p><b>Silas's clue about John</b><br>"John Jolly drank with those cousins Saturday afternoon at his own table. Blood is blood — but a man sees things at his own table he'd rather forget."</p>
+<p><b>John's clue about Thomas</b><br>"Thomas found the cabin Monday — but where was he Saturday night? A neighbor's a neighbor, but I've seen him eyeing David's timber before."</p>
+<p><b>Thomas's clue about Clark</b><br>"Sheriff, I found that cabin Monday and I'll see it till I die. But I was home Saturday night — my wife will swear to it, and she will."</p>
+<p><b>Clark's clue about Charles</b><br>"Charles, that cabin's ax is gone and straw was piled for burning. You knew that place, being kin — better than most."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Charles → Silas → Thomas → Pierre → Clark → Armstrong → John. (Charles reads about Silas, Silas reads about Thomas, Thomas reads about Pierre, Pierre reads about Clark, Clark reads about Armstrong, Armstrong reads about John, John reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday night — you'd sell whiskey to the devil himself for coin. Don't you act innocent now."</p>
+<p><b>Silas's clue about Thomas</b><br>"Thomas, you ride that road — did you see a boy in a wagon Saturday night? Twelve years old, left outside a cabin, might've been noticed."</p>
+<p><b>Thomas's clue about Pierre</b><br>"Pierre, they say a boy watched through a chink in those logs Saturday night. Twelve years old — what kind of sight is that for a child?"</p>
+<p><b>Pierre's clue about Clark</b><br>"Sheriff, you say a boy saw it through the wall — Leon, Charles's own brother. A boy doesn't invent a thing like that, does he?"</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong, the boy says there was a quarrel with Fanny before the shots — shouting, he says. You were there that night. Weren't you?"</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured it yourself; you saw us laughing."</p>
+<p><b>John's clue about Charles</b><br>"Charles, the boy says you quarreled with Fanny that night before the shots. You drank at my table that afternoon — tell me he's lying."</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Charles → John → Armstrong → Clark → Pierre → Thomas → Silas. (Charles reads about John, John reads about Armstrong, Armstrong reads about Clark, Clark reads about Pierre, Pierre reads about Thomas, Thomas reads about Silas, Silas reads about Charles.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, you poured for us Saturday afternoon and saw we were merry, nothing more. Tell them that, brother-in-law, before this town hangs us on gossip."</p>
+<p><b>John's clue about Armstrong</b><br>"Leon says there was shouting at Fanny before the shots Saturday. Were you even there, Armstrong? Look me in the eye and tell me he's lying."</p>
+<p><b>Armstrong's clue about Clark</b><br>"The sheriff's got six hundred dollars on our heads and a posse on every road. I told him all I know — which isn't much, and isn't guilt."</p>
+<p><b>Clark's clue about Pierre</b><br>"Pierre, we took them at supper near Rush Tower — no shots fired, whatever the mob wanted. I'd rather bring men in alive than carry them home."</p>
+<p><b>Pierre's clue about Thomas</b><br>"Thomas, a mob stormed that jail Saturday night and a boy died in it. I've worked beside hard men, but this town's thirst frightens me worse."</p>
+<p><b>Thomas's clue about Silas</b><br>"Silas, that mob came through your saloon Saturday night hungry for rope. You poured them whiskey — did you try to stop them, or just pour?"</p>
+<p><b>Silas's clue about Charles</b><br>"Charles drank at my bar Saturday till near eight, then bought a half-gallon to go. Ten years I've poured — I never saw a man drink like that."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Thomas → Armstrong → Silas → Clark → John → Pierre. (Charles reads about Thomas, Thomas reads about Armstrong, Armstrong reads about Silas, Silas reads about Clark, Clark reads about John, John reads about Pierre, Pierre reads about Charles.)</i></p>
+<p><i>Repeat round — same reader→target pairings as Round 1, with all-new clue texts.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Thomas</b><br>"Thomas, you found that cabin Monday — the whole case started with your eyes. Are you certain of what you saw in those ashes?"</p>
+<p><b>Thomas's clue about Armstrong</b><br>"Armstrong, the trial's opened and Leon has pointed. You walked north with Charles that night — the town knows it, and so do you."</p>
+<p><b>Armstrong's clue about Silas</b><br>"Silas, you served us whiskey till eight and watched us go. Now you act the innocent — but your bar remembers what your mouth won't say."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, I poured the whiskey and I'll own it — but I didn't pour the shots that followed. There's a difference, and you know it."</p>
+<p><b>Clark's clue about John</b><br>"John, the jury took three days to seat and Leon pointed straight. If you know anything that spares your kin, speak it now or never."</p>
+<p><b>John's clue about Pierre</b><br>"Pierre, they're trying my brother-in-law for murder, and the boy's word is the whole of it. Tell me a twelve-year-old can't hang a man."</p>
+<p><b>Pierre's clue about Charles</b><br>"Charles, your own little brother stood up in that courtroom and pointed. I don't know what to think anymore — God help us all."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+================================================================================
+EDITION: 8 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 8-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. An 8-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li>
+<li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li>
+<li><b>Thomas Aubuchon</b> — a neighbor; found the burned cabin Monday morning.</li>
+<li><b>Pierre Valois</b> — lead miner; worked alongside David.</li>
+<li><b>Father Brennan</b> — the parish priest; ministered to the condemned men.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Armstrong → Clark → John → Silas → Thomas → Pierre → Brennan. (Brennan reads about Charles; chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong hauled lead beside me Saturday morning, same as always. He's got no quarrel with David — none of us ever did."</p>
+<p><b>Armstrong's clue about Clark</b><br>"The sheriff's been riding this county hard since Monday, asking after everyone. I told him what I know — which ain't much."</p>
+<p><b>Clark's clue about John</b><br>"John Jolly poured whiskey for his brother-in-law and Armstrong all Saturday afternoon. A man should know what his kin do under his own roof."</p>
+<p><b>John's clue about Silas</b><br>"Silas, you saw us merry Saturday afternoon at my own table — that's all it was. This town's already decided, and the ashes ain't cold."</p>
+<p><b>Silas's clue about Thomas</b><br>"Thomas, you rode that road Monday morning — did you pass anyone else? A boy in a wagon Saturday night might've been seen."</p>
+<p><b>Thomas's clue about Pierre</b><br>"Pierre, I found that cabin Monday and the sight's burned in me deeper than the fire. I keep asking God why I didn't ride sooner."</p>
+<p><b>Pierre's clue about Brennan</b><br>"Father, David worked beside me for years — a quiet man, no enemies. Who'd burn a man like that? I can't make it sit right."</p>
+<p><b>Brennan's clue about Charles</b><br>"Charles, I've prayed over those ashes since Monday and found no peace. You were David's kin — tell me you had no hand in this."</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Charles → Clark → Armstrong → John → Thomas → Silas → Brennan → Pierre. (Pierre reads about Charles; chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"Clark's been sheriff five minutes and struts like he owns the county. He asked me where I was Saturday night — twice."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong was seen cursing a mule driver Saturday morning over nothing at all. A temper like that can turn on a man."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured it yourself; you saw us laughing."</p>
+<p><b>John's clue about Thomas</b><br>"Thomas found the cabin Monday, but where was he Saturday night? I've seen him eyeing David's timber line before now."</p>
+<p><b>Thomas's clue about Silas</b><br>"Silas, you keep a public house — did the cousins drink there Saturday afternoon, or only at John's? A barkeep sees what others miss."</p>
+<p><b>Silas's clue about Brennan</b><br>"Father, they drank at John's all afternoon before they ever reached my bar. I keep wondering what was said at that table."</p>
+<p><b>Brennan's clue about Pierre</b><br>"Pierre, you sold lead beside David Saturday morning — did he seem troubled? A man with death near him sometimes knows."</p>
+<p><b>Pierre's clue about Charles</b><br>"Charles, you sold lead alongside David that morning — did you quarrel over the price? Money's started more fires than whiskey."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → John → Armstrong → Silas → Pierre → Clark → Brennan → Thomas. (Thomas reads about Charles; chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, you poured for us Saturday afternoon — you saw we were merry, nothing more. Tell them that, brother-in-law, before gossip hangs us."</p>
+<p><b>John's clue about Armstrong</b><br>"Armstrong, Silas says you left near eight headed north. You told me you were going home — which was it?"</p>
+<p><b>Armstrong's clue about Silas</b><br>"Silas served us till eight Saturday and never once said slow down. Now he acts like he barely knows us — convenient memory."</p>
+<p><b>Silas's clue about Pierre</b><br>"Pierre, they bought a half-gallon at eight and walked out weaving. Two drunk men with whiskey to go — I should've stopped them."</p>
+<p><b>Pierre's clue about Clark</b><br>"Sheriff, I saw them leave the saloon near eight, loud and heading north. If I'd known where north led, I'd have followed."</p>
+<p><b>Clark's clue about Brennan</b><br>"Father, the barkeep says they left near eight with whiskey, headed north. Drunk men, dark road, a mile to walk — God help whoever met them."</p>
+<p><b>Brennan's clue about Thomas</b><br>"Thomas, you ride that north road — did you hear them pass Saturday night? Two drunk men make noise enough to wake the dead."</p>
+<p><b>Thomas's clue about Charles</b><br>"Charles, Silas says you bought a half-gallon at eight and walked north. My place is on that road — and I never heard you pass."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Silas → Armstrong → Thomas → Brennan → Clark → Pierre → John. (John reads about Charles; chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday — you'd sell whiskey to the devil for coin. Don't you go acting innocent now."</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, they found straw piled over the bodies — laid deliberate, to burn hot. That's not accident, and you know fire."</p>
+<p><b>Armstrong's clue about Thomas</b><br>"Thomas, you found that cabin Monday — but who found you? A man doesn't stumble on a fire like that without somebody pointing."</p>
+<p><b>Thomas's clue about Brennan</b><br>"Father, the ax is gone from David's woodpile — taken, not burned. Whoever set that fire knew just where everything stood."</p>
+<p><b>Brennan's clue about Clark</b><br>"Sheriff, I walked those ruins and saw the straw laid over them. Whoever did this planned it — pray God we find who."</p>
+<p><b>Clark's clue about Pierre</b><br>"Pierre sold lead beside David Saturday morning and saw him last, most likely. I'd like to know what passed between them at that wagon."</p>
+<p><b>Pierre's clue about John</b><br>"John, that ax was taken from David's own woodpile — your kin knew that cabin well. That's a hard thing to sit with."</p>
+<p><b>John's clue about Charles</b><br>"Charles, whose wagon did you take Saturday night? The sheriff keeps asking, and my memory's gone soft on the answer."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Charles → Thomas → John → Pierre → Armstrong → Brennan → Silas → Clark. (Clark reads about Charles; chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Thomas</b><br>"Thomas, they're saying a boy watched through the wall — my own little brother. You found that cabin; tell me what you saw first."</p>
+<p><b>Thomas's clue about John</b><br>"John, your young brother-in-law Leon says he saw it all through the logs. A boy doesn't invent a thing like that — does he?"</p>
+<p><b>John's clue about Pierre</b><br>"Pierre, Leon's twelve and swears he watched through a wall crack. If that boy's telling true, God help my kin."</p>
+<p><b>Pierre's clue about Armstrong</b><br>"Armstrong, the boy says there was quarreling at Fanny before the shots. You were with Charles that night — was you there?"</p>
+<p><b>Armstrong's clue about Brennan</b><br>"Father, they're offering six hundred dollars for stories about Saturday night. That money will buy a lot of remembering — true or otherwise."</p>
+<p><b>Brennan's clue about Silas</b><br>"Silas, the boy Leon told the sheriff he watched it all. I've known that child since baptism — he doesn't lie, God help him."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, the boy says they quarreled with Fanny before the shots. I served them till eight — I never heard the Lago name once."</p>
+<p><b>Clark's clue about Charles</b><br>"A boy watched through a chink in the logs Saturday night and saw everything. Charles — if you were in that cabin, pray."</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Charles → Pierre → Thomas → Clark → Silas → John → Brennan → Armstrong. (Armstrong reads about Charles; chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Pierre</b><br>"Pierre worked the diggings beside David for years. If anyone had a grievance with Lago, Pierre would know — and he's gone awful quiet."</p>
+<p><b>Pierre's clue about Thomas</b><br>"Thomas found that cabin Monday morning and came riding in white as flour. A man doesn't look like that unless the sight near killed him."</p>
+<p><b>Thomas's clue about Clark</b><br>"Sheriff, I found that cabin Monday and I'll see it till I die. But I was home Saturday night — my wife will swear it."</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, the boy says the cousins quarreled with Fanny before the shots. You served them till eight — did you hear any talk of the Lago cabin?"</p>
+<p><b>Silas's clue about John</b><br>"John Jolly drank with those cousins Saturday afternoon at his own table. Blood's blood, but a man sees things at his own table he'd rather forget."</p>
+<p><b>John's clue about Brennan</b><br>"Father, a mob stormed that jail Saturday night wanting my kin swinging. I fear the rope more than the law right now."</p>
+<p><b>Brennan's clue about Armstrong</b><br>"Armstrong came to Mass maybe twice in his life, both times dragged by kin. I pray for him — God forgive me, I fear the drink has him."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles sold his share of the lead alongside David that morning. They seemed friendly — cousins usually are, till money's involved."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Brennan → John → Clark → Thomas → Armstrong → Pierre → Silas. (Silas reads about Charles; chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Brennan</b><br>"Father Brennan's been praying over those ashes since Monday. I asked him what God tells him about it, and he had no answer for me."</p>
+<p><b>Brennan's clue about John</b><br>"John, the boy pointed on the stand and the jury barely left the room. May God have mercy — on all of us."</p>
+<p><b>John's clue about Clark</b><br>"Clark asked me Sunday where Charles and Armstrong went Saturday night. I said I didn't watch them every minute — a man can't, in his own house."</p>
+<p><b>Clark's clue about Thomas</b><br>"Thomas, it took three days to seat a jury — every man here's heard of that cabin. The boy's word is all we have now."</p>
+<p><b>Thomas's clue about Armstrong</b><br>"Armstrong, you and Charles bought a half-gallon at eight and walked north. Silas told the sheriff himself — so don't tell me you went home."</p>
+<p><b>Armstrong's clue about Pierre</b><br>"Pierre, you work lead beside where David fell — tell them whiskey never made a killer of any man. You've seen worse Saturday nights."</p>
+<p><b>Pierre's clue about Silas</b><br>"Silas, the jury's out and the town's holding its breath. You poured their last whiskey — what did you see in their eyes that night?"</p>
+<p><b>Silas's clue about Charles</b><br>"Charles drank at my bar Saturday till near eight, then bought a half-gallon to go. I've watered whiskey ten years, never seen a man drink like that."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 9 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 9-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 9-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li>
+<li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li>
+<li><b>Thomas Aubuchon</b> — a neighbor; found the burned cabin Monday morning.</li>
+<li><b>Pierre Valois</b> — lead miner; worked alongside David.</li>
+<li><b>Father Brennan</b> — the parish priest; ministered to the condemned men.</li>
+<li><b>Deputy Eli Marsh</b> — the sheriff's deputy.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Brennan → Armstrong → Pierre → Clark → Thomas → John → Silas → Eli.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Brennan</b><br>"Father Brennan's been praying over those ashes since Monday morning. I asked him what God says about it — he had no answer for me."</p>
+<p><b>Brennan's clue about Armstrong</b><br>"Armstrong's been to Mass twice in his life, both times dragged by kin. I pray for him — God forgive me, I fear the whiskey has him."</p>
+<p><b>Armstrong's clue about Pierre</b><br>"Pierre, you worked beside David for years — did you ever see him quarrel with anyone? A quiet man like that doesn't make killers of strangers."</p>
+<p><b>Pierre's clue about Clark</b><br>"Sheriff, David was the steadiest man at the diggings — never raised his voice, never owed a cent. Who'd want a man like that dead?"</p>
+<p><b>Clark's clue about Thomas</b><br>"Thomas, you found that cabin Monday and rode straight to me. A man who runs toward the law instead of away from it — I notice that."</p>
+<p><b>Thomas's clue about John</b><br>"John, your brother-in-law's been drinking hard all week, by every account. A man ought to keep better watch on his own kin."</p>
+<p><b>John's clue about Silas</b><br>"Silas, you poured whiskey for half this town Saturday night. Did the cousins seem quarrelsome to you, or just drunk like everyone?"</p>
+<p><b>Silas's clue about Eli</b><br>"Eli, you're wearing a deputy's star now — when did Clark pin that on you? A boy with a badge asks questions men won't answer twice."</p>
+<p><b>Eli's clue about Charles</b><br>"Charles, the sheriff asked me to watch who comes and goes. You've been awful still since Monday — still as a man holding his breath."</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Charles → Eli → Silas → John → Thomas → Clark → Pierre → Armstrong → Brennan.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Eli</b><br>"Eli, you weren't even a deputy Saturday — Clark pinned that star on you after. Don't you go acting like you saw things you never saw."</p>
+<p><b>Eli's clue about Silas</b><br>"Silas, you watched them leave near eight with a half-gallon, headed north. Now you squint like you can't recall — whiskey loosens tongues, not memory."</p>
+<p><b>Silas's clue about John</b><br>"John, you drank with those cousins Saturday afternoon at your own table. Blood's blood — but a man sees things at his own table he'd rather forget."</p>
+<p><b>John's clue about Thomas</b><br>"Thomas found the cabin Monday — but where was he Saturday night? A neighbor's a neighbor, but I've seen him eyeing David's timber before."</p>
+<p><b>Thomas's clue about Clark</b><br>"Sheriff, I found that cabin Monday and I'll see it till I die. But I was home Saturday night — my wife will swear to it, and she will."</p>
+<p><b>Clark's clue about Pierre</b><br>"Pierre sold lead beside David Saturday morning — saw him last, most likely. I'd like to know what passed between them at that wagon."</p>
+<p><b>Pierre's clue about Armstrong</b><br>"Armstrong, you and Charles bought whiskey with David Saturday morning, then drank all day without him. What changed between morning and night?"</p>
+<p><b>Armstrong's clue about Brennan</b><br>"Father, I was drinking Saturday, I'll own it — but I was at John's table, in company. Ask anyone who poured."</p>
+<p><b>Brennan's clue about Charles</b><br>"Charles, I saw you at the lead sale Saturday morning, sober as a judge. Whatever took you by evening, it wasn't the Lord's doing."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → Clark → Brennan → John → Pierre → Silas → Thomas → Eli → Armstrong.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"Clark's been sheriff barely a season and already struts like he owns the county. He asked me where I was Saturday night — twice."</p>
+<p><b>Clark's clue about Brennan</b><br>"Father, you hear confessions — have the cousins been to you lately? A man carrying Saturday night on his conscience seeks absolution."</p>
+<p><b>Brennan's clue about John</b><br>"John, those cousins drank at your table Saturday afternoon before the saloons. Did you see where their talk was turning?"</p>
+<p><b>John's clue about Pierre</b><br>"Pierre, you saw David at the lead sale Saturday — did Charles seem right to you? A man drinking since morning ain't himself by night."</p>
+<p><b>Pierre's clue about Silas</b><br>"Silas, you poured for them till eight Saturday — did they talk of the Lago cabin? Two men don't walk north at night for nothing."</p>
+<p><b>Silas's clue about Thomas</b><br>"Thomas, you were on that road Monday — did you see anyone else about? A boy left in a wagon Saturday night might've been noticed."</p>
+<p><b>Thomas's clue about Eli</b><br>"Eli rode out with the sheriff Monday and sifted those ashes like a man panning for gold. Whatever he found, he hasn't told the town."</p>
+<p><b>Eli's clue about Armstrong</b><br>"Armstrong, I was at the saloon door Saturday when you left — you could barely stand. Tell me you went home after, and I'll believe it."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles sold his lead alongside David Saturday morning, friendly as brothers. Cousins usually are — till money gets between them."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Armstrong → Eli → Thomas → Silas → Pierre → John → Brennan → Clark.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong hauled lead beside me Saturday morning, same as always. He's got no quarrel with David — none of us do."</p>
+<p><b>Armstrong's clue about Eli</b><br>"Eli got deputized and struts like the war's still on. He asked where I was Saturday night — drinking, I said, same as everyone."</p>
+<p><b>Eli's clue about Thomas</b><br>"Thomas, you found that cabin Monday — was the ax already gone from the woodpile? A missing ax says someone came prepared."</p>
+<p><b>Thomas's clue about Silas</b><br>"Silas, straw was piled over those bodies before the fire was lit — that's no accident. Whoever did it wanted that cabin gone."</p>
+<p><b>Silas's clue about Pierre</b><br>"Pierre, you're a miner — could a cabin burn that hot on timber alone? I've heard talk of straw piled high, and it chills me."</p>
+<p><b>Pierre's clue about John</b><br>"John, David's ax is gone from his woodpile — you know that cabin, whose ax was it? Someone knew just where it stood."</p>
+<p><b>John's clue about Brennan</b><br>"Father, they say the fire was set to hide something worse than burning. I've prayed on it — God forgive whoever needed that fire."</p>
+<p><b>Brennan's clue about Clark</b><br>"Sheriff, I heard Charles's confession at Easter, and I can't speak of it — you know that. But pray for that boy Leon. He saw something."</p>
+<p><b>Clark's clue about Charles</b><br>"I watched Charles buy whiskey Saturday, swaying by four in the afternoon. A man that drunk by supper is a man I keep watching."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Charles → Silas → Brennan → Thomas → Pierre → Eli → Clark → Armstrong → John.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday — you'd sell whiskey to the devil himself for coin. Don't act innocent now."</p>
+<p><b>Silas's clue about Brennan</b><br>"Father, hear my confession: I served them whiskey till eight and watched them walk north. I've not slept since — God forgive me."</p>
+<p><b>Brennan's clue about Thomas</b><br>"Thomas, the boy Leon told the sheriff what he saw through those logs. Pray for him — twelve years old, carrying that sight."</p>
+<p><b>Thomas's clue about Pierre</b><br>"Pierre, they say a boy watched through a crack in the wall and saw everything. I keep thinking — what if he'd cried out?"</p>
+<p><b>Pierre's clue about Eli</b><br>"Eli, Leon's twelve and saw his own brother through those logs. Keep that boy safe — there's men who'd pay to shut a witness up."</p>
+<p><b>Eli's clue about Clark</b><br>"Sheriff, six hundred dollars is a fortune — it'll set every liar in the county remembering. How do we know the boy's story holds?"</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong was seen cursing a mule driver Saturday over nothing at all. A temper like that can turn on any man."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured the whiskey; you saw us laughing."</p>
+<p><b>John's clue about Charles</b><br>"Charles, whose wagon did you take Saturday night? The sheriff keeps asking, and my memory's gone soft on that answer."</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Charles → John → Armstrong → Clark → Eli → Pierre → Thomas → Brennan → Silas.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, you poured for us Saturday afternoon — you saw we were merry, nothing more. Tell them that before this town hangs us on gossip."</p>
+<p><b>John's clue about Armstrong</b><br>"Leon says there was shouting at Fanny before the shots. Were you there Saturday, Armstrong? Tell me the boy is lying."</p>
+<p><b>Armstrong's clue about Clark</b><br>"The sheriff's been riding this county ragged since Monday asking questions. I told him all I know — which isn't much."</p>
+<p><b>Clark's clue about Eli</b><br>"Eli, ride the north road and ask who was out Saturday after eight. Someone heard those cousins — drunk men are never as quiet as they think."</p>
+<p><b>Eli's clue about Pierre</b><br>"Pierre, you miners keep axes sharp as razors, and David's is gone from his woodpile. Who'd know just where it stood?"</p>
+<p><b>Pierre's clue about Thomas</b><br>"Thomas came riding in Monday white as flour after finding that cabin. A man doesn't look like that unless the sight near killed him."</p>
+<p><b>Thomas's clue about Brennan</b><br>"Father, a mob stormed that jail Saturday night and a boy died in it. I've seen blood feuds — this town's thirst frightens me worse."</p>
+<p><b>Brennan's clue about Silas</b><br>"Silas, I ministered to those men in their cell before they were taken. Guilt sits on a man heavier than irons — pray for them."</p>
+<p><b>Silas's clue about Charles</b><br>"Charles drank at my bar Saturday till near eight, then bought a half-gallon to go. Ten years I've poured — never seen a man drink like that."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Pierre → Brennan → Eli → John → Clark → Silas → Armstrong → Thomas.</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Pierre</b><br>"Pierre worked the diggings beside David for years. If anyone held a grievance against Lago, he'd know — and he's gone awful quiet."</p>
+<p><b>Pierre's clue about Brennan</b><br>"Father, the boy pointed on the stand and the jury barely left the room. I've seen justice done — this felt like something heavier."</p>
+<p><b>Brennan's clue about Eli</b><br>"Eli, I prayed over this trial morning and night — justice and vengeance are not the same thing. See that the law remembers it."</p>
+<p><b>Eli's clue about John</b><br>"John, they're your kin by marriage sitting in that courtroom. If you know aught that clears them, speak — after today, silence is forever."</p>
+<p><b>John's clue about Clark</b><br>"Clark asked me Sunday where Charles and Armstrong went Saturday night. I said I don't watch them every minute — a man can't, in his own house."</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, the boy says the cousins quarreled with Fanny before the shots. You poured till eight — did you hear talk of the Lago cabin?"</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, you drank at my bar till eight that Saturday and walked north with Charles. I've added it up a hundred ways — it always ends at that cabin."</p>
+<p><b>Armstrong's clue about Thomas</b><br>"Thomas, you found that cabin Monday — but who sent you down that road? A man doesn't stumble on a fire without somebody pointing the way."</p>
+<p><b>Thomas's clue about Charles</b><br>"Charles, the boy looked you in the eye on that stand and never wavered. I've faced down cave-ins — I couldn't have stood steadier than him."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 10 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 10-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 10-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li>
+<li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li>
+<li><b>Thomas Aubuchon</b> — a neighbor; found the burned cabin Monday morning.</li>
+<li><b>Pierre Valois</b> — lead miner; worked alongside David.</li>
+<li><b>Father Brennan</b> — the parish priest; ministered to the condemned men.</li>
+<li><b>Deputy Eli Marsh</b> — the sheriff's deputy.</li>
+<li><b>Henry Cobb</b> — blacksmith; ran with the mob at the jail.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Armstrong → Clark → John → Silas → Thomas → Pierre → Brennan → Eli → Henry → (back to Charles).</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong hauled lead beside me Saturday morning, same as always. He's got no quarrel with David — and I'll swear to that before any jury."</p>
+<p><b>Armstrong's clue about Clark</b><br>"The sheriff's been riding this county ragged since Monday, asking after everyone. I told him all I know — which amounts to near nothing."</p>
+<p><b>Clark's clue about John</b><br>"John Jolly poured whiskey for his brother-in-law and Armstrong all Saturday afternoon. I say a man ought to know what his kin get up to under his own roof."</p>
+<p><b>John's clue about Silas</b><br>"Silas, your saloon's gone quiet since Monday — nobody drinks to forget this. You saw the cousins Saturday; what did you see in their eyes?"</p>
+<p><b>Silas's clue about Thomas</b><br>"Thomas, you were on that road Monday morning — did you see anyone else about? A rider at dawn leaves tracks worth following."</p>
+<p><b>Thomas's clue about Pierre</b><br>"Pierre, I found that cabin Monday and the sight's burned into me. You worked beside David — tell me he had no enemies, so I can sleep."</p>
+<p><b>Pierre's clue about Brennan</b><br>"Father Brennan rode out to the ruins with me Monday, praying under his breath the whole way. I've never seen a priest look afraid of ashes."</p>
+<p><b>Brennan's clue about Eli</b><br>"Eli, I've buried half this county, but five at once — Lord have mercy. Tell your sheriff the Church will pray, but praying won't find who did this."</p>
+<p><b>Eli's clue about Henry</b><br>"Henry, I sifted those ashes Monday with the sheriff, and my hands haven't stopped shaking. You shoe horses — tell me fire ever did that on its own."</p>
+<p><b>Henry's clue about Charles</b><br>"Charles, I saw you and Armstrong pass my forge near eight Saturday, loud and weaving. You were headed north — and north is where the Lago cabin sits."</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Charles → Clark → Armstrong → John → Thomas → Silas → Pierre → Henry → Eli → Brennan → (back to Charles).</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"Clark's been sheriff five minutes and already struts like he owns the county. He asked me where I was Saturday night — I told him drinking."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong was seen cursing a mule driver Saturday morning over nothing at all. I've seen tempers like that turn on a man."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured the whiskey yourself; you saw us laughing."</p>
+<p><b>John's clue about Thomas</b><br>"Thomas found the cabin Monday, but where was he Saturday night? A neighbor's a neighbor — but I've seen him eyeing David's timber line before."</p>
+<p><b>Thomas's clue about Silas</b><br>"Silas, you sold whiskey to half the county Saturday morning. Did the cousins buy their quart from you — and did David look worried to you?"</p>
+<p><b>Silas's clue about Pierre</b><br>"Pierre, you stood by David at the lead sale Saturday — did he and Charles seem easy with each other? I like knowing who my customers trust."</p>
+<p><b>Pierre's clue about Henry</b><br>"Henry, your forge sits on that north road. Did you hear boots Saturday night after eight? Two drunk men make noise enough to wake the dead."</p>
+<p><b>Henry's clue about Eli</b><br>"Eli, they say David's wagon sold for good money Saturday morning. A wagonload of lead means coin — and coin gives any man enemies."</p>
+<p><b>Eli's clue about Brennan</b><br>"I saw Father Brennan cross himself when the smoke went up Monday. He's buried half this county, but I've never seen him shake like that."</p>
+<p><b>Brennan's clue about Charles</b><br>"Charles, I saw you at the lead sale Saturday, drinking from a flask by ten. A man who starts that early rarely stops where he ought."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → John → Armstrong → Silas → Clark → Thomas → Brennan → Henry → Pierre → Eli → (back to Charles).</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, you poured for us Saturday afternoon — you saw we were merry, nothing more. Tell them that, brother-in-law, before this town hangs us on gossip."</p>
+<p><b>John's clue about Armstrong</b><br>"Armstrong, you drank at my table Saturday afternoon, and I'll vouch for that. But after you left my house — where did you go, and with whom?"</p>
+<p><b>Armstrong's clue about Silas</b><br>"Silas served us till eight Saturday and never once said slow down. Now he acts like he barely knows us — a barkeep's memory is a convenient thing."</p>
+<p><b>Silas's clue about Clark</b><br>"Sheriff, you came through my saloon Sunday asking after the cousins. I've poured whiskey ten years — since when does the law check on drinking men?"</p>
+<p><b>Clark's clue about Thomas</b><br>"Thomas, you ride the north road most days — did you see two men walking north Saturday after eight? Drunk men are never as quiet as they think."</p>
+<p><b>Thomas's clue about Brennan</b><br>"Father, I passed the Lago cabin road Saturday evening and thought nothing of it. Now I lie awake wondering what I might have heard, had I stopped."</p>
+<p><b>Brennan's clue about Henry</b><br>"Henry, I hear confession from half this town, and whiskey's behind most of it. I pray those cousins stopped drinking when they left that saloon."</p>
+<p><b>Henry's clue about Pierre</b><br>"Pierre, two drunk men passed my forge near eight Saturday, headed north and singing. I thought it was funny at the time — God forgive me, I laughed."</p>
+<p><b>Pierre's clue about Eli</b><br>"Eli, David sold his lead Saturday and bought whiskey with Charles — I saw the coin change hands. A good day's work shouldn't end the way his did."</p>
+<p><b>Eli's clue about Charles</b><br>"Charles, the sheriff asked me to watch you — so I'm watching. You bought a half-gallon at eight and walked north; tell me I'm wrong."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Silas → Armstrong → Thomas → Clark → Eli → John → Henry → Brennan → Pierre → (back to Charles).</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday — you'd sell whiskey to the devil if he had coin. Don't you go acting innocent now."</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, you split kindling at my bar once with David's ax, laughing the whole time. You knew that woodpile corner better than most men."</p>
+<p><b>Armstrong's clue about Thomas</b><br>"Thomas, you found that cabin Monday — but who found you? A man doesn't stumble on a fire like that without somebody pointing the way."</p>
+<p><b>Thomas's clue about Clark</b><br>"Sheriff, I found that cabin Monday and I'll see it till I die. But I was home Saturday night — my wife will swear it, and she will."</p>
+<p><b>Clark's clue about Eli</b><br>"Eli, ride the north road and ask who was out Saturday after eight. Someone heard those cousins pass — drunk men are never as quiet as they think."</p>
+<p><b>Eli's clue about John</b><br>"John, you poured for those cousins Saturday afternoon at your own table. Did either of them speak of the Lago cabin? A man hears things at his own table."</p>
+<p><b>John's clue about Henry</b><br>"Henry, your forge sits on the north road — did you hear anyone pass Saturday night? Two drunk men heading north make noise enough to wake the dead."</p>
+<p><b>Henry's clue about Brennan</b><br>"Father, I heard the straw was piled over them before the fire was set. Whoever did that wanted it hot — that's planning, not accident."</p>
+<p><b>Brennan's clue about Pierre</b><br>"Pierre, you've worked timber and know how fire takes. Was that blaze set, do you think? Straw piled like that doesn't arrange itself."</p>
+<p><b>Pierre's clue about Charles</b><br>"Charles, David's ax is gone from his woodpile corner, and straw was piled over the bodies. You knew that cabin, Charles — tell me what that means."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Charles → Thomas → Armstrong → Brennan → Clark → Henry → John → Eli → Pierre → Silas → (back to Charles).</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Thomas</b><br>"Thomas, you were first at those ruins Monday — did you touch anything before the sheriff came? A burned cabin keeps its secrets unless men keep them."</p>
+<p><b>Thomas's clue about Armstrong</b><br>"Armstrong, you and Charles bought a half-gallon at eight and walked north. Silas told the sheriff himself — so don't tell me you went home."</p>
+<p><b>Armstrong's clue about Brennan</b><br>"Father, they're offering six hundred dollars for stories about Saturday night. That money will buy a lot of remembering — true or otherwise."</p>
+<p><b>Brennan's clue about Clark</b><br>"Sheriff, I heard Charles's confession at Easter — I can't speak of it, you know that. But I'll say this: pray for that boy Leon. He saw something."</p>
+<p><b>Clark's clue about Henry</b><br>"Henry, the boy says there was shouting at Fanny before the shots. Your forge is on the north road — did you hear any shouting Saturday night?"</p>
+<p><b>Henry's clue about John</b><br>"John, Leon says the quarrel started over Fanny, and you drank with Charles that afternoon. Did he say anything about the Christopher girls?"</p>
+<p><b>John's clue about Eli</b><br>"Eli, you're young to wear a deputy's star, and now you guard a boy's story with it. When you sifted those ashes, what did the ruins tell you?"</p>
+<p><b>Eli's clue about Pierre</b><br>"Pierre, you miners keep axes sharp as razors. David's ax is gone from his woodpile — whose ax was it, and who'd know just where it stood?"</p>
+<p><b>Pierre's clue about Silas</b><br>"Silas, Leon watched through a wall crack and named names. You served those cousins till eight — did you hear any talk of Fanny Christopher?"</p>
+<p><b>Silas's clue about Charles</b><br>"Charles drank at my bar Saturday till near eight, then bought a half-gallon to go. I've watered whiskey for ten years, but I've never seen a man drink like that."</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Charles → Pierre → Armstrong → Eli → Clark → Brennan → Silas → Henry → Thomas → John → (back to Charles).</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Pierre</b><br>"Pierre worked the diggings beside David for years. If anyone had a grievance with Lago, Pierre would know — and he's gone awful quiet since Monday."</p>
+<p><b>Pierre's clue about Armstrong</b><br>"Armstrong, you ran for Rush Tower instead of facing the sheriff. An innocent man stands his ground — or so my father always told me."</p>
+<p><b>Armstrong's clue about Eli</b><br>"Eli's been deputized and struts around like the war's still on. He asked where I was Saturday night — I told him drinking, same as everyone."</p>
+<p><b>Eli's clue about Clark</b><br>"Sheriff, six hundred dollars is a fortune — it'll have every liar in the county remembering things. How do we know the boy's story holds?"</p>
+<p><b>Clark's clue about Brennan</b><br>"Father, I held that jail Saturday night while a mob screamed for blood, and a boy died. Tell me the law did right — I need to hear it."</p>
+<p><b>Brennan's clue about Silas</b><br>"Silas, I ministered to those men in their cell, and guilt sits on a man heavier than irons. You poured their last free whiskey — pray for them."</p>
+<p><b>Silas's clue about Henry</b><br>"Henry, you shoe every horse on the north road — did the cousins ride or walk Saturday? A drunk man on horseback leaves a different trail."</p>
+<p><b>Henry's clue about Thomas</b><br>"Thomas rides past my forge near every day. Saturday evening he didn't — or if he did, I never heard the hooves, and I hear everything."</p>
+<p><b>Thomas's clue about John</b><br>"John, I stood outside that jail Saturday night and heard the mob howling — a boy died in it. Is this justice we're after, or only blood?"</p>
+<p><b>John's clue about Charles</b><br>"Charles, whose wagon did you take Saturday night? The sheriff keeps asking, and my memory's gone soft on the answer."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Brennan → John → Pierre → Clark → Silas → Eli → Thomas → Henry → Armstrong → (back to Charles).</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Brennan</b><br>"Father Brennan's been praying over those ashes since Monday. I asked him what God tells him about it, and he had no answer for me."</p>
+<p><b>Brennan's clue about John</b><br>"John, the boy pointed on the stand and the jury barely left the room. Your kin face the gallows — make your peace with God, and with the truth."</p>
+<p><b>John's clue about Pierre</b><br>"Pierre, they're going to hang my brother-in-law, and maybe Armstrong with him. I've turned it over and over — God help me, I can't see another way."</p>
+<p><b>Pierre's clue about Clark</b><br>"Sheriff, it took three days to seat a jury — every man in the county's heard of that cabin. Add it up: who's left with a reason to lie?"</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, the boy says the cousins quarreled with Fanny before the shots. You served them till eight — did you hear any talk of the Lago cabin?"</p>
+<p><b>Silas's clue about Eli</b><br>"Eli, you wear the star now, and you'll watch them hang if it comes to that. I poured their whiskey — you'll carry the rope. Which of us sleeps worse?"</p>
+<p><b>Eli's clue about Thomas</b><br>"Thomas, you found that cabin and you'll testify to it — but this whole case hangs on a twelve-year-old's eyes. Does that sit right with you?"</p>
+<p><b>Thomas's clue about Henry</b><br>"Henry was shoeing a mule when I rode in with the news, and his hammer stopped mid-swing. He's got a temper on him, but grief can look like anger."</p>
+<p><b>Henry's clue about Armstrong</b><br>"Armstrong, I was at that jail Saturday night, I'll own it — I wanted to see you swing. But a dead boy's changed my thinking some."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles sold his share of the lead alongside David that morning. They seemed friendly — cousins usually are, till money's involved."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 11 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 11-Player Game</title></head>
+<body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1>
+<p style="text-align:center;"><i>Washington County, Missouri — November 1870. An 11-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul>
+<li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li>
+<li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li>
+<li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li>
+<li><b>John Jolly</b> — Charles's brother-in-law; the cousins drank at his place Saturday afternoon.</li>
+<li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li>
+<li><b>Thomas Aubuchon</b> — a neighbor; found the burned cabin Monday morning.</li>
+<li><b>Pierre Valois</b> — lead miner; worked alongside David.</li>
+<li><b>Father Brennan</b> — the parish priest; ministered to the condemned men.</li>
+<li><b>Deputy Eli Marsh</b> — the sheriff's deputy.</li>
+<li><b>Henry Cobb</b> — blacksmith; ran with the mob at the jail.</li>
+<li><b>Ada Whitfield</b> — seamstress; knew the Christopher sisters.</li>
+</ul>
+
+<h2 style="color:#8b0000;">THE VICTIM</h2>
+<p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2>
+<p><i>Reading order: Charles → Henry → Armstrong → Eli → Clark → Brennan → John → Pierre → Silas → Thomas → Ada. (Each reads about the next; Ada reads about Charles, chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Henry</b><br>"Henry, you shoe horses on the north road — did you hear anything Saturday night? A fire that big must have lit the sky for miles."</p>
+<p><b>Henry's clue about Armstrong</b><br>"Armstrong, I saw you pass my forge Saturday near eight, loud and weaving with Charles. Two drunk men make noise enough to wake the dead."</p>
+<p><b>Armstrong's clue about Eli</b><br>"Eli's been deputized and struts around like the war's still on. He asked where I was Saturday night — drinking, same as everyone."</p>
+<p><b>Eli's clue about Clark</b><br>"Sheriff, I rode out to those ruins Monday and the smell near knocked me down. Tell me plain — what am I supposed to be looking for?"</p>
+<p><b>Clark's clue about Brennan</b><br>"Father, I need you at those ruins today — the town's rattled and they trust you. Say the words over them, and keep folks steady."</p>
+<p><b>Brennan's clue about John</b><br>"John, your kin are drinking men, and drink makes fools of us all. Come to Mass Sunday — confession lightens what the heart can't carry."</p>
+<p><b>John's clue about Pierre</b><br>"Pierre, they found the Lago cabin burned this morning — five dead. Charles drank at my table Saturday, and now I can't stop shaking."</p>
+<p><b>Pierre's clue about Silas</b><br>"Silas, you pour for every miner in this county — did the cousins drink at your bar Saturday? A barkeep sees what the town won't say."</p>
+<p><b>Silas's clue about Thomas</b><br>"Thomas, you found that cabin Monday — did you see anyone else about? A boy in a wagon Saturday night might've been noticed."</p>
+<p><b>Thomas's clue about Ada</b><br>"Ada, Fanny was your friend — did she ever speak of Charles? A woman knows when a man's attentions turn unwelcome, and tells her friends."</p>
+<p><b>Ada's clue about Charles</b><br>"Charles, I sewed dresses for Fanny and Mary, and I knew them well. You were seen walking north Saturday night — what were you after?"</p>
+<h3 style="color:#8b0000;">End of Round 1</h3>
+<p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2>
+<p><i>Reading order: Charles → Ada → Thomas → Silas → Pierre → John → Brennan → Clark → Eli → Armstrong → Henry. (Each reads about the next; Henry reads about Charles, chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Ada</b><br>"Ada, you knew Fanny — tell them she was kind to us that night, tell them there was no quarrel. Someone has to speak for the living."</p>
+<p><b>Ada's clue about Thomas</b><br>"Thomas, you ride that north road near every day — did you pass the Lago cabin Saturday? Someone must have seen that wagon."</p>
+<p><b>Thomas's clue about Silas</b><br>"Silas, I found ashes Monday, but Saturday I was home with my wife. You saw the cousins that night — what did they buy, and when did they leave?"</p>
+<p><b>Silas's clue about Pierre</b><br>"Pierre, you sold lead beside David Saturday morning — did he seem troubled? A man carrying a quart of whiskey home isn't planning on trouble."</p>
+<p><b>Pierre's clue about John</b><br>"John, you poured whiskey for Charles and Armstrong Saturday afternoon at your own table. Did they say where they were headed after?"</p>
+<p><b>John's clue about Brennan</b><br>"Father, Charles and Armstrong drank at my table Saturday afternoon, merry as you please. Tell me I'm wrong to fear what came after."</p>
+<p><b>Brennan's clue about Clark</b><br>"Sheriff, I heard Charles's confession at Easter — I can't speak of it, you know that. But I'll say this: pray for that boy Leon. He saw something."</p>
+<p><b>Clark's clue about Eli</b><br>"Eli, ride the north road and ask who was out Saturday after eight. Someone heard those cousins pass — drunk men are never as quiet as they think."</p>
+<p><b>Eli's clue about Armstrong</b><br>"Armstrong, you bought a quart of whiskey Saturday morning with Charles, then drank all day. Help me understand — when did the day turn?"</p>
+<p><b>Armstrong's clue about Henry</b><br>"Henry, you shoe horses on the north road — did you see us pass Saturday night? We were loud, I'll own it, but loud isn't a crime."</p>
+<p><b>Henry's clue about Charles</b><br>"Charles, I saw you and Armstrong pass my forge near eight, loud and weaving. You were headed north — and north is where the Lago cabin sits."</p>
+<h3 style="color:#8b0000;">End of Round 2</h3>
+<p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2>
+<p><i>Reading order: Charles → Clark → Henry → John → Eli → Silas → Brennan → Thomas → Pierre → Ada → Armstrong. (Each reads about the next; Armstrong reads about Charles, chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Clark</b><br>"Clark's been sheriff five minutes and already struts like he owns the county. He asked me where I was Saturday night."</p>
+<p><b>Clark's clue about Henry</b><br>"Henry, your forge sits on the north road past the cabin turn. Saturday night after eight — did you hear boots, or a wagon, or anything?"</p>
+<p><b>Henry's clue about John</b><br>"John, I saw your brother-in-law leave the saloon near eight with Armstrong, both drunk. You poured for them that afternoon — what did you see in them?"</p>
+<p><b>John's clue about Eli</b><br>"Eli, you're young for a deputy's star, but tell me — does a man who drank all Saturday look like a killer to you? Look at me when you answer."</p>
+<p><b>Eli's clue about Silas</b><br>"Silas, you watched them leave near eight with a half-gallon, heading north. Now you squint like you can't recall — whiskey loosens tongues, not memories."</p>
+<p><b>Silas's clue about Brennan</b><br>"Father, hear my confession plain: I served them whiskey till eight and watched them go north. I've not slept since — God forgive my silence."</p>
+<p><b>Brennan's clue about Thomas</b><br>"Thomas, you found that cabin Monday — the town will want a burial service. I'll need you to tell me plain what you saw, when you're ready."</p>
+<p><b>Thomas's clue about Pierre</b><br>"Pierre, I keep seeing that cabin in my sleep — the timbers all fallen in. You knew David; tell me he didn't suffer."</p>
+<p><b>Pierre's clue about Ada</b><br>"Ada, you knew Fanny better than most. David bought her a ribbon at the mercantile once — I saw it. A man like that doesn't make enemies easy."</p>
+<p><b>Ada's clue about Armstrong</b><br>"Armstrong always had a temper — I saw him curse a mule driver Saturday over nothing. But a temper's a long road from what happened in that cabin."</p>
+<p><b>Armstrong's clue about Charles</b><br>"Charles sold his share of the lead alongside David that morning. They seemed friendly — cousins usually are, till money's involved."</p>
+<h3 style="color:#8b0000;">End of Round 3</h3>
+<p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2>
+<p><i>Reading order: Charles → Armstrong → Ada → Pierre → Thomas → Brennan → Silas → Eli → John → Henry → Clark. (Each reads about the next; Clark reads about Charles, chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Armstrong</b><br>"Armstrong helped me haul lead Saturday morning, same as always. He's got no quarrel with David — none of us do."</p>
+<p><b>Armstrong's clue about Ada</b><br>"Ada, you knew Fanny well — was there bad blood between her and Charles? The town's whispering, and I won't have my cousin's name blackened."</p>
+<p><b>Ada's clue about Pierre</b><br>"Pierre, you miners all drink together — did the cousins seem quarrelsome Saturday? Fanny told me once she feared Charles's temper when he drank."</p>
+<p><b>Pierre's clue about Thomas</b><br>"Thomas, you walked those ruins Monday — did you see the ax anywhere? David kept his by the woodpile, and it's gone."</p>
+<p><b>Thomas's clue about Brennan</b><br>"Father, I picked through those ashes Monday and found straw piled where it shouldn't be. Someone wanted that cabin to burn hot — God forgive them."</p>
+<p><b>Brennan's clue about Silas</b><br>"Silas, the straw was piled over them before the fire was lit — that's what the men say. Whoever did that planned it, and that frightens me."</p>
+<p><b>Silas's clue about Eli</b><br>"Eli, they bought a half-gallon off me at eight and walked north. If I'd known where they were headed, I'd have smashed the bottle myself."</p>
+<p><b>Eli's clue about John</b><br>"John, your brother-in-law's boots were caked with ash when I saw him Sunday. He said it was from his own hearth — but I've got my doubts."</p>
+<p><b>John's clue about Henry</b><br>"Henry, they're saying the fire was set deliberate — straw piled and all. You work with fire every day; could a cabin go up like that on its own?"</p>
+<p><b>Henry's clue about Clark</b><br>"Clark's been riding this county ragged since Monday, asking after everyone. New sheriff or not, I'll say this — the man doesn't scare easy."</p>
+<p><b>Clark's clue about Charles</b><br>"I watched Charles buy whiskey Saturday afternoon, already swaying by four. A man that drunk by supper is a man I watch."</p>
+<h3 style="color:#8b0000;">End of Round 4</h3>
+<p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2>
+<p><i>Reading order: Charles → Silas → Henry → Thomas → Eli → Pierre → Brennan → Ada → Clark → Armstrong → John. (Each reads about the next; John reads about Charles, chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday — you'd sell whiskey to the devil if he had coin. Don't you go acting innocent now."</p>
+<p><b>Silas's clue about Henry</b><br>"Henry, you shoe every horse on the north road — did the cousins ride or walk Saturday? A drunk man on horseback leaves a different trail."</p>
+<p><b>Henry's clue about Thomas</b><br>"Thomas rides past my forge near every day. Saturday evening he didn't — or if he did, I never heard the hooves, and I hear everything."</p>
+<p><b>Thomas's clue about Eli</b><br>"Eli rode out with the sheriff Monday and poked through those ashes like a man digging for gold. Whatever he found, he hasn't told the town."</p>
+<p><b>Eli's clue about Pierre</b><br>"Pierre, you miners keep axes sharp as razors. David's ax is gone from his woodpile — whose ax was it, and who'd know just where it stood?"</p>
+<p><b>Pierre's clue about Brennan</b><br>"Father, there's talk a boy watched through a crack in the logs Saturday night. If that's true, that child saw what no child should see."</p>
+<p><b>Brennan's clue about Ada</b><br>"Ada, I gave the Christophers' girls their catechism. Fanny had a good heart — I pray the town remembers her kindly, not as gossip will paint her."</p>
+<p><b>Ada's clue about Clark</b><br>"Sheriff, Fanny told me once she feared Charles when he'd been drinking. I didn't think on it then — God forgive me, I think on it now."</p>
+<p><b>Clark's clue about Armstrong</b><br>"Armstrong was seen cursing a mule driver Saturday morning over nothing at all. A temper like that can turn on a man."</p>
+<p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured the whiskey yourself; you saw us laughing."</p>
+<p><b>John's clue about Charles</b><br>"Charles, whose wagon did you take Saturday night? The sheriff keeps asking, and my memory's gone soft on the answer."</p>
+<h3 style="color:#8b0000;">End of Round 5</h3>
+<p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2>
+<p><i>Reading order: Charles → John → Armstrong → Clark → Ada → Brennan → Pierre → Eli → Thomas → Henry → Silas. (Each reads about the next; Silas reads about Charles, chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about John</b><br>"John, you poured for us Saturday afternoon — you saw we were merry, nothing more. Tell them that, brother-in-law, before this town hangs us on gossip."</p>
+<p><b>John's clue about Armstrong</b><br>"Leon says there was shouting at Fanny before the shots. Were you there Saturday, Armstrong? Tell me that boy is lying."</p>
+<p><b>Armstrong's clue about Clark</b><br>"Clark's offering six hundred dollars for information about Saturday night. That kind of money makes folks remember things that never happened."</p>
+<p><b>Clark's clue about Ada</b><br>"Ada, my posse rode for Rush Tower and took them at supper — no shots fired. I'd rather bring men in alive than carry them home."</p>
+<p><b>Ada's clue about Brennan</b><br>"Father, they caught them at supper near Rush Tower, like ordinary men at a table. I keep thinking of Fanny — she never got to finish hers."</p>
+<p><b>Brennan's clue about Pierre</b><br>"Pierre, they've locked Charles and Armstrong in the Potosi jail, and a mob's gathering. Pray with me that the law holds tonight."</p>
+<p><b>Pierre's clue about Eli</b><br>"Eli, Leon's twelve and saw his own brother through those logs. You'd best keep that boy safe — there's men who'd pay to shut a witness up."</p>
+<p><b>Eli's clue about Thomas</b><br>"Thomas, the sheriff's posted six hundred dollars reward — that's a fortune. You found the cabin; did you see anything Saturday night worth that money?"</p>
+<p><b>Thomas's clue about Henry</b><br>"Henry, you ran with that mob Saturday night — I saw the torchlight. A boy is dead, Henry, and I can't get it out of my head."</p>
+<p><b>Henry's clue about Silas</b><br>"Silas, I carried a torch to that jail Saturday night, God forgive me — I wanted rope. But a dead boy's changed my thinking some."</p>
+<p><b>Silas's clue about Charles</b><br>"Charles drank at my bar Saturday till near eight, then bought a half-gallon to go. I've watered whiskey for ten years, but I've never seen a man drink like that."</p>
+<h3 style="color:#8b0000;">End of Round 6</h3>
+<p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2>
+<p><i>Reading order: Charles → Pierre → Henry → Brennan → Eli → Ada → John → Clark → Silas → Armstrong → Thomas. (Each reads about the next; Thomas reads about Charles, chain ends.)</i></p>
+<h3 style="color:#2f6fed;">New Evidence</h3>
+<div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div>
+<h3>Clues</h3>
+<p><b>Charles's clue about Pierre</b><br>"Pierre worked the diggings beside David for years. If anyone had a grievance with Lago, Pierre would know — and he's gone awful quiet since Monday."</p>
+<p><b>Pierre's clue about Henry</b><br>"Henry, your forge sits on that north road. Did you hear boots Saturday night after eight? Two drunk men make noise enough to wake the dead."</p>
+<p><b>Henry's clue about Brennan</b><br>"Father, I heard the straw was piled over them before the fire was set. Whoever did that wanted it hot — that's planning, not accident."</p>
+<p><b>Brennan's clue about Eli</b><br>"Eli, the boy takes the stand today — twelve years old, pointing at his own brother. Stand by that door, son, and let no one near him."</p>
+<p><b>Eli's clue about Ada</b><br>"Ada, they say Leon will point today in open court. You knew Fanny — pray for that boy, and pray the town hears him true."</p>
+<p><b>Ada's clue about John</b><br>"John, your brother-in-law quarreled with Fanny that night, they say. You drank with him that afternoon — did you see any meanness in him?"</p>
+<p><b>John's clue about Clark</b><br>"Clark asked me Sunday where Charles and Armstrong went Saturday night. I said I didn't watch them every minute — a man can't, in his own house."</p>
+<p><b>Clark's clue about Silas</b><br>"Silas, the boy says the cousins quarreled with Fanny before the shots. You served them till eight — did you hear any talk of the Lago cabin?"</p>
+<p><b>Silas's clue about Armstrong</b><br>"Armstrong, you drank at my bar till eight Saturday, loud and quarrelsome. The boy says there was shouting at Fanny — was that you I heard?"</p>
+<p><b>Armstrong's clue about Thomas</b><br>"Thomas, you found that cabin Monday — but who found you? A man doesn't stumble on a fire like that without somebody pointing the way."</p>
+<p><b>Thomas's clue about Charles</b><br>"Charles, the boy pointed at you in open court today, and the whole town heard it. I've known you for years — tell me he's wrong."</p>
+<h3 style="color:#8b0000;">End of Round 7</h3>
+<p>The votes are cast. The truth comes out. 🔒</p>
+
+<hr>
+
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+
+</body>
+</html>
+
+================================================================================
+EDITION: 12 PLAYERS
+================================================================================
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>THE LAGO CABIN — 12-Player Game</title></head><body style="font-family:Georgia,serif;max-width:800px;margin:0 auto;padding:20px;background:#faf8f3;">
+<h1 style="color:#8b0000;text-align:center;">THE LAGO CABIN</h1><p style="text-align:center;"><i>Washington County, Missouri — November 1870. A 12-player murder mystery.<br>
+Inspired by the true events north of Potosi.</i></p>
+<h2 style="color:#8b0000;">THE PLAYERS</h2>
+<ul><li><b>Charles Jolly Jr.</b> — ~35, lead miner, David Lapine's cousin. Drank his way through Potosi on the Saturday in question.</li><li><b>John Armstrong</b> — 38, laborer, David's cousin. Charles's drinking companion that Saturday.</li><li><b>Sheriff John T. Clark</b> — newly elected sheriff of Washington County. The law in this story.</li><li><b>John Jolly</b> — Charles's brother-in-law; Charles and Armstrong drank at his place Saturday afternoon.</li><li><b>Silas Brenner</b> — keeper of the Potosi saloon; served the cousins till eight Saturday night.</li><li><b>Thomas Aubuchon</b> — a neighbor; found the burned cabin Monday morning.</li><li><b>Pierre Valois</b> — lead miner; worked alongside David.</li><li><b>Father Brennan</b> — the parish priest; ministered to the condemned men.</li><li><b>Deputy Eli Marsh</b> — the sheriff's deputy.</li><li><b>Henry Cobb</b> — blacksmith; ran with the mob at the jail.</li><li><b>Ada Whitfield</b> — seamstress; knew the Christopher sisters.</li><li><b>Dr. Samuel Pryor</b> — the town doctor.</li></ul>
+<h2 style="color:#8b0000;">THE VICTIM</h2><p><b>David Lapine</b>, called <b>Lago</b> — ~45, French Creole lead miner, "quiet, unoffending." Found dead in his burned cabin a mile north of Potosi on the morning of Monday, November 21, 1870. Also lost in the fire: his partner <b>Fanny Christopher</b>, her sister <b>Mary Christopher</b>, and two small children.</p>
+<hr>
+<h2 style="color:#8b0000;">ROUND 1: The Fire</h2><p><i>Reading order: Eli → Brennan → Samuel → Silas → Charles → Pierre → Thomas → Henry → Clark → John → Ada → Armstrong → (back to Eli).</i></p><h3 style="color:#2f6fed;">New Evidence</h3><div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Monday morning, November 21, 1870. A neighbor riding past the Lapine cabin, a mile north of Potosi, smells smoke and finds the cabin burned to the ground.<br>
+In the ruins: the bodies of David Lapine, Fanny Christopher, Mary Christopher, and two small children.<br>
+The town gathers. Nothing about it looks accidental — but nobody says so yet.
+</div><h3>Clues</h3><p><b>Eli's clue about Brennan</b><br>"I saw Father Brennan cross himself when the smoke went up Monday. He's buried half this county, but I've never seen him shake like that."</p><p><b>Brennan's clue about Samuel</b><br>"Doctor Pryor rode out to the ruins before the ashes cooled. He said little, but a man doesn't go that quiet unless he's seen something terrible."</p><p><b>Samuel's clue about Silas</b><br>"Silas keeps pouring whiskey like Monday never happened. I asked what the cousins drank Saturday, and his hand shook on the bottle — that told me plenty."</p><p><b>Silas's clue about Charles</b><br>"Charles drank at my bar Saturday till near eight, then bought a half-gallon to go. I've watered whiskey for ten years, but I've never seen a man drink like that."</p><p><b>Charles's clue about Pierre</b><br>"Pierre worked the diggings beside David for years. If anyone had a grievance with Lago, Pierre would know — and he's gone awful quiet since Monday."</p><p><b>Pierre's clue about Thomas</b><br>"Thomas found that cabin Monday morning and came riding in white as flour. A man doesn't look like that unless the sight near killed him too."</p><p><b>Thomas's clue about Henry</b><br>"Henry was shoeing a mule when I rode in with the news, and his hammer stopped mid-swing. He's got a temper on him, but grief can look like anger."</p><p><b>Henry's clue about Clark</b><br>"Clark's been riding this county ragged since Monday, asking after everyone. New sheriff or not, I'll say this — the man doesn't scare easy."</p><p><b>Clark's clue about John</b><br>"John Jolly poured whiskey for his brother-in-law and Armstrong all Saturday afternoon. A man ought to know what his own kin get up to under his roof."</p><p><b>John's clue about Ada</b><br>"Ada sewed for the Christopher girls and knew them well. She wept at the news, and I can't shake the feeling she's holding something back."</p><p><b>Ada's clue about Armstrong</b><br>"Armstrong always had a temper — I saw him curse a mule driver Saturday over nothing. But a temper's a long road from what happened in that cabin."</p><p><b>Armstrong's clue about Eli</b><br>"Eli's been deputized and struts around like the war's still on. He asked where I was Saturday night — I told him drinking, same as everyone."</p><h3 style="color:#8b0000;">End of Round 1</h3><p>A burned cabin and five dead. The town wants answers, and the sheriff wants names.<br>The question heading into Round 2 is:<br>Where was everyone on Saturday — and who saw David last? 🔒</p>
+<hr>
+<h2 style="color:#8b0000;">ROUND 2: The Wagon</h2><p><i>Reading order: John → Clark → Pierre → Ada → Henry → Thomas → Eli → Samuel → Charles → Brennan → Armstrong → Silas → (back to John).</i></p><h3 style="color:#2f6fed;">New Evidence</h3><div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday morning, November 19. David Lapine sells a wagonload of lead in Potosi.<br>
+He is seen with his cousin Charles Jolly Jr. The two buy a quart of whiskey together.<br>
+By afternoon, Charles and his cousin John Armstrong are drinking at Charles's brother-in-law's place.<br>
+Nobody thinks anything of it. Yet.
+</div><h3>Clues</h3><p><b>John's clue about Clark</b><br>"Clark asked me Sunday where Charles and Armstrong went Saturday night. I said I didn't watch them every minute — a man can't, in his own house."</p><p><b>Clark's clue about Pierre</b><br>"Pierre sold lead beside David Saturday morning and saw him last, most likely. I'd like to know what passed between them at that wagon."</p><p><b>Pierre's clue about Ada</b><br>"Ada, you knew Fanny better than most. David bought her a ribbon at the mercantile once — I saw it. A man like that doesn't make enemies easy."</p><p><b>Ada's clue about Henry</b><br>"Henry's forge is on the north road, past the turn to the Lago cabin. I keep wondering who walked by his place Saturday night, and whether he looked."</p><p><b>Henry's clue about Thomas</b><br>"Thomas rides past my forge near every day. Saturday evening he didn't — or if he did, I never heard the hooves, and I hear everything."</p><p><b>Thomas's clue about Eli</b><br>"Eli rode out with the sheriff Monday and poked through those ashes like a man digging for gold. Whatever he found, he hasn't told the town."</p><p><b>Eli's clue about Samuel</b><br>"Doc Pryor says the fire was set deliberate — straw piled, he says. I asked how he could tell from ashes, and he just looked at me tired."</p><p><b>Samuel's clue about Charles</b><br>"Charles came to me once with a busted knuckle and laughed it off. That was months ago — but I keep seeing his hands, and wondering."</p><p><b>Charles's clue about Brennan</b><br>"Father Brennan's been praying over those ashes since Monday. I asked him what God tells him about it, and he had no answer for me."</p><p><b>Brennan's clue about Armstrong</b><br>"Armstrong came to Mass maybe twice in his life, both times dragged by kin. I pray for him — God forgive me, I fear the drink has him."</p><p><b>Armstrong's clue about Silas</b><br>"Silas served us till eight Saturday and never once said slow down. Now he acts like he barely knows us — a barkeep's memory is a convenient thing."</p><p><b>Silas's clue about John</b><br>"John Jolly drank with those cousins Saturday afternoon at his own table. Blood's blood, but a man sees things at his own table he'd rather forget."</p><h3 style="color:#8b0000;">End of Round 2</h3><p>Whiskey by the quart, cousins drinking together, and David in the middle of it.<br>The question heading into Round 3 is:<br>Where did the drinking end — and where did the cousins go after? 🔒</p>
+<hr>
+<h2 style="color:#8b0000;">ROUND 3: The Saloons</h2><p><i>Reading order: Ada → Pierre → Henry → Charles → John → Thomas → Armstrong → Samuel → Brennan → Clark → Eli → Silas → (back to Ada).</i></p><h3 style="color:#2f6fed;">New Evidence</h3><div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Saturday evening. Charles Jolly Jr. and John Armstrong drink their way through Potosi's saloons until eight o'clock, then buy a half-gallon of whiskey.<br>
+The saloon keeper watches them leave — heading north, toward the Lago cabin.<br>
+They are drunk. Everyone agrees on that.
+</div><h3>Clues</h3><p><b>Ada's clue about Pierre</b><br>"Pierre, you miners all drink together — did the cousins seem quarrelsome Saturday? Fanny told me once she feared Charles's temper when he drank."</p><p><b>Pierre's clue about Henry</b><br>"Henry, your forge sits on that north road. Did you hear boots Saturday night after eight? Two drunk men make noise enough to wake the dead."</p><p><b>Henry's clue about Charles</b><br>"Charles, I saw you and Armstrong pass my forge near eight, loud and weaving. You were headed north — and north is where the Lago cabin sits."</p><p><b>Charles's clue about John</b><br>"John, you poured for us Saturday afternoon — you saw we were merry, nothing more. Tell them that, brother-in-law, before this town hangs us on gossip."</p><p><b>John's clue about Thomas</b><br>"Thomas found the cabin Monday, but where was he Saturday night? A neighbor's a neighbor, but I've seen him eyeing David's timber line before."</p><p><b>Thomas's clue about Armstrong</b><br>"Armstrong, you and Charles bought a half-gallon at eight and walked north. Silas told the sheriff himself — so don't tell me you went home."</p><p><b>Armstrong's clue about Samuel</b><br>"Doc, you patched up half this town's Saturday nights. Tell me — have you ever seen whiskey turn a man into a killer? I haven't."</p><p><b>Samuel's clue about Brennan</b><br>"Father, I've set bones and sewed cuts for twenty years, and whiskey's behind most of it. But what happened north of town — that wasn't just whiskey."</p><p><b>Brennan's clue about Clark</b><br>"Sheriff, I heard Charles's confession at Easter — I can't speak of it, you know that. But I'll say this: pray for that boy Leon. He saw something."</p><p><b>Clark's clue about Eli</b><br>"Eli, ride the north road and ask who was out Saturday after eight. Someone heard those cousins pass — drunk men are never as quiet as they think."</p><p><b>Eli's clue about Silas</b><br>"Silas, you watched them leave near eight with a half-gallon, heading north. Now you squint like you can't recall — whiskey loosens tongues, not memories."</p><p><b>Silas's clue about Ada</b><br>"Ada, you knew those Christopher girls — were they expecting company Saturday? Two men don't walk a mile north at eight for the scenery."</p><h3 style="color:#8b0000;">End of Round 3</h3><p>Two drunk cousins walking north at eight o'clock. A cabin a mile out. Nothing good comes next.<br>The question heading into Round 4 is:<br>What does the burned cabin itself have to say? 🔒</p>
+<hr>
+<h2 style="color:#8b0000;">ROUND 4: The Cabin</h2><p><i>Reading order: Armstrong → John → Charles → Silas → Henry → Brennan → Ada → Eli → Pierre → Samuel → Thomas → Clark → (back to Armstrong).</i></p><h3 style="color:#2f6fed;">New Evidence</h3><div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Men pick through the ruins. The cabin's ax is missing from the woodpile corner by the door.<br>
+Straw bedding was piled over the bodies before the fire was set — someone wanted this to burn hot and fast.<br>
+And in the log wall: a chink between the timbers, wide enough to see through.<br>
+Someone may have watched.
+</div><h3>Clues</h3><p><b>Armstrong's clue about John</b><br>"John, we're kin by marriage — tell them we left your table merry Saturday, not murderous. You poured the whiskey yourself; you saw us laughing."</p><p><b>John's clue about Charles</b><br>"Charles, whose wagon did you take Saturday night? The sheriff keeps asking, and my memory's gone soft on the answer."</p><p><b>Charles's clue about Silas</b><br>"Silas, you sold us that half-gallon Saturday — you'd sell whiskey to the devil if he had coin. Don't you go acting innocent now."</p><p><b>Silas's clue about Henry</b><br>"Henry, you shoe every horse on the north road — did the cousins ride or walk Saturday? A drunk man on horseback leaves a different trail."</p><p><b>Henry's clue about Brennan</b><br>"Father, I heard the straw was piled over them before the fire was set. Whoever did that wanted it hot — that's planning, not accident."</p><p><b>Brennan's clue about Ada</b><br>"Ada, I gave the Christophers' girls their catechism. Fanny had a good heart — I pray the town remembers her kindly, not as gossip will paint her."</p><p><b>Ada's clue about Eli</b><br>"Eli, you're young to be wearing a deputy's star. When you sifted those ashes, did you find anything of Fanny's — a brooch, a button, anything?"</p><p><b>Eli's clue about Pierre</b><br>"Pierre, you miners keep axes sharp as razors. David's ax is gone from his woodpile — whose ax was it, and who'd know just where it stood?"</p><p><b>Pierre's clue about Samuel</b><br>"Doc, they say straw was piled over the bodies to make it burn hot. I've worked timber — straw like that is laid by hands that knew fire."</p><p><b>Samuel's clue about Thomas</b><br>"Thomas, you found that cabin Monday — tell me true, did the fire smell of coal oil? A cabin doesn't burn that hot on timber alone."</p><p><b>Thomas's clue about Clark</b><br>"Sheriff, I found that cabin Monday and I'll see it till I die. But I was home Saturday night — my wife will swear it, and she will."</p><p><b>Clark's clue about Armstrong</b><br>"The killer took an ax from David's own woodpile, by the cabin corner. Armstrong — whoever did this knew that cabin like his own kitchen."</p><h3 style="color:#8b0000;">End of Round 4</h3><p>Arson, a missing ax, and a crack in the wall. Somebody knows more than they're saying.<br>The question heading into Round 5 is:<br>Who was watching through that wall? 🔒</p>
+<hr>
+<h2 style="color:#8b0000;">ROUND 5: The Witness</h2><p><i>Reading order: Samuel → Henry → Pierre → Eli → Clark → Silas → Thomas → Ada → John → Armstrong → Brennan → Charles → (back to Samuel).</i></p><h3 style="color:#2f6fed;">New Evidence</h3><div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+Twelve-year-old Leon Jolly — Charles's little brother — was left in the wagon outside the cabin Saturday night.<br>
+He watched through the chink in the logs. He has told the sheriff what he saw.<br>
+Charles quarreled with Fanny Christopher. David stepped between them.<br>
+Then the revolver came out.
+</div><h3>Clues</h3><p><b>Samuel's clue about Henry</b><br>"Henry, a twelve-year-old watched through a wall crack and saw it all. I've treated grown men for less, and they never slept right again."</p><p><b>Henry's clue about Pierre</b><br>"Pierre, they say Charles quarreled with Fanny and David stepped between them. A man steps between — that's what a decent man does."</p><p><b>Pierre's clue about Eli</b><br>"Eli, Leon's twelve and saw his own brother through those logs. You'd best keep that boy safe — there's men who'd pay to shut a witness up."</p><p><b>Eli's clue about Clark</b><br>"Sheriff, six hundred dollars is a fortune — it'll have every liar in the county remembering things. How do we know the boy's story holds?"</p><p><b>Clark's clue about Silas</b><br>"Silas, the boy says the cousins quarreled with Fanny before the shots. You served them till eight — did you hear any talk of the Lago cabin?"</p><p><b>Silas's clue about Thomas</b><br>"Thomas, you were on that road Monday morning — did you see anyone else about? A boy in a wagon Saturday night might've been noticed."</p><p><b>Thomas's clue about Ada</b><br>"Ada, Fanny was your friend — did she ever speak of Charles? A woman knows when a man's attentions turn unwelcome, and tells her friends."</p><p><b>Ada's clue about John</b><br>"John, your brother-in-law quarreled with Fanny that night, they say. You drank with him that afternoon — did you see any meanness in him?"</p><p><b>John's clue about Armstrong</b><br>"Leon says there was shouting at Fanny before the shots. Were you there Saturday, Armstrong? Tell me that boy is lying."</p><p><b>Armstrong's clue about Brennan</b><br>"Father, they're offering six hundred dollars for stories about Saturday night. That money will buy a lot of remembering — true or otherwise."</p><p><b>Brennan's clue about Charles</b><br>"Charles, your little brother watched through those logs and told the sheriff everything. If you were in that cabin, confess to God before man judges you."</p><p><b>Charles's clue about Samuel</b><br>"Doc, they're building this whole case on my twelve-year-old brother peeking through a wall. You'd trust a boy's eyes in the dark?"</p><h3 style="color:#8b0000;">End of Round 5</h3><p>A boy saw it all. The net is closing — and the cousins know it.<br>The question heading into Round 6 is:<br>Where do guilty men run? 🔒</p>
+<hr>
+<h2 style="color:#8b0000;">ROUND 6: The Manhunt</h2><p><i>Reading order: Clark → Ada → Brennan → Thomas → Pierre → John → Silas → Samuel → Eli → Henry → Armstrong → Charles → (back to Clark).</i></p><h3 style="color:#2f6fed;">New Evidence</h3><div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+The sheriff's posse rides for Rush Tower, where the cousins were last seen.<br>
+They are run down at supper and locked in the Potosi jail.<br>
+On Saturday night, November 26, a mob storms the jail to lynch them — Sheriff Clark and six deputies hold the doors, gunfire erupts, and a boy in the crowd is killed.<br>
+The prisoners are smuggled to St. Louis in the night.
+</div><h3>Clues</h3><p><b>Clark's clue about Ada</b><br>"Ada, my posse rode for Rush Tower and took them at supper — no shots fired. I'd rather bring men in alive than carry them home."</p><p><b>Ada's clue about Brennan</b><br>"Father, they caught them at supper near Rush Tower, like ordinary men at a table. I keep thinking of Fanny — she never got to finish hers."</p><p><b>Brennan's clue about Thomas</b><br>"Thomas, I ministered to those men in their cell, and I tell you — guilt sits on a man heavier than irons. Pray for them, whatever they've done."</p><p><b>Thomas's clue about Pierre</b><br>"Pierre, a mob stormed that jail Saturday night to lynch them, and a boy died in it. This town's thirst for blood frightens me worse than the fire."</p><p><b>Pierre's clue about John</b><br>"John, your kin are in irons in Potosi jail, and a mob wants them swinging. If you know anything that clears them, now's the time to speak."</p><p><b>John's clue about Silas</b><br>"Silas, they were caught at supper — at supper, like they had nothing to fear. Guilty men don't sit down to supper, I tell you."</p><p><b>Silas's clue about Samuel</b><br>"Doc, the mob near tore my bar apart Saturday night on their way to the jail. Whiskey and rope — that's all a mob ever needs."</p><p><b>Samuel's clue about Eli</b><br>"I treated the wounded the morning after the jail riot — powder burns and cracked heads. A boy died, Eli. A boy. For what?"</p><p><b>Eli's clue about Henry</b><br>"Henry, you ran with that mob Saturday night — I saw you. A boy is dead, and the sheriff held those doors so the law could speak."</p><p><b>Henry's clue about Armstrong</b><br>"Armstrong, I was at that jail Saturday night, I'll own it — I wanted to see you swing. But a dead boy's changed my thinking some."</p><p><b>Armstrong's clue about Charles</b><br>"Charles, there's a posse riding with your name on every tongue, and six hundred dollars behind it. If you run now, they'll hang you sure."</p><p><b>Charles's clue about Clark</b><br>"Clark, you've got deputies on every road and six hundred dollars on our heads. They took us at supper — at supper, Sheriff, like common thieves."</p><h3 style="color:#8b0000;">End of Round 6</h3><p>Two men in irons, a town that wanted blood, and a sheriff who wouldn't give them up to the mob.<br>The question heading into the final round is:<br>What will the boy say on the stand? 🔒</p>
+<hr>
+<h2 style="color:#8b0000;">ROUND 7: The Accusation</h2><p><i>Reading order: Pierre → Clark → Charles → Ada → Silas → Brennan → Henry → Eli → Armstrong → Thomas → Samuel → John → (back to Pierre).</i></p><h3 style="color:#2f6fed;">New Evidence</h3><div style="background:#eaf1fe;border-left:3px solid #2f6fed;padding:10px 14px;">
+December 21. The trial opens in Potosi. It takes three days to seat a jury — nobody in the county hasn't heard of the burned cabin.<br>
+Leon Jolly takes the stand, twelve years old, and points.<br>
+The town holds its breath. Now, so do you.<br>
+Cast your final votes: who killed David Lapine?
+</div><h3>Clues</h3><p><b>Pierre's clue about Clark</b><br>"Sheriff, it took three days to seat a jury — every man in the county's heard of that cabin. Add it up: who's left with a reason to lie?"</p><p><b>Clark's clue about Charles</b><br>"Leon took the stand, Charles — twelve years old, and he pointed. The shouting, the shots, all of it. Deny it now, if you can."</p><p><b>Charles's clue about Ada</b><br>"Ada, you knew Fanny — tell them she was kind to us that night, tell them there was no quarrel. Someone has to speak for the living."</p><p><b>Ada's clue about Silas</b><br>"Silas, they drank at your bar till eight and walked north with a half-gallon. I've added it up a hundred ways — it always ends at that cabin."</p><p><b>Silas's clue about Brennan</b><br>"Father, hear my confession plain: I served them whiskey till eight and watched them go north. I've not slept since — God forgive my silence."</p><p><b>Brennan's clue about Henry</b><br>"Henry, the boy pointed on the stand, and the jury barely left the room. I've prayed over this — justice and vengeance are not the same thing."</p><p><b>Henry's clue about Eli</b><br>"Eli, I wanted rope Saturday night, and a boy died for it. Now the law will do its work — and I'll abide it, whatever it decides."</p><p><b>Eli's clue about Armstrong</b><br>"Armstrong, you rode hard for Rush Tower with your cousin, and now you sit in irons. Add it up yourself — what does an innocent man run from?"</p><p><b>Armstrong's clue about Thomas</b><br>"Thomas, you found that cabin Monday — but who found you? A man doesn't stumble on a fire like that without somebody pointing the way."</p><p><b>Thomas's clue about Samuel</b><br>"Doc, my wife swears I was home Saturday night, and I was. But I'll say this — I wish I'd ridden that road sooner. Maybe I'd have seen something."</p><p><b>Samuel's clue about John</b><br>"John, they're kin of yours by marriage, and I know this tears you. But the boy saw what he saw — add it up, and tell me where it lands."</p><p><b>John's clue about Pierre</b><br>"Pierre, they're going to hang my brother-in-law, and maybe Armstrong with him. I've turned it over and over — God help me, I can't see another way."</p><h3 style="color:#8b0000;">End of Round 7</h3><p>The votes are cast. The truth comes out. 🔒</p>
+<hr>
+<h2 style="color:#8b0000;">THE REVEAL</h2>
+<div style="background:#fff8e1;border:1px solid #e0a800;padding:10px 14px;">
+<p><b>Charles Jolly Jr. killed David Lapine.</b></p>
+<p>That Saturday, Charles and his cousin John Armstrong drank their way through Potosi — whiskey by the quart, saloons till eight — and walked north to the Lago cabin, drunk. Inside, Charles forced his attentions on Fanny Christopher. David stepped between them. Charles drew his revolver and shot David four times.</p>
+<p>Then the two of them killed Fanny, Mary, and the two small children with the cabin's ax, piled straw bedding over the bodies, and set the cabin afire to hide what they had done.</p>
+<p>Twelve-year-old Leon Jolly watched it all through a chink in the logs. His testimony convicted them both — the jury took minutes.</p>
+<p>On January 27, 1871, Charles Jolly Jr. and John Armstrong were hanged in the Potosi courthouse yard: the first and only legal hanging in Washington County history.</p>
+<p><i>Motive: drunken assault — David died defending Fanny. Method: revolver, then ax and arson to cover it. Opportunity: Saturday night, an isolated cabin, two drunk cousins no one would turn away.</i></p>
+</div>
+</body>
+</html>

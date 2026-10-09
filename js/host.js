@@ -1,6 +1,6 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=lockdown-release-v1';
+import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=lago-repaired-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
 import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
@@ -8,6 +8,7 @@ import lockdownCatalog from './editions/lockdown.js?v=lockdown-release-v1';
 import { buildLockdownStory } from './lockdown-catalog.js?v=lockdown-release-v1';
 const { STARTER_MYSTERIES } = RELEASE_ONLY ? { STARTER_MYSTERIES: [] } : await import('./starters.js?v=blackwater-voice-v1');
 const { buildSampleStory, SAMPLE_INFO } = RELEASE_ONLY ? {} : await import('./sample.js?v=clue-voice-v1');
+import { buildLagoStory, reviewLagoEdition, LAGO_NOTICE } from './lago-catalog.js?v=lago-repaired-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=ui-refresh-v1';
 import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=lockdown-release-v1';
@@ -30,7 +31,7 @@ const app = () => document.getElementById('app');
 
 function restoreGame() {
   S = load();
-  if (S?.story && (S.story.provenance || !['lockdown', ...(!RELEASE_ONLY ? ['sample'] : []), ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
+  if (S?.story && (S.story.provenance || !['lockdown', 'lago-cabin', ...(!RELEASE_ONLY ? ['sample'] : []), ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
     S.story = null; S.phase = 'setup'; S.roundIndex = -1; S.chainIndex = 0;
     S.claims = {}; S.votes = {}; S.roundVotes = {}; S.wasLive = false;
     save();
@@ -111,12 +112,12 @@ function renderLanding() {
       <h2>Host a gathering</h2>
       <p>Set up the story on this device (a laptop or tablet hooked to a TV is ideal). Guests join on their phones.</p>
       <button class="block" data-act="new" id="btn-new">Create a new game</button>
-      ${!RELEASE_ONLY ? '<a class="btn secondary block" href="mafia.html">Mafia - hidden-role game</a>' : '<p class="small muted">LOCKDOWN is available here for author testing. Other games remain on the development website until approved.</p>'}
+      ${!RELEASE_ONLY ? '<a class="btn secondary block" href="mafia.html">Mafia - hidden-role game</a>' : '<p class="small muted">Play The Lago Cabin or the LOCKDOWN author playtest. Other games remain on the development website until approved.</p>'}
     </div>
     ${saved && saved.room ? `<section class="card resume-card"><h2>Your saved game</h2><p>${esc(saved.story?.title || 'Game preparation')} · room ${esc(saved.room)}</p><button class="secondary" data-act="resume" id="btn-resume">Resume saved game</button></section>` : ''}
     <div class="card stack" id="join-game">
       <h2>Joining as a guest?</h2>
-      <p>Scan the host's QR code, or enter ${RELEASE_ONLY ? 'your LOCKDOWN' : 'a free or premium story'} room code here.</p>
+      <p>Scan the host's QR code, or enter ${RELEASE_ONLY ? 'your mystery' : 'a free or premium story'} room code here.</p>
       <label for="join-code">Room code</label>
       <div class="row"><input id="join-code" placeholder="ROOM CODE" autocapitalize="characters" autocomplete="off" maxlength="8" style="text-transform:uppercase;letter-spacing:.2em;font-size:1.3rem;flex:2">
       <button data-act="join" style="flex:1">Join</button></div>${!RELEASE_ONLY ? '<p class="small muted">Premium rooms are detected automatically. Mafia players use the link shown on their table screen.</p>' : ''}
@@ -158,6 +159,7 @@ function errBox() {
 function renderSetup() {
   app().className = '';
   const guests = getGuests();
+  const lagoReview = guests.length >= 3 && guests.length <= 12 ? reviewLagoEdition(guests.length) : null;
   app().innerHTML = `
     <span class="candle">🕯️</span>
     <h1>Set the Table</h1>
@@ -172,7 +174,7 @@ function renderSetup() {
       <p class="small muted" id="guest-count">${guests.length} player${guests.length === 1 ? '' : 's'}${guests.length && guests.length < 4 ? ' — 4 or more is best' : ''}</p>
       <ul class="clean guest-list">${guests.map((g, i) => `<li class="row guest-item"><span><b>${esc(g.name)}</b>${g.desc ? ` <span class="muted">— ${esc(g.desc)}</span>` : ''}</span><button type="button" class="secondary small" data-act="remove-guest" data-index="${i}" aria-label="Remove ${esc(g.name)}">Remove</button></li>`).join('')}</ul>
     </div>
-    <h2>${RELEASE_ONLY ? 'LOCKDOWN author playtest' : 'Ready-to-play mysteries and author playtests'}</h2>
+    <h2>Ready-to-play mysteries and author playtests</h2>
     ${errBox()}
     <div class="card gold stack" id="lockdown-card">
       <h2>LOCKDOWN</h2>
@@ -181,6 +183,15 @@ function renderSetup() {
       <p class="small">Unfinished author playtest, published by owner request. The reveal does not state a cause of death; clue voice and supplemental repeat assignments are still under review.</p>
       <p class="small muted">Add your players above. ${guests.length >= 3 && guests.length <= 12 ? `The ${guests.length}-player edition will be selected automatically.` : 'An edition exists for each count from 3 through 12.'} The original trio and story ending stay the same in every edition.</p>
       <button class="block" data-act="use-lockdown" id="use-lockdown">Play LOCKDOWN →</button>
+    </div>
+    <div class="card gold stack" id="lago-card">
+      <h2>The Lago Cabin</h2>
+      <p>A burned cabin north of Potosi, Missouri, in November 1870. Follow seven chapters of testimony, investigation and trial.</p>
+      <p class="story-meta"><span class="pill">3–12 players · count-selected editions</span> <span class="small muted">7 rounds + shared reveal</span></p>
+      <p class="small">${esc(LAGO_NOTICE)}</p>
+      <p class="small muted">${lagoReview ? `The ${guests.length}-player edition is selected automatically.` : 'Add 3 through 12 players to select an edition.'} The original trio reads first, followed by each supporting character.</p>
+      ${lagoReview?.errors.length ? `<div class="err"><ul>${lagoReview.errors.map(issue => `<li>${esc(issue)}</li>`).join('')}</ul></div>` : ''}
+      <button class="block" data-act="use-lago" id="use-lago" ${!lagoReview || lagoReview.errors.length ? 'disabled' : ''}>Play The Lago Cabin →</button>
     </div>
     ${!RELEASE_ONLY ? `<div class="card gold stack">
       <h2>${esc(SAMPLE_INFO.title)}</h2>
@@ -237,6 +248,7 @@ function renderReview() {
     <p class="center muted">Story preparation only — do not read this review screen to players. It contains future chapters and the solution. Open the doors, read the setup aloud, then have players read their character cards around the group. Optional discussion may follow before Round 1. During each round, follow the reader prompts, then deliberate and vote. All evidence must be spoken before it is used.</p>
     ${errBox()}
     ${st.authorPlaytest ? `<p class="card" role="note">${esc(st.playtestNotice)}</p>` : ''}
+    ${st.edition?.family === 'lago-cabin' ? `<p class="card" role="note">${esc(LAGO_NOTICE)}</p>` : ''}
     <div class="row"><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
       <label class="check-row"><input type="checkbox" data-disclose-killer ${st.discloseKiller ? 'checked' : ''}>Tell the murderer they are the murderer</label>
@@ -541,6 +553,16 @@ const actions = {
     try {
       const template = buildLockdownStory(lockdownCatalog, guests.length);
       await acceptStory(adaptStoryForPlayers(template, guests, shuffle(guests)), []);
+    } catch (error) {
+      ui.errors = [error.message];
+      ui.warnings = [];
+      renderSetup();
+    }
+  },
+  async 'use-lago'() {
+    const guests = getGuests();
+    try {
+      await acceptStory(buildLagoStory(guests, shuffle(guests)), []);
     } catch (error) {
       ui.errors = [error.message];
       ui.warnings = [];

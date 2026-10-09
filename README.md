@@ -79,14 +79,15 @@ In the current implementation, removing the chain diagram does not change the au
 coverage. Everyone still reads one clue about another character per round.
 The current validator requires at least four rounds. The latest supplied
 reference in [`RULESETS.md`](RULESETS.md) instead requires exactly seven rounds
-and describes scalable fixed-count editions. LOCKDOWN implements seven-round
+and describes scalable fixed-count editions. LOCKDOWN and Lago implement seven-round
 count-selected editions; existing stories retain their authored round counts.
 The owner-approved scalable design preserves the smallest edition as the
 master: unchanged base clues and targets, shared chapters, ending and key
 evidence. Larger editions add supporting characters and clues, with explicit
 reading groups rather than forcing changes to the base loop. Group-aware
 validation and automatic count selection are implemented for LOCKDOWN's
-owner-approved unfinished playtest. General authoring support remains pending.
+owner-approved unfinished playtest and Lago's master-preserving editions.
+General authoring support remains pending.
 Authors choose reader-to-target pairs from
 story events; full directed coverage is not mandatory. Pairs can repeat only in
 flagged §6 rounds after all possible pairings have been used, with an authored
@@ -94,6 +95,34 @@ explanation. The workshop generator still produces full coverage. Ghost parts ex
 only when the story calls for a dead player character to return.
 For the replacement chain-ends exception and repeat-gap requirements, see
 [`RULESETS.md`](RULESETS.md), sections 5–7.
+
+### The Lago Cabin editions
+
+Both website catalogs include **The Lago Cabin**, supplied as ten
+fixed-count editions for 3 through 12 players, each with seven chapters and
+the same reveal. The player list selects the edition automatically. These
+historically inspired drafts contain non-graphic adult and child deaths,
+arson and an execution. Supporting observations include fictionalized material.
+
+All ten editions pass the gameplay validator. Each preserves the original
+three-player clues, targets, seven chapters and reveal verbatim. The original
+trio reads in a closed loop, then each added character reads supplemental
+evidence. Master repeats are checked against the trio's six directed pairs;
+added readers must target every other character before repeating, with no
+consecutive repeated targets. Three six-player Round 5 supplemental clues
+use the previously unused targets and existing chapter facts rather than
+repeating early. No killer, method, motive or reveal facts were changed.
+
+Run `node tools/import-lago-editions.mjs` to regenerate
+[`js/editions/lago-cabin.js`](js/editions/lago-cabin.js) from
+[`tools/lago-all-10-editions.txt`](tools/lago-all-10-editions.txt).
+The importer retains original clue text alongside display placeholders,
+records source issues and every repair's original and replacement content.
+Master-preserving reading groups replace the supplied all-cast chains without
+changing master targets. Optional recap and suspicion material comes from the
+master chapter. It does not waive clue validation or rewrite the solution.
+Verify with `node --test --test-concurrency=1 tests/lago.mjs`
+and `node tests/lago-browser.mjs` (one Chromium instance, sequential editions).
 
 ### LOCKDOWN playtest and separate website catalogs
 
@@ -113,8 +142,8 @@ still requires valid targets, a complete group partition, consistent reader
 order, seven rounds, flagged repeats and no consecutive repeated pairs. Normal
 stories retain their existing validation requirements.
 
-- **grimgatherings.com:** LOCKDOWN only. Other game pages point to development.
-- **GitHub Pages:** all existing games plus LOCKDOWN for development/testing.
+- **grimgatherings.com:** The Lago Cabin and LOCKDOWN. Other game pages point to development.
+- **GitHub Pages:** all existing games plus LOCKDOWN and The Lago Cabin.
 - Cloudflare's `production` branch builds automatically set the release-only
   policy, retire other game entry pages and exclude old story assets. Run
   `npm run build:site -- --production` to reproduce this build locally.

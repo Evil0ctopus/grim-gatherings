@@ -1,7 +1,7 @@
 // Story schema helpers: parsing guests, validation/normalisation, placeholder filling, per-player views.
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
-import { accusationChain, validateAccusationCircles } from './accusations.js?v=lockdown-release-v1';
+import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=lago-repaired-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -62,6 +62,10 @@ export function normalizeStory(input, guests = []) {
       warnings.push(s.playtestNotice);
     }
   }
+  if (obj.masterPreserving === true) {
+    if (obj.edition?.family !== 'lago-cabin') errors.push('Master-preserving reading groups are supported only for Lago editions.');
+    else s.masterPreserving = true;
+  }
   if (!Number.isInteger(s.fixedPlayerCount) || s.fixedPlayerCount < 2) {
     errors.push('"fixedPlayerCount" must declare one fixed player count of at least 2.');
   }
@@ -105,7 +109,7 @@ export function normalizeStory(input, guests = []) {
       coverageRepeat: r?.coverageRepeat === true,
     };
     if (!Array.isArray(r?.chain)) errors.push(`rounds[${i}].chain must store the complete precomputed reader order.`);
-    if (s.authorPlaytest) {
+    if (s.authorPlaytest || usesMasterReadingGroups(s)) {
       if (!Array.isArray(r?.readingGroups) || r.readingGroups.some(group => !Array.isArray(group))) {
         errors.push(`rounds[${i}].readingGroups must explicitly partition every reader.`);
       } else rr.readingGroups = r.readingGroups.map(group => group.map(asStr));
@@ -218,6 +222,7 @@ export function normalizeStory(input, guests = []) {
   if (!s.finale.votePrompt) s.finale.votePrompt = `Who killed ${s.victim.name || 'the victim'}?`;
   if (s.characters.length >= 2) errors.push(...validateAccusationCircles(s));
   if (s.authorPlaytest && s.rounds.length !== 7) errors.push('LOCKDOWN playtest editions require exactly seven rounds.');
+  if (usesMasterReadingGroups(s) && s.rounds.length !== 7) errors.push('Lago editions require exactly seven rounds.');
   if (s.authorPlaytest) s.rounds.forEach((_, ri) => {
     const texts = new Set();
     for (const character of s.characters) {

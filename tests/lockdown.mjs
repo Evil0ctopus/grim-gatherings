@@ -7,7 +7,7 @@ import { accusationChain } from '../js/accusations.js';
 import { isOutdatedStory } from '../js/saved-content.js';
 import { isReleaseSite } from '../js/site-policy.js';
 
-test('only the .com domain selects the LOCKDOWN-only release catalog', () => {
+test('only the .com domain selects the restricted release catalog', () => {
   for (const host of ['grimgatherings.com', 'www.grimgatherings.com', 'GRIMGATHERINGS.COM']) assert.equal(isReleaseSite(host), true);
   for (const host of ['evil0ctopus.github.io', 'localhost', '127.0.0.1', 'grimgatherings.com.example.org']) assert.equal(isReleaseSite(host), false);
 });
