@@ -126,3 +126,39 @@ Do not reuse those URLs as valid sources. Additional searches for exact ashlar
 blocks and rectangular roofing did not yield a verified match in this pass.
 The wider house remains unfinished; this research does not authorize replacing
 it or promoting anything to production.
+
+## Accepted Microsoft Copilot generation: 2026-10-10
+
+- Provider: Microsoft Copilot browser image generation; underlying model and
+  individual creator are not disclosed by the inspected image UI.
+- Source: [the generation conversation](https://copilot.com/chat/conversation/1b2b1e09-826e-4de9-ade0-5e0cc04d6b3c).
+  Only generic original-art text prompts were submitted, not project artwork,
+  private code, credentials, or the owner's reference attachments.
+- [Unchanged original](projects/main-page-animation/originals/copilot-weathered-house-original.png):
+  1536 x 1024 PNG, 2,677,656 bytes, SHA-256
+  `25076CE4545C357097543A46DB344C39E4FA4C45A4A3FC8DA02C7AC8CDC8FDAE`.
+  This is the exact generated PNG recovered locally from the displayed image
+  data URL after the download event failed; not the review screenshot.
+- AI-generated; no claim of CC0 status, exclusive ownership, or copyright
+  clearance. The owner accepted this third weathered candidate for test
+  preparation. The original retains any embedded source metadata; derivatives
+  are disclosed transformations and must not be represented as non-AI artwork.
+- [Official terms checked](https://www.microsoft.com/en-us/servicesagreement):
+  AI Services section states Microsoft does not claim ownership of provided or
+  received content, and the user must determine output intellectual-property
+  rights and usability. It also prohibits unauthorized automated extraction,
+  using service data to improve AI, and removing/obscuring content credentials
+  for misleading provenance. This is not a blanket rights guarantee. Use the
+  provider's supported generation/download controls for future elements rather
+  than bulk scraping.
+- Preparation: edge-connected neutral bright-background flood mask, not
+  global white removal; crop `(48,8,1440,996)`; lossless unscaled cutout saved
+  in working area, then proportional 1080 x 747 runtime PNG. No architectural
+  stretching, inpainting, or splicing. See the
+  [recipe](projects/main-page-animation/working/prepare-generated-house.py).
+- Runtime derivative: [estate-generated-manor.png](../assets/estate-generated-manor.png),
+  1,568,394 bytes, SHA-256
+  `82C5A0DDD107D05AB4ED8988D884CE4E47538307F33B01A395A5F0D4B0BFE229`.
+- Existing Pixabay house/tree/gate/pillar provenance above still applies to
+  retained assets and archives. New generated artwork does not inherit their
+  licenses. Production promotion remains unapproved.

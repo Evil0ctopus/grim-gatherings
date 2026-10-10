@@ -53,16 +53,19 @@ function tree(x, y, size, mirrored = false, foreground = false) {
 }
 
 const windows = [
-  { x: 1225, y: 368, width: 37, height: 82 },
-  { x: 1316, y: 365, width: 35, height: 68 },
-  { x: 1406, y: 367, width: 38, height: 83 },
-  { x: 1227, y: 508, width: 38, height: 72 },
-  { x: 1406, y: 508, width: 39, height: 73 },
-  { x: 1226, y: 658, width: 39, height: 75 },
-  { x: 1407, y: 658, width: 38, height: 75 },
+  { x: 1114, y: 449, width: 32, height: 37 },
+  { x: 1317, y: 443, width: 41, height: 40 },
+  { x: 1531, y: 449, width: 32, height: 37 },
+  { x: 1107, y: 565, width: 43, height: 43 },
+  { x: 1524, y: 565, width: 43, height: 43 },
+  { x: 1107, y: 692, width: 43, height: 43 },
+  { x: 1524, y: 692, width: 43, height: 43 },
 ];
-const windowPath = ({ x, y, width, height }) =>
-  `M${x} ${y + height}v-${height - width / 2}a${width / 2} ${width / 2} 0 0 1 ${width} 0v${height - width / 2}z`;
+// Restrict overlays to the lower glass panes, leaving carved arches and mullions intact.
+const windowPath = ({ x, y, width, height }) => {
+  const pane = width / 2 - 1.5;
+  return `M${x} ${y}h${pane}v${height}h-${pane}zM${x + width / 2 + 1.5} ${y}h${pane}v${height}h-${pane}z`;
+};
 
 export function manorShadowSequence(random = Math.random, previousWindow = -1) {
   const order = windows.map((_, index) => index);
@@ -218,7 +221,7 @@ export function hauntedManorHtml() {
           <g filter="url(#manor-surface)">${paving()}</g>
         </g>
         <g class="manor-door-anchor" transform="translate(${entrance.x} ${entrance.y})"></g>
-        <image class="manor-artwork" href="assets/estate-cartoon-manor.png" x="1080" y="240" width="517" height="600"/>
+        <image class="manor-artwork" href="assets/estate-generated-manor.png" x="978" y="315" width="720" height="498"/>
         ${windows.map((window, i) => `<path class="manor-window ${i === 3 ? 'window-last' : ''}" style="animation-delay:-${i * 2}s" fill="url(#manor-window-light)" d="${windowPath(window)}"/>`).join('')}
         <g clip-path="url(#manor-window-clip)">
           <g class="manor-shadow" fill="#080c12"><ellipse cx="0" cy="0" rx="6" ry="8"/><path d="M-7 9q7-5 14 0l5 32h-24z"/></g>

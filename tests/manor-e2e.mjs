@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { once } from 'node:events';
+import { join } from 'node:path';
 import { chromium, webkit } from 'playwright';
 import { createCommunityServer } from '../server/community.mjs';
 
@@ -29,7 +30,7 @@ try {
           for (const animation of document.querySelector('.manor-scene').getAnimations({ subtree: true })) animation.pause();
         });
         assert.equal(await page.locator('.manor-artwork').count(), 1);
-        const imageResponse = await page.request.get(base + 'assets/estate-cartoon-manor.png');
+        const imageResponse = await page.request.get(base + 'assets/estate-generated-manor.png');
         assert.ok(imageResponse.ok());
         assert.match(imageResponse.headers()['content-type'], /image\/png/);
         assert.equal(await page.locator('.manor-flame').count(), 8);
@@ -44,9 +45,8 @@ try {
             doorX: door.e, doorY: door.f,
             pathX: Number(driveway[1]) + Number(driveway[3]) / 2, pathY: Number(driveway[2]),
             leftEdge: left.e + gate, rightEdge: right.e,
-            // Measured against the restored 776 x 900 prepared artwork.
-            stepsX: art.x.baseVal.value + 387 / 776 * art.width.baseVal.value,
-            stepsY: art.y.baseVal.value + 855 / 900 * art.height.baseVal.value,
+            stepsX: art.x.baseVal.value + 540 / 1080 * art.width.baseVal.value,
+            stepsY: art.y.baseVal.value + 742.5 / 747 * art.height.baseVal.value,
             artWidth: art.width.baseVal.value, artHeight: art.height.baseVal.value,
           };
         });
@@ -56,9 +56,13 @@ try {
         assert.equal(geometry.rightEdge, geometry.doorX);
         assert.ok(Math.abs(geometry.stepsX - geometry.doorX) < 1);
         assert.ok(Math.abs(geometry.stepsY - geometry.doorY) < 1);
-        assert.equal(geometry.artWidth, 517);
-        assert.equal(geometry.artHeight, 600);
-        assert.ok(Math.abs(geometry.artWidth / geometry.artHeight - 776 / 900) < .001);
+        assert.equal(geometry.artWidth, 720);
+        assert.equal(geometry.artHeight, 498);
+        assert.equal(geometry.artWidth / geometry.artHeight, 1080 / 747);
+        if (process.env.MANOR_PREVIEWS && engine === chromium && [390, 1408].includes(width)) {
+          await page.locator('.manor-camera').evaluate(el => { el.getAnimations()[0].currentTime = 0; });
+          await page.screenshot({ path: join(process.env.MANOR_PREVIEWS, `house-${width}-arrival.png`) });
+        }
         const lightning = await page.locator('.manor-lightning').first().evaluate(el => {
           const animation = el.getAnimations()[0];
           animation.pause();
@@ -135,7 +139,7 @@ try {
           return {
             clip: el.parentElement.getAttribute('clip-path'),
             visits: paths.map((_, slot) => {
-              animation.currentTime = (slot + .4) / paths.length * duration;
+              animation.currentTime = (slot + .25) / paths.length * duration;
               const matrix = new DOMMatrix(getComputedStyle(el).transform);
               return { index: paths.findIndex(path => path.isPointInFill({ x: matrix.e, y: matrix.f })),
                 opacity: Number(getComputedStyle(el).opacity) };
@@ -145,10 +149,15 @@ try {
               return Number(getComputedStyle(el).opacity);
             }),
             skyClipped: paths.every(path => !path.isPointInFill({ x: 1338, y: 200 })),
+            mullionsClipped: paths.every(path => {
+              const bounds = path.getBBox();
+              return !path.isPointInFill({ x: bounds.x + bounds.width / 2, y: bounds.y + bounds.height / 2 });
+            }),
           };
         });
         assert.equal(shadow.clip, 'url(#manor-window-clip)');
         assert.ok(shadow.skyClipped);
+        assert.ok(shadow.mullionsClipped);
         assert.equal(new Set(shadow.visits.map(visit => visit.index)).size, 7);
         assert.ok(shadow.visits.every(visit => visit.index >= 0 && visit.opacity >= .7));
         assert.ok(shadow.travelOpacity.every(opacity => opacity === 0));
@@ -162,7 +171,10 @@ try {
         assert.equal(await page.locator('.manor-gateway').evaluate(el => getComputedStyle(el).opacity), '0');
         assert.ok(await page.locator('.manor-camera').evaluate(el => new DOMMatrix(getComputedStyle(el).transform).a >= 1.1));
         const artwork = await page.locator('.manor-artwork').boundingBox();
-        assert.ok(artwork.x >= 0 && artwork.x + artwork.width <= width, `Restored house fits width ${width}`);
+        assert.ok(artwork.x >= 0 && artwork.x + artwork.width <= width, `Wider house fits width ${width}`);
+        if (process.env.MANOR_PREVIEWS && engine === chromium && [390, 1408].includes(width)) {
+          await page.screenshot({ path: join(process.env.MANOR_PREVIEWS, `house-${width}-settled.png`) });
+        }
         assert.equal(await page.locator('.manor-gate-leaf').first().evaluate(el => getComputedStyle(el).transform), 'matrix(0.08, 0, 0, 1, 0, 0)');
         await page.locator('#join-code').scrollIntoViewIfNeeded();
         const box = await page.locator('#join-code').boundingBox();

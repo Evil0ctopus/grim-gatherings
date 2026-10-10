@@ -28,9 +28,23 @@ description: "Use when making or changing Grim Gatherings animations, haunted ho
 2. Identify the specific approved version. "The first house" is not enough to identify a revision: compare the preserved earlier estate with the live version and ask the owner which they mean.
 3. Ask one focused question at a time for choices that change the design. Start with what must stay and the exact requested change. Do not invent approval if the owner is unavailable: preserve the live scene and prepare an isolated candidate or research only.
 4. Use the brief template for substantial creative work. Include the approved baseline, focal artwork, protected details, desired change, target screens, and observable acceptance criteria.
-5. For the main page, use two distinct baselines: the owner's latest selected house protects its design; the composition image establishes layout and density. The owner confirmed the restored first house and explicitly commissioned a slightly wider reconstruction plus randomized shadow visits through all windows. That is not permission to switch designs or stretch the entire image. Do not confuse a rejected reconstruction experiment with a finished rebuild.
+5. For the main page, use two distinct baselines: the owner's latest selected house protects its design; the composition image establishes layout and density. The owner first commissioned a wider first-house reconstruction, then explicitly accepted the third weathered Copilot-generated candidate with "i like it". Use that specific candidate for test preparation, not rejected experiments or a new unreviewed substitute. Preserve proportions, seven-window shadow visits, and the original archives; production approval remains separate.
 
 ## Research and asset preparation
+
+The owner confirmed the browser-based generate/review/refine/save workflow
+works well and wants it used for every new animation image element. Generate
+the complete focal house first; generate supporting objects individually
+after its style, perspective, and lighting are settled. Do not automatically
+replace existing approved assets or generate every future scene at once.
+Use only an explicitly shared browser, with the owner handling sign-in.
+No credentials, project code, or private reference artwork may be uploaded.
+Save the full-resolution original, prompt revisions, provider/conversation,
+usage-term checks, checksum, and owner decision in the creative library.
+Screenshots are review evidence, not production originals. Inspect background
+removal and composition before integrating; preserve original provenance and
+label AI-generated artwork honestly. If downloads or generation fail, report
+that explicitly rather than claiming success. Keep production approval separate.
 
 1. Reuse approved local artwork and layered-scene techniques before sourcing replacements. Inspect the actual assets; a filename or search thumbnail is not a visual quality check.
 2. When new artwork is necessary, research the focal element first, then matching supporting elements. Suggested search phrases are in the source catalog. Search results are leads, not proof of availability, permission, or quality.

@@ -10,6 +10,7 @@ unchanged by its creation.
 - [Owner's main-page layout and density baseline](projects/main-page-animation/composition-baseline.md)
 - [Recovered source catalog and renewed research](references.md)
 - [Repeatable animation workflow](../.github/skills/creative-animation/SKILL.md)
+- [Accepted generated house and per-element workflow](projects/main-page-animation/rebuild-and-shadow.md#accepted-generation-and-local-preparation-2026-10-10)
 - [Existing construction and image-preparation guide](../BACKGROUND-ANIMATION-GUIDE.md)
 - [New design brief template](templates/design-brief.md)
 - [Preserved house versions](snapshots/README.md)

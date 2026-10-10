@@ -18,7 +18,7 @@ if (!RELEASE_ONLY && /^[A-Z2-9]{8}$/.test(room)) location.replace(new URL(`premi
 else if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=manor-shadow-v12');
+    const { startHost } = await import('./host.js?v=manor-generated-v13');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);

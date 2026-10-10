@@ -13,12 +13,12 @@ test('the estate uses bundled detailed cartoon artwork with no remote assets', (
   assert.match(html, /preserveAspectRatio="xMidYMid slice"/);
   assert.match(html, /viewBox="0 0 1920 1080"/);
   assert.doesNotMatch(html, /<button|<a\b|<input|href="https?:/);
-  assert.match(html, /class="manor-artwork" href="assets\/estate-cartoon-manor.png"/);
-  assert.equal((html.match(/href="assets\/estate-cartoon-manor.png"/g) || []).length, 1);
+  assert.match(html, /class="manor-artwork" href="assets\/estate-generated-manor.png"/);
+  assert.equal((html.match(/href="assets\/estate-generated-manor.png"/g) || []).length, 1);
   assert.doesNotMatch(html, /manor-wing|manor-house-facade|href="assets\/estate-complete-manor.png"/);
   assert.match(html, /href="assets\/estate-candle.svg"/);
   assert.doesNotMatch(html, /photograph|estate-manor.jpg|estate-iron-gate.png/);
-  const image = readFileSync(new URL('../assets/estate-cartoon-manor.png', import.meta.url));
+  const image = readFileSync(new URL('../assets/estate-generated-manor.png', import.meta.url));
   assert.ok(image.length > 10000 && image.length < 2500000);
   assert.deepEqual([...image.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
   assert.match(read('../assets/estate-candle.svg'), /linearGradient/);
@@ -33,6 +33,8 @@ test('the estate uses bundled detailed cartoon artwork with no remote assets', (
   assert.match(credits, /PixelLabs/);
   assert.match(credits, /Pixabay Content License/);
   assert.match(credits, /AI-generated/);
+  assert.match(credits, /Microsoft Copilot/);
+  assert.match(credits, /servicesagreement/);
   assert.match(credits, /Art_Dreams/);
   assert.match(credits, /haunted-house-gate-stairway-manor-7570954/);
   assert.match(credits, /withered-tree-dead-tree-9379381/);
@@ -60,16 +62,16 @@ test('reference composition adds depth without splicing the mansion', () => {
   assert.equal((html.match(/class="manor-bat-flight"/g) || []).length, 5);
   assert.equal((html.match(/class="manor-bolt-core"/g) || []).length, 2);
   assert.equal((html.match(/class="manor-window /g) || []).length, 7);
-  assert.match(html, /x="1080" y="240" width="517" height="600"/);
-  assert.match(html, /M1227 580v-53a19 19 0 0 1 38 0v53z/);
+  assert.match(html, /x="978" y="315" width="720" height="498"/);
+  assert.match(html, /M1107 565h20v43h-20zM1130 565h20v43h-20z/);
   assert.match(read('../css/style.css'), /manor-passing-shadow 60s linear infinite/);
 });
 
 test('shadow shuffles all seven windows per cycle and hides travel between floors', () => {
   const windowGeometry = [
-    [1225, 368, 37, 82], [1316, 365, 35, 68], [1406, 367, 38, 83],
-    [1227, 508, 38, 72], [1406, 508, 39, 73],
-    [1226, 658, 39, 75], [1407, 658, 38, 75],
+    [1114, 449, 32, 37], [1317, 443, 41, 40], [1531, 449, 32, 37],
+    [1107, 565, 43, 43], [1524, 565, 43, 43],
+    [1107, 692, 43, 43], [1524, 692, 43, 43],
   ];
   const orders = new Set();
   let previous = -1;
@@ -145,17 +147,18 @@ test('weather, gates and window activity are separate layers', () => {
   assert.match(read('../assets/fog.svg'), /stitchTiles="stitch"/);
 });
 
-test('the restored house retains native proportions, aligned steps and responsive framing', () => {
+test('the accepted wider house retains native proportions, aligned steps and responsive framing', () => {
   const html = hauntedManorHtml();
-  const image = readFileSync(new URL('../assets/estate-cartoon-manor.png', import.meta.url));
-  assert.equal(image.readUInt32BE(16), 776);
-  assert.equal(image.readUInt32BE(20), 900);
+  const image = readFileSync(new URL('../assets/estate-generated-manor.png', import.meta.url));
+  assert.equal(image.readUInt32BE(16), 1080);
+  assert.equal(image.readUInt32BE(20), 747);
   const artwork = html.match(/class="manor-artwork"[^>]+x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"/);
   assert.ok(artwork);
   const [x, y, width, height] = artwork.slice(1).map(Number);
-  assert.ok(Math.abs(width / height - 776 / 900) < .001);
-  assert.ok(Math.abs(x + 387 / 776 * width - 1338) < 1);
-  assert.equal(y + 855 / 900 * height, 810);
+  assert.equal(width / height, 1080 / 747);
+  assert.ok(width >= 517 * 1.35, 'The building silhouette must be materially wider, not stretched');
+  assert.equal(x + 540 / 1080 * width, 1338);
+  assert.equal(y + 742.5 / 747 * height, 810);
 
   const css = read('../css/style.css');
   const camera = css.match(/\.manor-camera\{[^}]*transform-origin:([\d.]+)% ([\d.]+)%/);
@@ -175,7 +178,7 @@ test('the restored house retains native proportions, aligned steps and responsiv
       const left = origin + (offset + x * svgScale - origin) * zoom;
       const right = left + width * svgScale * zoom;
       assert.ok(left >= 0 && right <= viewportWidth,
-        `Restored house fits ${viewportWidth} x ${viewportHeight} at camera scale ${zoom}`);
+        `Wider house fits ${viewportWidth} x ${viewportHeight} at camera scale ${zoom}`);
     }
   }
 });
@@ -189,7 +192,7 @@ test('returning home does not replay the arrival', () => {
 });
 
 test('deployment cache tags include the changed scene module and stylesheet', () => {
-  const version = 'manor-shadow-v12';
+  const version = 'manor-generated-v13';
   assert.ok(read('../index.html').includes(`css/style.css?v=${version}`));
   assert.ok(read('../index.html').includes(`js/main.js?v=${version}`));
   assert.ok(read('../js/main.js').includes(`./host.js?v=${version}`));

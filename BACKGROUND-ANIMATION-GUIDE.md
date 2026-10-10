@@ -3,7 +3,32 @@
 This documents the approved homepage animation and provides instructions for
 repeating its approach on other pages. It does not change any live page.
 
-## Restoration update: 2026-10-10
+## Current test candidate: 2026-10-10
+
+The owner accepted the third, weathered Microsoft Copilot-generated wider
+house with "i like it", then confirmed generate/review/refine/save as the
+workflow for every new animation image element. The homepage candidate uses
+`assets/estate-generated-manor.png` (1080 x 747) at `978,315`, displayed
+720 x 498 without distortion. This is a new accepted interpretation, not an
+exact reconstruction of the first house. Its display width is 39.3% greater
+than the previous 517-pixel artwork; that measurement is an implementation
+result, not an owner-specified percentage.
+
+The original generated PNG, lossless transparent cutout, reproducible GIMP
+recipe, source terms, decisions, and desktop/mobile stills are saved in the
+[project record](creative-library/projects/main-page-animation/rebuild-and-shadow.md).
+The original house remains unchanged. Seven remapped window masks cover the
+lower glass panes only, excluding center mullions and decorative arches.
+The shuffled shadow still renews each minute with invisible travel and no
+immediate cycle-boundary repeat. Existing scenery, gates, controls, and
+one-time arrival are retained.
+
+Test-site publication is authorized; `.com` requires separate explicit approval
+of the exact reviewed commit. Interior and game scenes are not built by this
+change. Historical descriptions below document earlier versions, not current
+selection or permission to substitute their artwork again.
+
+## Historical restoration update: 2026-10-10
 
 The subsequent shadow update maps all seven windows and shuffles their visit
 order anew every minute, without immediately repeating the last window of the

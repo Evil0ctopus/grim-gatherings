@@ -105,7 +105,7 @@ one-time arrival, and continuing weather. Reuse that implementation knowledge;
 its historical approval wording does not resolve which earlier house the owner
 means now.
 
-## Still unresolved
+## Historical questions, superseded where answered below
 
 - Which exact earlier version is the favorite? The archived detailed estate at
   `040e240` is a candidate, not a confirmed selection. Earlier versions also
@@ -131,7 +131,21 @@ The owner authorized publishing this house restoration to the test website,
 not production. Follow the
 [release approval instructions](../.github/instructions/release-approval.instructions.md).
 
-## Future learning
+## Generated image workflow confirmed on 2026-10-10
+
+After reviewing the latest Copilot-generated wider house, the owner said
+"i like it". This accepts that specific generated interpretation for test-site
+preparation, superseding the earlier requirement to retain exact original
+painted detail. It does not approve `.com` publication.
+
+The owner also said "we need to do this process for every image element we
+will use to make our animations this works well". Use browser-based generation,
+individual still review, refinement, full-resolution original retention,
+prompt/provenance records, local preparation, and scene testing for new image
+elements. Generate cohesive focal buildings before separate supporting objects.
+Keep previously approved assets unchanged until their replacement is reviewed.
+This is a reusable process preference, not a request to rebuild all future
+interior/game scenes in this task.
 
 Keep dated decisions in each [project brief](templates/design-brief.md), including
 the owner's words, selected version, reason, and scope. Add a general preference
