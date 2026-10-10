@@ -27,6 +27,10 @@ home does not replay the entrance. Visual effects can be disabled in Ambience;
 reduced-motion users receive a still scene without rain or lightning. Existing
 storm audio remains independently controlled by the sound settings.
 
+For a reusable breakdown of the artwork, layers, geometry, movement, controls
+and adaptation workflow, see the local
+[background animation guide](BACKGROUND-ANIMATION-GUIDE.md).
+
 ## Woodland Hollow — author-final release
 
 Woodland Hollow is available on both sites for **exactly 14 players**, with the
@@ -491,9 +495,13 @@ Keep passwords and keys in a password manager; `.local-private/` is not encrypte
 
 GitHub Pages deploys `main`. Cloudflare Pages uses `npm run build:site`, output
 `dist`, Node 24 and the `production` branch. Automatic preview builds are
-disabled. Test the committed `main` release, then fast-forward `production` to
-the tested commit. Do not force-push over another release. Verify live assets
-on both sites after promotion.
+disabled. All changes go to the GitHub Pages test site for review first.
+The owner must explicitly give final approval for the exact reviewed commit
+before it is promoted to the `.com` site. Publishing a test candidate never
+authorizes updating `production`. After approval, fast-forward `production`
+to that tested commit; do not force-push over another release. Verify live
+assets on both sites after promotion. See the
+[release approval instructions](.github/instructions/release-approval.instructions.md).
 
 Both sites share the Supabase backend. Use simulated local Auth/database tests
 for destructive experiments. Deploy its Edge Function separately:

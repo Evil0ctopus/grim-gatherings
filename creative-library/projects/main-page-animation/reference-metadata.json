@@ -1,0 +1,23 @@
+{
+  "file": "layout-density-reference.png",
+  "receivedOn": "2026-10-10",
+  "providedBy": "Project owner via chat attachment",
+  "originalFilename": "zrjg0us5jdcprdhc12b6uxxj.png",
+  "bytes": 1677077,
+  "width": 1408,
+  "height": 768,
+  "sha256": "E8785D6E389FAEC38FFC7C411E7BE87F8230F1F946C611026260F232F5E9547D",
+  "copyVerification": "Saved copy matches the read-only attachment byte-for-byte by SHA-256",
+  "confirmedRole": "Baseline for main-page animation layout, density, and scene elements",
+  "notAuthorizedByThisDecision": [
+    "Replacement of the currently live house",
+    "Direct publication or extraction of reference artwork",
+    "New animation timings or deployment"
+  ],
+  "creator": null,
+  "originalSource": null,
+  "license": null,
+  "aiStatus": null,
+  "rightsStatus": "Not supplied or verified; internal visual reference only",
+  "runtimeAsset": false
+}

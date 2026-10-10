@@ -53,12 +53,7 @@ function tree(x, y, size, mirrored = false, foreground = false) {
 }
 
 const windows = [
-  { x: 1229, y: 411, width: 40, height: 80 },
-  { x: 1358, y: 437, width: 30, height: 68 },
-  { x: 1598, y: 422, width: 29, height: 85 },
-  { x: 1238, y: 599, width: 39, height: 61 },
-  { x: 1491, y: 607, width: 38, height: 60 },
-  { x: 1610, y: 606, width: 22, height: 63 },
+  { x: 1227, y: 508, width: 38, height: 72 },
 ];
 const windowPath = ({ x, y, width, height }) =>
   `M${x} ${y + height}v-${height - width / 2}a${width / 2} ${width / 2} 0 0 1 ${width} 0v${height - width / 2}z`;
@@ -176,10 +171,10 @@ export function hauntedManorHtml() {
           <g filter="url(#manor-surface)">${paving()}</g>
         </g>
         <g class="manor-door-anchor" transform="translate(${entrance.x} ${entrance.y})"></g>
-        <image class="manor-artwork" href="assets/estate-complete-manor.png" x="1009.875" y="122.6953125" width="750" height="750"/>
-        ${windows.map((window, i) => `<path class="manor-window ${i === 5 ? 'window-last' : ''}" style="animation-delay:-${i * 2}s" fill="url(#manor-window-light)" d="${windowPath(window)}"/>`).join('')}
+        <image class="manor-artwork" href="assets/estate-cartoon-manor.png" x="1080" y="240" width="517" height="600"/>
+        ${windows.map(window => `<path class="manor-window window-last" fill="url(#manor-window-light)" d="${windowPath(window)}"/>`).join('')}
         <g clip-path="url(#manor-window-clip)">
-          <g class="manor-shadow" fill="#040b10"><ellipse cx="0" cy="0" rx="9" ry="12"/><path d="M-9 12q9-7 18 0l9 45h-36z"/></g>
+          <g class="manor-shadow" fill="#080c12"><ellipse cx="1245" cy="540" rx="6" ry="8"/><path d="M1238 549q7-5 14 0l5 32h-24z"/></g>
         </g>
         ${lantern(1278, 850, .35)}${lantern(1398, 850, .35)}
         ${lantern(1158, 935, .55)}${lantern(1518, 935, .55)}

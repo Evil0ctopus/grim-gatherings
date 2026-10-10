@@ -14,7 +14,7 @@ try {
       const page = await browser.newPage();
       const errors = [];
       page.on('pageerror', error => errors.push(error.message));
-      for (const width of [320, 390, 768, 1280]) {
+      for (const width of [320, 390, 768, 1280, 1408]) {
         await page.setViewportSize({ width, height: 844 });
         await page.goto(base);
         await page.locator('#btn-new').waitFor();
@@ -29,7 +29,7 @@ try {
           for (const animation of document.querySelector('.manor-scene').getAnimations({ subtree: true })) animation.pause();
         });
         assert.equal(await page.locator('.manor-artwork').count(), 1);
-        const imageResponse = await page.request.get(base + 'assets/estate-complete-manor.png');
+        const imageResponse = await page.request.get(base + 'assets/estate-cartoon-manor.png');
         assert.ok(imageResponse.ok());
         assert.match(imageResponse.headers()['content-type'], /image\/png/);
         assert.equal(await page.locator('.manor-flame').count(), 8);
@@ -44,9 +44,9 @@ try {
             doorX: door.e, doorY: door.f,
             pathX: Number(driveway[1]) + Number(driveway[3]) / 2, pathY: Number(driveway[2]),
             leftEdge: left.e + gate, rightEdge: right.e,
-            // Measured against the uncropped 1280-square source, not the image midpoint.
-            stepsX: art.x.baseVal.value + 560 / 1280 * art.width.baseVal.value,
-            stepsY: art.y.baseVal.value + 1173 / 1280 * art.height.baseVal.value,
+            // Measured against the restored 776 x 900 prepared artwork.
+            stepsX: art.x.baseVal.value + 387 / 776 * art.width.baseVal.value,
+            stepsY: art.y.baseVal.value + 855 / 900 * art.height.baseVal.value,
             artWidth: art.width.baseVal.value, artHeight: art.height.baseVal.value,
           };
         });
@@ -56,8 +56,9 @@ try {
         assert.equal(geometry.rightEdge, geometry.doorX);
         assert.ok(Math.abs(geometry.stepsX - geometry.doorX) < 1);
         assert.ok(Math.abs(geometry.stepsY - geometry.doorY) < 1);
-        assert.ok(geometry.artWidth >= 750);
-        assert.equal(geometry.artWidth, geometry.artHeight);
+        assert.equal(geometry.artWidth, 517);
+        assert.equal(geometry.artHeight, 600);
+        assert.ok(Math.abs(geometry.artWidth / geometry.artHeight - 776 / 900) < .001);
         const lightning = await page.locator('.manor-lightning').first().evaluate(el => {
           const animation = el.getAnimations()[0];
           animation.pause();
@@ -81,7 +82,7 @@ try {
           const bounds = el.getBBox();
           return { left: bounds.x, right: bounds.x + bounds.width, top: bounds.y,
             bottom: bounds.y + bounds.height, maskBottom: Number(el.ownerSVGElement.querySelector('#manor-storm-mask').getAttribute('y')) + Number(el.ownerSVGElement.querySelector('#manor-storm-mask').getAttribute('height')),
-            roofTop: el.ownerSVGElement.querySelector('.manor-artwork').y.baseVal.value + 42 / 1280 * el.ownerSVGElement.querySelector('.manor-artwork').height.baseVal.value,
+            roofTop: el.ownerSVGElement.querySelector('.manor-artwork').y.baseVal.value,
             beforeStrike: el.nextElementSibling.classList.contains('manor-strike') };
         });
         assert.ok(clouds.left < 1654 && clouds.right > 1654);
@@ -132,10 +133,10 @@ try {
           const paths = [...clip.querySelectorAll('path')];
           return {
             clip: el.parentElement.getAttribute('clip-path'),
-            visits: [.18, .34, .51, .69, .81, .94].map(progress => {
-              animation.currentTime = progress * 42000;
+            visits: [.38, .4].map(progress => {
+              animation.currentTime = progress * 25000;
               const matrix = new DOMMatrix(getComputedStyle(el).transform);
-              return { index: paths.findIndex(path => path.isPointInFill({ x: matrix.e, y: matrix.f })),
+              return { index: paths.findIndex(path => path.isPointInFill({ x: 1245 + matrix.e, y: 540 + matrix.f })),
                 opacity: Number(getComputedStyle(el).opacity) };
             }),
             skyClipped: paths.every(path => !path.isPointInFill({ x: 1338, y: 200 })),
@@ -143,7 +144,7 @@ try {
         });
         assert.equal(shadow.clip, 'url(#manor-window-clip)');
         assert.ok(shadow.skyClipped);
-        assert.equal(new Set(shadow.visits.map(visit => visit.index)).size, 6);
+        assert.equal(new Set(shadow.visits.map(visit => visit.index)).size, 1);
         assert.ok(shadow.visits.every(visit => visit.index >= 0 && visit.opacity >= .7));
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         assert.equal(await page.locator('.manor-camera').evaluate(el => getComputedStyle(el).animationIterationCount), '1');
@@ -154,10 +155,8 @@ try {
         });
         assert.equal(await page.locator('.manor-gateway').evaluate(el => getComputedStyle(el).opacity), '0');
         assert.ok(await page.locator('.manor-camera').evaluate(el => new DOMMatrix(getComputedStyle(el).transform).a >= 1.1));
-        if (width <= 780) {
-          const artwork = await page.locator('.manor-artwork').boundingBox();
-          assert.ok(artwork.x >= 0 && artwork.x + artwork.width <= width, `Complete house fits mobile width ${width}`);
-        }
+        const artwork = await page.locator('.manor-artwork').boundingBox();
+        assert.ok(artwork.x >= 0 && artwork.x + artwork.width <= width, `Restored house fits width ${width}`);
         assert.equal(await page.locator('.manor-gate-leaf').first().evaluate(el => getComputedStyle(el).transform), 'matrix(0.08, 0, 0, 1, 0, 0)');
         await page.locator('#join-code').scrollIntoViewIfNeeded();
         const box = await page.locator('#join-code').boundingBox();
@@ -182,7 +181,7 @@ try {
       await page.locator('.manor-arrived').waitFor();
       assert.equal(await page.locator('.manor-camera').evaluate(el => getComputedStyle(el).animationName), 'none');
       assert.deepEqual(errors, []);
-      console.log(`PASS ${engine.name()} estate: four widths, aligned steps and gates, visible lightning, controls, reduced motion, one-time arrival`);
+      console.log(`PASS ${engine.name()} estate: five widths, aligned steps and gates, visible lightning, controls, reduced motion, one-time arrival`);
     } finally {
       await browser.close();
     }
