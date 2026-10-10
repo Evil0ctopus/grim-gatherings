@@ -6,3 +6,10 @@ export function isReleaseSite(hostname = globalThis.location?.hostname || '') {
 }
 
 export const RELEASE_ONLY = isReleaseSite();
+
+const RELEASE_FAMILIES = ['lockdown', 'woodland-hollow', 'lago-cabin', 'ravenmoor', 'blackwater-scalable', 'briar-playtest'];
+const DEVELOPMENT_FAMILIES = ['sample', 'mercy-hollow', 'blackthorn-farm', 'briar-house', 'blackwater-row'];
+
+export function isPlayableStoryFamily(family, releaseOnly = RELEASE_ONLY) {
+  return RELEASE_FAMILIES.includes(family) || (!releaseOnly && DEVELOPMENT_FAMILIES.includes(family));
+}

@@ -4,7 +4,7 @@ import { createAtmosphere } from './atmosphere.js?v=ui-refresh-v1';
 import { voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { createPlayerConnection } from './player-connection.js?v=visitor-review-v1';
 import { confirmAction } from './dialog.js?v=ui-refresh-v1';
-import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
+import { RELEASE_ONLY, isPlayableStoryFamily } from './site-policy.js?v=all-games-v1';
 
 export function startPlayer(room) {
   const atmosphere = createAtmosphere();
@@ -100,7 +100,7 @@ export function startPlayer(room) {
   function onMsg(msg) {
     if (!msg || typeof msg !== 'object') return;
     if (msg.t === 'state') {
-      if (RELEASE_ONLY && !['lockdown', 'woodland-hollow'].includes(msg.view?.edition?.family)) {
+      if (RELEASE_ONLY && !isPlayableStoryFamily(msg.view?.edition?.family)) {
         toast('This game is available only on the development website.', 6000);
         return;
       }

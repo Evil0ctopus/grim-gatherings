@@ -4,7 +4,7 @@ import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story
 import { buildWoodlandStory, isWoodlandStory, WOODLAND_NOTICE } from './woodland-catalog.js?v=woodland-release-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
-import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
+import { RELEASE_ONLY, isPlayableStoryFamily } from './site-policy.js?v=all-games-v1';
 import lockdownCatalog from './editions/lockdown.js?v=lockdown-release-v1';
 import { buildLockdownStory } from './lockdown-catalog.js?v=lockdown-release-v1';
 const { STARTER_MYSTERIES } = RELEASE_ONLY ? { STARTER_MYSTERIES: [] } : await import('./starters.js?v=blackwater-voice-v1');
@@ -34,7 +34,7 @@ const app = () => document.getElementById('app');
 
 function restoreGame() {
   S = load();
-  if (S?.story && (S.story.provenance || !['woodland-hollow', 'lockdown', 'lago-cabin', 'ravenmoor', 'blackwater-scalable', 'briar-playtest', ...(!RELEASE_ONLY ? ['sample'] : []), ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
+  if (S?.story && (S.story.provenance || !isPlayableStoryFamily(S.story.edition?.family))) {
     S.story = null; S.phase = 'setup'; S.roundIndex = -1; S.chainIndex = 0;
     S.claims = {}; S.votes = {}; S.roundVotes = {}; S.wasLive = false;
     save();
@@ -115,7 +115,7 @@ function renderLanding() {
       <h2>Host a gathering</h2>
       <p>Set up the story on this device (a laptop or tablet hooked to a TV is ideal). Guests join on their phones.</p>
       <button class="block" data-act="new" id="btn-new">Create a new game</button>
-      ${!RELEASE_ONLY ? '<a class="btn secondary block" href="mafia.html">Mafia - hidden-role game</a>' : '<p class="small muted">Play Ravenmoor, The Lago Cabin or the LOCKDOWN author playtest. Other games remain on the development website until approved.</p>'}
+      ${!RELEASE_ONLY ? '<a class="btn secondary block" href="mafia.html">Mafia - hidden-role game</a>' : '<p class="small muted">Play Woodland Hollow, Blackwater Row, Ravenmoor, The Lago Cabin, LOCKDOWN or the Briar House playtest.</p>'}
     </div>
     ${saved && saved.room ? `<section class="card resume-card"><h2>Your saved game</h2><p>${esc(saved.story?.title || 'Game preparation')} · room ${esc(saved.room)}</p><button class="secondary" data-act="resume" id="btn-resume">Resume saved game</button></section>` : ''}
     <div class="card stack" id="join-game">
