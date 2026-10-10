@@ -7,6 +7,26 @@ separate, randomly dealt Mafia game.
 
 **Testing:** https://evil0ctopus.github.io/grim-gatherings/
 
+The homepage uses a detailed sourced gothic cartoon mansion, surrounded by
+layered textured grounds, sourced ornate ironwork and candlelight: opening gates,
+a one-time approach per page visit,
+sheltered candle lanterns, a window silhouette, low fog, two rain layers and
+occasional thin, branching vertical lightning striking the distant ground with a soft flash
+(first strike around 1.2 seconds, then every 12 seconds; no rapid strobing).
+The bolt sits behind the ground, house and trees; its soft sky illumination remains visible above the scene shading.
+A dark, billowing textured storm-cloud bank spans the sky around the bolt's origin,
+clipped above the mansion's roof so it cannot cover the house.
+The driveway, candles and gate opening share the front-step centerline.
+Complete framed iron gates connect to masonry pillars and flanking fences.
+Detailed sourced withered trees are proportionally scaled and set away from the house; shaded
+masonry pillars incorporate its stone texture rather than stretching a small
+cutout into a full-height column. The artwork sources are disclosed as AI-generated.
+Image credits and licenses appear in the
+[About page](how-to-play.html#image-credits). Returning
+home does not replay the entrance. Visual effects can be disabled in Ambience;
+reduced-motion users receive a still scene without rain or lightning. Existing
+storm audio remains independently controlled by the sound settings.
+
 ## Authoritative game rules
 
 [`RULESETS.md`](RULESETS.md) contains the replacement rules supplied by Muse

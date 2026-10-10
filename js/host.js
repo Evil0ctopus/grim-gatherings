@@ -12,7 +12,7 @@ import { buildBlackwaterStory, BLACKWATER_INFO } from './blackwater-catalog.js?v
 import { buildBriarStory, BRIAR_INFO } from './briar-catalog.js?v=briar-playtest-v1';
 import { buildLagoStory, reviewLagoEdition, LAGO_NOTICE } from './lago-catalog.js?v=lago-repaired-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=ui-refresh-v1';
-import { hauntedManorHtml } from './manor.js?v=manor-background-v2';
+import { hauntedManorHtml } from './manor.js?v=manor-cloudbank-v9';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=lockdown-release-v1';
 import { currentCharacter, releaseCharacter, retireOtherSessions, resumeSession } from './host-sessions.js?v=connection-recovery-v1';
 import { createHostWakeLock } from './host-wake-lock.js?v=visitor-review-v1';
@@ -105,7 +105,7 @@ function renderLanding() {
     <div class="landing-content">
     <header class="landing-heading">
     <p class="hero-eyebrow">An invitation to intrigue</p>
-    <h1 class="hero-title">Grim Gatherings</h1>
+    <h1 class="hero-title"><img class="hero-candle" src="assets/estate-candle.svg" alt="">Grim Gatherings</h1>
     <p class="tagline">A murder-mystery party, whispered to every guest's phone.</p>
     <p class="manor-caption">The house is waiting. Someone is already inside.</p>
     </header>

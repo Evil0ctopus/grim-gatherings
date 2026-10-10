@@ -197,7 +197,7 @@ export async function createCommunityServer({
       requireValue(allowed.includes(relative) || /^(?:js|css|assets|vendor)[\\/]/.test(relative), 404, 'File not found.');
       const target = decoded === '/' ? path.join(root, 'index.html') : file;
       const data = await readFile(target);
-      const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.ogg': 'audio/ogg' };
+      const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.jpg': 'image/jpeg', '.png': 'image/png', '.ogg': 'audio/ogg' };
       res.setHeader('Content-Type', types[path.extname(target)] || 'application/octet-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.end(req.method === 'HEAD' ? undefined : data);

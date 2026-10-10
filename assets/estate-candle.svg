@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 160">
+<defs>
+<linearGradient id="wax" x2="1" y2=".2"><stop stop-color="#76604c"/><stop offset=".35" stop-color="#f4dfaf"/><stop offset=".65" stop-color="#ceb481"/><stop offset="1" stop-color="#6c513b"/></linearGradient>
+<radialGradient id="flame"><stop stop-color="#fffbe0"/><stop offset=".4" stop-color="#ffe09a"/><stop offset=".75" stop-color="#ed933b"/><stop offset="1" stop-color="#be5329" stop-opacity=".3"/></radialGradient>
+</defs>
+<ellipse cx="50" cy="148" rx="39" ry="9" fill="#151a21" stroke="#7b6a52" stroke-width="3"/>
+<path d="M28 67Q50 60 72 67L69 143Q50 151 31 143Z" fill="url(#wax)" stroke="#695239" stroke-width="1.5"/>
+<ellipse cx="50" cy="67" rx="22" ry="7" fill="#f5deb0"/>
+<path d="M30 68v29q5 9 8 0V75q3-7 6 0v39q4 8 8 0V73q5-8 8 0v15q5 7 8-1V68" fill="#efdab0"/>
+<path d="M50 68q-4-10 0-16" fill="none" stroke="#342018" stroke-width="3"/>
+<path d="M50 58C22 48 43 24 52 3C49 29 79 43 50 58Z" fill="url(#flame)"/>
+<path d="M50 54q-10-9 0-24q11 17 0 24" fill="#fff3c2"/>
+</svg>
