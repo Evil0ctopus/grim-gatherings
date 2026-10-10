@@ -26,7 +26,7 @@ This version replaces the previous rule set in full.
 - Restructured into two categories with a game-type choice at submission: CATEGORY 1 narrative mysteries (§§1–21), CATEGORY 2 social deduction games (§§22–32, genre-general with room for creative variants).
 - §34 (new): least-invasive repair doctrine — rearrange before rewriting, small additions before restructuring; never change solution or evidence spine for compliance; document every intervention.
 - §5: round count is now exactly 7 rounds for every narrative mystery (replaces the 4-round minimum); rounds follow the evidence spine, with repeat rounds as closing-evidence chapters. All shipped stories must be rebuilt to 7 rounds.
-- §33 (new): scalable editions — one story may ship multiple fixed-count editions (3–12 players); editions share one canon (victim, killer, motive, method, opportunity, evidence spine); solution-critical characters in every edition; each edition independently tested and graded; site offers a player-count picker. §2 rewritten as "one fixed player count per edition." Includes the BUILD METHOD: endpoints (3p/12p) first with cross-check, nested cast, rotations-before-words, shared observation pool, voice, canon lock, independent testing.
+- §33 (new): scalable editions — one story may ship multiple fixed-count editions (3–12 players); editions share one canon (victim, killer, motive, method, opportunity, evidence spine); solution-critical characters in every edition; the 3-player base and 12-player endpoint receive independent full grades, while middle editions receive differential verification; site offers a player-count picker. §2 rewritten as "one fixed player count per edition." Includes the BUILD METHOD: endpoints (3p/12p) first with cross-check, nested cast, rotations-before-words, shared observation pool, voice, canon lock, differential verification.
 
 1. STORY OWNERSHIP
 
@@ -537,6 +537,11 @@ A story may carry exceptions, but only by this process:
   deviations.
 - Anything deviating without approval is a defect, not an exception.
 
+Checklist findings on new content are flags first, not verdicts. The
+flow is: test flags → author or auditor reviews → fix the content, or
+document it as an approved exception above → cleared → publish. A flag
+becomes a defect only if it is shipped without review or approval.
+
 Submission flow: the author submits the story against this rule set;
 the compatibility grade (§21) catches errors; the author fixes them or
 requests an amendment.
@@ -572,6 +577,13 @@ reviewed by a human, AI-assisted.
 
 Minimum 85% to submit for testing. Minimum 85% to publish; revisions
 may continue after testing.
+
+The grade is a test result, not a sentence. When a check flags an
+edition, the finding goes to review (author or auditor); the edition
+ships when the finding is fixed or cleared as an approved §20
+exception. For middle editions under the §33 generation contract,
+only new content is graded — the base grade stands, and the §18
+checklist applies to new content, not inherited content.
 
 ---
 
@@ -738,8 +750,10 @@ many doors in.
 - Fresh clue wording is required for added readers, not for inherited base
   clues. First complete and approve the base voice pass, then preserve it
   exactly in every expanded edition.
-- Each edition is tested and graded independently. One edition's grade
-  never covers another.
+- The 3-player base and 12-player endpoint are graded independently
+  under §21. Middle editions receive differential verification (§33.8):
+  the locked base is checked byte-identical, and only new content is
+  tested. One edition's full grade never covers another.
 - The site offers a player-count picker per story; choosing a count
   loads that edition.
 - Entering eight players selects the authored eight-player edition, never a
@@ -775,8 +789,41 @@ story built the same way.
    35 words maximum.
 6. CANON LOCK. Evidence chapters are shared verbatim across editions.
    No edition may contradict facts established in another.
-7. INDEPENDENT TESTING. Each edition is validated and graded on its
-   own; one edition's pass never covers another.
+7. GENERATION CONTRACT. The 3-player edition is the immutable base.
+   Once locked, no other edition may alter it — later editions may
+   only add.
+   - Locked base content = the 7 evidence chapters (verbatim), the
+     reveal (verbatim), the core trio's character cards, and the core
+     trio's observations.
+   - The 12-player endpoint EXTENDS the base: it adds 9 characters and
+     wider observations, but must contain the locked base content
+     verbatim.
+   - Middle editions (4–11 players) ADD characters from the nested cast
+     (item 2) and clues for their own pairings. They must never alter,
+     reword, or contradict locked base content.
+   - Mechanical check: extract the locked base content from each
+     edition and compare — it must be byte-identical across all 10
+     editions. Any difference is a flag for review (see §21 flow),
+     not an automatic fail.
+8. DIFFERENTIAL VERIFICATION. Editions are verified according to their
+   role, not all alike.
+   - The 3-player base and the 12-player endpoint each receive the full
+     §21 compatibility grade. Both must clear 85% to publish.
+   - Middle editions (4–11) receive differential verification, not a
+     full re-grade:
+     a. BASE CHECK (mechanical): locked base content byte-identical to
+        the 3-player base.
+     b. NEW-CONTENT CHECKS (mechanical): unbroken chains every round;
+        no unflagged pair repeats; gap rule holds; exactly 7 rounds;
+        every player reads once per round; no self-targets; every
+        placeholder resolves; every clue 35 words maximum.
+     c. CANON CHECK (reviewed): no new solution facts; added
+        observations come from the shared pool (item 4) or are flagged
+        as invented for author review.
+   - A middle edition clears when (a) passes, (b) passes, and (c) is
+     reviewed. Inherited content is never re-graded.
+   - A middle edition's differential pass is valid precisely because
+     the base it inherits already passed its full grade.
 
 ---
 
