@@ -78,15 +78,21 @@ test('production build retires other game routes and removes legacy story assets
   await writeFile(join(root, 'js', 'site-policy.js'), policy);
   await mkdir(join(root, 'js', 'editions'));
   for (const name of   ['lockdown.js', 'sample.js', 'mercy-hollow.js', 'lago-cabin.js', 'ravenmoor.js', 'blackwater-scalable.js', 'briar-playtest.js']) await writeFile(join(root, 'js', 'editions', name), name);
-  for (const name of ['sample.js', 'starters.js', 'premium-stories.js', 'lago-catalog.js']) await writeFile(join(root, 'js', name), name);
+  for (const name of ['sample.js', 'starters.js', 'premium-stories.js', 'lago-catalog.js', 'woodland-catalog.js']) await writeFile(join(root, 'js', name), name);
+  await mkdir(join(root, 'assets', 'stories'));
+  const authorSource = '{"title":"Woodland Hollow","playerCount":14}';
+  await writeFile(join(root, 'assets', 'stories', 'woodland-hollow.story.json'), authorSource);
   const output = await buildSite(root, { production: true });
   assert.match(await readFile(join(output, 'js', 'site-policy.js'), 'utf8'), /BUILD_RELEASE_ONLY = true/);
   assert.deepEqual((await readdir(join(output, 'js', 'editions'))).sort(),   ['blackwater-scalable.js', 'briar-playtest.js', 'lago-cabin.js', 'lockdown.js', 'ravenmoor.js']);
   assert.ok(!(await readdir(join(output, 'js'))).includes('premium-stories.js'));
   assert.ok((await readdir(join(output, 'js'))).includes('lago-catalog.js'));
+  assert.ok((await readdir(join(output, 'js'))).includes('woodland-catalog.js'));
+  assert.equal(await readFile(join(output, 'assets', 'stories', 'woodland-hollow.story.json'), 'utf8'), authorSource);
   for (const page of ['mafia.html', 'shop.html', 'workshop.html', 'premium-room.html']) {
     const html = await readFile(join(output, page), 'utf8');
     assert.match(html, /The Lago Cabin and the LOCKDOWN author playtest/);
+    assert.match(html, /author-final Woodland Hollow/);
     assert.doesNotMatch(html, /<script/);
     assert.equal(await readFile(join(root, page), 'utf8'), `fixture ${page}`);
   }

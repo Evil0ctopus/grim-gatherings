@@ -1,0 +1,850 @@
+{
+  "title": "Woodland Hollow",
+  "nameStyle": "pilgrim",
+  "playerCount": 14,
+  "roundCount": 6,
+  "characters": [
+    {
+      "name": "Keziah",
+      "originalName": "Kayley",
+      "fullName": "Keziah Threadwell",
+      "role": "Seamstress",
+      "card": "I'm Keziah Threadwell. I stitch clothes, fix tears, and listen more than I talk. People forget how much a seamstress sees — loose threads, chalk marks, strange stains. Fabric tells the truth even when people don't."
+    },
+    {
+      "name": "Lydia",
+      "originalName": "Lily",
+      "fullName": "Lydia Hartwell",
+      "role": "Midwife",
+      "card": "My name is Lydia Hartwell. I've delivered half the town and comforted the other half. I walk quiet roads at night, and I hear things — whispers, footsteps, worries folks don't say out loud. I keep calm, even when others can't."
+    },
+    {
+      "name": "Bethia",
+      "originalName": "Bee",
+      "fullName": "Bethia Willow",
+      "role": "Candle Maker",
+      "card": "I'm Bethia Willow. I make candles for homes, rituals, and the chapel. Scents cling to people — incense, smoke, oils — and I notice when something smells wrong. Wax remembers fingerprints better than people think."
+    },
+    {
+      "name": "Nathaniel",
+      "originalName": "Nick",
+      "fullName": "Nathaniel Thornfield",
+      "role": "Hunter",
+      "card": "Nathaniel Thornfield. I know the woods better than I know the town. Broken branches, quiet birds, sap on a coat — the forest tells me when something's off. I trust signs more than excuses."
+    },
+    {
+      "name": "Abigail",
+      "originalName": "Abbie",
+      "fullName": "Abigail Green",
+      "role": "Herbalist",
+      "card": "I'm Abigail Green. Herbs, roots, and forest paths are my life. I gather what heals and avoid what harms. Nature doesn't lie — people do. I watch patterns, even the ones others pretend aren't there."
+    },
+    {
+      "name": "Caleb",
+      "originalName": "Chase",
+      "fullName": "Caleb Alder",
+      "role": "Carpenter",
+      "card": "Caleb Alder. I build things that last — stables, fences, whatever folks need. I work near the woods, so I see who comes and goes. Moss on boots, sawdust on sleeves — nothing stays hidden long."
+    },
+    {
+      "name": "Alice",
+      "originalName": "Allie",
+      "fullName": "Alice Briar",
+      "role": "Baker",
+      "card": "I'm Alice Briar. I'm up before dawn, so I see the town wake up. People talk when they're tired — they say things they shouldn't. Flour hides a lot, but not everything."
+    },
+    {
+      "name": "Rebekah",
+      "originalName": "Rebecca",
+      "fullName": "Rebekah Redwood",
+      "role": "Preacher's Daughter",
+      "card": "I'm Rebekah Redwood. I grew up in the chapel, around scripture, choir, and whispered confessions. Folks think I'm quiet. I am. But I hear everything."
+    },
+    {
+      "name": "Ezekiel",
+      "originalName": "Xander",
+      "fullName": "Ezekiel Holt",
+      "role": "Blacksmith",
+      "card": "Name's Ezekiel Holt. I work the forge — metal, fire, smoke. People come to me when they need tools or repairs. I see their hands, their burns, their bruises. You can tell a lot from what someone carries."
+    },
+    {
+      "name": "Josiah",
+      "originalName": "Josh",
+      "fullName": "Josiah Redwood",
+      "role": "Preacher",
+      "card": "I'm Josiah Redwood. I guide the chapel, lead the sermons, and hear the confessions people don't want anyone else to know. Incense follows me everywhere. So do secrets."
+    },
+    {
+      "name": "Joan",
+      "originalName": "Joz",
+      "fullName": "Joan",
+      "role": "Woods Guide",
+      "card": "I'm Joan. I walk the woods for a living — guiding, tracking, watching. The forest is my home, and I notice when something doesn't belong. People think the woods are quiet. They're not, if you know how to listen."
+    },
+    {
+      "name": "Faith",
+      "originalName": "Felicia",
+      "fullName": "Faith",
+      "role": "Painter",
+      "card": "I'm Faith. I paint what I see — the woods, the light, the faces people make when they think no one's watching. Colors tell the truth. A brush remembers what hands try to hide."
+    },
+    {
+      "name": "Lawrence",
+      "originalName": "Logan",
+      "fullName": "Lawrence",
+      "role": "Stable Boy",
+      "card": "I'm Lawrence. I work the stables — feeding, grooming, mucking out. Horses know people better than people know themselves. I see who comes and goes at odd hours. Hay sticks to boots, and so do secrets."
+    },
+    {
+      "name": "Jacob",
+      "originalName": "Jake",
+      "fullName": "Jacob",
+      "role": "Ferryman",
+      "card": "I'm Jacob. I run the ferry across the river — people, cargo, whatever needs moving. The water sees everything. I know who's crossing and when. A boat leaves ripples, even when it tries not to."
+    }
+  ],
+  "nonPlayerVictim": "Elias",
+  "intro": "Woodland Hollow is an old, quiet town between the woods and the forest. It's the kind of place where everyone knows everyone — or thinks they do. The forest has been here longer than any of them, and it remembers everything. Love grows here. So do secrets. And some things in the dark between the trees are older than the town itself.",
+  "rounds": [
+    {
+      "round": 1,
+      "victim": "Elias",
+      "victimIsPlayer": false,
+      "narration": "Elias's body was found on the hunting trails at first light. He was face-down in the dirt, the ground torn up around him. A broken pine branch lay across his back. Dirt was packed under his nails. Twigs formed a deliberate circle around his body. Heavy pine sap was smeared over his clothes.",
+      "ghosts": [],
+      "clues": [
+        {
+          "reader": "Keziah",
+          "accuses": "Bethia",
+          "text": "{Bethia} argued with Elias about smoke the factory would create if the factory was built. {Bethia} had dirt under her nails."
+        },
+        {
+          "reader": "Lydia",
+          "accuses": "Caleb",
+          "text": "{Caleb} was upset Elias wanted to reroute the paths in the forest making it harder to get through the woods. {Caleb} had dirt under his nails."
+        },
+        {
+          "reader": "Bethia",
+          "accuses": "Lawrence",
+          "text": "{Lawrence} argued with Elias about horse trails. {Lawrence} had broken twigs stuck to his coat."
+        },
+        {
+          "reader": "Nathaniel",
+          "accuses": "Jacob",
+          "text": "{Jacob} complained Elias blocked the river path. {Jacob} had dirt under his nails."
+        },
+        {
+          "reader": "Abigail",
+          "accuses": "Alice",
+          "text": "{Alice} said Elias's factory would ruin the quiet mornings. {Alice} had forest dirt on her boots."
+        },
+        {
+          "reader": "Caleb",
+          "accuses": "Faith",
+          "text": "{Faith} didn't like Elias sketching near her painting spot. {Faith} had dirt on her paint brush."
+        },
+        {
+          "reader": "Alice",
+          "accuses": "Josiah",
+          "text": "{Josiah} said Elias was changing Woodland Hollow too fast. {Josiah} had a torn leaf stuck to his coat."
+        },
+        {
+          "reader": "Rebekah",
+          "accuses": "Nathaniel",
+          "text": "{Nathaniel} hated Elias marking hunting paths. I saw pine sap on {Nathaniel}'s sleeve."
+        },
+        {
+          "reader": "Ezekiel",
+          "accuses": "Keziah",
+          "text": "{Keziah} didn't like Elias measuring near her sewing shop. {Keziah} had hardened mud on her shoes."
+        },
+        {
+          "reader": "Faith",
+          "accuses": "Joan",
+          "text": "{Joan} told Elias the forest wasn't his to map. {Joan} had pine sap on her hands earlier."
+        },
+        {
+          "reader": "Lawrence",
+          "accuses": "Lydia",
+          "text": "{Lydia} didn't trust Elias's medical claims that the factory wouldn't cause physical illnesses. {Lydia} had forest soil on her shoes."
+        },
+        {
+          "reader": "Joan",
+          "accuses": "Ezekiel",
+          "text": "{Ezekiel} said Elias's factory would disrupt metal shipments. {Ezekiel} had twigs stuck to his boots."
+        },
+        {
+          "reader": "Jacob",
+          "accuses": "Abigail",
+          "text": "{Abigail} said Elias's factory would destroy her herb garden. {Abigail} had pine sap on her sleeve."
+        },
+        {
+          "reader": "Josiah",
+          "accuses": "Rebekah",
+          "text": "{Rebekah} said Elias's factory would bring sin to Woodland Hollow. {Rebekah} had forest dirt on her shoes."
+        }
+      ],
+      "readingGroups": [
+        {
+          "group": 1,
+          "type": "closedLoop",
+          "readers": [
+            "Keziah",
+            "Bethia",
+            "Lawrence",
+            "Lydia",
+            "Caleb",
+            "Faith",
+            "Joan",
+            "Ezekiel"
+          ]
+        },
+        {
+          "group": 2,
+          "type": "closedLoop",
+          "readers": [
+            "Nathaniel",
+            "Jacob",
+            "Abigail",
+            "Alice",
+            "Josiah",
+            "Rebekah"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "victim": "Ezekiel",
+      "victimIsPlayer": true,
+      "narration": "{Ezekiel}'s body was found in the cave after midday. White dust marked the rocks around him. The dust formed a symbol on the rocks. {Ezekiel}'s body had blue and red smears on it. His blood was drained. His neck had a clean cut across it. A bowl sat beside him filled with dried red substance.",
+      "ghosts": [
+        {
+          "reader": "Ezekiel",
+          "accuses": "Ezekiel",
+          "selfReading": true,
+          "text": "The blade… the colors… and something ancient…"
+        }
+      ],
+      "clues": [
+        {
+          "reader": "Caleb",
+          "accuses": "Alice",
+          "text": "{Alice} said {Ezekiel}'s forge smoke was blowing toward her bakery. She had blue dye on her apron — she said it came from kneading berry dough, but that same blue was on {Ezekiel}'s body."
+        },
+        {
+          "reader": "Lydia",
+          "accuses": "Nathaniel",
+          "text": "{Nathaniel} was furious at {Ezekiel} over the metal shipments that didn't come in. And I saw blue dye on his fingers — he said it was from marking hunting trails, but blue dye was all over {Ezekiel} too."
+        },
+        {
+          "reader": "Abigail",
+          "accuses": "Bethia",
+          "text": "{Bethia} complained all week about {Ezekiel}'s forge smoke drifting into her candle shop. She had red dye on her sleeve — she said it was from coloring wax, but red smears were on {Ezekiel}'s hands."
+        },
+        {
+          "reader": "Josiah",
+          "accuses": "Lawrence",
+          "text": "{Lawrence} blamed {Ezekiel} for scaring the horses with all the noise he makes at night. He had blood on his hands — he said it was from him removing all sharpened stones near the caves so the horses wouldn't get hurt, but that's exactly where {Ezekiel} was found."
+        },
+        {
+          "reader": "Lawrence",
+          "accuses": "Jacob",
+          "text": "{Jacob} said {Ezekiel} overcharged him for repairs. And {Jacob} had dried red stains on his cuff — he said it was deer blood from helping a hunter load his kill onto the boat, but it looked just like the stains on {Ezekiel}'s clothes."
+        },
+        {
+          "reader": "Keziah",
+          "accuses": "Caleb",
+          "text": "{Caleb} was mad {Ezekiel} wouldn't fix his stirrup. He had blue smears on his hand — he said it was from painting a stable sign, but blue was all over {Ezekiel}'s shirt."
+        },
+        {
+          "reader": "Bethia",
+          "accuses": "Faith",
+          "text": "{Faith} said {Ezekiel}'s hammering kept her awake all night. She had red dye on her apron — she said it was berry juice from painting but red dye was smeared on {Ezekiel}'s hands."
+        },
+        {
+          "reader": "Rebekah",
+          "accuses": "Josiah",
+          "text": "{Josiah} said {Ezekiel}'s late-night forging messed with prayer hours. He had red dust on his coat — he said he walked near the caves, but that same dust was all over the cave floor."
+        },
+        {
+          "reader": "Faith",
+          "accuses": "Lydia",
+          "text": "{Lydia} said {Ezekiel}'s sparks were dangerous. She had chalky residue on her shoes — she said it was from marking herbs in {Abigail}'s garden but there were chalk marks drawn in strange patterns near the body."
+        },
+        {
+          "reader": "Nathaniel",
+          "accuses": "Joan",
+          "text": "{Joan} said {Ezekiel} scared off forest animals with all that metalwork. She had red cave dust on her boots — she said it was from finding the body, but she was the only one who knew exactly where to look."
+        },
+        {
+          "reader": "Joan",
+          "accuses": "Abigail",
+          "text": "{Abigail} said {Ezekiel}'s forge heat ruined her herbs. She had blue dye on her sleeve — she said it was from drying tinted herbs, but that same blue was on {Ezekiel}'s clothes."
+        },
+        {
+          "reader": "Jacob",
+          "accuses": "Rebekah",
+          "text": "{Rebekah} said {Ezekiel} mocked her father's sermons. She had red ink on her wrist — she said she spilled it helping her dad, but red stains were all over {Ezekiel}'s shirt."
+        },
+        {
+          "reader": "Alice",
+          "accuses": "Keziah",
+          "text": "{Keziah} was annoyed that {Ezekiel} wouldn't sharpen her scissors. And she had blue dye on her hands — she said she was working on a dress, but that same blue was smeared on {Ezekiel}'s clothes."
+        }
+      ],
+      "readingGroups": [
+        {
+          "group": 1,
+          "type": "closedLoop",
+          "readers": [
+            "Caleb",
+            "Alice",
+            "Keziah"
+          ]
+        },
+        {
+          "group": 2,
+          "type": "closedLoop",
+          "readers": [
+            "Lydia",
+            "Nathaniel",
+            "Joan",
+            "Abigail",
+            "Bethia",
+            "Faith"
+          ]
+        },
+        {
+          "group": 3,
+          "type": "closedLoop",
+          "readers": [
+            "Josiah",
+            "Lawrence",
+            "Jacob",
+            "Rebekah"
+          ]
+        },
+        {
+          "group": 4,
+          "type": "ghostSelfReadings",
+          "readers": [
+            "Ezekiel"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "victim": "Abigail",
+      "victimIsPlayer": true,
+      "narration": "{Abigail} was found behind the seamstress shop before dusk. Her wrists were bruised, and her neck was bruised. Her clothes smelled like incense. Choir paper was clutched in her hand that read \"7:30 behind the seamstress shop.\" A chalk circle was drawn behind her head. Blue footprints led away from her into the woods.",
+      "ghosts": [
+        {
+          "reader": "Ezekiel",
+          "accuses": "Ezekiel",
+          "selfReading": true,
+          "text": "The bowl… and the one who hides behind kindness and lies…"
+        },
+        {
+          "reader": "Abigail",
+          "accuses": "Abigail",
+          "selfReading": true,
+          "text": "I trusted the voice… but it wasn't who I thought…"
+        }
+      ],
+      "clues": [
+        {
+          "reader": "Keziah",
+          "accuses": "Nathaniel",
+          "text": "{Nathaniel} said {Abigail} borrowed choir paper from him yesterday. And he smelled like incense — he said he was inside {Bethia}'s candle shop earlier, but {Abigail} smelled like incense too."
+        },
+        {
+          "reader": "Lydia",
+          "accuses": "Bethia",
+          "text": "{Bethia} told me {Abigail} ruined one of her candle batches last week. {Bethia} smelled of incense — she said she was pouring candles for the church earlier, and {Abigail} smelled like the same incense."
+        },
+        {
+          "reader": "Nathaniel",
+          "accuses": "Lawrence",
+          "text": "{Lawrence} said {Abigail} kept complaining that his horses were getting into her herb garden. He had chalk dust on his hands — he said he brushed a wall, but a chalk circle was drawn behind her."
+        },
+        {
+          "reader": "Faith",
+          "accuses": "Jacob",
+          "text": "{Jacob} said {Abigail} owed him money for ferry rides. And {Jacob} had a piece of choir paper in his pocket — he said it was from choir practice, but {Abigail} had a note written on choir paper."
+        },
+        {
+          "reader": "Alice",
+          "accuses": "Caleb",
+          "text": "{Abigail} said {Caleb} was supposed to meet her behind the seamstress shop at 7:30. And {Caleb} had dirt on his boots — he said he was walking his horses earlier in the woods, but {Abigail} had dirt under her nails."
+        },
+        {
+          "reader": "Rebekah",
+          "accuses": "Alice",
+          "text": "{Alice} said {Abigail} borrowed her berry cloth last night. {Alice} had white chalk on her apron — she said it was just flour from making bread, but there was white chalk behind {Abigail}'s head."
+        },
+        {
+          "reader": "Jacob",
+          "accuses": "Faith",
+          "text": "{Faith} complained that {Abigail} messed up her paint order. {Faith} had blue dye on her fingers — she said she was mixing colors, but there was blue dye beside {Abigail}'s body."
+        },
+        {
+          "reader": "Caleb",
+          "accuses": "Josiah",
+          "text": "{Josiah} said {Abigail} interrupted choir practice. {Josiah} had a bit of choir paper stuck to his boot — he said he stepped on a scrap, but {Abigail} had choir paper in her pocket."
+        },
+        {
+          "reader": "Bethia",
+          "accuses": "Lydia",
+          "text": "{Lydia} said {Abigail} almost ruined one of her birthing cloths last week. {Lydia} had a faint blue stain on her sleeve — she said it came from washing a patient's blanket, but there was blue dye beside {Abigail}'s body."
+        },
+        {
+          "reader": "Lawrence",
+          "accuses": "Joan",
+          "text": "{Joan} mentioned {Abigail} having a secret meeting with {Caleb} in the stable. {Joan} had white chalk on her sleeve — she said she must have brushed up against {Keziah}'s sewing table when she was there earlier."
+        },
+        {
+          "reader": "Joan",
+          "accuses": "Rebekah",
+          "text": "{Rebekah} told me {Abigail} and {Caleb} were together earlier. {Rebekah} had choir paper sticking out of her pocket — she said it was her solo that she was practicing for the church choir."
+        },
+        {
+          "reader": "Josiah",
+          "accuses": "Keziah",
+          "text": "{Keziah} said {Abigail} asked her about making her a new dress for this weekend. {Keziah} had chalk on her hands — she said she was marking fabric, but a chalk circle was behind {Abigail}'s head."
+        }
+      ],
+      "readingGroups": [
+        {
+          "group": 1,
+          "type": "closedLoop",
+          "readers": [
+            "Keziah",
+            "Nathaniel",
+            "Lawrence",
+            "Joan",
+            "Rebekah",
+            "Alice",
+            "Caleb",
+            "Josiah"
+          ]
+        },
+        {
+          "group": 2,
+          "type": "closedLoop",
+          "readers": [
+            "Lydia",
+            "Bethia"
+          ]
+        },
+        {
+          "group": 3,
+          "type": "closedLoop",
+          "readers": [
+            "Faith",
+            "Jacob"
+          ]
+        },
+        {
+          "group": 4,
+          "type": "ghostSelfReadings",
+          "readers": [
+            "Ezekiel",
+            "Abigail"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "victim": "Faith",
+      "victimIsPlayer": true,
+      "narration": "{Faith} was found at her painting spot. Her painting had been ripped apart. Her neck was bruised. Her wrists had been cut. A cup of thick red liquid sat beside her. A perfect white circle was drawn around her.",
+      "ghosts": [
+        {
+          "reader": "Faith",
+          "accuses": "Faith",
+          "selfReading": true,
+          "text": "An old hand, then a young hand, tightening around her throat."
+        },
+        {
+          "reader": "Abigail",
+          "accuses": "Abigail",
+          "selfReading": true,
+          "text": "Hands around her throat — and betrayal."
+        },
+        {
+          "reader": "Ezekiel",
+          "accuses": "Ezekiel",
+          "selfReading": true,
+          "text": "The circle being drawn — and an old voice whispering."
+        }
+      ],
+      "clues": [
+        {
+          "reader": "Nathaniel",
+          "accuses": "Keziah",
+          "text": "{Keziah} told me {Faith} messed up one of her sewing patterns by getting red paint on it. And when she walked past me, I noticed mud smeared on her sleeve. She said she must have brushed up against something after finding {Abigail}."
+        },
+        {
+          "reader": "Caleb",
+          "accuses": "Lydia",
+          "text": "{Lydia} told me {Faith} came to her asking for clean cloth. And I noticed a little blood on {Lydia}'s wrist — she said it came from helping someone earlier."
+        },
+        {
+          "reader": "Lydia",
+          "accuses": "Alice",
+          "text": "{Alice} told me {Faith} stopped by her bakery earlier asking if she had any spare parchment paper. And when we were out in the woods, I saw white dust on her apron — she said it must have come from her baking bread earlier."
+        },
+        {
+          "reader": "Bethia",
+          "accuses": "Joan",
+          "text": "{Joan} told me {Faith} asked her about some strange symbols she'd seen around the village. And I noticed dirt on {Joan}'s sleeve — she said it was from surveying the forest earlier."
+        },
+        {
+          "reader": "Rebekah",
+          "accuses": "Bethia",
+          "text": "{Bethia} told me {Faith} messed up one of her candle labels last week. And I noticed a little blood on {Bethia}'s finger — she said it was from trimming wicks."
+        },
+        {
+          "reader": "Jacob",
+          "accuses": "Lawrence",
+          "text": "{Lawrence} told me {Faith} asked him about strange noises near the cave trail last week. And when he walked past me, I noticed a faint smear of white dust on his sleeve — he said it came from the stables, but that same white dust was scattered around {Faith}."
+        },
+        {
+          "reader": "Alice",
+          "accuses": "Rebekah",
+          "text": "{Rebekah} said {Faith} stopped by the chapel asking for parchment paper earlier. And when she passed me, I noticed a tiny streak of red ink on her wrist — she said it came from writing choir notes, but the same red was smeared in the cup by {Faith}'s body."
+        },
+        {
+          "reader": "Keziah",
+          "accuses": "Jacob",
+          "text": "{Jacob} told me {Faith} asked him about strange footprints near the bakery path. And when he walked by, I noticed a faint dusting of white flour on his sleeve — he said it came from being in the bakery shop that day but that same white dust was scattered around {Faith}'s last painting spot."
+        },
+        {
+          "reader": "Lawrence",
+          "accuses": "Josiah",
+          "text": "{Josiah} told me he saw {Faith} heading toward the woods earlier. And when I walked past him I noticed a bit of red on his boot — he said he stepped on one of the torn pieces of her canvas when he collected her body."
+        },
+        {
+          "reader": "Josiah",
+          "accuses": "Nathaniel",
+          "text": "{Nathaniel} told me {Faith} asked him if he'd seen her drop a piece of parchment paper earlier. And when we were out in the woods, I noticed a streak of red on his sleeve — he said it must've rubbed off when he helped move the body."
+        },
+        {
+          "reader": "Joan",
+          "accuses": "Caleb",
+          "text": "{Caleb} told me he asked {Faith} to paint a picture of {Abigail} so no one would forget her, and she said no — he was pretty upset about it. And when we were out in the woods, I noticed a bit of red on his hand — he said it came from touching her torn painting."
+        }
+      ],
+      "readingGroups": [
+        {
+          "group": 1,
+          "type": "closedLoop",
+          "readers": [
+            "Nathaniel",
+            "Keziah",
+            "Jacob",
+            "Lawrence",
+            "Josiah"
+          ]
+        },
+        {
+          "group": 2,
+          "type": "closedLoop",
+          "readers": [
+            "Caleb",
+            "Lydia",
+            "Alice",
+            "Rebekah",
+            "Bethia",
+            "Joan"
+          ]
+        },
+        {
+          "group": 3,
+          "type": "ghostSelfReadings",
+          "readers": [
+            "Faith",
+            "Abigail",
+            "Ezekiel"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "victim": "Caleb",
+      "victimIsPlayer": true,
+      "narration": "{Caleb} was found face-down with his axe buried in his back. Tree sap was on his shirt. Moss was under his fingernails. A deliberate circle of twigs was around him.",
+      "ghosts": [
+        {
+          "reader": "Caleb",
+          "accuses": "Caleb",
+          "selfReading": true,
+          "text": "I felt the hit from behind… I fell into moss, and dragged. I heard stable door creak, twigs snapping… then everything went quiet."
+        },
+        {
+          "reader": "Faith",
+          "accuses": "Faith",
+          "selfReading": true,
+          "text": "I felt a hand pull me close… then the sting in my wrist. I heard whispering and feet walking around me then silence."
+        },
+        {
+          "reader": "Abigail",
+          "accuses": "Abigail",
+          "selfReading": true,
+          "text": "I remember the grip tightening… and the frame of a friend one I wasn't supposed to meet. I smelled oils and candle wax right before it ended."
+        },
+        {
+          "reader": "Ezekiel",
+          "accuses": "Ezekiel",
+          "selfReading": true,
+          "text": "I heard something power shine and once was mine fading in an old whisper. The cold earth was the last thing I felt."
+        }
+      ],
+      "clues": [
+        {
+          "reader": "Nathaniel",
+          "accuses": "Bethia",
+          "text": "{Bethia} told me {Caleb} complained that there was smoke near the woods earlier and it was getting worse. And when I saw {Bethia}, I noticed dust on her sleeve — she said it came from sorting her extra candle supplies."
+        },
+        {
+          "reader": "Bethia",
+          "accuses": "Nathaniel",
+          "text": "{Nathaniel} told me {Caleb} was upset he couldn't get to his paths earlier, going into the woods. And when I saw {Nathaniel}, I noticed a streak of brown on his knee — he said it came from kneeling near his traps."
+        },
+        {
+          "reader": "Jacob",
+          "accuses": "Josiah",
+          "text": "{Josiah} told me {Caleb} mentioned someone watching him near the chapel earlier. And when I saw {Josiah}, I noticed dirt on his boots — he said it blew onto him while he was walking."
+        },
+        {
+          "reader": "Rebekah",
+          "accuses": "Lawrence",
+          "text": "{Lawrence} told me {Caleb} said the lumber trail felt different lately like someone was watching him. And when I saw {Lawrence}, I noticed dust on his hand — he said it came from moving some horses."
+        },
+        {
+          "reader": "Lawrence",
+          "accuses": "Rebekah",
+          "text": "{Rebekah} told me {Caleb} said Woodland Hollow was changing too fast earlier. And when I saw {Rebekah}, I noticed mud on her skirt — she said it came from walking near the graveyard in church."
+        },
+        {
+          "reader": "Josiah",
+          "accuses": "Alice",
+          "text": "{Alice} told me {Caleb} said he was supposed to meet someone by the stables earlier. And when I saw {Alice}, I noticed a faint red smear on her apron — she said it came from her baking."
+        },
+        {
+          "reader": "Alice",
+          "accuses": "Jacob",
+          "text": "{Jacob} told me {Caleb} said he never told {Abigail} to meet him behind the seamstress shop. And when I saw {Jacob} I noticed a twig on his coat — he said it blew onto him near the river."
+        },
+        {
+          "reader": "Joan",
+          "accuses": "Lydia",
+          "text": "{Lydia} told me {Caleb} said he was worried about strange markings near the paths earlier. And when I saw {Lydia}, I noticed dirt on her shoe — she said it came from walking to a client's house earlier."
+        },
+        {
+          "reader": "Lydia",
+          "accuses": "Keziah",
+          "text": "{Keziah} told me {Caleb} said he didn't like how the maps were being redrawn earlier. And when I saw {Keziah}, I noticed dust on her sleeve — she said it came from brushing against her sewing table."
+        },
+        {
+          "reader": "Keziah",
+          "accuses": "Joan",
+          "text": "{Joan} told me {Caleb} said the forest didn't feel normal anymore. And when I saw {Joan}, I noticed a twig on her skirt — she said it blew onto her."
+        }
+      ],
+      "readingGroups": [
+        {
+          "group": 1,
+          "type": "closedLoop",
+          "readers": [
+            "Nathaniel",
+            "Bethia"
+          ]
+        },
+        {
+          "group": 2,
+          "type": "closedLoop",
+          "readers": [
+            "Jacob",
+            "Josiah",
+            "Alice"
+          ]
+        },
+        {
+          "group": 3,
+          "type": "closedLoop",
+          "readers": [
+            "Rebekah",
+            "Lawrence"
+          ]
+        },
+        {
+          "group": 4,
+          "type": "closedLoop",
+          "readers": [
+            "Joan",
+            "Lydia",
+            "Keziah"
+          ]
+        },
+        {
+          "group": 5,
+          "type": "ghostSelfReadings",
+          "readers": [
+            "Caleb",
+            "Faith",
+            "Abigail",
+            "Ezekiel"
+          ]
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "victim": "Josiah",
+      "victimIsPlayer": true,
+      "narration": "{Josiah}'s body was found in the river. He had a deep head wound. A golden candlestick was half-buried in the mud nearby. Frankincense was in the air. Soaked choir paper was under his coat. The paper read \"Genesis 9:6.\"",
+      "ghosts": [
+        {
+          "reader": "Josiah",
+          "accuses": "Josiah",
+          "selfReading": true,
+          "text": "I felt the strike… the world spun… and the water swallowed the betrayal. I smelled incense… oils… before everything went dark."
+        },
+        {
+          "reader": "Faith",
+          "accuses": "Faith",
+          "selfReading": true,
+          "text": "I heard whispers … and the scent of something old. I look better now… then silence."
+        },
+        {
+          "reader": "Abigail",
+          "accuses": "Abigail",
+          "selfReading": true,
+          "text": "I remember the grip… the anger… and the quiet that followed. I felt hate… and fear."
+        },
+        {
+          "reader": "Ezekiel",
+          "accuses": "Ezekiel",
+          "selfReading": true,
+          "text": "I saw flickering of fire… the whisper of a friend… the old voice fading. Then sharpness on the neck"
+        },
+        {
+          "reader": "Caleb",
+          "accuses": "Caleb",
+          "selfReading": true,
+          "text": "I felt the eyes behind me… then pain in my back the dragging through the leaves. The smell of wood and dirt. Then nothing"
+        }
+      ],
+      "clues": [
+        {
+          "reader": "Rebekah",
+          "accuses": "Jacob",
+          "text": "{Jacob} told me {Josiah} was waiting by the riverbank earlier. And when I saw {Jacob}, I noticed a bit of dust on his sleeve — he said it came from moving cargo into {Bethia}'s shop earlier."
+        },
+        {
+          "reader": "Lawrence",
+          "accuses": "Bethia",
+          "text": "{Bethia} told me {Josiah} said he heard someone near the chapel steps earlier. And when I saw {Bethia}, I noticed a faint gold smear on her wrist — she said it came from replacing the candles in their holders."
+        },
+        {
+          "reader": "Alice",
+          "accuses": "Nathaniel",
+          "text": "{Nathaniel} told me {Josiah} said he saw footprints near the water earlier. And when I saw {Nathaniel}, I noticed a little dirt under his nails — he said it came from fixing his traps."
+        },
+        {
+          "reader": "Lydia",
+          "accuses": "Rebekah",
+          "text": "{Rebekah} told me {Josiah} said he found a scrap of choir paper near the river earlier. And when I saw {Rebekah}, I noticed red dust on her skirt — she said it came from sweeping the chapel floor."
+        },
+        {
+          "reader": "Keziah",
+          "accuses": "Lawrence",
+          "text": "{Lawrence} told me {Josiah} said he heard a horse near the river path earlier. And when I saw {Lawrence}, I noticed hay stuck to his boot — he said it came from feeding the horses."
+        },
+        {
+          "reader": "Nathaniel",
+          "accuses": "Lydia",
+          "text": "{Lydia} told me {Josiah} said somebody stole a candle from the church earlier. And when I saw {Lydia}, I noticed a faint dirt smudge on her sleeve — she said it came from helping {Abigail} mix herbs for a client."
+        },
+        {
+          "reader": "Jacob",
+          "accuses": "Joan",
+          "text": "{Joan} told me {Josiah} said he heard metal clinking near the river earlier. And when I saw {Joan}, I noticed a twig caught on her skirt — she said it was from her woods tour earlier."
+        },
+        {
+          "reader": "Bethia",
+          "accuses": "Keziah",
+          "text": "{Keziah} told me {Josiah} said he saw fabric scraps near the woods earlier. And when I saw {Keziah}, I noticed loose thread on her dress — she said it came from snagging her dress earlier."
+        },
+        {
+          "reader": "Joan",
+          "accuses": "Alice",
+          "text": "{Alice} told me {Josiah} said he smelled incense drifting from the chapel earlier. And when I saw {Alice}, I noticed yellow smeared on her apron — she said it came from making butter earlier."
+        }
+      ],
+      "readingGroups": [
+        {
+          "group": 1,
+          "type": "closedLoop",
+          "readers": [
+            "Rebekah",
+            "Jacob",
+            "Joan",
+            "Alice",
+            "Nathaniel",
+            "Lydia"
+          ]
+        },
+        {
+          "group": 2,
+          "type": "closedLoop",
+          "readers": [
+            "Lawrence",
+            "Bethia",
+            "Keziah"
+          ]
+        },
+        {
+          "group": 3,
+          "type": "ghostSelfReadings",
+          "readers": [
+            "Josiah",
+            "Faith",
+            "Abigail",
+            "Ezekiel",
+            "Caleb"
+          ]
+        }
+      ]
+    }
+  ],
+  "ending": {
+    "title": "The Ending — The Truth",
+    "paragraphs": [
+      "The truth comes out in pieces. {Keziah} Threadwell — the seamstress — is no seamstress at all. She is something ancient, older than the town itself, and she stays young the only way she knows how: by killing and drinking the blood of the living. {Ezekiel}'s drained body in the cave. {Faith}'s wrist cuts and the cup of red. That was {Keziah}, keeping herself alive.",
+      "{Joan} never hid what she was. The woods guide killed Elias because his factory would have carved the forest open — and she killed {Caleb} because he was helping him do it. Every circle of twigs, every trace of sap and moss — that was {Joan}, protecting the only home she's ever known.",
+      "And {Rebekah}. Sweet {Rebekah}, the preacher's daughter. She loved {Caleb} — loved him enough to kill {Abigail} when she learned {Abigail} was going to run away with him. And when {Caleb} turned up dead with an axe in his back, she was sure her own father had done it. So she killed {Josiah} too — and the river took him. Tucked inside his coat, the words hadn't washed away: \"Whoever sheds human blood, by humans shall their blood be shed.\" — Genesis 9:6."
+    ]
+  },
+  "approvedExceptions": [
+    "14 players (over the 3–12 range)",
+    "6 rounds instead of 7",
+    "Clue length over 35 words allowed",
+    "Two-part (observation + doubt) clue structure not required",
+    "First-person voice not required",
+    "Story contradictions between clues and evidence ignored",
+    "Dead players continue as ghosts; ghosts read about themselves, are not targeted, so every round has 14 readers",
+    "Reveal/solution handwritten by the author; no separate final-accusation setup supplied",
+    "Three killers (Joan/Joz, Keziah/Kayley, Rebekah/Rebecca)"
+  ],
+  "notes": [
+    "Clue fields observation/contradictingDetail are not populated: the two-part clue rule was waived for this story.",
+    "Curly-brace placeholders resolve to a character name in 'characters'. Elias is a non-player and is plain text.",
+    "'accuses' is the clue's target; 'readingGroups' list the reader order per group; ghost readings come last in each round."
+  ]
+}

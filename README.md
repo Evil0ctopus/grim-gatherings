@@ -27,6 +27,26 @@ home does not replay the entrance. Visual effects can be disabled in Ambience;
 reduced-motion users receive a still scene without rain or lightning. Existing
 storm audio remains independently controlled by the sound settings.
 
+## Woodland Hollow — author-final release
+
+Woodland Hollow is available on both sites for **exactly 14 players**, with the
+author's **six rounds** and three-killer ending. The final supplied JSON is bundled
+unchanged in [the story asset](assets/stories/woodland-hollow.story.json).
+The catalog adapter maps its named clues and reading groups to the existing
+phone/host runtime without rewriting the story or re-grading it against the
+general rules. Its approved exceptions remain attached to the game.
+
+Deaths never remove a seat: ghosts read the supplied self-memories from the
+chapter in which they die, after the living reading groups, and continue taking
+part in discussion. Each chapter has all 14 readers. No authored voting setup
+was supplied, so discussion advances directly to the next chapter or the
+author's ending, which reveals all three killers.
+
+Run `node --test tests/woodland.mjs` and `node tests/woodland-browser.mjs` to
+verify data mapping, placeholders, ghost transitions, phone views, saved-room
+restoration and the six-chapter host flow. These are integration checks, not a
+story compatibility grade.
+
 ## Authoritative game rules
 
 [`RULESETS.md`](RULESETS.md) contains the replacement rules supplied by Muse

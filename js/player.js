@@ -100,7 +100,7 @@ export function startPlayer(room) {
   function onMsg(msg) {
     if (!msg || typeof msg !== 'object') return;
     if (msg.t === 'state') {
-      if (RELEASE_ONLY && msg.view?.edition?.family !== 'lockdown') {
+      if (RELEASE_ONLY && !['lockdown', 'woodland-hollow'].includes(msg.view?.edition?.family)) {
         toast('This game is available only on the development website.', 6000);
         return;
       }
@@ -108,6 +108,7 @@ export function startPlayer(room) {
       if (pendingAction) { pendingAction = false; lastHtml = ''; }
       if (leaving && !view.me) return returnHome();
       const strip = $('#vote-strip'), html = voteStripHtml(view.voteSummary);
+      strip.hidden = view.discussionOnly === true;
       if (strip.innerHTML !== html) strip.innerHTML = html;
       window.__gg = { view };
       if (view.me !== me.charId) { me.charId = view.me; saveMe(); }
@@ -176,11 +177,11 @@ export function startPlayer(room) {
 
   function cluesBlock(r) {
     return `<div class="card gold read-aloud-clue"><div class="label">Read aloud to everyone</div>
-      ${r.readAloud.isGhost ? '<p class="small muted"><b>Your character has returned as a ghost.</b> Read this short story-specific part along with your clue.</p>' : ''}
-      <h3>Evidence against ${esc(r.readAloud.targetName)}</h3>
+      ${r.readAloud.isGhost ? `<p class="small muted"><b>Your character has returned as a ghost.</b> ${r.readAloud.selfReading ? 'You are still a player. Read your supplied memory on your turn.' : 'Read this short story-specific part along with your clue.'}</p>` : ''}
+      <h3>${r.readAloud.selfReading ? 'Your ghost memory' : `Evidence against ${esc(r.readAloud.targetName)}`}</h3>
       ${paras(r.readAloud.text)}
       ${r.readAloud.ghostPart ? `<div class="card"><div class="label">Ghost part</div>${paras(r.readAloud.ghostPart)}</div>` : ''}
-      <p class="small muted">Read this clue in full on your turn. This is evidence to discuss, not your vote.</p></div>`;
+      <p class="small muted">${view.discussionOnly ? 'Read this supplied account in full on your turn, then discuss it with the group.' : 'Read this clue in full on your turn. This is evidence to discuss, not your vote.'}</p></div>`;
   }
 
   function packetHtml() {
@@ -199,11 +200,11 @@ export function startPlayer(room) {
         <hr><div id="my-clues">${r ? cluesBlock(r) : ''}</div></div>`;
     } else if (v.phase === 'deliberation' && v.currentRound) {
       const last = v.roundIndex === v.roundsTotal - 1;
-      phaseCard = `<div class="card blood" id="phase-card"><div class="label">${last ? 'Final accusations' : `Round ${v.roundIndex + 1} · Deliberation`}</div>
-        <h2>${last ? 'Discuss before the final vote' : 'Discuss the evidence'}</h2>
-        ${last ? paras(v.deliberation.finalNarration) : '<p>Compare the observations with the physical details. Discuss what the group believes before voting opens.</p>'}
+      phaseCard = `<div class="card blood" id="phase-card"><div class="label">${v.discussionOnly ? `Round ${v.roundIndex + 1} · Discussion` : last ? 'Final accusations' : `Round ${v.roundIndex + 1} · Deliberation`}</div>
+        <h2>${v.discussionOnly ? 'Discuss the evidence — ghosts included' : last ? 'Discuss before the final vote' : 'Discuss the evidence'}</h2>
+        ${v.discussionOnly ? '<p>Discuss the clues and ghost memories just read. Every player remains part of the discussion.</p>' : last ? paras(v.deliberation.finalNarration) : '<p>Compare the observations with the physical details. Discuss what the group believes before voting opens.</p>'}
         <p><b>${esc(v.deliberation.prompt)}</b></p>
-        <p class="small muted">The host will open the vote after deliberation.</p></div>`;
+        <p class="small muted">${v.discussionOnly ? (last ? 'The host will read the author’s ending when everyone is ready.' : 'The host will open the next chapter when everyone is ready.') : 'The host will open the vote after deliberation.'}</p></div>`;
     } else if (v.phase === 'vote') {
       phaseCard = `<div class="card blood" id="phase-card"><div class="label">Round ${v.roundIndex + 1} · The accusation</div><h2>${esc(v.vote.prompt)}</h2>
         <p>Tap the person you accuse. You can change your mind until the host closes this round's voting. Every round counts equally in the running vote share.</p>
@@ -212,10 +213,10 @@ export function startPlayer(room) {
     } else if (v.phase === 'reveal') {
       const rv = v.reveal, mine = v.vote?.myVote;
       phaseCard = `<div class="card blood" id="phase-card"><div class="label">The truth</div>
-        <p class="center muted">The murderer was…</p><div class="reveal-name" id="reveal-killer">${esc(rv.killerName)}</div>
+        <p class="center muted">${rv.killers ? 'The killers were…' : 'The murderer was…'}</p><div class="reveal-name" id="reveal-killer">${esc(rv.killers ? rv.killers.map(killer => killer.name).join(', ') : rv.killerName)}</div>
         ${rv.killerGuest ? `<p class="center">played by <b>${esc(rv.killerGuest)}</b></p>` : ''}
-        ${p.isKiller ? `<p class="center"><span class="pill bad">That's you! ${(rv.tally[rv.killerId] || 0) ? 'They caught you.' : 'You got away with it…'}</span></p>` : mine ? `<p class="center"><span class="pill ${mine === rv.killerId ? 'ok' : 'bad'}">${mine === rv.killerId ? 'You guessed right!' : 'You accused the wrong person…'}</span></p>` : ''}
-        ${paras(rv.revealNarration)}<hr><div class="label">What really happened</div>${paras(rv.explanation)}</div>`;
+        ${!v.discussionOnly && p.isKiller ? `<p class="center"><span class="pill bad">That's you! ${(rv.tally[rv.killerId] || 0) ? 'They caught you.' : 'You got away with it…'}</span></p>` : mine ? `<p class="center"><span class="pill ${mine === rv.killerId ? 'ok' : 'bad'}">${mine === rv.killerId ? 'You guessed right!' : 'You accused the wrong person…'}</span></p>` : ''}
+        ${paras(rv.revealNarration)}${rv.explanation ? `<hr><div class="label">What really happened</div>${paras(rv.explanation)}` : ''}</div>`;
     } else {
       phaseCard = `<div class="card" id="phase-card"><div class="label">Before the game begins</div>
         <p>When the host begins the read-around, read your character’s name, role, relationship, tie-in and public introduction aloud. The group may discuss or make accusations based only on the setup and character cards before Round 1. All story evidence comes from the host’s narration and clues read to the room.</p>

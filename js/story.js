@@ -2,6 +2,7 @@
 import { storyTheme } from './atmosphere.js?v=volume-58-v1';
 import { voteSummary } from './voting.js?v=vote-panel-v1';
 import { accusationChain, validateAccusationCircles, usesMasterReadingGroups } from './accusations.js?v=briar-playtest-v1';
+import { isWoodlandStory, validateWoodlandStory } from './woodland-catalog.js?v=woodland-release-v1';
 
 export function parseGuests(text) {
   return String(text || '')
@@ -34,6 +35,11 @@ export function normalizeStory(input, guests = []) {
     }
   }
   if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return { story: null, errors: ['The story must be a JSON object ({ ... }).'], warnings };
+  if (isWoodlandStory(obj)) {
+    const woodlandErrors = validateWoodlandStory(obj);
+    if (guests.length && guests.length !== 14) woodlandErrors.push('Woodland Hollow requires exactly 14 players.');
+    return { story: woodlandErrors.length ? null : structuredClone(obj), errors: woodlandErrors, warnings };
+  }
   if (obj.schemaVersion !== 2) errors.push('"schemaVersion" must be 2; older story formats need to be rewritten for the current game flow.');
 
   const s = {
@@ -264,6 +270,7 @@ export function buildView(S, charId) {
     room: S.room,
     title: fill(st.title), setting: fill(st.setting), intro: fill(st.intro),
     fixedPlayerCount: st.fixedPlayerCount,
+    ...(isWoodlandStory(st) ? { discussionOnly: true } : {}),
     atmosphere: storyTheme(st),
     victim: { name: st.victim?.name || '', description: fill(st.victim?.description || '') },
     phase, roundIndex: ri, roundsTotal: st.rounds.length,
@@ -281,6 +288,8 @@ export function buildView(S, charId) {
   if (inGame && ri >= 0 && ri < st.rounds.length) {
     const r = st.rounds[ri];
     const chain = r.chain || accusationChain(st, ri);
+    const reader = st.characters.find(c => c.id === chain[S.chainIndex || 0]);
+    const woodlandGroup = reader?.ghost && ri + 1 >= reader.ghost.fromRound ? 'Ghost memories' : 'Living readers';
     v.currentRound = {
       index: ri,
       title: fill(r.title),
@@ -292,7 +301,7 @@ export function buildView(S, charId) {
       }),
       chainIndex: Number.isInteger(S.chainIndex) ? S.chainIndex : 0,
       currentReaderId: chain[S.chainIndex || 0] || null,
-      ...(r.readingGroups ? { readingGroup: r.readingGroups[0].includes(chain[S.chainIndex || 0]) ? 'Original trio' : 'Supplemental readings' } : {}),
+      ...(r.readingGroups ? { readingGroup: isWoodlandStory(st) ? woodlandGroup : r.readingGroups[0].includes(chain[S.chainIndex || 0]) ? 'Original trio' : 'Supplemental readings' } : {}),
     };
   }
   if (phase === 'deliberation') {
@@ -323,7 +332,7 @@ export function buildView(S, charId) {
       name: ch.name, role: ch.role, relationship: fill(ch.relationship), tieIn: fill(ch.tieIn),
       guest: ch.guest, guestNote: ch.guestNote,
       publicBlurb: fill(ch.publicBlurb),
-      ...(st.discloseKiller || phase === 'reveal' ? { isKiller: st.solution.killerId === ch.id } : {}),
+      ...(st.discloseKiller || phase === 'reveal' ? { isKiller: (st.solution.killerIds || [st.solution.killerId]).includes(ch.id) } : {}),
       rounds: st.rounds.slice(0, last + 1).map((r, i) => ({
         index: i, title: fill(r.title),
         readAloud: {
@@ -332,6 +341,7 @@ export function buildView(S, charId) {
           text: fill(ch.rounds[i]?.readAloud?.text || ''),
           ghostPart: fill(ch.ghost?.parts?.[i] || ''),
           isGhost: !!ch.ghost && i + 1 >= ch.ghost.fromRound,
+          selfReading: ch.rounds[i]?.readAloud?.selfReading === true,
         },
       })),
     };
@@ -350,6 +360,10 @@ export function buildView(S, charId) {
       killerId: st.solution.killerId, killerName: k?.name || '?', killerGuest: k?.guest || '',
       explanation: fill(st.solution.explanation), revealNarration: fill(st.solution.revealNarration),
       tally: tally(S),
+      ...(isWoodlandStory(st) ? { killers: st.solution.killerIds.map(id => {
+        const character = st.characters.find(c => c.id === id);
+        return { id, name: character.name, guest: character.guest };
+      }) } : {}),
     };
   }
   return v;

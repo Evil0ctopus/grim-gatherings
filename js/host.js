@@ -1,6 +1,7 @@
 // Host (narrator) side: setup, story review, lobby, rounds, voting, reveal. The host browser is the hub.
 import { $, esc, paras, randomRoom, joinUrl, baseUrl, toast, qrSvg, PEER_PREFIX, shuffle } from './util.js?v=f1ed522';
-import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=briar-playtest-v1';
+import { parseGuests, normalizeStory, buildView, makeFill, tally } from './story.js?v=woodland-release-v1';
+import { buildWoodlandStory, isWoodlandStory, WOODLAND_NOTICE } from './woodland-catalog.js?v=woodland-release-v1';
 import { selectRoundBallots, voteSummary, voteStripHtml } from './voting.js?v=vote-panel-v1';
 import { getPlayerRange, adaptStoryForPlayers } from './library.js?v=rotating-clues-v1';
 import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
@@ -33,7 +34,7 @@ const app = () => document.getElementById('app');
 
 function restoreGame() {
   S = load();
-  if (S?.story && (S.story.provenance || !['lockdown', 'lago-cabin', 'ravenmoor', 'blackwater-scalable', 'briar-playtest', ...(!RELEASE_ONLY ? ['sample'] : []), ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
+  if (S?.story && (S.story.provenance || !['woodland-hollow', 'lockdown', 'lago-cabin', 'ravenmoor', 'blackwater-scalable', 'briar-playtest', ...(!RELEASE_ONLY ? ['sample'] : []), ...STARTER_MYSTERIES.map(entry => entry.story.edition.family)].includes(S.story.edition?.family))) {
     S.story = null; S.phase = 'setup'; S.roundIndex = -1; S.chainIndex = 0;
     S.claims = {}; S.votes = {}; S.roundVotes = {}; S.wasLive = false;
     save();
@@ -178,6 +179,14 @@ function renderSetup() {
     </div>
     <h2>Ready-to-play mysteries and author playtests</h2>
     ${errBox()}
+    <div class="card gold stack" id="woodland-card">
+      <h2>Woodland Hollow</h2>
+      <p>An old town between the woods and the forest, where love, secrets and ancient forces meet.</p>
+      <p class="story-meta"><span class="pill">Exactly 14 players</span> <span class="small muted">6 rounds + author’s ending</span></p>
+      <p class="small">${esc(WOODLAND_NOTICE)}</p>
+      <p class="small muted">Add exactly 14 players above. Every player stays in the game, even after their character dies.</p>
+      <button class="block" data-act="use-woodland" id="use-woodland" ${guests.length !== 14 ? 'disabled' : ''}>Play Woodland Hollow →</button>
+    </div>
     <div class="card gold stack" id="lockdown-card">
       <h2>LOCKDOWN</h2>
       <p>A prison lockdown, a hidden laundry ledger and the secrets Victor Ross discovered.</p>
@@ -270,16 +279,17 @@ function renderReview() {
   app().innerHTML = `
     <h1>Review the Story</h1>
     <p class="center" id="selected-edition"><span class="pill">${st.fixedPlayerCount}-player fixed story</span></p>
-    <p class="center muted">Story preparation only — do not read this review screen to players. It contains future chapters and the solution. Open the doors, read the setup aloud, then have players read their character cards around the group. Optional discussion may follow before Round 1. During each round, follow the reader prompts, then deliberate and vote. All evidence must be spoken before it is used.</p>
+    <p class="center muted">Story preparation only — do not read this review screen to players. It contains future chapters and the solution. Open the doors, read the setup aloud, then have players read their character cards around the group. Optional discussion may follow before Round 1. During each round, follow the reader prompts, then ${isWoodlandStory(st) ? 'discuss the evidence' : 'deliberate and vote'}. All evidence must be spoken before it is used.</p>
     ${errBox()}
     ${st.authorPlaytest ? `<p class="card" role="note">${esc(st.playtestNotice)}</p>` : ''}
+    ${isWoodlandStory(st) ? `<p class="card" role="note">${esc(WOODLAND_NOTICE)}</p>` : ''}
     ${st.edition?.family === 'lago-cabin' ? `<p class="card" role="note">${esc(LAGO_NOTICE)}</p>` : ''}
     ${st.edition?.family === 'ravenmoor' ? `<p class="card" role="note">The original trio, seven chapters and ending are preserved in every edition. Supporting readers use only the supplied evidence, read aloud by the host. ${esc(SAMPLE_INFO.reviewNotice)}</p>` : ''}
     ${st.edition?.family === 'blackwater-scalable' ? '<p class="card" role="note">The original trio is preserved in every edition, with seven shared chapters and the same ending. The five discovery sequences retain all recorded accounts; two comparison chapters introduce no new evidence. Start a new game for this edition.</p>' : ''}
     ${st.edition?.family === 'briar-playtest' ? '<p class="card" role="note">The original trio is preserved across all testing editions. Seven chapters and the supplied ending stay unchanged. Supporting readers use shared source accounts; the two role-labelled seats do not add study witnesses.</p>' : ''}
     <div class="row"><button data-act="open-lobby" id="open-lobby">Open the doors (show join code) →</button></div>
     <div class="card stack">
-      <label class="check-row"><input type="checkbox" data-disclose-killer ${st.discloseKiller ? 'checked' : ''}>Tell the murderer they are the murderer</label>
+      <label class="check-row"><input type="checkbox" data-disclose-killer ${st.discloseKiller ? 'checked' : ''}>${isWoodlandStory(st) ? 'Notify all three killers of their identities' : 'Tell the murderer they are the murderer'}</label>
       <p class="small muted">Off by default. This changes only the selected player's identity notification, not the clues or solution.</p>
       <h2>${esc(st.title)}</h2><p>${esc(st.setting)}</p>
       <label for="story-atmosphere">Story atmosphere</label>
@@ -288,10 +298,10 @@ function renderReview() {
       <p><b>${esc(st.victim.name)}</b> ${esc(st.victim.description)}</p>
     </div>
     <h2>The Cast (${st.characters.length})</h2>
-    <p class="small muted">Written for exactly ${formatPlayerRange(st)}. Every character is required and reads one clue about another character each round. A different group size requires a separate story, not an omitted character.</p>
+    <p class="small muted">Written for exactly ${formatPlayerRange(st)}. ${isWoodlandStory(st) ? 'Every player reads once per round. Dead characters become ghosts and read their own supplied memories; no player is eliminated.' : 'Every character is required and reads one clue about another character each round. A different group size requires a separate story, not an omitted character.'}</p>
     ${st.characters.map((c, i) => `
       <div class="card cast-assignment row">
-        <div><b>${esc(c.name)}</b> <span class="muted">· ${esc(c.role)}${c.id === st.solution.killerId ? ' · KILLER' : ''}</span></div>
+        <div><b>${esc(c.name)}</b> <span class="muted">· ${esc(c.role)}${(st.solution.killerIds || [st.solution.killerId]).includes(c.id) ? ' · KILLER' : ''}</span></div>
         ${guestAssignmentHtml(c, i)}
       </div>
       <details>
@@ -317,7 +327,7 @@ function statusBar() {
   const n = connectedChars().size;
   const cls = netStatus === 'online' ? 'ok' : netStatus === 'offline' ? 'bad' : 'wait';
   return `<div class="statusbar"><span>Room <b id="room-code-bar">${esc(S.room)}</b></span>
-    <details class="vote-strip" id="vote-strip">${voteStripHtml(voteSummary(S))}</details>
+    ${isWoodlandStory(S.story) ? '<span class="pill">14 players · ghosts stay in play</span>' : `<details class="vote-strip" id="vote-strip">${voteStripHtml(voteSummary(S))}</details>`}
     <span id="net" class="pill ${cls}">${esc(netStatus === 'online' ? 'Live' : netStatus)}</span>
     <span id="conn-count">${n}/${S.story.characters.length} here</span></div>
     ${S.story.authorPlaytest ? `<p class="small muted" role="note">${esc(S.story.playtestNotice)}</p>` : ''}
@@ -353,7 +363,7 @@ function rosterHtml() {
   return `<ul class="clean roster">${S.story.characters.map(c => {
     const claimed = !!S.claims[c.id];
     const here = on.has(c.id);
-    const voted = S.phase === 'vote' || S.phase === 'reveal' ? (S.votes[c.id] ? ' · voted ✓' : ' · not voted') : '';
+    const voted = !isWoodlandStory(S.story) && (S.phase === 'vote' || S.phase === 'reveal') ? (S.votes[c.id] ? ' · voted ✓' : ' · not voted') : '';
     return `<li data-char="${esc(c.id)}"><span><span class="dot ${here ? 'on' : claimed ? 'half' : ''}"></span><b>${esc(c.guest || '—')}</b> <span class="muted">as ${esc(c.name)}</span></span>
       <span class="small">${here ? 'connected' : claimed ? 'away' : 'not joined'}${voted}${claimed ? ` <button class="secondary small" data-act="release" data-id="${esc(c.id)}" title="Let someone else claim this character">release</button>` : ''}</span></li>`;
   }).join('')}</ul>`;
@@ -395,7 +405,7 @@ function renderRound() {
         ${r.hostNotes ? `<details id="hosting-notes"><summary>Hosting instructions — do not read aloud</summary><p class="muted small">${esc(r.hostNotes)}</p></details>` : ''}
         <div class="card"><div class="label">On every phone now</div>${paras(makeFill(st)(r.publicText))}<p>Read the full narration aloud, then call on each reader in turn.</p>
         <div class="label">Who's reading</div>
-        ${r.readingGroups && !chainComplete ? `<p class="small muted">${r.readingGroups[0].includes(nextReader?.id) ? 'Original trio reading group' : 'Supplemental readings'}</p>` : ''}
+        ${r.readingGroups && !chainComplete ? `<p class="small muted">${isWoodlandStory(st) ? (nextReader?.ghost && ri + 1 >= nextReader.ghost.fromRound ? 'Ghost memories' : 'Living readers') : r.readingGroups[0].includes(nextReader?.id) ? 'Original trio reading group' : 'Supplemental readings'}</p>` : ''}
         <p class="turn-indicator${chainComplete ? ' complete' : ''}" id="current-reader" role="status" aria-live="polite" aria-atomic="true">${chainComplete ? 'Every player has read this round’s clue.' : `Next reader: ${esc(nextReader?.name || '')}${nextReader?.guest ? ` (${esc(nextReader.guest)})` : ''}${nextReader?.ghost && ri + 1 >= nextReader.ghost.fromRound ? ' · GHOST' : ''}`}</p></div>
         ${evidenceHistory.length ? `<details id="host-evidence-history"><summary>Earlier public evidence (${evidenceHistory.length} round${evidenceHistory.length === 1 ? '' : 's'})</summary>
           ${evidenceHistory.map(chapter => `<h3>${esc(chapter.title)}</h3>${paras(chapter.narration)}
@@ -418,6 +428,14 @@ function renderDeliberation() {
   app().className = 'wide';
   const st = S.story;
   const last = S.roundIndex === st.rounds.length - 1;
+  if (isWoodlandStory(st)) {
+    app().innerHTML = `${statusBar()}<h1>${last ? 'Final discussion' : `Round ${S.roundIndex + 1} · Discussion`}</h1>
+      <div class="card"><p>Discuss the evidence just read. All 14 players, including ghosts, remain part of the discussion.</p>
+      <p>The author supplied no ballots. ${last ? 'When everyone is ready, read the author’s ending.' : 'When everyone is ready, continue to the next chapter.'}</p></div>
+      <div class="row actions"><button class="secondary" data-act="prev">◀ Back to the readings</button>
+      ${last ? '<button data-act="reveal" id="reveal-btn">Read the author’s ending →</button>' : '<button data-act="next" id="next-round">Next chapter →</button>'}</div>${hostFooter()}`;
+    return;
+  }
   app().innerHTML = `${statusBar()}
     <h1>${last ? 'Final Accusations' : `Round ${S.roundIndex + 1} · Deliberation`}</h1>
     <div class="grid2">
@@ -459,6 +477,14 @@ function renderVote() {
 function renderReveal() {
   app().className = 'wide';
   const st = S.story, k = st.characters.find(c => c.id === st.solution.killerId);
+  if (isWoodlandStory(st)) {
+    app().innerHTML = `${statusBar()}<h1>The Ending — The Truth</h1>
+      <p class="center muted">The killers were…</p>
+      <div class="reveal-name" id="killer-name">${st.solution.killerIds.map(id => esc(st.characters.find(c => c.id === id).name)).join(', ')}</div>
+      <div class="card blood"><div class="label">Read the author’s ending aloud</div>${paras(makeFill(st)(st.solution.revealNarration))}</div>
+      <div class="row actions"><button class="secondary" data-act="prev">◀ Back to discussion</button><button data-act="new-confirm">Start a new game</button></div>${hostFooter()}`;
+    return;
+  }
   const t = tally(S);
   const top = Math.max(0, ...Object.values(t));
   const caught = top > 0 && t[k.id] === top;
@@ -479,8 +505,8 @@ function renderReveal() {
 
 function hostFooter() {
   return `<details id="host-game-settings"><summary>Host game settings</summary>
-    <label class="check-row"><input type="checkbox" data-disclose-killer ${S.story.discloseKiller ? 'checked' : ''}>Tell the murderer they are the murderer</label>
-    <p class="small muted">Off: no advance identity notification. On: only the murderer is told. Once seen, the identity cannot be forgotten even if this is turned off later. Public evidence is unchanged.</p></details>
+    <label class="check-row"><input type="checkbox" data-disclose-killer ${S.story.discloseKiller ? 'checked' : ''}>${isWoodlandStory(S.story) ? 'Notify all three killers of their identities' : 'Tell the murderer they are the murderer'}</label>
+    <p class="small muted">Off: no advance identity notification. On: ${isWoodlandStory(S.story) ? 'the three killers are told' : 'only the murderer is told'}. Once seen, the identity cannot be forgotten even if this is turned off later. Public evidence is unchanged.</p></details>
     ${hostAtmospherePanel()}<p class="footer">Refreshing this page is safe — the game is saved on this device. <button class="secondary small" data-act="end">End game → Home</button></p>`;
 }
 
@@ -606,6 +632,10 @@ const actions = {
       renderSetup();
     }
   },
+  async 'use-woodland'() {
+    const guests = getGuests();
+    await acceptStory(await buildWoodlandStory(guests, shuffle(guests)), []);
+  },
   async 'use-lago'() {
     const guests = getGuests();
     try {
@@ -643,16 +673,20 @@ const actions = {
       if (S.chainIndex < chainLength) return toast('Every player must read before beginning deliberation.');
       return setPhase('deliberation');
     }
+    if (isWoodlandStory(S.story) && S.phase === 'deliberation' && S.roundIndex < S.story.rounds.length - 1) {
+      return setPhase('round', S.roundIndex + 1);
+    }
     if (S.phase !== 'vote' || S.roundIndex >= S.story.rounds.length - 1) return;
     const missing = S.story.characters.filter(c => !S.votes[c.id]);
     if (missing.length) return toast(`Wait for all players to vote. ${missing.length} ballot(s) still needed.`);
     setPhase('round', S.roundIndex + 1);
   },
   'open-vote'() {
-    if (S.phase !== 'deliberation') return;
+    if (S.phase !== 'deliberation' || isWoodlandStory(S.story)) return;
     setPhase('vote');
   },
   prev() {
+    if (isWoodlandStory(S.story) && S.phase === 'reveal') return setPhase('deliberation');
     if (S.phase === 'reveal') return setPhase('vote');
     if (S.phase === 'vote') return setPhase('deliberation');
     if (S.phase === 'deliberation') return setPhase('round');
@@ -660,6 +694,10 @@ const actions = {
     setPhase('round', S.roundIndex - 1);
   },
   async reveal() {
+    if (isWoodlandStory(S.story)) {
+      if (S.phase === 'deliberation' && S.roundIndex === S.story.rounds.length - 1) setPhase('reveal');
+      return;
+    }
     if (S.phase !== 'vote' || S.roundIndex !== S.story.rounds.length - 1) return;
     const missing = S.story.characters.filter(c => !S.votes[c.id]);
     if (missing.length) return toast(`The final vote must be complete before the reveal. ${missing.length} ballot(s) still needed.`);

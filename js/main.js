@@ -1,4 +1,4 @@
-import { startPlayer } from './player.js?v=lockdown-release-v1';
+import { startPlayer } from './player.js?v=woodland-release-v1';
 import { removeOutdatedSavedContent } from './saved-content.js?v=lockdown-release-v1';
 import { RELEASE_ONLY } from './site-policy.js?v=lockdown-release-v1';
 import { toast } from './util.js?v=f1ed522';
@@ -18,7 +18,7 @@ if (!RELEASE_ONLY && /^[A-Z2-9]{8}$/.test(room)) location.replace(new URL(`premi
 else if (room) startPlayer(room);
 else {
   try {
-    const { startHost } = await import('./host.js?v=manor-cloudbank-v9');
+    const { startHost } = await import('./host.js?v=woodland-release-v1');
     startHost();
   } catch (error) {
     console.error('Host application failed to load', error);
