@@ -116,3 +116,47 @@ actual animation-iteration renewal without restarting the timeline,
 window clipping, effects-off, reduced motion, return-home behavior, alignment,
 and no page errors. The earlier browser-verification memory blocker is resolved;
 these tests do not make the rejected wider artwork acceptable.
+
+## Additional local reconstruction tool
+
+At 11:26 on 2026-10-10 the owner explicitly authorized finding, downloading,
+and installing needed tools and material. This does not approve different
+house artwork or production promotion.
+
+G'MIC 4.0.5's portable Windows command-line build was downloaded from the
+[official download page](https://gmic.eu/download.html) using
+[the official package link](https://gmic.eu/get_file.php?file=windows/gmic_4.0.5_cli_win64.zip).
+The package was inspected and extracted under the user's local Programs
+directory, without changing system PATH or replacing another installation:
+
+```text
+%LOCALAPPDATA%\Programs\Gmic-4.0.5\gmic-4.0.5-cli-win64\gmic.exe
+```
+
+Downloaded archive SHA-256:
+`3F7AE429FA9758DB41DAE89D3FDC048E60D5D7E820E9FF03419C5BD7A10C2D95`.
+This is a recorded local checksum, not a publisher-signature verification.
+The archive includes its `COPYING` license file. The installed executable
+reports version 4.0.5.
+
+A 64 x 64 synthetic-image patch-inpainting test succeeded with five-pixel
+patches, a twelve-pixel lookup area, and one OpenMP thread. It uses local pixels
+only, without a model download or artwork upload. This verifies the tool runs;
+it does not establish acceptable reconstruction quality for the house.
+
+```powershell
+$env:OMP_NUM_THREADS = '1'
+$gmic = "$env:LOCALAPPDATA\Programs\Gmic-4.0.5\gmic-4.0.5-cli-win64\gmic.exe"
+& $gmic --help inpaint
+# Quote selectors and bracketed arguments explicitly in Windows PowerShell.
+# Example for separate RGB source and grayscale mask images:
+& $gmic 'source.png' 'mask.png' '-inpaint[0]' '[1],5,12,0.5,1,3,0' `
+  '-remove[1]' -output 'candidate.png'
+```
+
+Candidate source/mask/output files must stay in the creative working area.
+Preserve unmodified architectural pixels outside the mask and compare the
+result against the original before accepting it. Patch synthesis is useful
+for texture continuity, not a guarantee of correct roof geometry or lighting.
+Resynthesizer's official project reports no tested Windows GIMP 3 build and
+provides no Windows release asset; no unverified binary was installed.
