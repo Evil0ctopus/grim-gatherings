@@ -77,3 +77,52 @@ In the project brief or adjacent source record, save: local filename, source
 URL, creator, license URL and verification date/status, AI label, permitted use,
 original dimensions, derivative filenames, preparation recipe/tool settings,
 owner approval, and any limits. A blocked page stays unverified until checked.
+
+## Targeted reconstruction research on 2026-10-10
+
+The owner explicitly authorized web searching for additional image elements.
+No private project images or code were uploaded. Public searches used only
+the recorded public source ID and generic material descriptions.
+
+### Exact house source
+
+Search results attributed Pixabay illustration `9805270` to `SerenityArt` and
+suggested [this creator profile](https://pixabay.com/users/serenityart-38608329/)
+and [related illustration 9796296](https://pixabay.com/illustrations/haunted-mansion-spooky-halloween-9796296/).
+These are **unverified leads**, not confirmed creator/provenance records.
+The source, profile, related illustration and license pages still returned
+HTTP 403 during direct checks. Search results did not establish original pixel
+dimensions. No Pixabay artwork was downloaded or accepted from those results.
+
+### Verified reusable material samples
+
+Official ambientCG asset pages and the
+[official license page](https://docs.ambientcg.com/license/) were accessible.
+The license explicitly covers downloadable assets and material preview renders
+under CC0 1.0, permitting copying, modification and commercial use.
+Provider: ambientCG; individual authorship was not established in the inspected
+asset metadata. No AI disclosure was found in that metadata; absence is not
+proof of a non-AI workflow. Bricks096 explicitly lists Surface Photogrammetry.
+
+| Sample retained unchanged | Official source | Direct sample URL | Dimensions / bytes | Visual assessment and status |
+|---|---|---|---|---|
+| [Bricks096 color sample](projects/main-page-animation/originals/Bricks096_SQ_Color.jpg) | [Bricks 096](https://ambientcg.com/view?id=Bricks096) | [Source JPEG](https://f003.backblazeb2.com/file/ambientCG-Web/media/surface-preview/Bricks096/Bricks096_SQ_Color.jpg) | 2000 x 1000 / 729462 | Weathered gray/olive rubble masonry with useful surface detail. Stones are more irregular than the house's rectangular blocks. Material donor/reference only, not an approved facade or seamless match. |
+| [RoofingTiles001 color sample](projects/main-page-animation/originals/RoofingTiles001_SQ_Color.jpg) | [Roofing Tiles 001](https://ambientcg.com/view?id=RoofingTiles001) | [Source JPEG](https://f003.backblazeb2.com/file/ambientCG-Web/media/surface-preview/RoofingTiles001/RoofingTiles001_SQ_Color.jpg) | 2000 x 2000 / 950884 | Useful aged dark slate color and wear. Its clipped/octagonal tiles differ from the house's straight rectangular shingles. Not accepted as a direct roof replacement. |
+
+SHA-256:
+
+- Bricks096: `4E654CBBCE50013DB0561492CCAB198B60959CFADFA7841A322211920E1795F3`
+- RoofingTiles001: `5E351892C50587096CB50354F22B870C3A64F8ADB6699E2518391AFABB1424E7`
+
+Both official asset pages also expose 1K JPG material-pack downloads. Those
+packs were not downloaded; only the two inspected color samples were retained.
+No crop, recoloring, processing, or runtime use has been performed. Keep these
+samples outside published assets and retain this provenance with derivatives.
+CC0 does not establish aesthetic compatibility or owner approval.
+
+A search-suggested Poly Haven `stone_wall_003` URL returned 404 and a guessed
+ambientCG `RoofTilesSlate001` URL returned 404. Neither is a verified asset.
+Do not reuse those URLs as valid sources. Additional searches for exact ashlar
+blocks and rectangular roofing did not yield a verified match in this pass.
+The wider house remains unfinished; this research does not authorize replacing
+it or promoting anything to production.
