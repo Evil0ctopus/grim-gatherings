@@ -217,7 +217,7 @@ body[data-phase=home] .fog,body[data-phase=home] .atmosphere-layer{display:none}
 .hero-candle{display:inline-block;width:.65em;height:.9em;object-fit:contain;vertical-align:baseline;margin-right:.3em;filter:drop-shadow(0 0 12px #edb95680);animation:manor-flame 3.7s ease-in-out infinite alternate}
 .manor-window{opacity:.5;animation:manor-window-glow 14s ease-in-out infinite}
 .window-last{animation:manor-last-candle 47s ease-in-out infinite}
-.manor-shadow{opacity:0;animation:manor-passing-shadow 25s ease-in-out infinite}
+.manor-shadow{opacity:0;animation:manor-passing-shadow 60s linear infinite}
 .manor-cloud-shadow{position:absolute;inset:-30%;background:radial-gradient(ellipse at 25% 35%,#01070c88,transparent 48%);animation:manor-clouds 40s ease-in-out infinite alternate}
 .manor-lightning{position:absolute;inset:0;background:radial-gradient(ellipse at 83% 22%,#b9d3eb68,transparent 65%);opacity:0;animation:manor-lightning 12s 1s linear infinite}
 .manor-lightning.lightning-distant{background:radial-gradient(ellipse at 46% 25%,#b9d3eb45,transparent 55%);animation-delay:7s}
@@ -254,7 +254,6 @@ body[data-effects=off] .manor-gateway,body[data-motion=reduced] .manor-gateway{t
 @keyframes manor-clouds{from{transform:translate3d(-12%,0,0)}to{transform:translate3d(12%,5%,0)}}
 @keyframes manor-window-glow{0%,100%{opacity:.32}28%{opacity:.7}40%{opacity:.5}62%{opacity:.18}78%{opacity:.6}}
 @keyframes manor-last-candle{0%,40%,100%{opacity:.5}45%,78%{opacity:0}90%{opacity:.2}}
-@keyframes manor-passing-shadow{0%,30%,65%,100%{opacity:0;transform:translateX(-30px)}38%{opacity:.8;transform:translateX(0)}53%{opacity:.85;transform:translateX(45px)}61%{opacity:0;transform:translateX(65px)}}
 @keyframes manor-moon-cloud{from{transform:translateX(-45px)}to{transform:translateX(65px)}}
 @keyframes manor-bat-flight{from{translate:-35px 8px}to{translate:90px -20px}}
 @keyframes manor-bat-wings{from{transform:scaleY(.55) rotate(-5deg)}to{transform:scaleY(1) rotate(5deg)}}

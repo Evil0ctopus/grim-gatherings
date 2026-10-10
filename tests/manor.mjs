@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { hauntedManorHtml } from '../js/manor.js';
+import { hauntedManorHtml, manorShadowSequence, startManorShadow } from '../js/manor.js';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
@@ -59,10 +59,78 @@ test('reference composition adds depth without splicing the mansion', () => {
   assert.equal((html.match(/class="manor-grave"/g) || []).length, 10);
   assert.equal((html.match(/class="manor-bat-flight"/g) || []).length, 5);
   assert.equal((html.match(/class="manor-bolt-core"/g) || []).length, 2);
-  assert.equal((html.match(/class="manor-window /g) || []).length, 1);
+  assert.equal((html.match(/class="manor-window /g) || []).length, 7);
   assert.match(html, /x="1080" y="240" width="517" height="600"/);
   assert.match(html, /M1227 580v-53a19 19 0 0 1 38 0v53z/);
-  assert.match(read('../css/style.css'), /manor-passing-shadow 25s ease-in-out infinite/);
+  assert.match(read('../css/style.css'), /manor-passing-shadow 60s linear infinite/);
+});
+
+test('shadow shuffles all seven windows per cycle and hides travel between floors', () => {
+  const windowGeometry = [
+    [1225, 368, 37, 82], [1316, 365, 35, 68], [1406, 367, 38, 83],
+    [1227, 508, 38, 72], [1406, 508, 39, 73],
+    [1226, 658, 39, 75], [1407, 658, 38, 75],
+  ];
+  const orders = new Set();
+  let previous = -1;
+  let seed = 314159;
+  const random = () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+  for (let cycle = 0; cycle < 100; cycle++) {
+    const sequence = manorShadowSequence(random, previous);
+    assert.deepEqual([...sequence.order].sort(), [0, 1, 2, 3, 4, 5, 6]);
+    assert.notEqual(sequence.order[0], previous);
+    assert.ok(sequence.duration >= 56000 && sequence.duration < 70000);
+    assert.equal(sequence.frames.length, 35);
+    assert.equal(sequence.frames[0].offset, 0);
+    assert.equal(sequence.frames.at(-1).offset, 1);
+    sequence.order.forEach((index, slot) => {
+      const [x, y, width, height] = windowGeometry[index];
+      const frames = sequence.frames.slice(slot * 5, slot * 5 + 5);
+      assert.equal(frames[0].opacity, 0);
+      assert.equal(frames[3].opacity, 0);
+      assert.equal(frames[4].opacity, 0);
+      for (const frame of frames.filter(frame => frame.opacity > 0)) {
+        assert.ok(frame.x > x && frame.x < x + width);
+        assert.ok(frame.y > y && frame.y < y + height);
+        assert.equal(frame.scale, height / 75);
+      }
+    });
+    orders.add(sequence.order.join(','));
+    previous = sequence.order.at(-1);
+  }
+  assert.ok(orders.size > 90, 'Visits must not use a fixed order');
+  const first = manorShadowSequence(() => 0);
+  const next = manorShadowSequence(() => 0, first.order[0]);
+  assert.notEqual(next.order[0], first.order[0], 'Avoid repeats even with identical random draws');
+});
+
+test('mounted scene renews the randomized itinerary on every completed cycle', () => {
+  let listener;
+  const style = { textContent: '' };
+  const shadow = {
+    style: {},
+    addEventListener(type, handler) {
+      assert.equal(type, 'animationiteration');
+      listener = handler;
+    },
+  };
+  startManorShadow({
+    querySelector(selector) {
+      return selector === '.manor-shadow' ? shadow : style;
+    },
+  });
+  assert.match(style.textContent, /^@keyframes manor-passing-shadow/);
+  assert.match(shadow.style.animationDuration, /^\d+ms$/);
+  style.textContent = 'unchanged';
+  listener({ animationName: 'different-animation' });
+  assert.equal(style.textContent, 'unchanged');
+  listener({ animationName: 'manor-passing-shadow' });
+  assert.match(style.textContent, /^@keyframes manor-passing-shadow/);
+  assert.ok(read('../js/host.js').includes("startManorShadow(app().querySelector('.manor-scene'))"));
+  assert.match(read('../css/style.css'), /body\[data-effects=off\] \*,body\[data-motion=reduced\] \*\{animation:none!important/);
 });
 
 test('weather, gates and window activity are separate layers', () => {
@@ -121,7 +189,7 @@ test('returning home does not replay the arrival', () => {
 });
 
 test('deployment cache tags include the changed scene module and stylesheet', () => {
-  const version = 'manor-restored-v11';
+  const version = 'manor-shadow-v12';
   assert.ok(read('../index.html').includes(`css/style.css?v=${version}`));
   assert.ok(read('../index.html').includes(`js/main.js?v=${version}`));
   assert.ok(read('../js/main.js').includes(`./host.js?v=${version}`));

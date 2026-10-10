@@ -131,12 +131,13 @@ try {
           const animation = el.getAnimations()[0];
           const clip = el.ownerSVGElement.querySelector('#manor-window-clip');
           const paths = [...clip.querySelectorAll('path')];
+          const duration = Number(animation.effect.getTiming().duration);
           return {
             clip: el.parentElement.getAttribute('clip-path'),
-            visits: [.38, .4].map(progress => {
-              animation.currentTime = progress * 25000;
+            visits: paths.map((_, slot) => {
+              animation.currentTime = (slot + .4) / paths.length * duration;
               const matrix = new DOMMatrix(getComputedStyle(el).transform);
-              return { index: paths.findIndex(path => path.isPointInFill({ x: 1245 + matrix.e, y: 540 + matrix.f })),
+              return { index: paths.findIndex(path => path.isPointInFill({ x: matrix.e, y: matrix.f })),
                 opacity: Number(getComputedStyle(el).opacity) };
             }),
             skyClipped: paths.every(path => !path.isPointInFill({ x: 1338, y: 200 })),
@@ -144,7 +145,7 @@ try {
         });
         assert.equal(shadow.clip, 'url(#manor-window-clip)');
         assert.ok(shadow.skyClipped);
-        assert.equal(new Set(shadow.visits.map(visit => visit.index)).size, 1);
+        assert.equal(new Set(shadow.visits.map(visit => visit.index)).size, 7);
         assert.ok(shadow.visits.every(visit => visit.index >= 0 && visit.opacity >= .7));
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         assert.equal(await page.locator('.manor-camera').evaluate(el => getComputedStyle(el).animationIterationCount), '1');
@@ -170,10 +171,12 @@ try {
         assert.equal(await page.locator(selector).first().evaluate(el => getComputedStyle(el).display), 'none');
       }
       assert.equal(await page.locator('.manor-camera').evaluate(el => getComputedStyle(el).animationName), 'none');
+      assert.equal(await page.locator('.manor-shadow').evaluate(el => getComputedStyle(el).animationName), 'none');
       await page.locator('input[data-effects]').check();
       await page.emulateMedia({ reducedMotion: 'reduce' });
       assert.equal(await page.locator('.manor-lightning').first().evaluate(el => getComputedStyle(el).display), 'none');
       assert.equal(await page.locator('.manor-strike').first().evaluate(el => getComputedStyle(el).display), 'none');
+      assert.equal(await page.locator('.manor-shadow').evaluate(el => getComputedStyle(el).animationName), 'none');
       assert.equal(await page.locator('.manor-gateway').evaluate(el => getComputedStyle(el).opacity), '1');
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       await page.locator('#btn-new').click();

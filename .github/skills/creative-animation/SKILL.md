@@ -28,7 +28,7 @@ description: "Use when making or changing Grim Gatherings animations, haunted ho
 2. Identify the specific approved version. "The first house" is not enough to identify a revision: compare the preserved earlier estate with the live version and ask the owner which they mean.
 3. Ask one focused question at a time for choices that change the design. Start with what must stay and the exact requested change. Do not invent approval if the owner is unavailable: preserve the live scene and prepare an isolated candidate or research only.
 4. Use the brief template for substantial creative work. Include the approved baseline, focal artwork, protected details, desired change, target screens, and observable acceptance criteria.
-5. For the main page, use two distinct baselines: the owner's latest selected house protects artwork and behavior; the composition image establishes layout and density. The latest correction requests the first house, not the archived replacement. The `040e240` detailed-house candidate still needs exact visual confirmation before publication. The reference is not merely an optional mood board and does not independently select house artwork.
+5. For the main page, use two distinct baselines: the owner's latest selected house protects its design; the composition image establishes layout and density. The owner confirmed the restored first house and explicitly commissioned a slightly wider reconstruction plus randomized shadow visits through all windows. That is not permission to switch designs or stretch the entire image. Do not confuse a rejected reconstruction experiment with a finished rebuild.
 
 ## Research and asset preparation
 

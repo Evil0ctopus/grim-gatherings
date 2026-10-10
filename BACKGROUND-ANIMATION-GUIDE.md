@@ -5,6 +5,13 @@ repeating its approach on other pages. It does not change any live page.
 
 ## Restoration update: 2026-10-10
 
+The subsequent shadow update maps all seven windows and shuffles their visit
+order anew every minute, without immediately repeating the last window of the
+previous cycle. The silhouette is clipped to the window openings and invisible
+while changing floors. The owner also requested a wider reconstruction, but
+the inspected bitmap experiments were rejected; the house itself is not wider.
+See the [rebuild/shadow work record](creative-library/projects/main-page-animation/rebuild-and-shadow.md).
+
 The owner subsequently requested the first house rather than the replacement.
 The local restoration candidate now uses `assets/estate-cartoon-manor.png` at
 the earlier `1080, 240` placement and `517 x 600` size, with its original

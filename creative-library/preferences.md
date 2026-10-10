@@ -33,6 +33,25 @@ stretch, splice, or otherwise redesign the restored house.
 
 ## Main-page baseline: two separate responsibilities
 
+### New confirmed direction at 10:04 on 2026-10-10
+
+The owner said they like the restored house, but it must be dismantled and
+rebuilt from scratch a bit wider. Its shadow should move through all windows
+randomly. This confirms the first-house selection and explicitly authorizes
+reconstruction; it supersedes the earlier pending-identification wording.
+
+Preserve its three-gabled identity, detailed aged green-gray surfaces, and
+orange-lit windows. A roughly 14% width increase was an implementation target,
+not an owner-specified measurement. Two bitmap reconstruction experiments
+failed visual inspection (distorted columns and repeated joint seams) and
+were discarded. Width reconstruction is not complete.
+
+The implemented shadow candidate visits all seven facade windows in a shuffled
+bag, reshuffled each minute, with no immediate repeat across cycles. It stays
+clipped to window openings and disappears while changing floors. Existing
+effects-off/reduced-motion behavior remains. See the
+[work record](projects/main-page-animation/rebuild-and-shadow.md).
+
 - Keep the replaced live version archived, and use the earlier house for the
   restoration candidate as requested in the latest correction.
 - Use the saved reference image to guide the surrounding composition and

@@ -53,10 +53,56 @@ function tree(x, y, size, mirrored = false, foreground = false) {
 }
 
 const windows = [
+  { x: 1225, y: 368, width: 37, height: 82 },
+  { x: 1316, y: 365, width: 35, height: 68 },
+  { x: 1406, y: 367, width: 38, height: 83 },
   { x: 1227, y: 508, width: 38, height: 72 },
+  { x: 1406, y: 508, width: 39, height: 73 },
+  { x: 1226, y: 658, width: 39, height: 75 },
+  { x: 1407, y: 658, width: 38, height: 75 },
 ];
 const windowPath = ({ x, y, width, height }) =>
   `M${x} ${y + height}v-${height - width / 2}a${width / 2} ${width / 2} 0 0 1 ${width} 0v${height - width / 2}z`;
+
+export function manorShadowSequence(random = Math.random, previousWindow = -1) {
+  const order = windows.map((_, index) => index);
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  if (order[0] === previousWindow) [order[0], order[1]] = [order[1], order[0]];
+  const duration = 60000;
+  const frames = order.flatMap((index, slot) => {
+    const window = windows[index];
+    const scale = window.height / 75;
+    const y = window.y + window.height * .3;
+    return [[0, window.x - 12 * scale, 0], [.2, window.x + window.width * .35, .8],
+      [.55, window.x + window.width * .65, .85], [.8, window.x + window.width + 12 * scale, 0],
+      [1, window.x + window.width + 12 * scale, 0]].map(([progress, x, opacity]) => ({
+      offset: (slot + progress) / windows.length,
+      x, y, scale, opacity,
+    }));
+  });
+  const css = `@keyframes manor-passing-shadow{${frames.map(frame =>
+    `${(frame.offset * 100).toFixed(6)}%{opacity:${frame.opacity};transform:translate(${frame.x}px,${frame.y}px) scale(${frame.scale})}`).join('')}}`;
+  return { order, duration, frames, css };
+}
+
+export function startManorShadow(scene) {
+  const shadow = scene.querySelector('.manor-shadow');
+  const style = scene.querySelector('[data-manor-shadow-style]');
+  let previousWindow = -1;
+  const renew = () => {
+    const sequence = manorShadowSequence(Math.random, previousWindow);
+    previousWindow = sequence.order.at(-1);
+    style.textContent = sequence.css;
+    shadow.style.animationDuration = `${sequence.duration}ms`;
+  };
+  renew();
+  shadow.addEventListener('animationiteration', event => {
+    if (event.animationName === 'manor-passing-shadow') renew();
+  });
+}
 
 function grave(x, y, scale, cross = false) {
   return `<g class="manor-grave" transform="translate(${x} ${y}) scale(${scale})">
@@ -98,6 +144,7 @@ export function hauntedManorHtml() {
   const arrival = arrived ? ' manor-arrived' : '';
   arrived = true;
   return `<div class="manor-scene${arrival}" aria-hidden="true">
+    <style data-manor-shadow-style></style>
     <div class="manor-camera">
       <svg class="manor-landscape" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" focusable="false">
         <defs>
@@ -172,9 +219,9 @@ export function hauntedManorHtml() {
         </g>
         <g class="manor-door-anchor" transform="translate(${entrance.x} ${entrance.y})"></g>
         <image class="manor-artwork" href="assets/estate-cartoon-manor.png" x="1080" y="240" width="517" height="600"/>
-        ${windows.map(window => `<path class="manor-window window-last" fill="url(#manor-window-light)" d="${windowPath(window)}"/>`).join('')}
+        ${windows.map((window, i) => `<path class="manor-window ${i === 3 ? 'window-last' : ''}" style="animation-delay:-${i * 2}s" fill="url(#manor-window-light)" d="${windowPath(window)}"/>`).join('')}
         <g clip-path="url(#manor-window-clip)">
-          <g class="manor-shadow" fill="#080c12"><ellipse cx="1245" cy="540" rx="6" ry="8"/><path d="M1238 549q7-5 14 0l5 32h-24z"/></g>
+          <g class="manor-shadow" fill="#080c12"><ellipse cx="0" cy="0" rx="6" ry="8"/><path d="M-7 9q7-5 14 0l5 32h-24z"/></g>
         </g>
         ${lantern(1278, 850, .35)}${lantern(1398, 850, .35)}
         ${lantern(1158, 935, .55)}${lantern(1518, 935, .55)}
