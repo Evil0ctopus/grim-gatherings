@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="bronze" x2="1" y2="1">
+      <stop stop-color="#f0d8a0"/><stop offset=".25" stop-color="#9d8150"/><stop offset=".55" stop-color="#d1b777"/><stop offset="1" stop-color="#57462e"/>
+    </linearGradient>
+    <g id="corner">
+      <path d="M4 64V19Q4 4 19 4h45M12 64V25q0-13 13-13h39" stroke="#070e13" stroke-width="4"/>
+      <path d="M4 64V19Q4 4 19 4h45M12 64V25q0-13 13-13h39" stroke="url(#bronze)" stroke-width="1.5"/>
+      <path d="M8 48q24-3 24-20 0-12-11-12-8 0-8 7 0 6 6 6 4 0 4-4m25-17q-3 24-20 24M16 43q25-3 27-27M22 39q-1 15 13 17-5-11-13-17m17-17q15-1 17 13-11-5-17-13" stroke="#0b1418" stroke-width="4" stroke-linecap="round"/>
+      <path d="M8 48q24-3 24-20 0-12-11-12-8 0-8 7 0 6 6 6 4 0 4-4m25-17q-3 24-20 24M16 43q25-3 27-27M22 39q-1 15 13 17-5-11-13-17m17-17q15-1 17 13-11-5-17-13" stroke="url(#bronze)" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M38 38l7-4 7 4-7 8z" fill="#162026" stroke="url(#bronze)"/>
+      <path d="M42 37l3-1 3 1-3 5z" fill="#c4a66b" opacity=".7"/>
+      <circle cx="8" cy="57" r="2" fill="#b8a070"/>
+      <circle cx="57" cy="8" r="2" fill="#b8a070"/>
+    </g>
+  </defs>
+  <path d="M64 4h128M64 252h128M4 64v128M252 64v128" stroke="#9d8150" stroke-opacity=".5"/>
+  <path d="M64 12h128M64 244h128M12 64v128M244 64v128" stroke="#9d8150" stroke-opacity=".2"/>
+  <use href="#corner"/>
+  <use href="#corner" transform="translate(256 0) scale(-1 1)"/>
+  <use href="#corner" transform="translate(0 256) scale(1 -1)"/>
+  <use href="#corner" transform="translate(256 256) scale(-1 -1)"/>
+</svg>

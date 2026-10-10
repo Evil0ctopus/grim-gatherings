@@ -23,15 +23,35 @@ try {
       page.on('dialog', () => { throw new Error('Native dialog is forbidden'); });
       for (const width of [320, 390, 768, 1280]) {
         await page.setViewportSize({ width, height: 844 });
-        for (const path of ['', 'how-to-play.html', 'workshop.html', 'shop.html', 'premium-room.html', 'mafia.html', 'mafia.html?mode=narrator']) {
+        for (const path of ['', 'how-to-play.html', 'workshop.html', 'shop.html', 'premium-room.html', 'privacy.html', 'terms.html', 'mafia.html', 'mafia.html?mode=narrator']) {
           await page.goto(base + path);
           await page.locator('h1').first().waitFor();
           check(`${name} ${width} ${path || 'home'} fits`, await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
           check(`${name} ${width} ${path || 'home'} has navigation`, await page.getByRole('navigation', { name: 'Main navigation', exact: true }).isVisible());
+          check(`${name} ${width} ${path || 'home'} ornaments stay outside text`, await page.locator('.card').evaluateAll(cards => cards.every(card => {
+            const style = getComputedStyle(card);
+            const frame = getComputedStyle(card, '::after');
+            const inset = parseFloat(frame.top);
+            const border = parseFloat(frame.borderTopWidth);
+            return frame.pointerEvents === 'none' && Number(frame.zIndex) < 0 &&
+              ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'].every(side => parseFloat(style[side]) >= inset + border);
+          })));
         }
       }
       await page.goto(base);
       await page.locator('#btn-new').waitFor();
+      check(`${name} new ornament assets load`, await page.evaluate(async () => {
+        return (await Promise.all(['assets/gothic-frame.svg', 'assets/gothic-rule.svg'].map(async src => {
+          const image = new Image();
+          image.src = src;
+          await image.decode();
+          return image.naturalWidth > 0;
+        }))).every(Boolean);
+      }));
+      const primary = page.locator('#btn-new');
+      await primary.evaluate(el => { el.textContent = 'Create a gathering with extraordinarily long character names'; });
+      check(`${name} long button labels wrap without clipping`, await primary.evaluate(el => el.scrollWidth <= el.clientWidth && el.scrollHeight <= el.clientHeight));
+      await primary.evaluate(el => { el.textContent = 'Create a new game'; });
       check(`${name} host card has exactly two primary choices`, await page.locator('.landing-actions > .card.gold button, .landing-actions > .card.gold a.btn').count() === 2);
       await page.fill('#join-code', 'ABCD2345');
       await page.click('[data-act="join"]');
