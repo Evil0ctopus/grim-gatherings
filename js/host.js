@@ -13,7 +13,7 @@ import { buildBlackwaterStory, BLACKWATER_INFO } from './blackwater-catalog.js?v
 import { buildBriarStory, BRIAR_INFO } from './briar-catalog.js?v=briar-playtest-v1';
 import { buildLagoStory, reviewLagoEdition, LAGO_NOTICE } from './lago-catalog.js?v=lago-repaired-v1';
 import { createAtmosphere, hostAtmospherePanel, CUES, storyTheme } from './atmosphere.js?v=ui-refresh-v1';
-import { hauntedManorHtml, startManorShadow } from './manor.js?v=manor-generated-v13';
+import { hauntedManorHtml, startManorShadow } from './manor.js?v=estate-supporting-v14';
 import { HOST_SAVE_KEY, isOutdatedStory } from './saved-content.js?v=lockdown-release-v1';
 import { currentCharacter, releaseCharacter, retireOtherSessions, resumeSession } from './host-sessions.js?v=connection-recovery-v1';
 import { createHostWakeLock } from './host-wake-lock.js?v=visitor-review-v1';

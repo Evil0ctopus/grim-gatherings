@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revised estate animation - local review</title>
+  <style>
+    body { margin: 0; background: #08131b; color: #e7e9e8; font: 16px/1.5 system-ui, sans-serif; }
+    header { padding: 12px 20px; }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    button, label { margin-right: 18px; }
+    button { padding: 8px 14px; cursor: pointer; }
+    canvas { display: block; width: 100%; max-height: 82vh; object-fit: contain; background: #07111b; }
+    p { margin: 8px 0; }
+    a { color: #c1e6ff; }
+    #status { min-height: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Revised estate - local animation candidate</h1>
+    <button id="replay" disabled>Replay entrance</button>
+    <button id="pause" disabled>Pause</button>
+    <label><input id="effects" type="checkbox" checked> Weather and candle effects</label>
+    <label><input id="motion" type="checkbox"> Reduced motion</label>
+    <p id="status" role="status">Loading prepared artwork...</p>
+    <p>Local only. Accepted house unchanged. No site deployment. Gates open before camera passage.
+      <a href="supporting-artwork-review.html">Artwork gallery</a></p>
+  </header>
+  <canvas width="1600" height="1000" aria-label="Animated estate with smaller right tree, foreground branches, organized graves, and opening entrance gates"></canvas>
+  <script src="estate-animation-review.js"></script>
+</body>
+</html>

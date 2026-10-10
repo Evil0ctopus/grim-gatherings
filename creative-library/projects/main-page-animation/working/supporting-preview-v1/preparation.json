@@ -1,0 +1,354 @@
+﻿{
+    "Status":  "Local still candidate only; not runtime artwork or motion validation",
+    "HouseSHA256":  "82C5A0DDD107D05AB4ED8988D884CE4E47538307F33B01A395A5F0D4B0BFE229",
+    "PreviewSHA256":  "F7B109E42D5D91C8CDFADAC186C9B987F37E938D3DEB599F1018E197964412B5",
+    "Width":  1600,
+    "Height":  1000,
+    "Assets":  [
+                   {
+                       "Name":  "gate",
+                       "Original":  "copilot-gothic-estate-gate-candidate-3-2026-10-10.png",
+                       "SourceSHA256":  "737574C328A386BBF3779719B4870D7AE8FA0EB390B2AC7655B1D1E1318C6CA6",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1431,
+                                    1024
+                                ],
+                       "Width":  1431,
+                       "Height":  1024,
+                       "OutputSHA256":  "9F4141109D17BFC4A1CA563822D82996A4316F2F2E972D57DD86758844C8CD89"
+                   },
+                   {
+                       "Name":  "fence",
+                       "Original":  "copilot-gothic-fence-panel-candidate-2026-10-10.png",
+                       "SourceSHA256":  "97D93A26F6BB135811B59CD88450D8CAF1BC3B46000B8FFE5DD1C340EACC9461",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1462,
+                                    1024
+                                ],
+                       "Width":  1462,
+                       "Height":  1024,
+                       "OutputSHA256":  "682D8FE5C65D8A0804EC8E1793336C0D7A441A33B7DAFEABA1AAB7322C80EA11"
+                   },
+                   {
+                       "Name":  "pillar",
+                       "Original":  "gemini-gothic-stone-gate-pillar-candidate-2-2026-10-10.jpg",
+                       "SourceSHA256":  "E50FDBF9F6F0D43EE98316A52B16721C8EE884C53F4299B494DDDB74735635CF",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    848,
+                                    1264
+                                ],
+                       "Width":  848,
+                       "Height":  1264,
+                       "OutputSHA256":  "ECA9EF2C346F5850FFFDAEE5601536BCD0B91D38B0F9E3E81153281854233F50"
+                   },
+                   {
+                       "Name":  "lantern",
+                       "Original":  "gemini-gothic-lantern-fixture-candidate-2-2026-10-10.jpg",
+                       "SourceSHA256":  "902DC2FA66EECE12A5FD0958D2BB3E42CAE93A545EFF6F0938DCED93F509CEF5",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1264,
+                                    848
+                                ],
+                       "Width":  1264,
+                       "Height":  848,
+                       "OutputSHA256":  "98F75B6A0AFDEEFDED8036FF738431A156DDAAD27B4068B05C8B2CAEB980F233"
+                   },
+                   {
+                       "Name":  "rounded",
+                       "Original":  "gemini-gothic-rounded-headstone-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "0F078C92B0A1155F6837674B2F763A81BF742D188D3893BAB0900BFDB023C47A",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    848,
+                                    1264
+                                ],
+                       "Width":  848,
+                       "Height":  1264,
+                       "OutputSHA256":  "E14712120415D778F046BF40E208CD58ADDCFB3EE48B75D682BF5B1890C8A501"
+                   },
+                   {
+                       "Name":  "broken",
+                       "Original":  "gemini-gothic-small-broken-stone-marker-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "1014C2CD376C4FF39611804FEF80C43915D11C6487D2F7DD76CD401822DCF0C0",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    848,
+                                    1264
+                                ],
+                       "Width":  848,
+                       "Height":  1264,
+                       "OutputSHA256":  "6B1CD1F934212E4AE9CBD55C23D067D5E59FA7CB6F2896E8A845D7846A27E957"
+                   },
+                   {
+                       "Name":  "cross",
+                       "Original":  "gemini-gothic-stone-cross-monument-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "A6DBD69129CFD29D4DC3948F4F365D207425760AB4A545A8A099317745A02EC5",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    848,
+                                    1264
+                                ],
+                       "Width":  848,
+                       "Height":  1264,
+                       "OutputSHA256":  "8E205D2AA4CBE72A311E14352DADCC3B7867264F755526E8732221518DAA187F"
+                   },
+                   {
+                       "Name":  "angel",
+                       "Original":  "gemini-gothic-angel-monument-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "12084F1B370FE26DBC87D91D1DBA0F5A39503A3F174BDEEB451657925F7C7E05",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    848,
+                                    1264
+                                ],
+                       "Width":  848,
+                       "Height":  1264,
+                       "OutputSHA256":  "292EECD738260A860E2B959FE374893D3BEBD82A22180C71327CC05DD416E39F"
+                   },
+                   {
+                       "Name":  "large-tree",
+                       "Original":  "gemini-gothic-large-bare-tree-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "7FD1B0D55C1104DA58002E9C44C46E88BCC8209D8BDAC3888663E0AE4E17DA9E",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1376,
+                                    768
+                                ],
+                       "Width":  1376,
+                       "Height":  768,
+                       "OutputSHA256":  "8DCAAE3688773D39C2EF9D0769AD9D91C17F0CB4073361E8726497917C5E4D18"
+                   },
+                   {
+                       "Name":  "arch-tree",
+                       "Original":  "gemini-gothic-second-framing-tree-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "450E85BAD76475FEE6DBE9EA7A13484AA78B1CEDB41B120EEAFE5054409BA4D4",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1376,
+                                    768
+                                ],
+                       "Width":  1376,
+                       "Height":  768,
+                       "OutputSHA256":  "9EE98E5FB24E257E0043435C988B2EF97BC2C1F2247671915511B3035FF919DB"
+                   },
+                   {
+                       "Name":  "distant-tree",
+                       "Original":  "gemini-gothic-slender-distant-tree-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "92DE3571EA4E0935D008697FD7F378D2EBCB356E8AD3F8947D11FE9615E866FB",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1376,
+                                    768
+                                ],
+                       "Width":  1376,
+                       "Height":  768,
+                       "OutputSHA256":  "EF1109F48310CEE5FF1FFBE06E9BD5FCD18908FE2A1ED1E35FAAF23D0D9E26F8"
+                   },
+                   {
+                       "Name":  "grass",
+                       "Original":  "gemini-gothic-grass-clump-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "B51C0AF8A984CE0F81A4547DC283E16C6D6312634D65076635C8F1140B27D797",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1024,
+                                    1024
+                                ],
+                       "Width":  1024,
+                       "Height":  1024,
+                       "OutputSHA256":  "5BC289C8AA2ABE4406CF8024E45B4FB277620BE3BED64595E15ED5261FA4766F"
+                   },
+                   {
+                       "Name":  "weeds",
+                       "Original":  "gemini-gothic-edge-weeds-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "2C139BA9768F6708183F8BE52F0E56FD98B16BF7978600873B6503A0502C33BA",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1376,
+                                    768
+                                ],
+                       "Width":  1376,
+                       "Height":  768,
+                       "OutputSHA256":  "A3E3FB8D2783F523858C5F60121AEEB8E08B8A2136D53DBEF76418547D357B45"
+                   },
+                   {
+                       "Name":  "moon",
+                       "Original":  "gemini-gothic-full-moon-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "5100A8D1B79AA9FAD583EBA82F266C8ACFE83CE0A58AB3B150261B405C13F943",
+                       "Key":  "black",
+                       "Crop":  [
+                                    113,
+                                    8,
+                                    225,
+                                    230
+                                ],
+                       "Width":  225,
+                       "Height":  230,
+                       "OutputSHA256":  "07AA5A20FA202E6712D106869EC9E999993345BADB674C2847C3E2EFFC98D378"
+                   },
+                   {
+                       "Name":  "cloud",
+                       "Original":  "gemini-gothic-storm-cloud-bank-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "74E4FF4B55DBFC37DA10E82165B99A260A55DD7C43756ACA09AC3296A331F7E6",
+                       "Key":  "black",
+                       "Crop":  [
+                                    10,
+                                    24,
+                                    415,
+                                    190
+                                ],
+                       "Width":  415,
+                       "Height":  190,
+                       "OutputSHA256":  "56F31FA165572ED7CAAA923BDC9249D7B5C9FC94F00F8C9FC90FDD22F4202617"
+                   },
+                   {
+                       "Name":  "bat",
+                       "Original":  "gemini-gothic-flying-bat-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "D21CFC52F29CD9649A13D072CB0DDAEAF37AB4F45399C1DB9D7EBDA7F5ECE8F5",
+                       "Key":  "white",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1408,
+                                    768
+                                ],
+                       "Width":  1408,
+                       "Height":  768,
+                       "OutputSHA256":  "A7794C2D7D26EC6D8F0BD75538B4A9B65E91A11FA68E16D50E1F7DB7B910B0E9"
+                   },
+                   {
+                       "Name":  "lightning",
+                       "Original":  "gemini-gothic-contained-lightning-bolt-candidate-3-2026-10-10.jpg",
+                       "SourceSHA256":  "1A1BEF554B98A89213D813496E5393DA53675BF67B960BACDE61B27529E270FA",
+                       "Key":  "black",
+                       "Crop":  [
+                                    145,
+                                    18,
+                                    162,
+                                    207
+                                ],
+                       "Width":  162,
+                       "Height":  207,
+                       "OutputSHA256":  "C3C40639CBAC54923AE3F693F771C536A581C2CCCEABA74CE6D2E8BB9CA0AEDB"
+                   },
+                   {
+                       "Name":  "rain",
+                       "Original":  "gemini-gothic-rain-overlay-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "9082C635DDCB5FAAD1A237EAE0C40ABFEC093F59EA55AA99787861025699040D",
+                       "Key":  "black",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    511,
+                                    219
+                                ],
+                       "Width":  511,
+                       "Height":  219,
+                       "OutputSHA256":  "305E8A0CC7931D0930A9BF721D8EEC7AE19389DBCDF0E18FED1E4F203BA4A1A9"
+                   },
+                   {
+                       "Name":  "fog",
+                       "Original":  "gemini-gothic-ground-fog-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "83E2A31083B2E9603F60FE9D2CDDCD3EE6ED8AF0F7D90F1B7599FEF17CB8DBB3",
+                       "Key":  "black",
+                       "Crop":  [
+                                    0,
+                                    51,
+                                    511,
+                                    122
+                                ],
+                       "Width":  511,
+                       "Height":  122,
+                       "OutputSHA256":  "E2AF729C04BC3D2C28B1A3FF36455F720C1D48D859F4F540685E05DDCCAA386C"
+                   },
+                   {
+                       "Name":  "candle",
+                       "Original":  "gemini-gothic-driveway-candle-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "163517D1E835F0A16E565DF3F543AC36FD46FDD5A3050E1752EE3186702B58FE",
+                       "Key":  "black",
+                       "Crop":  [
+                                    194,
+                                    60,
+                                    52,
+                                    133
+                                ],
+                       "Width":  52,
+                       "Height":  133,
+                       "OutputSHA256":  "EBA4EA910E73D6AFBE6AABBDE89F8362074CC813AE79A5514998AF0BB12144B0"
+                   },
+                   {
+                       "Name":  "glow",
+                       "Original":  "gemini-gothic-candle-glow-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "8A1F59D52B662C82F3D93B6C03455F45C921E79BC814A83A0E14F98FB207EF10",
+                       "Key":  "black",
+                       "Crop":  [
+                                    155,
+                                    53,
+                                    140,
+                                    141
+                                ],
+                       "Width":  140,
+                       "Height":  141,
+                       "OutputSHA256":  "5907D0C32BA46E69C4FBDFFFD371F4F4F9EC969FA5D82141F40CCAB8F384E1F1"
+                   },
+                   {
+                       "Name":  "soil",
+                       "Original":  "gemini-gothic-ground-texture-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "4DA261605FFF753AE87C32CC4DBB542CC65682F354D861F97CF67E7C4C659F08",
+                       "Key":  "material",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1024,
+                                    1024
+                                ],
+                       "Width":  1024,
+                       "Height":  1024,
+                       "OutputSHA256":  "2E39B698D8A85EDA537544E1E5351217B67115049A321EC8331045A7C5D022E2"
+                   },
+                   {
+                       "Name":  "paving",
+                       "Original":  "gemini-gothic-driveway-paving-texture-candidate-2026-10-10.jpg",
+                       "SourceSHA256":  "EF6BB7A59E8EC5720700AE43669C30FB3580CDC4C5E365492A3DAB34292CCF81",
+                       "Key":  "material",
+                       "Crop":  [
+                                    0,
+                                    0,
+                                    1024,
+                                    1024
+                                ],
+                       "Width":  1024,
+                       "Height":  1024,
+                       "OutputSHA256":  "A611897795553BE0F907663DAE3149FBB26E00B58FF66737BB5D762ABF4D1D3C"
+                   }
+               ]
+}

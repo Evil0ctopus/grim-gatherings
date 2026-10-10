@@ -1,0 +1,186 @@
+[
+    {
+        "Name":  "angel.png",
+        "OutputSHA256":  "E8DB70E2E82C8869B930A140D3D3BB5882BF64C0368B57BA6AE3572A55013B4B",
+        "Width":  551,
+        "Brightness":  0.65,
+        "SourceSHA256":  "49DE32162806688E2E12605BF73A2D846A3ED0AF936F64820D2A84715EBEB136",
+        "Height":  1098
+    },
+    {
+        "Name":  "arch-tree.png",
+        "OutputSHA256":  "DEFE6307FDD09542454F4E6875F3107403242BCEF0FF2A900CFC69B2CDE60611",
+        "Width":  770,
+        "Brightness":  0.4,
+        "SourceSHA256":  "F551152F09C5E3FC4CD54E9FC5713CCE7358FC57592B26FF04045621AB98127B",
+        "Height":  741
+    },
+    {
+        "Name":  "bat.png",
+        "OutputSHA256":  "023EC75365F4D4C5E62D11A3EE6730646EC65298877798934B6D02FCAAEC3444",
+        "Width":  100,
+        "Brightness":  0.65,
+        "SourceSHA256":  "3627DB584CC745C73F659938963A0F02517FA8BC0BFD26502F0EA3B48F6B5C28",
+        "Height":  37
+    },
+    {
+        "Name":  "broken.png",
+        "OutputSHA256":  "2CEDC54DF75D229C58089B73BBBE49DEF68CB322085D3DEF8B21C4A2409216C9",
+        "Width":  424,
+        "Brightness":  0.65,
+        "SourceSHA256":  "D37CDCC63B6D49622B4977D7183D1350BD989B5FC9A6C21213BD2C8A95F3432E",
+        "Height":  555
+    },
+    {
+        "Name":  "candle.png",
+        "OutputSHA256":  "766778A0C3EB55439A042A5BB3AF1DF5C9D47BB81A75282A97AB8DA9637EF2EF",
+        "Width":  80,
+        "Brightness":  1,
+        "SourceSHA256":  "4418C49BC2704BB2E266A904C522FEE27EDAC17553FEB137DC319340FC518BA9",
+        "Height":  220
+    },
+    {
+        "Name":  "cloud.png",
+        "OutputSHA256":  "20DEB864E3FB346C9850C6167A5F2B38FDA286A34AA7076898D3774525A60B97",
+        "Width":  1100,
+        "Brightness":  0.65,
+        "SourceSHA256":  "B19A4AC794331D2F8FBFA7717CE267D14B2E4A392A2B242E9F7CCDD0B33C9779",
+        "Height":  490
+    },
+    {
+        "Name":  "cross.png",
+        "OutputSHA256":  "5BB87DFFC3A1C9157EC9CAA480C5BA94692F3E6B7A2B30917F49434AEE86E9AA",
+        "Width":  699,
+        "Brightness":  0.65,
+        "SourceSHA256":  "998C788D00F8FF7AEE73DAA90BB602B018C5096AD5420BC5432450D249DC6EB9",
+        "Height":  1036
+    },
+    {
+        "Name":  "distant-tree.png",
+        "OutputSHA256":  "0810850F235ECC0C7A5B00C02601791D6CFBDEBFED4D4053EE60831F9176DB0C",
+        "Width":  227,
+        "Brightness":  0.32,
+        "SourceSHA256":  "44FC01455DBDB73CFFB5F4AB79D385B763A188C88FC3CA24A455C058933AC3D5",
+        "Height":  733
+    },
+    {
+        "Name":  "fence.png",
+        "OutputSHA256":  "76C9541697B0E69C0AB6C50BD21787BA5D06B81735F10CF90B726BCEDE6C2693",
+        "Width":  1100,
+        "Brightness":  0.65,
+        "SourceSHA256":  "768A58CE961A1B9E4E0B567C50356916777BDCBA8715ADAFF8FF2D5F6EDB755A",
+        "Height":  586
+    },
+    {
+        "Name":  "fog.png",
+        "OutputSHA256":  "4B633EE785D7442AB3070231887834724DA320D86BF8B6DF873195711FA91D8E",
+        "Width":  1100,
+        "Brightness":  0.75,
+        "SourceSHA256":  "55615627D56CE0E5AAA6072D0AB365C54E8EE926494516005DA287D2DA3A773D",
+        "Height":  262
+    },
+    {
+        "Name":  "gate.png",
+        "OutputSHA256":  "7688B64D27DC34BAC17165685305833535C17004833E1D7AA69EF06EBFC8AD04",
+        "Width":  1100,
+        "Brightness":  0.65,
+        "SourceSHA256":  "71078413A7A2E5B0298105A7831E2F97D0293A2060EF9F9AB00991F4EAB4DEAF",
+        "Height":  635
+    },
+    {
+        "Name":  "glow.png",
+        "OutputSHA256":  "8A41416C0BB5860DBF292032A7B6DA3695290E90A973B006319AF9C1C20822D1",
+        "Width":  120,
+        "Brightness":  1,
+        "SourceSHA256":  "4F05488C06E04A2A418AF02DE9BFF9F19FB2CCAD75DA5F5EE3707C6AB46B31D3",
+        "Height":  121
+    },
+    {
+        "Name":  "grass.png",
+        "OutputSHA256":  "174541761CFE69C55D2E086C0052DA3E7CC85A01FF75AD0D6A126BBBB81E36C9",
+        "Width":  724,
+        "Brightness":  0.65,
+        "SourceSHA256":  "0626670286D11CE3F3A69A966B857266C1282F4DEE485BDD5EF496D49CE3996E",
+        "Height":  509
+    },
+    {
+        "Name":  "lantern.png",
+        "OutputSHA256":  "48B035E557D06FAF5155546290B6B938E91CF54717E0A5ADF0D4DADD1E670023",
+        "Width":  494,
+        "Brightness":  0.65,
+        "SourceSHA256":  "68FAC72D3789D34F05B7791BB4BE8FAF3404461D4EFF3A682FE2BFF7DE4AA62D",
+        "Height":  610
+    },
+    {
+        "Name":  "large-tree.png",
+        "OutputSHA256":  "24EF4B7B3D8133393648760A4D2670319FECBE34190BA5EA11E0A87BAE43BE14",
+        "Width":  1100,
+        "Brightness":  0.35,
+        "SourceSHA256":  "C50069A4B33F4FC3697507C4F45BFB64953DB960EEC0737D5DCE550F393BDAC6",
+        "Height":  640
+    },
+    {
+        "Name":  "lightning.png",
+        "OutputSHA256":  "DDAEDBB58B9DFBD5BE4B496DBC6C6D79A8312A7671AF054850E61BC933FB0EC1",
+        "Width":  489,
+        "Brightness":  0.8,
+        "SourceSHA256":  "3B1516FB6681C5420FEFA91654EAE2CE2233D7F072120CA565EE1429AA378C69",
+        "Height":  631
+    },
+    {
+        "Name":  "moon.png",
+        "OutputSHA256":  "0F9298DBAA2ADB6940772E81E4506E62F045DE98C817F6287D281E694CC808A2",
+        "Width":  682,
+        "Brightness":  0.9,
+        "SourceSHA256":  "421B1B866793F162ECB0B4645DA2971CC1352D3A0F8D09B7FFBC1BF1C9B49B49",
+        "Height":  697
+    },
+    {
+        "Name":  "paving.png",
+        "OutputSHA256":  "84746BDF5CFEE15DDEC2A13D35E3211322AC7A164B0D3A9400561525DC4DF728",
+        "Width":  1024,
+        "Brightness":  0.65,
+        "SourceSHA256":  "1166763758F4D9C86D78B2D6E038CC894BE99D42E84E76AA8C6DA161A7736961",
+        "Height":  1024
+    },
+    {
+        "Name":  "pillar.png",
+        "OutputSHA256":  "57B4202200F7CC302923B750BA18BC1A3A965FD8CEEEBD6859C9F0BBC7A41D17",
+        "Width":  256,
+        "Brightness":  0.65,
+        "SourceSHA256":  "174884AF1E18742743BA38138F9B9422E37596F1B72C21468F4DA91F6EE9121B",
+        "Height":  704
+    },
+    {
+        "Name":  "rain.png",
+        "OutputSHA256":  "0D4632E6D6BA6BD5C6E00AF9A1366288E532A46549AF932845350254243226FE",
+        "Width":  1100,
+        "Brightness":  0.7,
+        "SourceSHA256":  "3A1F6E0110F8B5634B4A1CBDABEB732080EC62C9F11630CEA4BC0111AFD23F62",
+        "Height":  467
+    },
+    {
+        "Name":  "rounded.png",
+        "OutputSHA256":  "E19C477C3DF88C24B41096A13C97CC7D779901C76123A02A813A3ACA96A79147",
+        "Width":  707,
+        "Brightness":  0.65,
+        "SourceSHA256":  "9CB122BFAC8775226C7FDBF89FCEC35AAB3BC60281792BFBA82288B00FA91348",
+        "Height":  1053
+    },
+    {
+        "Name":  "soil.png",
+        "OutputSHA256":  "FE56BA312790DD46AEB2F6CF79CA6AF28CEF52F5840954AC70CF8BA5DB6D0A34",
+        "Width":  1024,
+        "Brightness":  0.65,
+        "SourceSHA256":  "1D6D2D5F3A1C704D66A8902F7A5D600D5425E14036FE9C74DC810CEC3F289690",
+        "Height":  1024
+    },
+    {
+        "Name":  "weeds.png",
+        "OutputSHA256":  "37DA921822B1D0960DA8CD34AD67CF4151A26A0A9A9E7331C5592CF8A1B26697",
+        "Width":  1100,
+        "Brightness":  0.65,
+        "SourceSHA256":  "F1F9693FFC91D0F66BF0639050A215B7C7CB1AA6A70FC3D8688DA6AC6C565952",
+        "Height":  441
+    }
+]

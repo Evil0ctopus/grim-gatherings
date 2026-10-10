@@ -5,6 +5,18 @@ repeating its approach on other pages. It does not change any live page.
 
 ## Current test candidate: 2026-10-10
 
+The owner subsequently accepted the supporting-art local composition for test
+publication, noting that further visual tweaks can wait and motion looked
+choppy. The new runtime uses pregraded, size-bounded PNG layers rather than
+redrawing filtered canvas artwork every frame. Scene geometry is 1600 x 1000,
+with the same protected house at 485,235 and 630 x 435.75. The existing
+seven-window shadow maps through a nested SVG retaining its approved pane
+geometry. Ten organized graves and foreground trees replace the old scenery.
+Gate leaves open during seconds 1-10; camera/gateway passage runs 10-20.
+The original one-time arrival and ambience accessibility controls remain.
+Preparation is recorded in the supporting-elements brief. This is test-only
+approval, not permission to update production.
+
 The owner accepted the third, weathered Microsoft Copilot-generated wider
 house with "i like it", then confirmed generate/review/refine/save as the
 workflow for every new animation image element. The homepage candidate uses
