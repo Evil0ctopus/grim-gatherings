@@ -46,10 +46,47 @@ function ironPanel(width, arched = false) {
   </g>`;
 }
 
-function tree(x, mirrored = false) {
-  return `<g class="manor-tree" transform="translate(${x} 780) scale(${mirrored ? '-1' : '1'} 1)">
-    <image href="assets/estate-withered-tree.png" x="-150" y="-300" width="300" height="300"/>
+function tree(x, y, size, mirrored = false, foreground = false) {
+  return `<g class="manor-tree ${foreground ? 'tree-near' : 'tree-far'}" transform="translate(${x} ${y}) scale(${mirrored ? '-1' : '1'} 1)">
+    <image href="assets/estate-withered-tree.png" x="${-size / 2}" y="${-size}" width="${size}" height="${size}"/>
   </g>`;
+}
+
+const windows = [
+  { x: 1229, y: 411, width: 40, height: 80 },
+  { x: 1358, y: 437, width: 30, height: 68 },
+  { x: 1598, y: 422, width: 29, height: 85 },
+  { x: 1238, y: 599, width: 39, height: 61 },
+  { x: 1491, y: 607, width: 38, height: 60 },
+  { x: 1610, y: 606, width: 22, height: 63 },
+];
+const windowPath = ({ x, y, width, height }) =>
+  `M${x} ${y + height}v-${height - width / 2}a${width / 2} ${width / 2} 0 0 1 ${width} 0v${height - width / 2}z`;
+
+function grave(x, y, scale, cross = false) {
+  return `<g class="manor-grave" transform="translate(${x} ${y}) scale(${scale})">
+    <ellipse cx="0" cy="8" rx="47" ry="12" fill="#020c12" opacity=".7"/>
+    <g filter="url(#manor-surface)">
+      <path d="${cross ? 'M-12 0v-98h-26v-22h26v-28h24v28h26v22H12V0z' : 'M-34 0v-82q0-42 34-42t34 42V0z'}" fill="url(#manor-gravestone)" stroke="#65807d" stroke-width="2"/>
+      ${cross ? '<path d="M-4-138v129M-28-110h56" stroke="#91aca2" opacity=".26" fill="none"/>' : '<path d="M-24-5v-77q0-31 24-31t24 31v77M-13-74h26m-23 10h20m-18 10h16" stroke="#9eafa1" stroke-opacity=".28" stroke-width="2" fill="none"/>'}
+      <path d="M-15-40l9 9-7 13 5 11M23-17l-9-8 4-13" fill="none" stroke="#081c23" stroke-width="2"/>
+    </g>
+    <path d="M-45 5l6-18 4 14 7-22 4 22M22 4l9-19 3 17 9-12" fill="none" stroke="#304c42" stroke-width="3"/>
+  </g>`;
+}
+
+function graveyard(near = false) {
+  const plots = near
+    ? [[850, 970, 1.25, false], [1730, 975, 1.65, false], [1855, 1000, 1.35, true], [740, 940, 1.6, true]]
+    : [[890, 790, .55, false], [990, 875, .65, true], [1590, 870, .6, false], [1800, 825, .7, true], [1790, 867, .85, false], [890, 883, .8, false]];
+  return `<g class="manor-graveyard ${near ? 'graves-near' : 'graves-far'}">${plots.map(plot => grave(...plot)).join('')}</g>`;
+}
+
+function bats() {
+  return `<g class="manor-bats">${[[1080, 238, .7], [1130, 270, .45], [1180, 216, .6], [1010, 286, .4], [1150, 165, .3]].map(([x, y, scale], i) => `
+    <g class="manor-bat-flight" style="--bat-delay:-${i * 3}s" transform="translate(${x} ${y}) scale(${scale})">
+      <g class="manor-bat"><path d="M0 0Q-14-20-31-15l8 13 10-1 5 8L0 3l8 2 5-8 10 1 8-13Q14-20 0 0z" fill="#081922"/><path d="M-3 3l1-9 2 3 2-3 1 9z" fill="#07121b"/></g>
+    </g>`).join('')}</g>`;
 }
 
 function gate(side) {
@@ -70,7 +107,10 @@ export function hauntedManorHtml() {
       <svg class="manor-landscape" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" focusable="false">
         <defs>
           <linearGradient id="manor-sky" x2="0" y2="1"><stop stop-color="#101d32"/><stop offset=".55" stop-color="#334b52"/><stop offset="1" stop-color="#101c23"/></linearGradient>
-          <radialGradient id="manor-moon"><stop stop-color="#c1d2be" stop-opacity=".6"/><stop offset=".2" stop-color="#adceba" stop-opacity=".2"/><stop offset="1" stop-color="#adceba" stop-opacity="0"/></radialGradient>
+          <radialGradient id="manor-moon"><stop stop-color="#c1e0db" stop-opacity=".55"/><stop offset=".3" stop-color="#adceba" stop-opacity=".18"/><stop offset="1" stop-color="#adceba" stop-opacity="0"/></radialGradient>
+          <radialGradient id="manor-moon-face" cx=".35" cy=".3"><stop stop-color="#d6e8d9"/><stop offset=".7" stop-color="#89b5b7"/><stop offset="1" stop-color="#456f82"/></radialGradient>
+          <clipPath id="manor-moon-clip"><circle cx="1035" cy="205" r="105"/></clipPath>
+          <linearGradient id="manor-gravestone" x2="1" y2=".4"><stop stop-color="#101f27"/><stop offset=".35" stop-color="#496366"/><stop offset=".6" stop-color="#2d444a"/><stop offset="1" stop-color="#0c1a24"/></linearGradient>
           <linearGradient id="manor-ground" x2="0" y2="1"><stop stop-color="#24352b"/><stop offset="1" stop-color="#060f13"/></linearGradient>
           <linearGradient id="manor-path" x2=".4" y2="1"><stop stop-color="#5c6556"/><stop offset=".5" stop-color="#303b37"/><stop offset="1" stop-color="#19232b"/></linearGradient>
           <linearGradient id="manor-paver" x2=".3" y2="1"><stop stop-color="#748070"/><stop offset=".12" stop-color="#4b584e"/><stop offset=".8" stop-color="#283935"/><stop offset="1" stop-color="#182423"/></linearGradient>
@@ -90,8 +130,8 @@ export function hauntedManorHtml() {
             <feTurbulence type="fractalNoise" baseFrequency=".003 .009" numOctaves="3" seed="8"/>
             <feColorMatrix type="matrix" values="0 0 0 0 .35 0 0 0 0 .43 0 0 0 0 .45 0 0 0 .6 -.18"/>
           </filter>
-          <linearGradient id="manor-storm-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="235"><stop stop-color="white"/><stop offset=".85" stop-color="white"/><stop offset="1" stop-color="black"/></linearGradient>
-          <mask id="manor-storm-mask" maskUnits="userSpaceOnUse" x="-200" y="-100" width="2320" height="335"><path fill="url(#manor-storm-fade)" d="M-200-100h2320v335H-200z"/></mask>
+          <linearGradient id="manor-storm-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="144"><stop stop-color="white"/><stop offset=".6" stop-color="white"/><stop offset="1" stop-color="black"/></linearGradient>
+          <mask id="manor-storm-mask" maskUnits="userSpaceOnUse" x="-200" y="-100" width="2320" height="244"><path fill="url(#manor-storm-fade)" d="M-200-100h2320v244H-200z"/></mask>
           <filter id="manor-storm-texture" x="-15%" y="-30%" width="130%" height="160%">
             <feTurbulence type="fractalNoise" baseFrequency=".008 .018" numOctaves="4" seed="19" result="billows"/>
             <feDisplacementMap in="SourceGraphic" in2="billows" scale="75" xChannelSelector="R" yChannelSelector="G" result="cloud-shape"/>
@@ -101,12 +141,19 @@ export function hauntedManorHtml() {
             <feBlend in="textured-cloud" in2="cloud-shape" mode="screen"/>
             <feGaussianBlur stdDeviation="3"/>
           </filter>
-          <radialGradient id="manor-window-light"><stop stop-color="#ffc46b" stop-opacity=".4"/><stop offset="1" stop-color="#e9a341" stop-opacity="0"/></radialGradient>
-          <clipPath id="manor-window-clip"><path d="M1227 580v-53a19 19 0 0 1 38 0v53z"/></clipPath>
+          <radialGradient id="manor-window-light"><stop stop-color="#ffc46b" stop-opacity=".9"/><stop offset=".6" stop-color="#d78032" stop-opacity=".55"/><stop offset="1" stop-color="#e9a341" stop-opacity="0"/></radialGradient>
+          <clipPath id="manor-window-clip">${windows.map(window => `<path d="${windowPath(window)}"/>`).join('')}</clipPath>
         </defs>
         <path fill="url(#manor-sky)" d="M0 0h1920v1080H0z"/>
         <path d="M0 0h1920v750H0z" filter="url(#manor-cloud-texture)" opacity=".5"/>
-        <ellipse cx="1460" cy="175" rx="480" ry="300" fill="url(#manor-moon)"/>
+        <ellipse cx="1035" cy="205" rx="310" ry="260" fill="url(#manor-moon)"/>
+        <g class="manor-moon">
+          <circle cx="1035" cy="205" r="105" fill="url(#manor-moon-face)"/>
+          <g clip-path="url(#manor-moon-clip)" opacity=".35" fill="#3b687a" filter="url(#manor-surface)">
+            ${Array.from({ length: 18 }, (_, i) => `<ellipse cx="${957 + (i * 47 % 160)}" cy="${129 + (i * 31 % 158)}" rx="${9 + i % 4 * 8}" ry="${8 + i % 3 * 8}"/>`).join('')}
+          </g>
+          <path d="M935 188q88-39 191-18" fill="none" stroke="#517d89" stroke-width="18" opacity=".17"/>
+        </g>
         <g class="manor-storm-clouds" mask="url(#manor-storm-mask)">
           <path fill="#030811" filter="url(#manor-storm-texture)" d="M-200-100H2120V180Q1990 250 1840 185Q1710 245 1560 180Q1430 240 1270 170Q1120 240 970 185Q800 245 650 175Q490 245 330 180Q160 245-20 180Q-110 230-200 170z"/>
           <path fill="#030710" opacity=".9" filter="url(#manor-storm-texture)" d="M-200-100H2120V90Q1900 175 1670 110Q1440 185 1200 100Q940 180 710 110Q470 180 230 100Q0 170-200 95z"/>
@@ -115,21 +162,30 @@ export function hauntedManorHtml() {
           <path class="manor-bolt-glow" d="M1654 0l9 28-17 31 5 37-23 21 14 40-19 27 4 46-20 19 9 31-17 42 7 32-24 29 10 38-13 26 4 38-19 25 9 35-21 31 6 32-15 38 8 34-14 31 4 36-13 40 5 36m111-549 28 34-3 23 25 29-5 31 22 25m-88 29-32 18-8 30-27 23 4 27-19 31m20 95 24 18-6 34 13 24"/>
           <path class="manor-bolt-core" d="M1654 0l9 28-17 31 5 37-23 21 14 40-19 27 4 46-20 19 9 31-17 42 7 32-24 29 10 38-13 26 4 38-19 25 9 35-21 31 6 32-15 38 8 34-14 31 4 36-13 40 5 36m111-549 28 34-3 23 25 29-5 31 22 25m-88 29-32 18-8 30-27 23 4 27-19 31m20 95 24 18-6 34 13 24"/>
         </g>
+        <g class="manor-strike strike-distant" fill="none" stroke-linejoin="round" stroke-linecap="round">
+          <path class="manor-bolt-glow" d="M896 48l-11 39 18 22-26 39 10 44-21 29 12 42-29 35 8 45-24 28 11 36-23 49 6 29-21 36 9 35-25 43 8 33-17 38 4 32-21 46m108-558-34 21-5 27-34 19-11 34-31 14m86 109 29 25-4 30 26 37 9 29"/>
+          <path class="manor-bolt-core" d="M896 48l-11 39 18 22-26 39 10 44-21 29 12 42-29 35 8 45-24 28 11 36-23 49 6 29-21 36 9 35-25 43 8 33-17 38 4 32-21 46m108-558-34 21-5 27-34 19-11 34-31 14m86 109 29 25-4 30 26 37 9 29"/>
+        </g>
+        <g class="manor-moon-cloud" fill="#18323e" opacity=".75" filter="url(#manor-storm-texture)"><path d="M765 224q80-38 154-14t116-4 159 12v34H765z"/></g>
+        ${bats()}
         <path fill="url(#manor-ground)" d="M0 750Q520 680 950 755T1920 735V1080H0z" filter="url(#manor-surface)"/>
-        ${tree(850)}${tree(1770, true)}
+        ${tree(810, 807, 360)}${tree(1855, 800, 380, true)}
+        ${graveyard()}
         <g class="manor-driveway">
           <path fill="url(#manor-path)" d="${driveway}"/>
           <g filter="url(#manor-surface)">${paving()}</g>
         </g>
         <g class="manor-door-anchor" transform="translate(${entrance.x} ${entrance.y})"></g>
-        <image class="manor-artwork" href="assets/estate-cartoon-manor.png" x="1080" y="240" width="517" height="600"/>
-        <path class="manor-window window-last" fill="url(#manor-window-light)" d="M1227 580v-53a19 19 0 0 1 38 0v53z"/>
+        <image class="manor-artwork" href="assets/estate-complete-manor.png" x="1009.875" y="122.6953125" width="750" height="750"/>
+        ${windows.map((window, i) => `<path class="manor-window ${i === 5 ? 'window-last' : ''}" style="animation-delay:-${i * 2}s" fill="url(#manor-window-light)" d="${windowPath(window)}"/>`).join('')}
         <g clip-path="url(#manor-window-clip)">
-          <g class="manor-shadow" fill="#080c12"><ellipse cx="1245" cy="540" rx="6" ry="8"/><path d="M1238 549q7-5 14 0l5 32h-24z"/></g>
+          <g class="manor-shadow" fill="#040b10"><ellipse cx="0" cy="0" rx="9" ry="12"/><path d="M-9 12q9-7 18 0l9 45h-36z"/></g>
         </g>
         ${lantern(1278, 850, .35)}${lantern(1398, 850, .35)}
         ${lantern(1158, 935, .55)}${lantern(1518, 935, .55)}
         ${lantern(958, 1045, .8)}${lantern(1718, 1045, .8)}
+        ${graveyard(true)}
+        ${tree(615, 1085, 940, false, true)}${tree(2090, 1090, 1000, true, true)}
         <g class="manor-gateway">
           <g class="manor-fence manor-fence-left" transform="translate(-120 445)">${ironPanel(888)}</g>
           <g class="manor-fence manor-fence-right" transform="translate(1908 445)">${ironPanel(888)}</g>
@@ -155,5 +211,6 @@ export function hauntedManorHtml() {
     <div class="manor-rain rain-near"></div>
     <div class="manor-scene-shade"></div>
     <div class="manor-lightning"></div>
+    <div class="manor-lightning lightning-distant"></div>
   </div>`;
 }

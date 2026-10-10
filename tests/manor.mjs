@@ -13,11 +13,13 @@ test('the estate uses bundled detailed cartoon artwork with no remote assets', (
   assert.match(html, /preserveAspectRatio="xMidYMid slice"/);
   assert.match(html, /viewBox="0 0 1920 1080"/);
   assert.doesNotMatch(html, /<button|<a\b|<input|href="https?:/);
-  assert.match(html, /class="manor-artwork" href="assets\/estate-cartoon-manor.png"/);
+  assert.match(html, /class="manor-artwork" href="assets\/estate-complete-manor.png"/);
+  assert.equal((html.match(/href="assets\/estate-complete-manor.png"/g) || []).length, 1);
+  assert.doesNotMatch(html, /manor-wing|manor-house-facade|href="assets\/estate-cartoon-manor.png"/);
   assert.match(html, /href="assets\/estate-candle.svg"/);
   assert.doesNotMatch(html, /photograph|estate-manor.jpg|estate-iron-gate.png/);
-  const image = readFileSync(new URL('../assets/estate-cartoon-manor.png', import.meta.url));
-  assert.ok(image.length > 10000 && image.length < 1500000);
+  const image = readFileSync(new URL('../assets/estate-complete-manor.png', import.meta.url));
+  assert.ok(image.length > 10000 && image.length < 2500000);
   assert.deepEqual([...image.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
   assert.match(read('../assets/estate-candle.svg'), /linearGradient/);
   for (const name of ['estate-withered-tree.png', 'estate-illustrated-gate.png', 'estate-stone-pillar.png']) {
@@ -27,6 +29,8 @@ test('the estate uses bundled detailed cartoon artwork with no remote assets', (
   }
   const credits = read('../how-to-play.html');
   assert.match(credits, /haunted-mansion-spooky-house-9805270/);
+  assert.match(credits, /haunted-house-abandoned-house-9859927/);
+  assert.match(credits, /PixelLabs/);
   assert.match(credits, /Pixabay Content License/);
   assert.match(credits, /AI-generated/);
   assert.match(credits, /Art_Dreams/);
@@ -42,10 +46,22 @@ test('driveway and gate opening align with the front steps', () => {
   assert.match(html, /manor-gate-left" transform="translate\(898 445\)"/);
   assert.match(html, /manor-gate-right" transform="translate\(1338 445\)"/);
   assert.equal((html.match(/fill="url\(#manor-paver\)"/g) || []).length, 56);
-  assert.equal((html.match(/class="manor-tree"/g) || []).length, 2);
+  assert.equal((html.match(/class="manor-tree tree-/g) || []).length, 4);
   assert.match(html, /manor-fence-left" transform="translate\(-120 445\)"/);
   assert.match(html, /manor-fence-right" transform="translate\(1908 445\)"/);
   assert.equal((html.match(/class="manor-iron-panel"/g) || []).length, 4);
+});
+
+test('reference composition adds depth without splicing the mansion', () => {
+  const html = hauntedManorHtml();
+  assert.match(html, /class="manor-moon"/);
+  assert.match(html, /class="manor-moon-cloud"/);
+  assert.equal((html.match(/class="manor-grave"/g) || []).length, 10);
+  assert.equal((html.match(/class="manor-bat-flight"/g) || []).length, 5);
+  assert.equal((html.match(/class="manor-bolt-core"/g) || []).length, 2);
+  assert.equal((html.match(/class="manor-window /g) || []).length, 6);
+  assert.match(html, /width="750" height="750"/);
+  assert.match(read('../css/style.css'), /manor-passing-shadow 42s linear infinite/);
 });
 
 test('weather, gates and window activity are separate layers', () => {
@@ -69,10 +85,10 @@ test('returning home does not replay the arrival', () => {
 });
 
 test('deployment cache tags include the changed scene module and stylesheet', () => {
-  const version = 'manor-cloudbank-v9';
+  const version = 'manor-complete-v10';
   assert.ok(read('../index.html').includes(`css/style.css?v=${version}`));
-  assert.ok(read('../index.html').includes('js/main.js?v=all-games-v1'));
-  assert.ok(read('../js/main.js').includes('./host.js?v=all-games-v1'));
+  assert.ok(read('../index.html').includes(`js/main.js?v=${version}`));
+  assert.ok(read('../js/main.js').includes(`./host.js?v=${version}`));
   assert.ok(read('../js/host.js').includes(`./manor.js?v=${version}`));
   assert.ok(read('../js/main.js').includes('./player.js?v=all-games-v1'));
 });

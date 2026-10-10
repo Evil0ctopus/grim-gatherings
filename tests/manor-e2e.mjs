@@ -6,7 +6,7 @@ import { createCommunityServer } from '../server/community.mjs';
 const server = await createCommunityServer({ database: ':memory:' });
 server.listen(0, '127.0.0.1');
 await once(server, 'listening');
-const base = `http://127.0.0.1:${server.address().port}/`;
+const base = process.argv[2] || `http://127.0.0.1:${server.address().port}/`;
 try {
   for (const engine of [chromium, webkit]) {
     const browser = await engine.launch();
@@ -26,9 +26,10 @@ try {
             await image.decode();
             if (!image.naturalWidth) throw new Error(`Estate image failed to load: ${src}`);
           }));
+          for (const animation of document.querySelector('.manor-scene').getAnimations({ subtree: true })) animation.pause();
         });
         assert.equal(await page.locator('.manor-artwork').count(), 1);
-        const imageResponse = await page.request.get(base + 'assets/estate-cartoon-manor.png');
+        const imageResponse = await page.request.get(base + 'assets/estate-complete-manor.png');
         assert.ok(imageResponse.ok());
         assert.match(imageResponse.headers()['content-type'], /image\/png/);
         assert.equal(await page.locator('.manor-flame').count(), 8);
@@ -43,8 +44,10 @@ try {
             doorX: door.e, doorY: door.f,
             pathX: Number(driveway[1]) + Number(driveway[3]) / 2, pathY: Number(driveway[2]),
             leftEdge: left.e + gate, rightEdge: right.e,
-            // The approved artwork's front steps are centered at native pixel 387.
-            stepsX: art.x.baseVal.value + 387 / 776 * art.width.baseVal.value,
+            // Measured against the uncropped 1280-square source, not the image midpoint.
+            stepsX: art.x.baseVal.value + 560 / 1280 * art.width.baseVal.value,
+            stepsY: art.y.baseVal.value + 1173 / 1280 * art.height.baseVal.value,
+            artWidth: art.width.baseVal.value, artHeight: art.height.baseVal.value,
           };
         });
         assert.equal(geometry.pathX, geometry.doorX);
@@ -52,7 +55,10 @@ try {
         assert.equal(geometry.leftEdge, geometry.doorX);
         assert.equal(geometry.rightEdge, geometry.doorX);
         assert.ok(Math.abs(geometry.stepsX - geometry.doorX) < 1);
-        const lightning = await page.locator('.manor-lightning').evaluate(el => {
+        assert.ok(Math.abs(geometry.stepsY - geometry.doorY) < 1);
+        assert.ok(geometry.artWidth >= 750);
+        assert.equal(geometry.artWidth, geometry.artHeight);
+        const lightning = await page.locator('.manor-lightning').first().evaluate(el => {
           const animation = el.getAnimations()[0];
           animation.pause();
           animation.currentTime = 1180;
@@ -61,18 +67,21 @@ try {
           const quiet = Number(getComputedStyle(el).opacity);
           animation.currentTime = 13180;
           const nextPeak = Number(getComputedStyle(el).opacity);
-          animation.play();
           return { peak, quiet, nextPeak };
         });
         assert.ok(lightning.peak >= .8);
         assert.equal(lightning.quiet, 0);
         assert.ok(lightning.nextPeak >= .8);
-        assert.equal(await page.locator('.manor-bolt-core').count(), 1);
+        assert.equal(await page.locator('.manor-bolt-core').count(), 2);
+        assert.ok(await page.locator('.lightning-distant').evaluate(el => {
+          el.getAnimations()[0].currentTime = 7180;
+          return Number(getComputedStyle(el).opacity) >= .8;
+        }));
         const clouds = await page.locator('.manor-storm-clouds').evaluate(el => {
           const bounds = el.getBBox();
           return { left: bounds.x, right: bounds.x + bounds.width, top: bounds.y,
             bottom: bounds.y + bounds.height, maskBottom: Number(el.ownerSVGElement.querySelector('#manor-storm-mask').getAttribute('y')) + Number(el.ownerSVGElement.querySelector('#manor-storm-mask').getAttribute('height')),
-            roofTop: el.ownerSVGElement.querySelector('.manor-artwork').y.baseVal.value,
+            roofTop: el.ownerSVGElement.querySelector('.manor-artwork').y.baseVal.value + 42 / 1280 * el.ownerSVGElement.querySelector('.manor-artwork').height.baseVal.value,
             beforeStrike: el.nextElementSibling.classList.contains('manor-strike') };
         });
         assert.ok(clouds.left < 1654 && clouds.right > 1654);
@@ -80,7 +89,10 @@ try {
         assert.equal(clouds.beforeStrike, true);
         assert.ok(clouds.left <= 0 && clouds.right >= 1920);
         assert.ok(clouds.maskBottom < clouds.roofTop);
-        assert.equal(await page.locator('.manor-tree').count(), 2);
+        assert.equal(await page.locator('.manor-tree').count(), 4);
+        assert.equal(await page.locator('.manor-grave').count(), 10);
+        assert.equal(await page.locator('.manor-bat').count(), 5);
+        assert.equal(await page.locator('.manor-moon').count(), 1);
         assert.equal(await page.locator('.manor-fence').count(), 2);
         const connections = await page.locator('.manor-landscape').evaluate(svg => {
           const pillars = [...svg.querySelectorAll('.manor-pillar')].map(el => el.transform.baseVal.consolidate().matrix.e);
@@ -100,18 +112,39 @@ try {
           const trees = [...svg.querySelectorAll('.manor-tree')].map(el => {
             const image = el.querySelector('image');
             const center = el.transform.baseVal.consolidate().matrix.e;
-            return { left: center - image.width.baseVal.value / 2, right: center + image.width.baseVal.value / 2, height: image.height.baseVal.value };
+            return { center, near: el.classList.contains('tree-near'), height: image.height.baseVal.value };
           });
           return { boltWidth: bolt.width, boltHeight: bolt.height,
-            behindGround: !!svg.querySelector('.manor-strike').nextElementSibling?.getAttribute('fill')?.includes('manor-ground'),
+            behindGround: [...svg.querySelectorAll('.manor-strike')].every(el => !!(el.compareDocumentPosition(svg.querySelector('path[fill="url(#manor-ground)"]')) & Node.DOCUMENT_POSITION_FOLLOWING)),
             houseLeft: house.x.baseVal.value, houseRight: house.x.baseVal.value + house.width.baseVal.value, trees };
         });
         assert.ok(storm.boltHeight > 700);
         assert.ok(storm.boltWidth < 250);
         assert.equal(storm.behindGround, true);
-        assert.ok(storm.trees[0].right <= storm.houseLeft - 70);
-        assert.ok(storm.trees[1].left >= storm.houseRight + 20);
-        assert.ok(storm.trees.every(tree => tree.height <= 300));
+        assert.ok(storm.trees[0].center < storm.houseLeft);
+        assert.ok(storm.trees[1].center > storm.houseRight);
+        assert.ok(storm.trees[2].center <= storm.houseLeft - 300);
+        assert.ok(storm.trees[3].center >= storm.houseRight + 300);
+        assert.ok(Math.min(...storm.trees.filter(tree => tree.near).map(tree => tree.height)) > 2 * Math.max(...storm.trees.filter(tree => !tree.near).map(tree => tree.height)));
+        const shadow = await page.locator('.manor-shadow').evaluate(el => {
+          const animation = el.getAnimations()[0];
+          const clip = el.ownerSVGElement.querySelector('#manor-window-clip');
+          const paths = [...clip.querySelectorAll('path')];
+          return {
+            clip: el.parentElement.getAttribute('clip-path'),
+            visits: [.18, .34, .51, .69, .81, .94].map(progress => {
+              animation.currentTime = progress * 42000;
+              const matrix = new DOMMatrix(getComputedStyle(el).transform);
+              return { index: paths.findIndex(path => path.isPointInFill({ x: matrix.e, y: matrix.f })),
+                opacity: Number(getComputedStyle(el).opacity) };
+            }),
+            skyClipped: paths.every(path => !path.isPointInFill({ x: 1338, y: 200 })),
+          };
+        });
+        assert.equal(shadow.clip, 'url(#manor-window-clip)');
+        assert.ok(shadow.skyClipped);
+        assert.equal(new Set(shadow.visits.map(visit => visit.index)).size, 6);
+        assert.ok(shadow.visits.every(visit => visit.index >= 0 && visit.opacity >= .7));
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         assert.equal(await page.locator('.manor-camera').evaluate(el => getComputedStyle(el).animationIterationCount), '1');
         await page.locator('.manor-scene').evaluate(el => {
@@ -120,6 +153,11 @@ try {
           }
         });
         assert.equal(await page.locator('.manor-gateway').evaluate(el => getComputedStyle(el).opacity), '0');
+        assert.ok(await page.locator('.manor-camera').evaluate(el => new DOMMatrix(getComputedStyle(el).transform).a >= 1.1));
+        if (width <= 780) {
+          const artwork = await page.locator('.manor-artwork').boundingBox();
+          assert.ok(artwork.x >= 0 && artwork.x + artwork.width <= width, `Complete house fits mobile width ${width}`);
+        }
         assert.equal(await page.locator('.manor-gate-leaf').first().evaluate(el => getComputedStyle(el).transform), 'matrix(0.08, 0, 0, 1, 0, 0)');
         await page.locator('#join-code').scrollIntoViewIfNeeded();
         const box = await page.locator('#join-code').boundingBox();
@@ -135,8 +173,8 @@ try {
       assert.equal(await page.locator('.manor-camera').evaluate(el => getComputedStyle(el).animationName), 'none');
       await page.locator('input[data-effects]').check();
       await page.emulateMedia({ reducedMotion: 'reduce' });
-      assert.equal(await page.locator('.manor-lightning').evaluate(el => getComputedStyle(el).display), 'none');
-      assert.equal(await page.locator('.manor-strike').evaluate(el => getComputedStyle(el).display), 'none');
+      assert.equal(await page.locator('.manor-lightning').first().evaluate(el => getComputedStyle(el).display), 'none');
+      assert.equal(await page.locator('.manor-strike').first().evaluate(el => getComputedStyle(el).display), 'none');
       assert.equal(await page.locator('.manor-gateway').evaluate(el => getComputedStyle(el).opacity), '1');
       await page.emulateMedia({ reducedMotion: 'no-preference' });
       await page.locator('#btn-new').click();
