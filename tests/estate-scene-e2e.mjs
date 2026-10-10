@@ -81,6 +81,17 @@ try {
   await page.goto(`${base}/index.html`);
   await page.locator('#btn-new').waitFor();
   assert.equal(await page.locator('.manor-artwork').count(), 1);
+  const panels = await page.evaluate(() => [...document.querySelectorAll('.landing-actions .card,.atmosphere-controls,.site-nav,.site-footer')].map(el => {
+    const style = getComputedStyle(el);
+    return {background: style.backgroundImage, opacity: style.opacity, filter: style.backdropFilter};
+  }));
+  assert.ok(panels.length >= 6);
+  for (const panel of panels) {
+    const alphas = [...panel.background.matchAll(/rgba\([^)]*, ([\d.]+)\)/g)].map(match => Number(match[1]));
+    assert.ok(alphas.length > 0 && alphas.every(alpha => alpha <= .73), panel.background);
+    assert.equal(panel.opacity, '1');
+    assert.equal(panel.filter, 'none');
+  }
   await page.evaluate(async () => {
     await Promise.all([...new Set([...document.querySelectorAll('.manor-scene image')].map(el => el.getAttribute('href')))].map(async src => {
       const image = new Image(); image.src = src; await image.decode();

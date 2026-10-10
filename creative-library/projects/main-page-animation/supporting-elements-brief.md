@@ -22,6 +22,14 @@
 
 ## Work sequence and review gates
 
+### Homepage panel transparency: 2026-10-10, 14:54
+
+The owner requested all homepage boxes reveal the animated background without
+being fully transparent. Panel/ambience/navigation/footer backgrounds now use
+approximately 70-72% dark opacity, leaving text, borders and controls fully
+opaque. No backdrop blur or full-element opacity is added. Artwork, motion,
+other pages and production remain protected. CSS cache tag: estate-panels-v15.
+
 ### Owner-authorized test publication: 2026-10-10
 
 The owner said the candidate "looks good enough", deferred further visual

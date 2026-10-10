@@ -237,9 +237,9 @@ body[data-phase=home] .fog,body[data-phase=home] .atmosphere-layer{display:none}
 .landing-heading .tagline{color:#ded6c9;max-width:43ch}
 .manor-caption{color:#b4bec7;font-size:.95rem;font-style:italic;margin:16px 0 26px}
 .landing-actions{max-width:470px}
-body[data-phase=home] .card,body[data-phase=home] .card.gold{background:linear-gradient(135deg,#111820eb,#121318ed);border-color:#63616a;box-shadow:0 12px 36px #0005}
+body[data-phase=home] .card,body[data-phase=home] .card.gold{background:linear-gradient(135deg,#111820b3,#121318b8);border-color:#63616a;box-shadow:0 12px 36px #0005}
 body[data-phase=home] .card.gold{border-top-color:var(--gold)}
-body[data-phase=home] .atmosphere-controls{max-width:1180px;margin:12px auto 0;background:#0a1017c9}
+body[data-phase=home] .atmosphere-controls{max-width:1180px;margin:12px auto 0;background:#0a1017b3}
 body[data-phase=home] .atmosphere-particles{display:none}
 body[data-effects=off] .manor-mist,body[data-effects=off] .manor-rain,body[data-effects=off] .manor-cloud-shadow,body[data-effects=off] .manor-lightning{display:none}
 body[data-motion=reduced] .manor-rain,body[data-motion=reduced] .manor-lightning{display:none}
@@ -349,7 +349,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{o
 .card.blood{border-color:#9a4650}
 .card.blood::after{filter:sepia(.5) hue-rotate(320deg);opacity:.6}
 .card > h2{padding-bottom:16px;background:url('../assets/gothic-rule.svg') left bottom / 160px 16px no-repeat}
-body[data-phase=home] .landing-actions .card{background:radial-gradient(ellipse at 0 0,#c8ac7210,transparent 60%),linear-gradient(145deg,#182229f5,#10141bef);border-color:#807455;box-shadow:inset 0 1px 0 #e8d3a51f,0 18px 45px #0008}
+body[data-phase=home] .landing-actions .card{background:radial-gradient(ellipse at 0 0,#c8ac7208,transparent 60%),linear-gradient(145deg,#182229b3,#10141bb8);border-color:#807455;box-shadow:inset 0 1px 0 #e8d3a51f,0 18px 45px #0008}
 body[data-phase=home] .landing-actions .card.gold{border-color:#b49a63}
 button,.btn{border-radius:8px;overflow-wrap:anywhere;white-space:normal;box-shadow:inset 0 1px 0 #fff8,inset 0 -2px 0 #0005,0 4px 12px #0005;transition:box-shadow .2s,border-color .2s,filter .2s,transform .2s}
 button.secondary,.btn.secondary{background:linear-gradient(145deg,#293237,#12191f);border-color:#8a7b60;box-shadow:inset 0 1px 0 #c4ac7726,inset 0 -2px 0 #0006,0 4px 12px #0004}
@@ -364,6 +364,9 @@ details:not(.vote-strip){background:linear-gradient(145deg,#1b2126,#10151b);bord
 .site-nav{background:linear-gradient(180deg,#151719f5,#090d12f5);border-bottom-color:#86724c;box-shadow:0 1px 0 #000,inset 0 -3px 0 #d3b7760b}
 .site-nav a{font-family:Cinzel,Georgia,serif;font-size:.85rem;letter-spacing:.025em}
 .site-footer{background:linear-gradient(180deg,#080d12b3,#080b0fee);border-top-color:#756448}
+body[data-phase=home] details:not(.vote-strip){background:linear-gradient(145deg,#1b2126b3,#10151bb8)}
+body[data-phase=home] .site-nav{background:linear-gradient(180deg,#151719b3,#090d12b8)}
+body[data-phase=home] .site-footer{background:linear-gradient(180deg,#080d12b3,#080b0fb8)}
 .game-dialog{border-color:#b49a63;background:radial-gradient(ellipse at 0 0,#bca36a10,transparent 60%),linear-gradient(145deg,#20282d,#10161d);box-shadow:inset 0 0 0 5px #0c1118,inset 0 0 0 6px #9d81504d,0 24px 80px #000}
 .hero-eyebrow{color:#d0c4ab}
 .qr,.qr svg{max-width:100%}

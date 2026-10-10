@@ -2,6 +2,10 @@
 
 ## Confirmed by the owner on 2026-10-10
 
+- Homepage boxes should have translucent backgrounds so the animated estate
+  remains visible through them, not fully transparent. Keep text and controls
+  opaque and readable. This includes host/guest/About panels and ambience.
+
 - Initially, save the house currently live on the site before future work.
   That version is archived; the owner's later correction below supersedes
   keeping it as the active homepage house.

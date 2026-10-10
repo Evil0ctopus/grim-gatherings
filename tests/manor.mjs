@@ -78,7 +78,8 @@ test('mounted shadow renews its itinerary and returning home skips arrival', () 
 
 test('release cache chain and generated-art credits are updated', () => {
   const version = 'estate-supporting-v14';
-  for (const [path, target] of [['../index.html','css/style.css'], ['../index.html','js/main.js'],
+  assert.ok(read('../index.html').includes('css/style.css?v=estate-panels-v15'));
+  for (const [path, target] of [['../index.html','js/main.js'],
     ['../js/main.js','./host.js'], ['../js/host.js','./manor.js'], ['../js/manor.js','./estate-scene.js']]) {
     assert.ok(read(path).includes(`${target}?v=${version}`));
   }
