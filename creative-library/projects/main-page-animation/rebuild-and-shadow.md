@@ -49,3 +49,70 @@ below the 4 GB pause threshold and reached approximately 1.6 GB.
 
 Only the shadow candidate is suitable for test-site review. The width request
 remains incomplete and must not be represented as delivered.
+
+## Test publication and continuation
+
+The shadow-only candidate was committed as
+`e2b1f43856e6c1eceb2b7ba585b6cddd46c28fcb` and published on `main`.
+The served scene renderer, homepage initializer, stylesheet, and HTML were
+checked against that revision. Production remained at
+`2222137cc56fd5a4f9370058a7500308253bfc3d`, and its served renderer still used
+the replacement house. This is deployment verification, not browser motion
+or visual-quality verification.
+
+At 10:10 on 2026-10-10, the continuation memory check reported 1.79 GB free
+physical memory and 16.33 GB free virtual memory. No unrelated applications
+were terminated. The owner was unavailable to authorize closing applications
+or confirm that memory had been freed.
+
+A lightweight inventory of the asset and creative-library directories found
+no layered house source in SVG, PSD, ORA, KRA, or XCF format. The prepared
+flattened PNG is not an editable architectural source. Do not describe
+pixel-strip expansion as dismantling and rebuilding it. Resume reconstruction
+with separately prepared components and continuous matching infill only when
+the result can be visually inspected; keep it isolated until that inspection
+passes.
+
+## Local editor and new verification
+
+The owner authorized a local image-editor installation. GIMP 3.2.4 was
+installed through Windows Package Manager. No artwork was uploaded to an
+external service. After the owner closed applications, memory recovered above
+the pause threshold; GIMP jobs and browser checks ran sequentially and exited.
+
+A new layered reconstruction experiment preserved architectural pixels but
+introduced new connecting masonry and roof material. Direct still inspection
+showed visible roof joins and mismatched wall texture. It was rejected, its
+preview and candidate XCF were removed, and no runtime artwork changed.
+Installing an editor does not by itself supply the missing painted detail.
+The wider reconstruction remains unfinished.
+
+Instead, the intact approved house is now preserved in
+[an editable nine-region GIMP document](working/first-house-components.xcf).
+The regions separate the visible gables, facade bays, and foreground.
+They are visible-source cutouts, not recovered original painting layers or
+complete hidden architectural pieces. Nothing is widened or repositioned.
+The [preparation script](working/prepare-house-layers.py) checks visible RGB
+and every alpha value against the approved PNG, then reopens the saved document
+and repeats that check. Fully transparent RGB values are irrelevant.
+
+To regenerate the document locally from the repository root:
+
+```powershell
+$env:GEGL_THREADS = '1'
+& "$env:LOCALAPPDATA\Programs\GIMP 3\bin\gimp-console-3.exe" `
+  --no-data --no-fonts --no-splash --new-instance `
+  --batch-interpreter=python-fu-eval `
+  --batch "import runpy; runpy.run_path(r'creative-library\projects\main-page-animation\working\prepare-house-layers.py')" `
+  --quit
+```
+
+Check project memory thresholds before regenerating. The original asset is
+read-only input; the document and script stay outside the deployment allowlist.
+
+Real Chromium and WebKit browser checks now pass at 320, 390, 768, 1280, and
+1408 pixels wide. They verify all seven visible window visits, invisible travel,
+actual animation-iteration renewal without restarting the timeline,
+window clipping, effects-off, reduced motion, return-home behavior, alignment,
+and no page errors. The earlier browser-verification memory blocker is resolved;
+these tests do not make the rejected wider artwork acceptable.

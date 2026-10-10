@@ -52,6 +52,21 @@ clipped to window openings and disappears while changing floors. Existing
 effects-off/reduced-motion behavior remains. See the
 [work record](projects/main-page-animation/rebuild-and-shadow.md).
 
+### Local editing permission and progress
+
+The owner subsequently authorized installing a local image editor. GIMP was
+installed; this is not permission to upload artwork to an external service
+or to promote changes to production. The approved PNG is preserved unchanged
+in [an editable nine-region document](projects/main-page-animation/working/first-house-components.xcf),
+with a reproducible, lossless preparation script. These are cutouts of visible
+source pixels, not recovered original painting layers.
+
+A new connecting-wall/roof experiment was also rejected after still inspection.
+Do not treat installing an editor or preparing source layers as completing the
+wider rebuild. Memory recovered sufficiently for sequential Chromium/WebKit
+checks, which passed for the shadow; architectural reconstruction remains
+unfinished because its visual quality has not passed review.
+
 - Keep the replaced live version archived, and use the earlier house for the
   restoration candidate as requested in the latest correction.
 - Use the saved reference image to guide the surrounding composition and

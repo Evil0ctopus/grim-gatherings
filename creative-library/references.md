@@ -18,6 +18,7 @@ extract, or redistribute its artwork. Use it for visual comparison.
 | Local element | Role | Recorded source |
 |---|---|---|
 | [Earlier detailed mansion](../assets/estate-cartoon-manor.png) | Restored focal-house candidate after the owner's correction; also source for pillar texture | [Pixabay mansion 9805270](https://pixabay.com/illustrations/haunted-mansion-spooky-house-9805270/) |
+| [Editable first-house regions](projects/main-page-animation/working/first-house-components.xcf) | Nine source-pixel regions for local editing; no widening or new artwork. [Preparation recipe](projects/main-page-animation/working/prepare-house-layers.py) verifies lossless recomposition and saved-document round-trip. | Derived from the earlier mansion; same source/license record and verification limits |
 | [Archived replacement mansion](../assets/estate-complete-manor.png) | Replaced focal building, retained unchanged in the archive and asset library | [Pixabay / PixelLabs 9859927](https://pixabay.com/illustrations/haunted-house-abandoned-house-9859927/) |
 | [Withered tree](../assets/estate-withered-tree.png) | Detailed trees at multiple scales, mirrored as needed | [Pixabay tree 9379381](https://pixabay.com/illustrations/withered-tree-dead-tree-9379381/) |
 | [Iron ornament](../assets/estate-illustrated-gate.png) | Cutout detail inside complete constructed gate frames | [Pixabay / Art_Dreams 7570954](https://pixabay.com/illustrations/haunted-house-gate-stairway-manor-7570954/) |

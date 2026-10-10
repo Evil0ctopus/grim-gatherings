@@ -140,6 +140,10 @@ try {
               return { index: paths.findIndex(path => path.isPointInFill({ x: matrix.e, y: matrix.f })),
                 opacity: Number(getComputedStyle(el).opacity) };
             }),
+            travelOpacity: paths.map((_, slot) => {
+              animation.currentTime = (slot + .95) / paths.length * duration;
+              return Number(getComputedStyle(el).opacity);
+            }),
             skyClipped: paths.every(path => !path.isPointInFill({ x: 1338, y: 200 })),
           };
         });
@@ -147,6 +151,7 @@ try {
         assert.ok(shadow.skyClipped);
         assert.equal(new Set(shadow.visits.map(visit => visit.index)).size, 7);
         assert.ok(shadow.visits.every(visit => visit.index >= 0 && visit.opacity >= .7));
+        assert.ok(shadow.travelOpacity.every(opacity => opacity === 0));
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
         assert.equal(await page.locator('.manor-camera').evaluate(el => getComputedStyle(el).animationIterationCount), '1');
         await page.locator('.manor-scene').evaluate(el => {
@@ -165,6 +170,28 @@ try {
         assert.ok(await page.locator('#join-code').evaluate((el, point) =>
           document.elementFromPoint(point.x + point.width / 2, point.y + point.height / 2) === el, box));
       }
+      const renewal = await page.locator('.manor-shadow').evaluate(el => new Promise((resolve, reject) => {
+        const animation = el.getAnimations()[0];
+        const duration = Number(animation.effect.getTiming().duration);
+        const style = el.closest('.manor-scene').querySelector('[data-manor-shadow-style]');
+        const observer = new MutationObserver(() => {
+          observer.disconnect();
+          clearTimeout(timeout);
+          animation.pause();
+          resolve({ currentTime: animation.currentTime, duration,
+            sameAnimation: el.getAnimations()[0] === animation });
+        });
+        const timeout = setTimeout(() => {
+          observer.disconnect();
+          animation.pause();
+          reject(new Error('The shadow itinerary did not renew at the real animation boundary'));
+        }, 3000);
+        observer.observe(style, { childList: true });
+        animation.currentTime = duration - 50;
+        animation.play();
+      }));
+      assert.equal(renewal.sameAnimation, true);
+      assert.ok(renewal.currentTime >= renewal.duration);
       await page.locator('.atmosphere-controls summary').click();
       await page.locator('input[data-effects]').uncheck();
       for (const selector of ['.manor-lightning', '.manor-strike', '.manor-rain', '.manor-mist']) {
