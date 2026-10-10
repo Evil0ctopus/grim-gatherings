@@ -151,3 +151,13 @@ Keep dated decisions in each [project brief](templates/design-brief.md), includi
 the owner's words, selected version, reason, and scope. Add a general preference
 here only after confirmation. Do not extrapolate one story's creative choice
 into a universal rule without checking.
+
+## Supporting-element commission on 2026-10-10
+
+The owner explicitly requested the same process for the homepage's gate,
+fence, tombstones, trees, lighting, clouds, fog, bats, moon, candles, grass,
+driveway and remaining elements. This commissions supporting-element
+development, not merely future workflow documentation. Keep the accepted
+house locked and review each supporting candidate before replacement.
+Scope and progress are recorded in the
+[supporting-elements brief](projects/main-page-animation/supporting-elements-brief.md).
